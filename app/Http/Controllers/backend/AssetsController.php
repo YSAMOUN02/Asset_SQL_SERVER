@@ -11,6 +11,7 @@ use App\Models\ImageUser;
 use App\Models\RawFixAssets;
 use App\Models\StoredAssets;
 use App\Models\StoredAssetsUser;
+use App\Models\QuickData;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -105,10 +106,12 @@ class AssetsController extends Controller
             ->where("fa", $modifiedString)
             ->first();
 
-
-
+        $department = QuickData::where('type',"department")->select('id','content')->orderby('id','desc')->get();
+        $company  = QuickData::where('type',"company")->select('id','content')->orderby('id','desc')->get();
         return view('backend.add-assets', [
             'asset' => $asset,
+            'department' => $department,
+            'company' => $company
         ]);
     }
     public function assets_add_by_search(Request $request)

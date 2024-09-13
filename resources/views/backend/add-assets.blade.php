@@ -137,15 +137,17 @@
                     name="location" />
             </div>
             <div>
+              
                 <label for="department"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
                 <select id="department" name="department"
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value=""></option>
-                    <option value="IT">IT</option>
-                    <option value="QA">QA</option>
-                    <option value="Purchase">Purchase</option>
-                    <option value="HR">HR</option>
+                    @if(!empty($department))
+                        @foreach ($department as $item)
+                            <option value="{{$item->content}}">{{$item->content}}</option>
+                        @endforeach
+                    @endif
                 </select>
             </div>
             <div>
@@ -153,10 +155,11 @@
                 <select id="company" name="company"
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value=""></option>
-                    <option value="PPM">PPM</option>
-                    <option value="CONFIREL">Confirel</option>
-                    <option value="Investco">Invectco</option>
-                    <option value="Depomix">Depomix</option>
+                    @if(!empty($company))
+                        @foreach ($company as $item)
+                            <option value="{{$item->content}}">{{$item->content}}</option>
+                        @endforeach
+                    @endif
                 </select>
             </div>
             <div>

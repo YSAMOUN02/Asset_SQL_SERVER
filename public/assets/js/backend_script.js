@@ -798,154 +798,154 @@ function select_all_permission() {
     }
 }
 
-// FusionCharts.ready(async function () {
-//     let url = "/api/assets_status";
-//     let jsonData2 = await fetch(url)
-//         .then((response) => {
-//             if (!response.ok) {
-//                 throw new Error("Network response was not ok");
-//             }
-//             return response.json(); // Parse the JSON response directly
-//         })
-//         .then((data) => {
-//             return data; // Handle your JSON data as a JavaScript object
-//         })
-//         .catch((error) => {
-//             console.error(
-//                 "There was a problem with the fetch operation:",
-//                 error
-//             );
-//         });
+FusionCharts.ready(async function () {
+    let url = "/api/assets_status";
+    let jsonData2 = await fetch(url)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json(); // Parse the JSON response directly
+        })
+        .then((data) => {
+            return data; // Handle your JSON data as a JavaScript object
+        })
+        .catch((error) => {
+            console.error(
+                "There was a problem with the fetch operation:",
+                error
+            );
+        });
 
-//     // Original calendar array
-//     let calendar = [
-//         { label: "jan", value: 0 },
-//         { label: "feb", value: 0 },
-//         { label: "mar", value: 0 },
-//         { label: "apr", value: 0 },
-//         { label: "may", value: 0 },
-//         { label: "jun", value: 0 },
-//         { label: "jul", value: 0 },
-//         { label: "aug", value: 0 },
-//         { label: "sep", value: 0 },
-//         { label: "oct", value: 0 },
-//         { label: "nov", value: 0 },
-//         { label: "dec", value: 0 },
-//     ];
+    // Original calendar array
+    let calendar = [
+        { label: "jan", value: 0 },
+        { label: "feb", value: 0 },
+        { label: "mar", value: 0 },
+        { label: "apr", value: 0 },
+        { label: "may", value: 0 },
+        { label: "jun", value: 0 },
+        { label: "jul", value: 0 },
+        { label: "aug", value: 0 },
+        { label: "sep", value: 0 },
+        { label: "oct", value: 0 },
+        { label: "nov", value: 0 },
+        { label: "dec", value: 0 },
+    ];
 
-//     // Convert the calendar array to a map for fast lookup
-//     let calendarMap = new Map(calendar.map((month) => [month.label, month]));
+    // Convert the calendar array to a map for fast lookup
+    let calendarMap = new Map(calendar.map((month) => [month.label, month]));
 
-//     const monthAbbreviations = [
-//         "Jan",
-//         "Feb",
-//         "Mar",
-//         "Apr",
-//         "May",
-//         "Jun",
-//         "Jul",
-//         "Aug",
-//         "Sep",
-//         "Oct",
-//         "Nov",
-//         "Dec",
-//     ];
+    const monthAbbreviations = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+    ];
 
-//     const currentDate = new Date();
-//     const currentMonthIndex = currentDate.getMonth(); // Zero-based index
-//     const currentMonthAbbreviation = monthAbbreviations[currentMonthIndex];
+    const currentDate = new Date();
+    const currentMonthIndex = currentDate.getMonth(); // Zero-based index
+    const currentMonthAbbreviation = monthAbbreviations[currentMonthIndex];
 
-//     let val = 0;
-//     // Update the values from jsonData2
-//     jsonData2.forEach((data) => {
-//         let lowerCaseLabel = data.label.toLowerCase();
-//         if (calendarMap.has(lowerCaseLabel)) {
-//             calendarMap.get(lowerCaseLabel).value = Number(data.value);
-//             if (currentMonthAbbreviation == data.label) {
-//                 val = data.value;
-//             }
-//         }
-//     });
+    let val = 0;
+    // Update the values from jsonData2
+    jsonData2.forEach((data) => {
+        let lowerCaseLabel = data.label.toLowerCase();
+        if (calendarMap.has(lowerCaseLabel)) {
+            calendarMap.get(lowerCaseLabel).value = Number(data.value);
+            if (currentMonthAbbreviation == data.label) {
+                val = data.value;
+            }
+        }
+    });
 
-//     // Convert the map back to an array if needed
-//     calendar = Array.from(calendarMap.values());
-//     var chartObj = new FusionCharts({
-//         type: "column2d",
-//         renderAt: "chart-container",
-//         width: "680",
-//         height: "390",
-//         dataFormat: "json",
-//         dataSource: {
-//             chart: {
-//                 caption: "Assets Created by Month",
+    // Convert the map back to an array if needed
+    calendar = Array.from(calendarMap.values());
+    var chartObj = new FusionCharts({
+        type: "column2d",
+        renderAt: "chart-container",
+        width: "680",
+        height: "390",
+        dataFormat: "json",
+        dataSource: {
+            chart: {
+                caption: "Assets Created by Month",
 
-//                 xAxisName: "Month",
-//                 yAxisName: "Asset Data",
-//                 numberPrefix: "Created Assets: ",
-//                 theme: "fusion",
-//             },
-//             data: calendar,
-//             trendlines: [
-//                 {
-//                     line: [
-//                         {
-//                             startvalue: val,
-//                             valueOnRight: "1",
-//                             displayvalue: "This Month",
-//                         },
-//                     ],
-//                 },
-//             ],
-//         },
-//     });
-//     chartObj.render();
-// });
+                xAxisName: "Month",
+                yAxisName: "Asset Data",
+                numberPrefix: "Created Assets: ",
+                theme: "fusion",
+            },
+            data: calendar,
+            trendlines: [
+                {
+                    line: [
+                        {
+                            startvalue: val,
+                            valueOnRight: "1",
+                            displayvalue: "This Month",
+                        },
+                    ],
+                },
+            ],
+        },
+    });
+    chartObj.render();
+});
 
-// FusionCharts.ready(async function () {
-//     let url = "/api/fixAsset/location";
-//     let jsonData = await fetch(url)
-//         .then((response) => {
-//             if (!response.ok) {
-//                 throw new Error("Network response was not ok");
-//             }
-//             return response.json(); // Parse the JSON response directly
-//         })
-//         .then((data) => {
-//             return data; // Handle your JSON data as a JavaScript object
-//         })
-//         .catch((error) => {
-//             console.error(
-//                 "There was a problem with the fetch operation:",
-//                 error
-//             );
-//         });
+FusionCharts.ready(async function () {
+    let url = "/api/fixAsset/location";
+    let jsonData = await fetch(url)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json(); // Parse the JSON response directly
+        })
+        .then((data) => {
+            return data; // Handle your JSON data as a JavaScript object
+        })
+        .catch((error) => {
+            console.error(
+                "There was a problem with the fetch operation:",
+                error
+            );
+        });
 
-//     var chartObj = new FusionCharts({
-//         type: "doughnut3d",
-//         renderAt: "chart-container-round",
-//         width: "550",
-//         height: "450",
-//         dataFormat: "json",
-//         dataSource: {
-//             chart: {
-//                 caption: "Assets ",
-//                 subCaption: "All Year",
-//                 numberPrefix: "$",
-//                 bgColor: "#ffffff",
-//                 startingAngle: "310",
-//                 showLegend: "1",
-//                 defaultCenterLabel: "Total revenue: $64.08K",
-//                 centerLabel: "Revenue from $label: $value",
-//                 centerLabelBold: "1",
-//                 showTooltip: "0",
-//                 decimals: "0",
-//                 theme: "fusion",
-//             },
-//             data: jsonData, // Pass the parsed JavaScript object
-//         },
-//     });
-//     chartObj.render();
-// });
+    var chartObj = new FusionCharts({
+        type: "doughnut3d",
+        renderAt: "chart-container-round",
+        width: "550",
+        height: "450",
+        dataFormat: "json",
+        dataSource: {
+            chart: {
+                caption: "Assets ",
+                subCaption: "All Year",
+                numberPrefix: "$",
+                bgColor: "#ffffff",
+                startingAngle: "310",
+                showLegend: "1",
+                defaultCenterLabel: "Total revenue: $64.08K",
+                centerLabel: "Revenue from $label: $value",
+                centerLabelBold: "1",
+                showTooltip: "0",
+                decimals: "0",
+                theme: "fusion",
+            },
+            data: jsonData, // Pass the parsed JavaScript object
+        },
+    });
+    chartObj.render();
+});
 
 function dynamic_sort(by, method, table) {
     if (method == "int") {
