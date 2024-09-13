@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/output.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Document</title>
+  </head>
+  <style>
+    .title_base {
+      font-size: 25px !important;
+      margin-bottom: 15px;
+      font-weight: bold !important;
+    }
+  </style>
+  <body>
+    <header></header>
+
+    <main>
+      <div class="antialiased bg-gray-50 dark:bg-gray-900">
+        <nav
+          class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50"
+        >
+          <div class="flex flex-wrap justify-between items-center">
+            <div class="flex justify-start items-center">
+              <button
+                data-drawer-target="drawer-navigation"
+                data-drawer-toggle="drawer-navigation"
+                aria-controls="drawer-navigation"
+                class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
+              <i class="fa-solid fa-bars"></i>
+                <svg
+                  aria-hidden="true"
+                  class="hidden w-6 h-6"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <span class="sr-only">Toggle sidebar</span>
+              </button>
+              <a
+                href="https://flowbite.com"
+                class="flex items-center justify-between mr-4"
+              >
+                <img
+                  src="https://ppmpharma.com/cdn/shop/files/PPM_Logo_1_180306.png?v=1652769326&width=160"
+                  class="mr-3 h-8"
+                  alt="Flowbite Logo"
+                />
+                <span
+                  class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+                  >PPM ASSET MIS</span
+                >
+              </a>
+              <form action="#" method="GET" class="hidden md:block md:pl-2">
+                <label for="topbar-search" class="sr-only">Search</label>
+                <div class="relative md:w-64 md:w-96">
+                  <div
+                    class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
+                  >
+                    <svg
+                      class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <input
+                    type="text"
+                    name="email"
+                    id="topbar-search"
+                    class="bg-gray-50 sm:mt-5 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="Search"
+                  />
+                </div>
+              </form>
+            </div>
+            <div class="flex items-center lg:order-2">
+              <button
+                type="button"
+                data-drawer-toggle="drawer-navigation"
+                aria-controls="drawer-navigation"
+                class="p-2 mr-1 text-gray-500 rounded-lg md:hidden hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+              >
+                <span class="sr-only">Toggle search</span>
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+            
+            
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Sidebar -->
+
+        <aside
+          class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+          aria-label="Sidenav"
+          id="drawer-navigation"
+        >
+          <div
+            class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800"
+          >
+            <form action="#" method="GET" class="md:hidden mb-2">
+              <label for="sidebar-search" class="sr-only">Search</label>
+              <div class="relative">
+                <div
+                  class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
+                >
+                <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <input
+                  type="text"
+                  name="search"
+                  id="sidebar-search"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder="Search"
+                />
+              </div>
+            </form>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                >
+                <i class="fa-solid fa-chart-pie"></i>
+                  <span class="ml-3">Overview</span>
+                </a>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  aria-controls="dropdown-pages"
+                  data-collapse-toggle="dropdown-pages"
+                >
+                <i class="fa-solid fa-folder-open"></i>
+                  <span class="flex-1 ml-3 text-left whitespace-nowrap"
+                    >Assets Record</span
+                  >
+                  <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <ul id="dropdown-pages" class="hidden py-2 space-y-2">
+                  <li>
+                    <a
+                      href="#"
+                      class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                      >Add Assets</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                      >List Assets</a
+                    >
+                  </li>
+              
+                </ul>
+              </li>
+       
+          
+             
+            <ul
+              class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700"
+            >
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+                >
+                <i class="fa-regular fa-file"></i>
+                  <span class="ml-3">Docs</span>
+                </a>
+              </li>
+         
+      
+            </ul>
+          </div>
+        
+         
+   
+          </div>
+        </aside>
+
+        <main class="pl-5 md:ml-64 h-auto pt-20">
+          <form class="p-5">
+            <h1 class="title_base">Asset Info</h1>
+            <div class="grid gap-6 mb-6 md:grid-cols-2">
+              <div>
+                <label
+                  for="no"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >No.</label
+                >
+                <input
+                  type="text"
+                  id="no"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Asset-0064"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="fa"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >FA-No</label
+                >
+                <input
+                  type="text"
+                  id="fa"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  name="fa"
+                  placeholder="FA-ASSET-24-2024"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="Asset_Code"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Asset Code</label
+                >
+                <input
+                  type="text"
+                  id="Asset_Code"
+                  name="asset_code"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Flowbite"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="Issue_Date"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Issue Date</label
+                >
+                <input
+                  type="date"
+                  id="Issue_Date"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="Initial_Conditions"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Initial Conditions</label
+                >
+                <input
+                  type="initial_conditions"
+                  id="Issue_Date"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="Specifications"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Specifications</label
+                >
+                <input
+                  type="url"
+                  id="Specifications"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder=".."
+                  required
+                />
+              </div>
+            </div>
+
+            <h1 class="mb-2 title_base">Asset Holder Info</h1>
+            <div class="grid gap-6 mb-6 md:grid-cols-2">
+              <div>
+                <label
+                  for="Asset_Holder"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Asset Holder ID</label
+                >
+                <input
+                  type="text"
+                  id="Asset_Holder"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  name="asset_holder"
+                  placeholder="INV-90.."
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="holder_name"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Name</label
+                >
+                <input
+                  type="text"
+                  id="holder_name"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  name="holder_name"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="position"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Position/ Title</label
+                >
+                <input
+                  type="text"
+                  id="Asset_Holder"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  name="position"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="department"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Department</label
+                >
+                <select
+                  id="department"
+                  name="department"
+                  class="block w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                >
+                  <option value=""></option>
+                  <option value="">PPM</option>
+                  <option value="">Confirel</option>
+                  <option value="">Invectco</option>
+                  <option value="">Depomix</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  for="company"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Company</label
+                >
+                <select
+                  id="small"
+                  name="company"
+                  class="block w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                >
+                  <option value=""></option>
+                  <option value="">PPM</option>
+                  <option value="">Confirel</option>
+                  <option value="">Invectco</option>
+                  <option value="">Depomix</option>
+                </select>
+              </div>
+            </div>
+            <h1 class="mb-2 title_base">Internal Document</h1>
+            <div class="grid gap-6 mb-6 md:grid-cols-2">
+              <div>
+                <label
+                  for="PR"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >PR (Purchase Request)</label
+                >
+                <input
+                  type="text"
+                  id="PR"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  name="pr"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="dr"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >DR (Department Request)</label
+                >
+                <input
+                  type="text"
+                  id="dr"
+                  name="dr"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="dr_requested_by"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >DR (Requested by)</label
+                >
+                <input
+                  type="text"
+                  id="dr_requested_by"
+                  name="dr_requested_by"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
+                />
+              </div>
+            </div>
+            <h1 class="mb-2 title_base">Others Info</h1>
+            <div class="grid gap-6 mb-6 md:grid-cols-2">
+              <div>
+                <label
+                  for="fa"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Document No. (FA)</label
+                >
+                <input
+                  type="text"
+                  id="fa"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  name="fa"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="document_type"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Doctument Type</label
+                >
+                <input
+                  type="text"
+                  id="document_type"
+                  name="document_type"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <div>
+                  <label
+                    for="fa_date"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >FA Posting Group</label
+                  >
+                  <input
+                    type="text"
+                    id="dr"
+                    name="fa_date"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <div>
+                  <label
+                    for="fa_date"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >FA Posting Group</label
+                  >
+                  <input
+                    type="text"
+                    id="dr"
+                    name="dr"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <div>
+                  <label
+                    for="fa_no"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >FA No</label
+                  >
+                  <input
+                    type="text"
+                    id="fa_no"
+                    name="fa_no"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <div>
+                  <label
+                    for="depreciation_book_code"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Depreciation Book Code</label
+                  >
+                  <input
+                    type="text"
+                    id="depreciation_book_code"
+                    name="depreciation_book_code"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <div>
+                  <label
+                    for="fa_posting_type"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >FA Posting Type</label
+                  >
+                  <input
+                    type="text"
+                    id="dr"
+                    name="dr"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <div>
+                  <label
+                    for="fa_posting_type"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Ammount</label
+                  >
+                  <input
+                    type="text"
+                    id="dr"
+                    name="dr"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <div>
+                  <label
+                    for="currency"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Currency</label
+                  >
+                  <select
+                    name="curency"
+                    id="curency"
+                    class="block w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option value="">USD</option>
+                    <option value="">Riel</option>
+                    <option value="">Yen</option>
+                    <option value="">EUR</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <h1 class="mb-2 title_base">Others Info</h1>
+            <div class="grid gap-6 mb-6 md:grid-cols-2">
+              <div>
+                <div>
+                  <label
+                    for="G/L_Entry_No."
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >G/L Entry No.</label
+                  >
+                  <input
+                    type="text"
+                    id="G/L_Entry_No."
+                    name="gl_entry"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <div>
+                  <label
+                    for="erp_entry"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Entry No.</label
+                  >
+                  <input
+                    type="text"
+                    id="erp_entry"
+                    name="erp_entry"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <div>
+                  <label
+                    for="FA_Subclass_Code"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >FA Subclass Code</label
+                  >
+                  <input
+                    type="text"
+                    id="FA_Subclass_Code"
+                    name="fa_subclass"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <div>
+                  <label
+                    for="ERP_Posting_Date"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Posting Date</label
+                  >
+                  <input
+                    type="date"
+                    id="ERP_Posting_Date"
+                    name="erp_posting_date"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+              <div >
+          
+
+                  <label
+                    for="Description"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Description</label
+                  >
+                  <textarea
+                    id="Description"
+                    rows="4"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Write your thoughts here..."
+                  ></textarea>
+
+               
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Submit
+            </button>
+          </form>
+        </main>
+      </div>
+        </main>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
+  </body>
+</html>

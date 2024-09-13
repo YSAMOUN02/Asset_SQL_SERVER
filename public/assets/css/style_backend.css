@@ -1,0 +1,305 @@
+*{
+  margin: 0;
+  box-sizing: border-box;
+}
+
+
+body{
+  position: relative;
+  min-width: 100wh;
+
+}
+.container-height{
+  width: auto !important;
+  overflow: hidden;
+}
+.table-data{
+  height: 65vh ;
+  min-width: 100%;
+  overflow: auto !important;
+}
+.search-bar{
+  width: 70wh;
+  border-radius: 0 !important; 
+  position: sticky;
+  top: 0;
+ 
+  z-index: 49;
+
+}
+/* Table list Select  */
+.resultList{
+  overflow: visible !important;
+}
+#resultList thead{
+  position: sticky;
+  top: 0px;
+}
+
+
+.list_assets{
+  overflow: visible !important;
+}
+#list_assets thead{
+  position: sticky;
+  top: 0px;
+  z-index: 999;
+}
+#list_assets th:hover{
+  cursor: pointer;
+}
+.table_respond{
+  width: 100%;
+}
+
+.title_base {
+    font-size: 25px !important;
+    margin-bottom: 15px;
+    font-weight: bold !important;
+  }
+  .select-btn{
+
+    padding: 8px 7px;
+    background: rgb(143, 134, 134);
+  }
+
+  .list_user{
+    widows: 100%;
+    padding: 20px 40px !important;
+  }
+  .user_tab li:hover{
+    cursor: pointer;
+  }
+  .active_tab{
+    color: blue   !important;
+
+  }
+  .active_tab:hover{
+    background: rgb(228, 228, 228);
+
+  }
+  .normal_tab:hover{
+    background: rgb(228, 228, 228);
+  }
+  .label_user{
+ 
+    padding: 10px 50px 5px 10px;
+
+  }
+ .toast_position{
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 9999;
+    animation: fade_out 20s forwards;
+    display: none;
+  }
+
+#dropdownSearch::-webkit-scrollbar{
+  display: none;
+}
+
+#search_bar{
+  width: 100%;
+
+  height: auto;
+  position: sticky;
+  left: 0;
+}
+.toast_delete{
+  position: absolute;
+  top: 110px;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 999;
+  display: none ;
+}
+#toast{
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  animation: fade_up 10s forwards;
+  z-index: 9999;
+
+
+}
+
+.btn_float_right{
+  position: fixed;
+  right: 40px;
+  bottom: 20px;
+
+}
+.btn_float_right button{
+  padding: 10px 15px;
+}
+.image_box{
+  position: relative;
+}
+#delete_image{
+  display: none;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+  font-size: 25px;
+}
+#download_image{
+  display: none;  
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  font-size: 25px; 
+}
+.image_box:hover  #delete_image{
+  display: block;
+}
+.image_box:hover #download_image{
+  display: block;
+}
+.Active{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+
+}
+.file_document i{
+  font-size: 32px;
+}
+#container_file i{
+  font-size: 32px;
+}
+.box_file button{
+  display: none;
+}
+.box_file:hover button{
+  display: block;
+}
+.tabs{
+  top: 80px;
+}
+.active_tab{
+  border-bottom: 3px solid rgb(0, 98, 255) !important;
+  color: rgb(0, 98, 255) !important;
+}
+.percent30{
+  width: 50% !important;
+}
+.percent3{
+  width: 33% !important;
+}
+.percent70{
+  width: 50% !important;
+
+}
+.table_select{
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 500px;
+  transform: translate(-50%,-50%);
+  width: 80%;
+  height: 80vh;
+
+  z-index: 9999;
+  background-color: white;
+  border:  1px solid black;
+  padding:  5px;
+  overflow: hidden;
+}
+.select_id_assets{
+  height: 100% ;
+  min-width: 100%;
+}
+
+#table_selec_asset{
+  border:  1px solid rgba(0, 0, 0, 0.486) !important;
+
+}
+.no_wrap{
+  white-space: nowrap;
+}
+.inner-data{
+  overflow: auto;
+
+  width: 100%;
+  height: 90%;
+  
+}
+.inner-data table thead{
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.inner-data table tr{
+  white-space: nowrap;
+}
+.inner-data table th:last-child{
+  background-color: rgb(199, 199, 199);
+  position: sticky;
+  right: 0;
+  z-index: 999;
+}
+.inner-data table td:last-child{
+  background-color: rgb(201, 201, 201);
+  position: sticky;
+  right: 0;
+  z-index: 1 !important;
+}
+.align_right{
+  padding: 5px 10px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.align_right span{
+  font-size: 25px;
+  font-weight: 700;
+}
+#table_change_log th:hover{
+  cursor: pointer;
+}
+#small-modal{
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 9999;
+}
+  @keyframes fade_out{
+    0%{
+      display: block;
+    }100%{
+      display: none;
+    }
+  } 
+   @keyframes fade_up{
+    0%{
+       
+      
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+
+
+    }
+}
+
+@media (min-width: 1000px) and (max-width: 1400px) {
+  .table-data{
+    height: 55vh;
+
+  }
+  .table-data button{
+    padding: 5px  10px!important;
+  }
+  .table_select{
+    top: 300px;
+    height: 90vh;
+  }
+}
