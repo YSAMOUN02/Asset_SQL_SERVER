@@ -1003,11 +1003,55 @@ function dynamic_sort(by, method, table) {
         show_sort_asset();
     } else if (table == "changelog") {
         show_sort_change_log();
-    }else if(table == 'raw_assets'){
+    } else if (table == "raw_assets") {
         show_sort_raw_asset();
+    } else if (table == "quick") {
+        show_sort_quick_data();
     }
 }
+function show_sort_quick_data() {
+    let body_change = document.querySelector("#body_quick_data");
+    body_change.innerHTML = ``;
+    array.map((item) => {
+        body_change.innerHTML += `
+        
+    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                       <td scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            ${ item.id }
+                        </td>
+                        <td scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                 ${ item.content }
+                        </td>
+                        <td scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                 ${ item.type }
+                        </td>
+                                 <td scope="row"
+                                        class=" px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 
+
+                                        <button type="button" data-modal-target="small-modal"
+                                            data-modal-toggle="small-modal"
+                                            onclick="update_quick_data(${  item.id  })"
+                                            class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
+                                        </button>
+                                        <!-- Modal toggle -->
+
+
+                        <button type="button" data-id="${  item.id  }"
+                            id="btn_delete${  item.id  }"
+                                onclick="delete_value('btn_delete'+${  item.id  },'delete_data','delete_data_value')"
+                            class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                            <i class="fa-solid fa-trash" style="color: #ffffff;"></i>
+                        </button>
+                        </td>
+                   </tr>
+  `;
+    });
+}
 function show_sort_change_log() {
     let body_change = document.querySelector("#table_body_change");
     body_change.innerHTML = ``;
@@ -1144,7 +1188,7 @@ function show_sort_asset() {
                                                     <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
                                             `
                                             : // If auth.permission.assets_write is 1
-                                            `` // If not, show nothing
+                                              `` // If not, show nothing
                                     }
 
                                     
@@ -1158,52 +1202,60 @@ function show_sort_asset() {
 function show_sort_raw_asset() {
     let body_change = document.querySelector("#table_raw_body");
     body_change.innerHTML = ``;
-    array.map((item,index) => {
+    array.map((item, index) => {
         body_change.innerHTML += `
    
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
                                             <td scope="row"
                                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                ${ index+1 }
+                                                ${index + 1}
                                             </td>
                                             <td scope="row"
                                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                
 
                                                   ${
-                                                        item.assets_date
-                                                            ? new Date(
-                                                                    item.assets_date
-                                                                ).toLocaleDateString("en-US", {
+                                                      item.assets_date
+                                                          ? new Date(
+                                                                item.assets_date
+                                                            ).toLocaleDateString(
+                                                                "en-US",
+                                                                {
                                                                     year: "numeric",
                                                                     month: "short",
                                                                     day: "numeric",
-                                                                })
-                                                            : ""
-                                                    }
+                                                                }
+                                                            )
+                                                          : ""
+                                                  }
                                             </td>
                                             <td scope="row"
                                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                ${ item.assets }
+                                                ${item.assets}
                                             </td>
                                             <td scope="row"
                                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                ${ item.fa||"" }
+                                                ${item.fa || ""}
                                             </td>
 
                                             <td scope="row"
                                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                ${ item.invoice_no }
+                                                ${item.invoice_no}
                                             </td>
                                             <td scope="row"
                                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                ${ item.description }
+                                                ${item.description}
                                             </td>
 
 
                                             <td class="px-6 py-4">
-                                                <a href="/admin/assets/add/assets=${ item.assets }/invoice_no=${ item.fa.replace(/\//g, '-') }"
+                                                <a href="/admin/assets/add/assets=${
+                                                    item.assets
+                                                }/invoice_no=${item.fa.replace(
+            /\//g,
+            "-"
+        )}"
                                                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a>
                                             </td>
 
@@ -1212,96 +1264,91 @@ function show_sort_raw_asset() {
             `;
     });
 }
-function update_quick_data(item){
-  
-    let content = document.querySelector("#content_update")
+function update_quick_data(item) {
+    let content = document.querySelector("#content_update");
     let type = document.querySelector("#type_update");
     let id = document.querySelector("#id_update");
-    if(content){
+    if (content) {
         content.value = item.content;
     }
-    if(type){
+    if (type) {
         type.value = item.type;
     }
-    if(id){
+    if (id) {
         id.value = item.id;
     }
-
 }
 let state_asset_permission = 1;
-let user_permission =1;
+let user_permission = 1;
 let transfer_permission = 1;
 let qucik_data_permission = 1;
-function set_permission(type){
-    let read = document.querySelector("#"+type+"_read");
-    let write = document.querySelector("#"+type+"_write");
-    let update = document.querySelector("#"+type+"_update");
-    let delete_type = document.querySelector("#"+type+"_delete");
+function set_permission(type) {
+    let read = document.querySelector("#" + type + "_read");
+    let write = document.querySelector("#" + type + "_write");
+    let update = document.querySelector("#" + type + "_update");
+    let delete_type = document.querySelector("#" + type + "_delete");
     let state_all = 1;
-  
-    if(type == "assets"){   
 
-        if(state_asset_permission == 0){
+    if (type == "assets") {
+        if (state_asset_permission == 0) {
             state_all = 0;
             state_asset_permission = 1;
-     
-        }else{
+        } else {
             state_all = 1;
             state_asset_permission = 0;
-        
         }
     }
-    if(type == "user"){
-        if(user_permission == 0){
+    if (type == "user") {
+        if (user_permission == 0) {
             state_all = 0;
             user_permission = 1;
-        }else{
+        } else {
             state_all = 1;
             user_permission = 0;
         }
     }
-    if(type == "transfer"){
-        if(transfer_permission == 0){
+    if (type == "transfer") {
+        if (transfer_permission == 0) {
             state_all = 0;
             transfer_permission = 1;
-        }else{
+        } else {
             state_all = 1;
             transfer_permission = 0;
         }
     }
-    if(type == "quick"){
-        if(qucik_data_permission == 0){
+    if (type == "quick") {
+        if (qucik_data_permission == 0) {
             state_all = 0;
             qucik_data_permission = 1;
-        }else{
+        } else {
             state_all = 1;
             qucik_data_permission = 0;
         }
     }
-    if(state_all == 1){
-        if(read){
+    if (state_all == 1) {
+        if (read) {
             read.checked = true;
         }
-        if(write){
+        if (write) {
             write.checked = true;
         }
-        if(update){
+        if (update) {
             update.checked = true;
         }
-        if(delete_type){
+        if (delete_type) {
             delete_type.checked = true;
         }
-    }else{
-        if(read){
+    } else {
+        if (read) {
             read.checked = false;
         }
-        if(write){
+        if (write) {
             write.checked = false;
         }
-        if(update){
+        if (update) {
             update.checked = false;
         }
-        if(delete_type){
+        if (delete_type) {
             delete_type.checked = false;
         }
     }

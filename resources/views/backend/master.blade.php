@@ -295,7 +295,7 @@
                             </ul>
                         </li>
                     @endif
-
+                    @if ( Auth::user()->Permission->quick_read == 1)
                     <li>
                                          <a  href="/quick/data">
                         {{-- <a href="/admin/user/list"> --}}
@@ -309,6 +309,7 @@
                         </a>
 
                     </li>
+                    @endif
                     @if(Auth::user()->role=="admin")
                     <li>
                         <a href="/admin/assets/change/log">

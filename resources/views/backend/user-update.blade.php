@@ -125,12 +125,12 @@
 
         <!-- Dropdown menu -->
         <div id="dropdownSearch"
-            class="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 z-10 min-h-96 overflow-scroll hidden w-auto bg-white rounded-lg shadow dark:bg-gray-700">
+            class="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-2 z-10 min-h-96 overflow-scroll hidden w-auto bg-white rounded-lg shadow dark:bg-gray-700">
 
             <div>
                 <label class="label_user ml-5 bg-white dark:bg-gray-700 text-gray-900 rounded dark:text-gray-300"
                     for="">User Section</label>
-                <ul class="h-48 px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
+                <ul class="h-56 px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
                     aria-labelledby="dropdownSearchButton">
                     <li>
                         <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
@@ -188,12 +188,16 @@
                                 class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Delete</label>
                         </div>
                     </li>
+                    <li>
+                        <button type="button" class="p-2" onclick="set_permission('user')">Select All</button>
+
+                    </li>
                 </ul>
             </div>
             <div>
                 <label class="label_user ml-5 bg-white dark:bg-gray-700 dark:text-gray-300" for="assets_read,">Assets
                     Section</label>
-                <ul class="h-48 px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
+                <ul class="h-56 px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
                     aria-labelledby="dropdownSearchButton">
                     <li>
                         <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
@@ -251,6 +255,10 @@
                                 class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Delete</label>
                         </div>
                     </li>
+                    <li>
+                        <button type="button" class="p-2" onclick="set_permission('assets')">Select All</button>
+
+                    </li>
                 </ul>
             </div>
 
@@ -258,7 +266,7 @@
             <div>
                 <label class="label_user ml-5 bg-white dark:bg-gray-700 dark:text-gray-300" for="">Transfer
                     Section</label>
-                <ul class="h-48 px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
+                <ul class="h-56 px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
                     aria-labelledby="dropdownSearchButton">
                     <li>
                         <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
@@ -312,9 +320,90 @@
                                 class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Delete</label>
                         </div>
                     </li>
+                    <li>
+                        <button type="button" class="p-2" onclick="set_permission('transfer')">Select All</button>
+
+                    </li>
                 </ul>
             </div>
+            <div>
+                <label class="label_user ml-5 bg-white dark:bg-gray-700 dark:text-gray-300" for=""> Quick Data
+                    Section</label>
+                <ul class="h-56 px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
+                    aria-labelledby="dropdownSearchButton">
+                    <li>
+                        <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                            @if ($user->permission->quick_read == 1)
+                                <input id="quick_read" name="quick_read" type="checkbox" checked
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                &ensp;<label for="quick_read"
+                                    class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Read</label>
+                            @else
+                                <input id="quick_read" name="quick_read" type="checkbox"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                &ensp;<label for="quick_read"
+                                    class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Read</label>
+                            @endif
 
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                            @if ($user->permission->quick_write == 1)
+                                <input id="quick_write" type="checkbox" name="quick_write" checked
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                &ensp;<label for="quick_write"
+                                    class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Write</label>
+                            @else
+                                <input id="quick_write" type="checkbox" name="quick_write"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                &ensp;<label for="quick_write"
+                                    class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Write</label>
+                            @endif
+
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                            @if ($user->permission->quick_update == 1)
+                                <input id="quick_update" type="checkbox" name="quick_update" checked
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                &ensp;<label for="quick_update"
+                                    class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Update</label>
+                            @else
+                                <input id="quick_update" type="checkbox" name="quick_update"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                &ensp;<label for="quick_update"
+                                    class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Update</label>
+                            @endif
+
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                            @if ($user->permission->quick_delete == 1)
+                                <input id="quick_delete" type="checkbox" name="quick_delete" checked
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+
+                                &ensp;<label for="quick_delete"
+                                    class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Delete</label>
+                            @else
+                                <input id="quick_delete" type="checkbox" name="quick_delete"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+
+                                &ensp;<label for="quick_delete"
+                                    class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Delete</label>
+                            @endif
+
+
+                        </div>
+                    </li>
+                    <li>
+                        <button type="button" class="p-2" onclick="set_permission('quick')">Select All</button>
+
+                    </li>
+                </ul>
+            </div>
             <div>
                 <ul class="h-auto px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
                     aria-labelledby="dropdownSearchButton">

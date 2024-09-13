@@ -150,14 +150,14 @@
                 <table
                     class="table_respond max-w-full  mt-5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="px-6 py-3" onclick="dynamic_sort('assets_id','int','assets')">
+                        <tr id="quick_tr_header" >
+                            <th scope="col" class="px-6 py-3" onclick="dynamic_sort('id','int','quick')">
                                 ID &ensp; <i class="fa-solid fa-sort"></i>
                             </th>
-                            <th scope="col" class="px-6 py-3" onclick="dynamic_sort('created_at','date','assets')">
+                            <th scope="col" class="px-6 py-3" onclick="dynamic_sort('content','string','quick')">
                                 Content&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
-                            <th scope="col" class="px-6 py-3" onclick="dynamic_sort('created_at','date','assets')">
+                            <th scope="col" class="px-6 py-3" onclick="dynamic_sort('type','string','quick')">
                                 Type&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
                             <th scope="col" class="px-6 py-3"
@@ -166,7 +166,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="body_quick_data">
                         @if (!empty($data))
                             @foreach ($data as $item)
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -211,5 +211,10 @@
             </div>
             </form>
         </div>
+        <script>
+             let array  = @json($data);
+            let sort_state = 0;
 
+
+        </script>
     @endsection

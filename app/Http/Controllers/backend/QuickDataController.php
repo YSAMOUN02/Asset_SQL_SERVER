@@ -21,7 +21,13 @@ class QuickDataController extends Controller
         $data->type = $request->type;
         $data->created_by = Auth::user()->name;
         $data->save();
-        return $request;
+        if($data){
+
+            return redirect("/quick/data")->with('success',"Added 1 Record success.");
+        }else{
+
+            return redirect("/quick/data")->with('fail',"Added  fail.");
+        }
     }
 
     public function delete_quick_data(Request $request){

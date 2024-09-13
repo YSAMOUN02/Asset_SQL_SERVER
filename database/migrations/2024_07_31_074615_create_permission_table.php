@@ -27,6 +27,11 @@ return new class extends Migration
             $table->smallInteger('transfer_write');
             $table->smallInteger('transfer_update');
             $table->smallInteger('transfer_delete');
+
+            $table->smallInteger('quick_read');
+            $table->smallInteger('quick_write');
+            $table->smallInteger('quick_update');
+            $table->smallInteger('quick_delete');
             $table->timestamps();
         });
     }

@@ -92,6 +92,26 @@ class UserController extends Controller
             $transfer_update  = 0;
         }
     
+        if (!empty($request->quick_read)) {
+            $quick_read  = 1;
+        } else {
+            $quick_read  = 0;
+        }
+        if (!empty($request->quick_write)) {
+            $quick_write  = 1;
+        } else {
+            $quick_write  = 0;
+        }
+        if (!empty($request->quick_delete)) {
+            $quick_delete  = 1;
+        } else {
+            $quick_delete  = 0;
+        }
+        if (!empty($request->quick_update)) {
+            $quick_update  = 1;
+        } else {
+            $quick_update  = 0;
+        }
 
         $user = new User();
         $user->role = $request->role;
@@ -121,6 +141,11 @@ class UserController extends Controller
         $permission->transfer_write = $transfer_write;
         $permission->transfer_update = $transfer_update;
         $permission->transfer_delete = $transfer_delete;
+
+        $permission->quick_read = $quick_read;
+        $permission->quick_write = $quick_write;
+        $permission->quick_update = $quick_update;
+        $permission->quick_delete = $quick_delete;
         $permission->save();
 
 
@@ -231,7 +256,27 @@ class UserController extends Controller
         }else{
             $status = 0;
         }
-        
+          
+        if (!empty($request->quick_read)) {
+            $quick_read  = 1;
+        } else {
+            $quick_read  = 0;
+        }
+        if (!empty($request->quick_write)) {
+            $quick_write  = 1;
+        } else {
+            $quick_write  = 0;
+        }
+        if (!empty($request->quick_delete)) {
+            $quick_delete  = 1;
+        } else {
+            $quick_delete  = 0;
+        }
+        if (!empty($request->quick_update)) {
+            $quick_update  = 1;
+        } else {
+            $quick_update  = 0;
+        }
      
 
         $user = User::where('id', $request->id)->first(); 
@@ -262,6 +307,11 @@ class UserController extends Controller
         $permission->transfer_write = $transfer_write;
         $permission->transfer_update = $transfer_update;
         $permission->transfer_delete = $transfer_delete;
+
+        $permission->quick_read = $quick_read;
+        $permission->quick_write = $quick_write;
+        $permission->quick_update = $quick_update;
+        $permission->quick_delete = $quick_delete;
         $permission->update();
 
 
