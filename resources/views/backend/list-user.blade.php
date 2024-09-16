@@ -88,18 +88,18 @@
     <div class="relative overflow-x-auto">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        User Name
+                <tr id="user_th">
+                    <th scope="col" class="px-6 py-3" onclick="dynamic_sort('id','int','quick')">
+                        User Name  &ensp; <i class="fa-solid fa-sort"></i>
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Email
+                        Email &ensp; <i class="fa-solid fa-sort"></i>
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Role
+                        Role &ensp; <i class="fa-solid fa-sort"></i>
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Status
+                        Status &ensp; <i class="fa-solid fa-sort"></i>
                     </th>
 
                     <th scope="col" class="px-6 py-3">

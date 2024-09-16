@@ -45,7 +45,7 @@ body{
   top: 0px;
   z-index: 999;
 }
-#list_assets th:hover  ,#quick_tr_header:hover{
+#list_assets th:hover  ,#quick_tr_header:hover, #user_th{ 
   cursor: pointer;
 }
 .table_respond{
