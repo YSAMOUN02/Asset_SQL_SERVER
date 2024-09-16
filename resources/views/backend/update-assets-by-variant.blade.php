@@ -75,14 +75,15 @@
         method="POST">
         @csrf
         <h1 class="title_base dark:text-blue-100">Asset Info</h1>
-        <div class="grid gap-6 mb-6 md:grid-cols-2">
+
+        <div class="grid gap-6 mb-6 md:grid-cols-2 mt-5">
             <div>
                 <label for="Reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference <span
                         class="text-rose-500">*</span></label>
                 <input type="text" id="Reference"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="document" value="{{ old('document', $asset[$current_varaint]->document ?? '') }}" required />
-                    <input type="text" class="hidden" name="id" value="{{$asset[$current_varaint]->assets_id}}">
+                <input type="text" class="hidden" name="id" value="{{ $asset[$current_varaint]->assets_id }}">
             </div>
 
             <div class="flex flex-col w-full">
@@ -199,10 +200,22 @@
                     name="location" value="{{ old('location', $asset[$current_varaint]->location ?? '') }}" />
             </div>
             <div>
+
                 <label for="department"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
                 <select id="department" name="department"
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    @if (!empty($asset[$current_varaint]->department))
+                        <option value="{{ $asset[$current_varaint]->department }}">
+                            {{ $asset[$current_varaint]->department }}</option>
+                    @endif
+                    @if (!empty($department))
+                        @foreach ($department as $item)
+                            @if ($item->content != $asset[$current_varaint]->department)
+                                <option value="{{ $item->content }}">{{ $item->content }}</option>
+                            @endif
+                        @endforeach
+                    @endif
                     <option value=""></option>
 
                 </select>
@@ -211,6 +224,17 @@
                 <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
                 <select id="company" name="company"
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    @if (!empty($asset[$current_varaint]->company))
+                        <option value="{{ $asset[$current_varaint]->company }}">{{ $asset[$current_varaint]->company }}
+                        </option>
+                    @endif
+                    @if (!empty($company))
+                        @foreach ($company as $item)
+                            @if ($item->content != $asset[$current_varaint]->company)
+                                <option value="{{ $item->content }}">{{ $item->content }}</option>
+                            @endif
+                        @endforeach
+                    @endif
                     <option value=""></option>
 
                 </select>
@@ -288,7 +312,7 @@
                     Code (Account)</label>
                 <input type="text" id="asset_code_account" name="asset_code_account" readonly
                     class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ $asset[$current_varaint]->asset_code_account ?? '' }}" />
+                    value="{{ old('asset_code_account', $asset[$current_varaint]->asset_code_account ?? '') }}" />
             </div>
 
             <!-- Invoice Posting Date -->
@@ -297,7 +321,7 @@
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Invoice Posting Date</label>
                 <input type="date" id="invoice_posting_date" name="invoice_posting_date" readonly
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ $asset[$current_varaint]->invoice_date ?? '' }}" />
+                    value="{{ old('invoice_posting_date', $asset[$current_varaint]->invoice_date ?? '') }}" />
             </div>
 
             <!-- Invoice No -->
@@ -306,7 +330,7 @@
                     No</label>
                 <input type="text" id="fa_invoice" name="invoice" readonly
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ $asset[$current_varaint]->invoice_no ?? '' }}" />
+                    value="{{ old('invoice', $asset[$current_varaint]->invoice_no ?? '') }}" />
             </div>
 
             <!-- Fix Assets-No -->
@@ -315,7 +339,7 @@
                     Assets-No</label>
                 <input type="text" id="fa" name="fa" readonly
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ $asset[$current_varaint]->fa ?? '' }}" />
+                    value="{{ old('fa', $asset[$current_varaint]->fa ?? '') }}" />
             </div>
 
             <!-- FA Class -->
@@ -324,7 +348,7 @@
                     Class</label>
                 <input type="text" id="fa_class" name="fa_class" readonly
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ $asset[$current_varaint]->fa_class ?? '' }}" />
+                    value="{{ old('fa', $asset[$current_varaint]->fa_class ?? '') }}" />
             </div>
 
             <!-- FA Subclass Code -->
@@ -333,7 +357,7 @@
                     Subclass Code</label>
                 <input type="text" id="FA_Subclass_Code" name="fa_subclass" readonly
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ $asset[$current_varaint]->fa_subclass ?? '' }}" />
+                    value="{{ old('fa_subclass', $asset[$current_varaint]->fa_subclass ?? '') }}" />
             </div>
 
             <!-- Depreciation Book Code -->
@@ -342,7 +366,7 @@
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Depreciation Book Code</label>
                 <input type="text" id="depreciation_book_code" name="depreciation_book_code" readonly
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ $asset[$current_varaint]->depreciation ?? '' }}" />
+                    value="{{ old('depreciation_book_code', $asset[$current_varaint]->depreciation ?? '') }}" />
             </div>
 
             <!-- FA Posting Type -->
@@ -351,7 +375,7 @@
                     Posting Type</label>
                 <input type="text" id="fa_posting_type" name="fa_type" readonly
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ $asset[$current_varaint]->fa_type ?? '' }}" />
+                    value="{{ old('fa_type', $asset[$current_varaint]->fa_type ?? '') }}" />
             </div>
 
             <!-- FA Location -->
@@ -360,7 +384,7 @@
                     Location</label>
                 <input type="text" id="fa_location" name="fa_location" readonly
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ $asset[$current_varaint]->fa_location ?? '' }}" />
+                    value="{{ old('fa_location', $asset[$current_varaint]->fa_location ?? '') }}" />
             </div>
 
             <!-- Cost & VAT -->
@@ -370,13 +394,13 @@
                 <div class="flex w-full">
                     <input type="text" id="cost" name="cost" readonly
                         class="percent3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value="{{ $asset[$current_varaint]->cost ? number_format((float) $asset[$current_varaint]->cost, 2) : '' }}" />
+                        value="{{ old('cost', (float) $asset[$current_varaint]->cost ?? '') }}" />
                     <input type="text" id="currency" name="currency" readonly
                         class="percent3 bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value="{{ $asset[$current_varaint]->currency ?? '' }}" />
+                        value="{{ old('currency', $asset[$current_varaint]->currency ?? '') }}" />
                     <input type="text" id="vat" name="vat" readonly
                         class="percent3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value="{{ $asset[$current_varaint]->vat ?? '' }}" />
+                        value="{{ old('vat', $asset[$current_varaint]->vat ?? '') }}" />
                 </div>
             </div>
 
@@ -385,8 +409,7 @@
                     Description
                 </label>
                 <textarea id="description" name="description" readonly
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('description', $asset[$current_varaint]->description ?? '') }}
-                </textarea>
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('description', $asset[$current_varaint]->description ?? '') }}</textarea>
             </div>
 
             <div class="flex flex-col w-full">
@@ -409,14 +432,10 @@
                     <label for="vendor" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Vendor
                         No</label>
 
-                    @if (!empty($asset[$current_varaint]->vendor))
-                        <input type="text" id="vendor" name="vendor" readonly
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset[$current_varaint]->vendor }}" />
-                    @else
-                        <input type="text" id="vendor" name="vendor" readonly
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    @endif
+                    <input type="text" id="vendor" name="vendor" readonly
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        value= "{{ old('vendor', $asset[$current_varaint]->vendor ?? '') }}" />
+
 
                 </div>
             </div>
@@ -424,14 +443,11 @@
                 <div>
                     <label for="vendor_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Vendor
                         Name</label>
-                    @if (!empty($asset[$current_varaint]->vendor_name))
-                        <input type="text" id="vendor_name" name="vendor_name" readonly
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset[$current_varaint]->vendor_name }}" />
-                    @else
-                        <input type="text" id="vendor_name" name="vendor_name" readonly
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    @endif
+
+                    <input type="text" id="vendor_name" name="vendor_name" readonly
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        value= "{{ old('vendor_name', $asset[$current_varaint]->vendor_name ?? '') }}" />
+
 
                 </div>
             </div>
@@ -439,14 +455,11 @@
                 <div>
                     <label for="address"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
-                    @if (!empty($asset[$current_varaint]->address))
-                        <input type="text" id="address" name="address" readonly
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset[$current_varaint]->address }}" />
-                    @else
-                        <input type="text" id="address" name="address" readonly
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    @endif
+
+                    <input type="text" id="address" name="address" readonly
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        value= "{{ old('address', $asset[$current_varaint]->address ?? '') }}" />
+
 
                 </div>
             </div>
@@ -512,7 +525,15 @@
                 </div>
             </div>
         </div>
-        <h1 class="mb-2 title_base dark:text-blue-100">Image </h1>
+        <h1 class="mb-2 title_base dark:text-blue-100">QR Code </h1>
+        <div id="qr_code">
+            <a target="_blank"  href="/admin/qr/code/print/assets={{$asset[$current_varaint]->assets1.$asset[$current_varaint]->assets2}}">
+                {{$qr_code}}
+            </a>
+
+            
+        </div>
+        <h1 class="mb-2 title_base mt-4 dark:text-blue-100">Image </h1>
         <input type="text" class="hidden" name="image_state" value="0" id="image_state">
         <input type="text" class="hidden" name="file_state" value="0" id="file_state">
         <div id="image_show" class="grid gap-6 mb-6 grid-cols-1 lg:grid-cols-4 md:grid-cols-4">
@@ -526,12 +547,11 @@
 
                     @foreach ($asset[$current_varaint]->images as $item)
                         @if ($item->varaint == $current_varaint)
-                            <div class="image_box" id="image_box_varaint{{$item->id}}">
+                            <div class="image_box" id="image_box_varaint{{ $item->id }}">
                                 <img src="/uploads/image/{{ $item->image }}"
-                                    onclick="maximize_minimize({{ $item->id }})"
-                                    alt="Item">
-                                <button type="button" onclick="remove_image_from_stored_varaint({{$item->id}})" id="delete_image"><i class="fa-solid fa-trash"
-                                        style="color: #ff0000;"></i></button>
+                                    onclick="maximize_minimize({{ $item->id }})" alt="Item">
+                                <button type="button" onclick="remove_image_from_stored_varaint({{ $item->id }})"
+                                    id="delete_image"><i class="fa-solid fa-trash" style="color: #ff0000;"></i></button>
 
                                 <a download="{{ $item->image }}" href="/uploads/image/{{ $item->image }}"><button
                                         type="button" id="download_image"><i class="fa-regular fa-circle-down"

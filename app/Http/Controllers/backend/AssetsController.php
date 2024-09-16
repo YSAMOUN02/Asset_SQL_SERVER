@@ -12,12 +12,12 @@ use App\Models\RawFixAssets;
 use App\Models\StoredAssets;
 use App\Models\StoredAssetsUser;
 use App\Models\QuickData;
+use SimpleSoftwareIO\QrCode\Facades\QrCode; 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-
 class AssetsController extends Controller
 {
     public function assetes_add()
@@ -30,7 +30,7 @@ class AssetsController extends Controller
         $start_month_day = '01-01';
         $start_date = $start_year . '-' . $start_month_day;
         $end_date = date('Y-m-d');
- 
+
 
         if (Auth::user()->permission->assets_read == 1) {
             if (Auth::user()->role == "admin") {
@@ -38,7 +38,7 @@ class AssetsController extends Controller
                     ->where("last_varaint", 1)
                     ->get();
 
-      
+
                 return view('backend.list_asset', [
                     'asset' => $asset,
                     'start_date' => $start_date,
@@ -48,9 +48,9 @@ class AssetsController extends Controller
 
 
                 $asset =  StoredAssetsUser::orderBy('id', 'desc')
-                    ->where("deleted", 0)
+                ->where('deleted',0)
                     ->get();
-               
+                // return $asset;
                 return view('backend.list_asset_staff', [
                     'asset' => $asset,
                     'start_date' => $start_date,
@@ -106,8 +106,8 @@ class AssetsController extends Controller
             ->where("fa", $modifiedString)
             ->first();
 
-        $department = QuickData::where('type',"department")->select('id','content')->orderby('id','desc')->get();
-        $company  = QuickData::where('type',"company")->select('id','content')->orderby('id','desc')->get();
+        $department = QuickData::where('type', "department")->select('id', 'content')->orderby('id', 'desc')->get();
+        $company  = QuickData::where('type', "company")->select('id', 'content')->orderby('id', 'desc')->get();
         return view('backend.add-assets', [
             'asset' => $asset,
             'department' => $department,
@@ -505,21 +505,31 @@ class AssetsController extends Controller
         $count = count($asset);
         $count -= 1;
         $current_varaint = $count;
+  
+
+        $qr_code = QrCode::size(300)->format('svg')->generate($asset[$count]->assets1.$asset[$count]->assets2);
+
+        // Save the SVG to temporary storage
+        $svgContent = $qr_code;
+        Storage::disk('public')->put('qrcodes/my-qrcode.svg', $svgContent);
+        
+
+        $department = QuickData::where('type','department')->select('content')->orderby('id','desc')->get(); 
+        $company = QuickData::where('type','company')->select('content')->orderby('id','desc')->get(); 
         // return $count;
         if (Auth::user()->role == "admin") {
 
             // return $asset;
-            return view('backend.update-assets-by-variant', ['asset' => $asset, 'total_varaint' => $count, 'current_varaint' => $current_varaint]);
+            return view('backend.update-assets-by-variant', ['asset' => $asset, 'total_varaint' => $count, 'current_varaint' => $current_varaint , 'department'=>$department ,'company' => $company, 'qr_code' => $qr_code]);
         } elseif (Auth::user()->role == "staff") {
-
-            return view('backend.update-assets', ['asset' => $asset[$count]]);
+            
+            return view('backend.update-assets', ['asset' => $asset[$count], 'department'=>$department ,'company' => $company,'qr_code' => $qr_code]);
         } else {
             return view('backend.dashboard')->with('fail', "You do not have permission on this function.");
         }
     }
     public function update_submit(Request $request)
     {
-        // return  $request;
         $asset_user = StoredAssetsUser::where('id', $request->id)->first();
         // return  $asset_user;
         // Asset Info
@@ -750,13 +760,14 @@ class AssetsController extends Controller
 
         $asset = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->first();
         $asset->deleted = 1;
-        $asset->deleted_at = $issue_date = Carbon::parse(today())->format('Y-m-d H:i:s');
+        $asset->deleted_at = Carbon::parse(today())->format('Y-m-d H:i:s');
 
         $asset->save();
 
         $asset_delete = StoredAssetsUser::where('id', $request->id)->first();
         $asset_delete->deleted = 1;
         $asset_delete->save();
+
 
 
         $this->Change_log($asset->assets_id, $asset->varaint, "Delete", "Asset Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
@@ -858,23 +869,17 @@ class AssetsController extends Controller
     public function restore(request $request)
     {
 
-
-        $asset_user = StoredAssetsUser::where("id", $request->id)->first();
-        $asset_user->deleted = 0;
-        $asset_user->save();
-
-        $last_varaint = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->select("varaint")->first();
-
-
+        // Update Existing Last Varaint 
+        $last_varaint = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->select("varaint", "assets_id")->first();
         if (!empty($last_varaint)) {
 
+            // Update Last Varaint to old
             $modify_last = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->first();
             $modify_last->last_varaint = 0;
             $modify_last->save();
-
             $var = $last_varaint->varaint += 1;
 
-            // Admin Side 
+            // Create New Record as Last Varaint 
             $asset = new StoredAssets();
             $asset->assets_id = $request->id;
             $asset->varaint = $var;
@@ -933,6 +938,74 @@ class AssetsController extends Controller
             $asset->phone = $request->phone ?? "";
             $asset->email = $request->email ?? "";
             $asset->save();
+
+
+
+
+
+
+
+
+            // Update Disbled Assets at user to Enable and update some Restore data 
+            $asset_user =  StoredAssetsUser::where('id', $last_varaint->assets_id)->first();
+            $asset_user->deleted = 0;
+            $asset_user->document = $request->document ?? "";
+            $asset_user->assets1 = $request->asset_code1 ?? "";
+            $asset_user->assets2 = $request->asset_code2 ?? "";
+            $asset_user->fa_no = $request->fa_no ?? "";
+            $asset_user->item = $request->item ?? "";
+            $asset_user->issue_date = $request->issue_date ? Carbon::parse($request->issue_date)->format('Y-m-d H:i:s') : null;
+            $asset_user->initial_condition = $request->intail_condition ?? "";
+            $asset_user->specification = $request->specification ?? "";
+            $asset_user->item_description = $request->item_description ?? "";
+            $asset_user->asset_group = $request->asset_group ?? "";
+            $asset_user->remark_assets = $request->remark_assets ?? "";
+
+            // Asset Holder
+            $asset_user->asset_holder = $request->asset_holder ?? "";
+            $asset_user->holder_name = $request->holder_name ?? "";
+            $asset_user->position = $request->position ?? "";
+            $asset_user->location = $request->location ?? "";
+            $asset_user->department = $request->department ?? "";
+            $asset_user->company = $request->company ?? "";
+            $asset_user->remark_holder = $request->remark_holder ?? "";
+
+            // Internal Document
+            $asset_user->grn = $request->grn ?? "";
+            $asset_user->po = $request->po ?? "";
+            $asset_user->pr = $request->pr ?? "";
+            $asset_user->dr = $request->dr ?? "";
+            $asset_user->dr_requested_by = $request->dr_requested_by ?? "";
+            $asset_user->dr_date = $request->dr_date ? Carbon::parse($request->dr_date)->format('Y-m-d H:i:s') : null;
+            $asset_user->remark_internal_doc = $request->remark_internal_doc ?? "";
+
+            // ERP Invoice
+            $asset_user->asset_code_account = $request->asset_code_account ?? "";
+            $asset_user->invoice_date = $request->invoice_posting_date ? Carbon::parse($request->invoice_posting_date)->format('Y-m-d H:i:s') : null;
+            $asset_user->invoice_no = $request->invoice ?? "";
+            $asset_user->fa = $request->fa ?? "";
+            $asset_user->fa_class = $request->fa_class ?? "";
+            $asset_user->fa_subclass = $request->fa_subclass ?? "";
+            $asset_user->depreciation = $request->depreciation_book_code ?? "";
+            $asset_user->fa_type = $request->fa_type ?? "";
+            $asset_user->fa_location = $request->fa_location ?? "";
+            $asset_user->cost = $request->cost ?? "";
+            $asset_user->currency = $request->currency ?? "";
+            $asset_user->vat = $request->vat ?? "";
+            $asset_user->description = $request->description ?? "";
+            $asset_user->invoice_description = $request->invoice_description ?? "";
+
+            // Vendor 
+            $asset_user->vendor = $request->vendor ?? "";
+            $asset_user->vendor_name = $request->vendor_name ?? "";
+            $asset_user->address = $request->address ?? "";
+            $asset_user->address2 = $request->address2 ?? "";
+            $asset_user->contact = $request->contact ?? "";
+            $asset_user->phone = $request->phone ?? "";
+            $asset_user->email = $request->email ?? "";
+            $asset_user->save();
+        } else {
+            return redirect('/admin/assets/list')->with('fail', 'Record Not Found.');
         }
         // Add New FIle 
         if ($request->file_state > 0) {
@@ -944,12 +1017,12 @@ class AssetsController extends Controller
                     $fileName = $this->upload_file($file);
 
                     $file = new File();
-                    $file->asset_id = $asset_user->id;
+                    $file->asset_id = $last_varaint->assets_id;
                     $file->varaint = $var;
                     $file->file = $fileName;
                     $file->save();
                     $file = new FileUser();
-                    $file->asset_id = $asset_user->id;
+                    $file->asset_id = $last_varaint->assets_id;
                     $file->file = $fileName;
                     $file->save();
                 }
@@ -964,12 +1037,12 @@ class AssetsController extends Controller
                     $thumbnail = $this->upload_image($file);
 
                     $image = new Image();
-                    $image->asset_id = $asset_user->id;
+                    $image->asset_id = $last_varaint->assets_id;
                     $image->varaint = $var;
                     $image->image = $thumbnail;
                     $image->save();  // Don't forget to save the image
                     $image = new ImageUser();
-                    $image->asset_id = $asset_user->id;
+                    $image->asset_id = $last_varaint->assets_id;
                     $image->image = $thumbnail;
                     $image->save();  // Don't forget to save the image
                     // return 1;
@@ -980,12 +1053,21 @@ class AssetsController extends Controller
 
         $this->Change_log($asset->assets_id, $asset->varaint, "Restore", "Asset Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
 
-        $this->update_existing_to_new_varaint($request, $asset_user->id, $var);
+        $this->update_existing_to_new_varaint($request, $last_varaint->assets_id, $var);
 
-        if ($asset_user) {
+        if ($last_varaint) {
             return redirect('/admin/assets/list')->with('success', 'Restore Success.');
         } else {
             return redirect('/admin/assets/list')->with('fail', 'Opp!. Something when wronge.');
         }
+    }
+    public function print_qr($assets){
+        $qr_code = QrCode::size(50)->format('svg')->generate($assets);
+
+        // Save the SVG to temporary storage
+        $svgContent = $qr_code;
+        Storage::disk('public')->put('qrcodes/my-qrcode.svg', $svgContent);
+        
+        return view('backend.print-qr',['qr_code'=>$qr_code,'raw'=>$assets]);
     }
 }

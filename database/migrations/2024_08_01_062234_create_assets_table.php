@@ -45,8 +45,8 @@ return new class extends Migration
             $table->string('dr_requested_by')->nullable(); // dr_requested_by
             $table->date('dr_date')->nullable(); // dr_date
             $table->string('remark_internal_doc')->nullable(); // remark_internal_doc
-    
-  
+
+
 
             // ERP Invoice
             $table->string('asset_code_account')->nullable(); // asset_code_account
@@ -74,11 +74,12 @@ return new class extends Migration
             $table->string('email')->nullable(); // email
 
             // State  Asset
+            $table->date('deleted_at')->nullable();
+            $table->integer('deleted')->default(0); // Delete Status
             $table->string('last_varaint')->default(1);
+
             $table->timestamps();
         });
-        
-       
     }
 
     /**

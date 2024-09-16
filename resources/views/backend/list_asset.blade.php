@@ -214,6 +214,14 @@
                             <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('fa_type','string','assets')">
                                 Fix Asset Type&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
+
+                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('deleted','string','assets')">
+                           
+                              Status  &ensp; <i class="fa-solid fa-sort"></i>
+                            </td>
+
+
+
                             <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('fa_class','string','assets')">
                                 Fix Asset class&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
@@ -237,7 +245,7 @@
                             </th>
                             <th scope="col" class="px-6 py-3"
                                 style="  position: sticky; right: 0;   background-color: rgb(230, 230, 230);">
-                          Action <button onclick="(alert('Under Development'))">test</button>
+                          Action 
                             </th>
                         </tr>
                     </thead>
@@ -267,6 +275,22 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ $item->fa_type }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        @if ($item->deleted == 0)
+                                        <span
+                                        class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                        <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                        Available
+                                    </span>
+                                        @else
+                                        <span
+                                        class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                        <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                        Deleted
+                                    </span>
+                                        
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ $item->fa_class }}

@@ -3,13 +3,15 @@
     <form class="p-5 dark:bg-gray-900" enctype="multipart/form-data" action="/admin/assets/update/submit" method="POST">
         @csrf
         <h1 class="title_base dark:text-blue-100">Asset Info</h1>
+     
         <div class="grid gap-6 mb-6 md:grid-cols-2">
             <div>
                 <label for="Reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference <span
                         class="text-rose-500">*</span></label>
                 <input type="text" id="Reference"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="document" required />
+                    name="document" value="{{ old('document', $asset->document ?? '') }}" required />
+                <input type="text" class="hidden" name="id" value="{{ $asset->assets_id }}">
             </div>
 
             <div class="flex flex-col w-full">
@@ -20,41 +22,45 @@
                     @if (!empty($asset->assets1))
                         <input type="text" id="Asset_Code" name="asset_code1"
                             class="percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset->assets }}" />
+                            value="{{ $asset->assets1 }}" />
                     @else
                         <input type="text" id="Asset_Code" name="asset_code1"
                             class="percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     @endif
-
-                    <input type="text" name="asset_code2" value=""
-                        class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-
+                    @if (!empty($asset->assets2))
+                        <input type="text" name="asset_code2" value="{{ $asset->assets2 }}"
+                            class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    @else
+                        <input type="text" name="asset_code2" value=""
+                            class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    @endif
 
                 </div>
             </div>
             <div>
                 <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">FA-No</label>
-                <input type="text" id="fa_no"
+                <input type="text" id="fa_no" value="{{ old('fa_no', $asset->fa_no ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="fa_no" />
             </div>
             <div>
                 <label for="item" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item</label>
-                <input type="text" id="item"
+                <input type="text" id="item" value="{{ old('item', $asset->item ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="item" />
             </div>
             <div>
                 <label for="Issue_Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Issue
                     Date</label>
-                <input type="datetime-local" id="Issue_Date"
+                <input type="date" id="Issue_Date"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ today() }}" name="issue_date" />
+                    value="{{ old('issue_date', $asset->issue_date, today()) }}" name="issue_date" />
             </div>
             <div>
                 <label for="Initial_Conditions" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Initial
                     Conditions</label>
                 <input type="text" id="Initial_Conditions"
+                    value="{{ old('intail_condition', $asset->initial_condition ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="intail_condition" />
             </div>
@@ -62,7 +68,7 @@
             <div>
                 <label for="Specifications"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Specifications</label>
-                <input type="text" id="Specifications"
+                <input type="text" id="Specifications" value="{{ old('specification', $asset->specification ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="specification" />
             </div>
@@ -72,6 +78,7 @@
                         Description</label>
 
                     <input type="text" id="item_description" name="item_description"
+                        value="{{ old('item_description', $asset->item_description ?? '') }}"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
 
@@ -80,7 +87,7 @@
             <div>
                 <label for="asset_group" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
                     Group</label>
-                <input type="text" id="asset_group"
+                <input type="text" id="asset_group" value="{{ old('asset_group', $asset->asset_group ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="asset_group" />
             </div>
@@ -88,7 +95,7 @@
             <div>
                 <label for="remark_assets"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark</label>
-                <input type="text" id="remark_assets"
+                <input type="text" id="remark_assets" value="{{ old('remark_assets', $asset->remark_assets ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="remark_assets" />
             </div>
@@ -100,27 +107,27 @@
             <div>
                 <label for="Asset_Holder" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset Holder
                     ID</label>
-                <input type="text" id="Asset_Holder"
+                <input type="text" id="Asset_Holder" value="{{ old('asset_holder', $asset->asset_holder ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="asset_holder" placeholder="INV-90.." />
             </div>
             <div>
                 <label for="holder_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                <input type="text" id="holder_name"
+                <input type="text" id="holder_name" value="{{ old('holder_name', $asset->holder_name ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="holder_name" />
             </div>
             <div>
                 <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position/
                     Title</label>
-                <input type="text" id="Asset_Holder"
+                <input type="text" id="Asset_Holder" value="{{ old('position', $asset->position ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="position" />
             </div>
             <div>
                 <label for="Location"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
-                <input type="text" id="Location"
+                <input type="text" id="Location" value="{{ old('location', $asset->location ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="location" />
             </div>
@@ -129,28 +136,38 @@
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
                 <select id="department" name="department"
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value=""></option>
-                    <option value="IT">IT</option>
-                    <option value="QA">QA</option>
-                    <option value="Purchase">Purchase</option>
-                    <option value="HR">HR</option>
+                    @if (!empty($asset->department))
+                        <option value="{{ $asset->department }}">{{ $asset->department }}</option>
+                    @endif
+                    @if (!empty($department))
+                        @foreach ($department as $item)
+                            @if ($item->content != $asset->department)
+                                <option value="{{ $item->content }}">{{ $item->content }}</option>
+                            @endif
+                        @endforeach
+                    @endif
                 </select>
             </div>
             <div>
                 <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
                 <select id="small" name="company"
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value=""></option>
-                    <option value="PPM">PPM</option>
-                    <option value="CONFIREL">Confirel</option>
-                    <option value="Investco">Invectco</option>
-                    <option value="Depomix">Depomix</option>
+                    @if (!empty($asset->company))
+                        <option value="{{ $asset->company }}">{{ $asset->company }}</option>
+                    @endif
+                    @if (!empty($company))
+                        @foreach ($company as $item)
+                            @if ($item->content != $asset->company)
+                                <option value="{{ $item->content }}">{{ $item->content }}</option>
+                            @endif
+                        @endforeach
+                    @endif
                 </select>
             </div>
             <div>
                 <label for="remark_holder"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark</label>
-                <input type="text" id="remark_holder"
+                <input type="text" id="remark_holder"  value="{{ old('remark_internal_doc', $asset->remark_internal_doc ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="remark_holder" />
             </div>
@@ -159,33 +176,33 @@
         <div class="grid gap-6 mb-6 md:grid-cols-2">
             <div>
                 <label for="grn" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">GRN No</label>
-                <input type="text" id="grn"
+                <input type="text" id="grn" value="{{ old('grn', $asset->grn ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="grn" />
             </div>
             <div>
                 <label for="PO" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PO No</label>
-                <input type="text" id="PO"
+                <input type="text" id="PO"  value="{{ old('po', $asset->po ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="po" />
             </div>
             <div>
                 <label for="PR" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PR (Purchase
                     Request)</label>
-                <input type="text" id="PR"
+                <input type="text" id="PR" value="{{ old('pr', $asset->pr ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="pr" />
             </div>
             <div>
                 <label for="dr" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DR (Department
                     Request)</label>
-                <input type="text" id="dr" name="dr"
+                <input type="text" id="dr" name="dr"  value="{{ old('dr', $asset->dr ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
             </div>
             <div>
                 <label for="dr_requested_by" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DR
                     (Requested by)</label>
-                <input type="text" id="dr_requested_by" name="dr_requested_by"
+                <input type="text" id="dr_requested_by" name="dr_requested_by"  value="{{ old('dr_requested_by', $asset->dr_requested_by ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
             </div>
 
@@ -194,18 +211,18 @@
 
             <div>
                 <div>
-                    <label for="dr" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DR Request
+                    <label for="drdate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DR Request
                         Date</label>
-                    <input type="datetime-local" id="dr" name="dr_date"
+                    <input type="date" id="drdate" name="dr_date" value="{{ old('dr_date', $asset->dr_date ?? '') }}"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value="{{ today() }}" />
+                       />
                 </div>
             </div>
 
             <div>
                 <label for="remark_internal_doc"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark</label>
-                <input type="text" id="remark_internal_doc"
+                <input type="text" id="remark_internal_doc" value="{{ old('remark_internal_doc', $asset->remark_internal_doc?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="remark_internal_doc" />
             </div>
@@ -217,45 +234,33 @@
                 <label for="no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
                     Code (Account)</label>
 
-                @if (!empty($asset->assets))
+     
                     <input type="text" id="asset_code_account" name="asset_code_account" readonly
                         class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value="{{ $asset->assets }}" />
-                @else
-                    <input type="text" id="asset_code_account" name="asset_code_account" readonly
-                        name="asset_code_account"
-                        class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value="" />
-                @endif
+                        value="{{ $asset->asset_code_account ?? '' }}" />
+       
             </div>
             <div>
                 <div>
                     <label for="invoice_posting_date"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Invoice Posting Date</label>
-                    @if (!empty($asset->paid_date))
-                        <input type="datetime-local" id="invoice_posting_date" name="invoice_posting_date" readonly
+                  
+                        <input type="date" id="invoice_posting_date" name="invoice_posting_date" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset->paid_date }}" />
-                    @else
-                        <input type="datetime-local" id="invoice_posting_date" name="invoice_posting_date" readonly
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    @endif
+                            value="{{ old('invoice_posting_date', $asset->invoice_date?? '') }}" />
+               
 
                 </div>
             </div>
             <div>
                 <label for="fa_invoice" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Invoice
                     No</label>
-                @if (!empty($asset->invoice_no))
+
                     <input type="text" id="fa_invoice" readonly
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="invoice" value="{{ $asset->invoice_no }}" />
-                @else
-                    <input type="text" id="fa_invoice" readonly
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="invoice" />
-                @endif
+                        name="invoice"   value="{{ old('invoice', $asset->invoice_no?? '') }}"/>
+          
 
             </div>
 
@@ -263,15 +268,10 @@
                 <label for="fa" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fix
                     Assets-No</label>
 
-                @if (!empty($asset->fa))
                     <input type="text" id="fa" readonly
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="fa" placeholder="" value="{{ $asset->fa }}" />
-                @else
-                    <input type="text" id="fa" readonly
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="fa" placeholder="" />
-                @endif
+                        name="fa" placeholder=""  value="{{ old('fa', $asset->fa?? '') }}" />
+             
 
             </div>
             <div>
@@ -279,14 +279,10 @@
                     <label for="fa_class" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">FA Class
                         Code</label>
 
-                    @if (!empty($asset->fa_class_code))
                         <input type="text" id="fa_class" name="fa_class" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset->fa_class_code }}" />
-                    @else
-                        <input type="text" id="fa_class" name="fa_class" readonly
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    @endif
+                            value="{{ old('fa_class', $asset->fa_class?? '') }}" />
+                 
 
                 </div>
             </div>
@@ -295,14 +291,11 @@
                 <div>
                     <label for="FA_Subclass_Code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">FA
                         Subclass Code</label>
-                    @if (!empty($asset->fa_subclass))
+
                         <input type="text" id="FA_Subclass_Code" name="fa_subclass" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset->fa_subclass }}" />
-                    @else
-                        <input type="text" id="FA_Subclass_Code" name="fa_subclass" readonly
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    @endif
+                            value="{{ old('fa_class', $asset->fa_class?? '') }}"  />
+                   
 
                 </div>
             </div>
@@ -311,14 +304,11 @@
                 <div>
                     <label for="depreciation_book_code"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Depreciation Book Code</label>
-                    @if (!empty($asset->depreciation))
+
                         <input type="text" id="depreciation_book_code" name="depreciation_book_code" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset->depreciation }}" />
-                    @else
-                        <input type="text" id="depreciation_book_code" name="depreciation_book_code" readonly
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    @endif
+                             value="{{ old('depreciation_book_code', $asset->depreciation?? '') }}" />
+               
 
                 </div>
             </div>
@@ -328,14 +318,11 @@
                     <label for="fa_posting_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">FA
                         Posting Type</label>
 
-                    @if (!empty($asset->type))
+        
                         <input type="text" id="fa_posting_type" name="fa_type"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset->type }}" readonly />
-                    @else
-                        <input type="text" id="fa_posting_type" name="fa_type" readonly
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    @endif
+                            value="{{ old('fa_type', $asset->fa_type?? '') }}"    readonly />
+          
 
                 </div>
             </div>
@@ -344,14 +331,10 @@
                     <label for="fa_location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">FA
                         Location</label>
 
-                    @if (!empty($asset->fa_location))
                         <input type="text" id="fa_location" name="fa_location"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset->fa_location }}" readonly />
-                    @else
-                        <input type="text" id="fa_location" name="fa_location" readonly
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    @endif
+                            value="{{ old('fa_location', $asset->fa_location?? '') }}"  readonly />
+               
 
                 </div>
             </div>
@@ -360,44 +343,29 @@
                 <label for="no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cost &
                     Vat</label>
                 <div class="flex w-full">
-                    @if (!empty($asset->cost))
+           
                         <input type="text" id="cost" name="cost" readonly
                             class="percent3 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ (float) $asset->cost }}" />
-                    @else
-                        <input type="text" id="cost" name="cost" readonly
-                            class="percent7 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    @endif
-                    @if (!empty($asset->currency))
-                        <input type="text" id="currency" name="currency" value="{{ $asset->currency }}" readonly
+                            value="{{ old('cost', (float) $asset->cost?? '') }}" />
+                   
+                        <input type="text" id="currency" name="currency"          value="{{ old('currency',  $asset->currency?? '') }}"  readonly
                             class="percent3 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    @else
-                        <input type="text" id="currency" value="" name="currency" readonly
-                            class="percent3 bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    @endif
+               
 
-                    @if (!empty($asset->vat))
-                        <input type="text" id="vat" name="vat" value="Vat {{ (float) $asset->vat }}"
+                        <input type="text" id="vat" name="vat"     value="{{ old('vat',$asset->vat?? '') }}"
                             readonly
                             class="percent3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    @else
-                        <input type="text" id="vat" name="vat" value="" readonly
-                            class="percent3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    @endif
+                  
                 </div>
             </div>
             <div>
                 <div>
                     <label for="description"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                    @if (!empty($asset->description))
-                        <input type="text" id="description" name="description" readonly
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset->description }}" />
-                    @else
-                        <input type="text" id="description" name="description" readonly
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    @endif
+  
+                 
+                            <textarea id="description" name="description" readonly
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('description', $asset->description ?? '') }}</textarea>
 
                 </div>
             </div>
@@ -406,14 +374,9 @@
                 <div>
                     <label for="invoice_description"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Invoice Description</label>
-                    @if (!empty($asset->description))
-                        <input type="text" id="invoice_description" name="invoice_description" readonly
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset->fa_description }}" />
-                    @else
-                        <input type="text" id="invoice_description" name="invoice_description" readonly
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    @endif
+       
+                        <textarea id="invoice_description" name="invoice_description" readonly
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('invoice_description', $asset->invoice_description ?? '') }}</textarea>
 
                 </div>
             </div>
@@ -528,6 +491,12 @@
 
                 </div>
             </div>
+        </div>
+        <h1 class="mb-2 title_base dark:text-blue-100">QR Code  </h1>
+        <div>
+           <a href="">
+             {{$qr_code}}
+           </a>
         </div>
         <h1 class="mb-2 title_base dark:text-blue-100">Image </h1>
         <input type="text" class="hidden" name="image_state" value="0" id="image_state">

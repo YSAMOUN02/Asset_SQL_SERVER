@@ -73,7 +73,6 @@ return new class extends Migration
             $table->string('email')->nullable(); // email
 
             // State  Asset
-            $table->date('deleted_at')->nullable();
             $table->integer('deleted')->default(0); // Delete Status
             $table->timestamps();
         });

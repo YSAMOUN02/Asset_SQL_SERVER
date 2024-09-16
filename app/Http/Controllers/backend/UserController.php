@@ -249,7 +249,7 @@ class UserController extends Controller
         if (!empty($request->transfer_update)) {
             $transfer_update  = 1;
         } else {
-            $assets_update  = 0;
+            $transfer_update   = 0;
         }
         if(!empty($request->status)){
             $status = 1;
@@ -303,11 +303,14 @@ class UserController extends Controller
         $permission->assets_write = $assets_write;
         $permission->assets_update = $assets_update;
         $permission->assets_delete = $assets_delete;
+
+
         $permission->transfer_read = $transfer_read;
         $permission->transfer_write = $transfer_write;
         $permission->transfer_update = $transfer_update;
         $permission->transfer_delete = $transfer_delete;
 
+  
         $permission->quick_read = $quick_read;
         $permission->quick_write = $quick_write;
         $permission->quick_update = $quick_update;

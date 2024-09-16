@@ -270,6 +270,19 @@ body{
   transform: translate(-50%,-50%);
   z-index: 9999;
 }
+#qr_code{
+  width: auto ;
+  height: auto;
+
+}
+#qr_code svg{
+  position: relative;
+}
+#qr_code i{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
   @keyframes fade_out{
     0%{
       display: block;

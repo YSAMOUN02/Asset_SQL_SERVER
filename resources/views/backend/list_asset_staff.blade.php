@@ -195,53 +195,53 @@
                 <table id="list_assets" class="table_respond max-w-full  mt-5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3" onclick="dynamic_sort('assets_id','int','assets')">
+                            <th scope="col" class="px-6 py-3" onclick="dynamic_sort('id','int','asset_staff')">
                                 ID &ensp; <i class="fa-solid fa-sort"></i>
                             </th>
-                            <th scope="col" class="px-6 py-3" onclick="dynamic_sort('created_at','date','assets')">
+                            <th scope="col" class="px-6 py-3" onclick="dynamic_sort('created_at','date','asset_staff')">
                                 Create Date&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
-                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('document','string','assets')">
+                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('document','string','asset_staff')">
                                 Code&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
 
-                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('','int','assets')">
+                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('assets1','string','asset_staff')">
                                 Asset Code&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
-                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('','int','assets')">
+                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('fa_no','string','asset_staff')">
                                 Fix Asset No&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
-                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('','int','assets')">
+                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('fa_type','string','asset_staff')">
                                 Fix Asset Type&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
-                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('','int','assets')">
+                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('fa_class','string','asset_staff')">
                                 Fix Asset class&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
-                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('','int','assets')">
+                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('fa_subclass','string','asset_staff')">
                                 Fix Asset Subclass&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
-                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('','int','assets')">
+                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('depreciation','string','asset_staff')">
                                 Deoreciation Code&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
-                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('','int','assets')">
+                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('dr','string','asset_staff')">
                                 DR&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
-                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('','int','assets')">
+                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('pr','string','asset_staff')">
                                 PR&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
-                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('','int','assets')">
+                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('invoice_no','string','asset_staff')">
                                 Invoice No&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
-                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('','int','assets')">
+                            <th scope="col" class="px-6 py-3"  onclick="dynamic_sort('description','string','asset_staff')">
                                 Description&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
                             <th scope="col" class="px-6 py-3"
                                 style="  position: sticky; right: 0;   background-color: rgb(230, 230, 230);" >
-                       
+                                Action
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="assets_body">
+                    <tbody id="asset_staff_body">
                         @if (!empty($asset))
                             @foreach ($asset as $item)
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -290,7 +290,16 @@
                                     </td>
                                     <td class="px-6 py-4 dark:bg-slate-900"
                                         style="  position: sticky; right: 0;   background-color: white; ">
+                                        @if (Auth::user()->Permission->assets_read  == 1 && Auth::user()->Permission->assets_update == 0)
+                                   
+                                            <button type="button"
+                                                class="text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
+                                            </button>
 
+                                        @endif
+
+                                        @if (Auth::user()->Permission->assets_update == 1)
                                    
                                             <a href="/admin/assets/edit/id={{ $item->id }}">
                                                 <button type="button"
@@ -300,7 +309,7 @@
                                             </a>
                                    
 
-
+                                        @endif
                                         @if (Auth::user()->Permission->assets_delete == 1)
                                             {{-- BTN Delete  --}}
                                          

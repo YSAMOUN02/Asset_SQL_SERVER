@@ -1007,7 +1007,117 @@ function dynamic_sort(by, method, table) {
         show_sort_raw_asset();
     } else if (table == "quick") {
         show_sort_quick_data();
+    } else if (table == "asset_staff") {
+        show_sort_staff_asset();
     }
+}
+
+function show_sort_staff_asset() {
+    let body_change = document.querySelector("#asset_staff_body");
+    body_change.innerHTML = ``;
+    array.map((item) => {
+        body_change.innerHTML += `
+        
+     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <td class="px-6 py-4">
+                                        ${item.id || ""}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                   ${
+                                       item.created_at
+                                           ? new Date(
+                                                 item.created_at
+                                             ).toLocaleDateString("en-US", {
+                                                 year: "numeric",
+                                                 month: "short",
+                                                 day: "numeric",
+                                             })
+                                           : ""
+                                   }
+
+                                    </td>
+                                    <td class="px-6 py-4">
+                                          ${item.document || ""}
+                                    </td>
+
+                                    <td class="px-6 py-4">
+                                             ${
+                                                 item.assets1 + item.assets2 ||
+                                                 ""
+                                             }
+                                    </td>
+                                    <td class="px-6 py-4">
+                                ${item.fa || ""}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                 ${item.fa_type || ""}
+                                    </td>
+                                    <td class="px-6 py-4">
+                               ${item.fa_class || ""}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                      ${item.fa_subclass || ""}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                           ${item.depreciation || ""}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                       ${item.dr || ""}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        ${item.pr || ""}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        ${item.invoice_no || ""}
+                                       
+                                    </td>
+                                    <td class="px-6 py-4">
+                                         ${item.description || ""}
+                                    </td>
+                                  <td class="px-6 py-4 dark:bg-slate-900"
+                                    style="position: sticky; right: 0; background-color: white;">
+                                    ${(auth?.permission?.assets_read == 1  & auth?.permission?.assets_update == 0)?
+                                   
+                                        `   <button type="button"
+                                            class="text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                            <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
+                                        </button>
+                                        `
+                                        : `` }
+
+                                    ${
+                                        auth?.permission?.assets_update == 1
+                                            ? `
+                                                <a href="/admin/assets/edit/id=${item.id}">
+                                                    <button type="button"
+                                                        class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                            class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
+                                                    </button>
+                                                 </a>
+                                            `
+                                            : // If auth.permission.assets_write is 1
+                                              `` // If not, show nothing
+                                    }
+                                    ${
+                                        auth?.permission?.assets_delete == 1
+                                            ? `
+                                                 <button type="button" data-id="${item.id}"
+                                                    id="btn_delete_asset${item.id}"
+                                                    onclick="delete_value('btn_delete_asset'+${item.id},'delete_asset_admin','delete_value_asset')"
+                                                    class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                    <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+                                            `
+                                            : // If auth.permission.assets_write is 1
+                                              `` // If not, show nothing
+                                    }
+
+                                    
+                                </td>
+
+
+                                </tr>
+  `;
+    });
 }
 function show_sort_quick_data() {
     let body_change = document.querySelector("#body_quick_data");
@@ -1018,15 +1128,15 @@ function show_sort_quick_data() {
     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                        <td scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            ${ item.id }
+                            ${item.id}
                         </td>
                         <td scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                 ${ item.content }
+                                 ${item.content}
                         </td>
                         <td scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                 ${ item.type }
+                                 ${item.type}
                         </td>
                                  <td scope="row"
                                         class=" px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -1034,16 +1144,16 @@ function show_sort_quick_data() {
 
                                         <button type="button" data-modal-target="small-modal"
                                             data-modal-toggle="small-modal"
-                                            onclick="update_quick_data(${  item.id  })"
+                                            onclick="update_quick_data(${item.id})"
                                             class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                         </button>
                                         <!-- Modal toggle -->
 
 
-                        <button type="button" data-id="${  item.id  }"
-                            id="btn_delete${  item.id  }"
-                                onclick="delete_value('btn_delete'+${  item.id  },'delete_data','delete_data_value')"
+                        <button type="button" data-id="${item.id}"
+                            id="btn_delete${item.id}"
+                                onclick="delete_value('btn_delete'+${item.id},'delete_data','delete_data_value')"
                             class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                             <i class="fa-solid fa-trash" style="color: #ffffff;"></i>
                         </button>
@@ -1140,6 +1250,24 @@ function show_sort_asset() {
                                     </td>
                                     <td class="px-6 py-4">
                                  ${item.fa_type || ""}
+                                    </td>
+
+                                        <td class="px-6 py-4">
+                               ${(item.deleted==0)?
+                                `  <span
+                                        class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                        <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                        Available
+                                    </span>
+                                    `:
+                                `
+                                         <span
+                                        class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                        <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                        Deleted
+                                    </span>
+                                `
+                               }
                                     </td>
                                     <td class="px-6 py-4">
                                ${item.fa_class || ""}
