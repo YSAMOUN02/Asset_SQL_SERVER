@@ -505,13 +505,18 @@ class AssetsController extends Controller
         $count = count($asset);
         $count -= 1;
         $current_varaint = $count;
-  
-
-        $qr_code = QrCode::size(300)->format('svg')->generate($asset[$count]->assets1.$asset[$count]->assets2);
+        $qr_code = "No QR Code Generated";
+        if($asset[$count]->assets1.$asset[$count]->assets2 != ""){
+            $qr_code = QrCode::size(300)->format('svg')->generate($asset[$count]->assets1.$asset[$count]->assets2);
+        }
+       
 
         // Save the SVG to temporary storage
         $svgContent = $qr_code;
-        Storage::disk('public')->put('qrcodes/my-qrcode.svg', $svgContent);
+        if($svgContent){
+            Storage::disk('public')->put('qrcodes/my-qrcode.svg', $svgContent);
+        }
+       
         
 
         $department = QuickData::where('type','department')->select('content')->orderby('id','desc')->get(); 
