@@ -23,6 +23,7 @@ class QuickDataController extends Controller
         $data->save();
         if($data){
 
+            $this->Change_log($data->id, "", "Insert", "Quick Data Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
             return redirect("/quick/data")->with('success',"Added 1 Record success.");
         }else{
 
@@ -35,8 +36,10 @@ class QuickDataController extends Controller
 
         $deleted->delete();
 
+        
         if($deleted){
 
+            $this->Change_log($deleted->id, "", "Delete", "Quick Data Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
             return redirect("/quick/data")->with('success',"Data delete success.");
         }else{
 
@@ -51,6 +54,7 @@ class QuickDataController extends Controller
         $update->save();
         if($update){
 
+            $this->Change_log($update->id, "", "Update", "Quick Data Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
             return redirect("/quick/data")->with('success',"Data update success.");
         }else{
 

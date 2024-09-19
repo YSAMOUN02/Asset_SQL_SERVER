@@ -798,154 +798,154 @@ function select_all_permission() {
     }
 }
 
-FusionCharts.ready(async function () {
-    let url = "/api/assets_status";
-    let jsonData2 = await fetch(url)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json(); // Parse the JSON response directly
-        })
-        .then((data) => {
-            return data; // Handle your JSON data as a JavaScript object
-        })
-        .catch((error) => {
-            console.error(
-                "There was a problem with the fetch operation:",
-                error
-            );
-        });
+// FusionCharts.ready(async function () {
+//     let url = "/api/assets_status";
+//     let jsonData2 = await fetch(url)
+//         .then((response) => {
+//             if (!response.ok) {
+//                 throw new Error("Network response was not ok");
+//             }
+//             return response.json(); // Parse the JSON response directly
+//         })
+//         .then((data) => {
+//             return data; // Handle your JSON data as a JavaScript object
+//         })
+//         .catch((error) => {
+//             console.error(
+//                 "There was a problem with the fetch operation:",
+//                 error
+//             );
+//         });
 
-    // Original calendar array
-    let calendar = [
-        { label: "jan", value: 0 },
-        { label: "feb", value: 0 },
-        { label: "mar", value: 0 },
-        { label: "apr", value: 0 },
-        { label: "may", value: 0 },
-        { label: "jun", value: 0 },
-        { label: "jul", value: 0 },
-        { label: "aug", value: 0 },
-        { label: "sep", value: 0 },
-        { label: "oct", value: 0 },
-        { label: "nov", value: 0 },
-        { label: "dec", value: 0 },
-    ];
+//     // Original calendar array
+//     let calendar = [
+//         { label: "jan", value: 0 },
+//         { label: "feb", value: 0 },
+//         { label: "mar", value: 0 },
+//         { label: "apr", value: 0 },
+//         { label: "may", value: 0 },
+//         { label: "jun", value: 0 },
+//         { label: "jul", value: 0 },
+//         { label: "aug", value: 0 },
+//         { label: "sep", value: 0 },
+//         { label: "oct", value: 0 },
+//         { label: "nov", value: 0 },
+//         { label: "dec", value: 0 },
+//     ];
 
-    // Convert the calendar array to a map for fast lookup
-    let calendarMap = new Map(calendar.map((month) => [month.label, month]));
+//     // Convert the calendar array to a map for fast lookup
+//     let calendarMap = new Map(calendar.map((month) => [month.label, month]));
 
-    const monthAbbreviations = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-    ];
+//     const monthAbbreviations = [
+//         "Jan",
+//         "Feb",
+//         "Mar",
+//         "Apr",
+//         "May",
+//         "Jun",
+//         "Jul",
+//         "Aug",
+//         "Sep",
+//         "Oct",
+//         "Nov",
+//         "Dec",
+//     ];
 
-    const currentDate = new Date();
-    const currentMonthIndex = currentDate.getMonth(); // Zero-based index
-    const currentMonthAbbreviation = monthAbbreviations[currentMonthIndex];
+//     const currentDate = new Date();
+//     const currentMonthIndex = currentDate.getMonth(); // Zero-based index
+//     const currentMonthAbbreviation = monthAbbreviations[currentMonthIndex];
 
-    let val = 0;
-    // Update the values from jsonData2
-    jsonData2.forEach((data) => {
-        let lowerCaseLabel = data.label.toLowerCase();
-        if (calendarMap.has(lowerCaseLabel)) {
-            calendarMap.get(lowerCaseLabel).value = Number(data.value);
-            if (currentMonthAbbreviation == data.label) {
-                val = data.value;
-            }
-        }
-    });
+//     let val = 0;
+//     // Update the values from jsonData2
+//     jsonData2.forEach((data) => {
+//         let lowerCaseLabel = data.label.toLowerCase();
+//         if (calendarMap.has(lowerCaseLabel)) {
+//             calendarMap.get(lowerCaseLabel).value = Number(data.value);
+//             if (currentMonthAbbreviation == data.label) {
+//                 val = data.value;
+//             }
+//         }
+//     });
 
-    // Convert the map back to an array if needed
-    calendar = Array.from(calendarMap.values());
-    var chartObj = new FusionCharts({
-        type: "column2d",
-        renderAt: "chart-container",
-        width: "680",
-        height: "390",
-        dataFormat: "json",
-        dataSource: {
-            chart: {
-                caption: "Assets Created by Month",
+//     // Convert the map back to an array if needed
+//     calendar = Array.from(calendarMap.values());
+//     var chartObj = new FusionCharts({
+//         type: "column2d",
+//         renderAt: "chart-container",
+//         width: "680",
+//         height: "390",
+//         dataFormat: "json",
+//         dataSource: {
+//             chart: {
+//                 caption: "Assets Created by Month",
 
-                xAxisName: "Month",
-                yAxisName: "Asset Data",
-                numberPrefix: "Created Assets: ",
-                theme: "fusion",
-            },
-            data: calendar,
-            trendlines: [
-                {
-                    line: [
-                        {
-                            startvalue: val,
-                            valueOnRight: "1",
-                            displayvalue: "This Month",
-                        },
-                    ],
-                },
-            ],
-        },
-    });
-    chartObj.render();
-});
+//                 xAxisName: "Month",
+//                 yAxisName: "Asset Data",
+//                 numberPrefix: "Created Assets: ",
+//                 theme: "fusion",
+//             },
+//             data: calendar,
+//             trendlines: [
+//                 {
+//                     line: [
+//                         {
+//                             startvalue: val,
+//                             valueOnRight: "1",
+//                             displayvalue: "This Month",
+//                         },
+//                     ],
+//                 },
+//             ],
+//         },
+//     });
+//     chartObj.render();
+// });
 
-FusionCharts.ready(async function () {
-    let url = "/api/fixAsset/location";
-    let jsonData = await fetch(url)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json(); // Parse the JSON response directly
-        })
-        .then((data) => {
-            return data; // Handle your JSON data as a JavaScript object
-        })
-        .catch((error) => {
-            console.error(
-                "There was a problem with the fetch operation:",
-                error
-            );
-        });
+// FusionCharts.ready(async function () {
+//     let url = "/api/fixAsset/location";
+//     let jsonData = await fetch(url)
+//         .then((response) => {
+//             if (!response.ok) {
+//                 throw new Error("Network response was not ok");
+//             }
+//             return response.json(); // Parse the JSON response directly
+//         })
+//         .then((data) => {
+//             return data; // Handle your JSON data as a JavaScript object
+//         })
+//         .catch((error) => {
+//             console.error(
+//                 "There was a problem with the fetch operation:",
+//                 error
+//             );
+//         });
 
-    var chartObj = new FusionCharts({
-        type: "doughnut3d",
-        renderAt: "chart-container-round",
-        width: "550",
-        height: "450",
-        dataFormat: "json",
-        dataSource: {
-            chart: {
-                caption: "Assets ",
-                subCaption: "All Year",
-                numberPrefix: "$",
-                bgColor: "#ffffff",
-                startingAngle: "310",
-                showLegend: "1",
-                defaultCenterLabel: "Total revenue: $64.08K",
-                centerLabel: "Revenue from $label: $value",
-                centerLabelBold: "1",
-                showTooltip: "0",
-                decimals: "0",
-                theme: "fusion",
-            },
-            data: jsonData, // Pass the parsed JavaScript object
-        },
-    });
-    chartObj.render();
-});
+//     var chartObj = new FusionCharts({
+//         type: "doughnut3d",
+//         renderAt: "chart-container-round",
+//         width: "550",
+//         height: "450",
+//         dataFormat: "json",
+//         dataSource: {
+//             chart: {
+//                 caption: "Assets ",
+//                 subCaption: "All Year",
+//                 numberPrefix: "$",
+//                 bgColor: "#ffffff",
+//                 startingAngle: "310",
+//                 showLegend: "1",
+//                 defaultCenterLabel: "Total revenue: $64.08K",
+//                 centerLabel: "Revenue from $label: $value",
+//                 centerLabelBold: "1",
+//                 showTooltip: "0",
+//                 decimals: "0",
+//                 theme: "fusion",
+//             },
+//             data: jsonData, // Pass the parsed JavaScript object
+//         },
+//     });
+//     chartObj.render();
+// });
 
 function dynamic_sort(by, method, table) {
     if (method == "int") {
@@ -1076,14 +1076,16 @@ function show_sort_staff_asset() {
                                     </td>
                                   <td class="px-6 py-4 dark:bg-slate-900"
                                     style="position: sticky; right: 0; background-color: white;">
-                                    ${(auth?.permission?.assets_read == 1  & auth?.permission?.assets_update == 0)?
-                                   
-                                        `   <button type="button"
+                                    ${
+                                        (auth?.permission?.assets_read == 1) &
+                                        (auth?.permission?.assets_update == 0)
+                                            ? `   <button type="button"
                                             class="text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
                                         </button>
                                         `
-                                        : `` }
+                                            : ``
+                                    }
 
                                     ${
                                         auth?.permission?.assets_update == 1
@@ -1218,6 +1220,9 @@ function show_sort_asset() {
         body_change.innerHTML += `
         
      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <td  class="print_val px-6 py-4">
+                                                            <input onchange="printable()" data-id="{{ $item->assets_id }}" id="green-checkbox"  type="checkbox" value="" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    </td>
                                     <td class="px-6 py-4">
                                         ${item.assets_id || ""}
                                     </td>
@@ -1253,14 +1258,15 @@ function show_sort_asset() {
                                     </td>
 
                                         <td class="px-6 py-4">
-                               ${(item.deleted==0)?
-                                `  <span
+                               ${
+                                   item.deleted == 0
+                                       ? `  <span
                                         class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                                         <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
                                         Available
                                     </span>
-                                    `:
-                                `
+                                    `
+                                       : `
                                          <span
                                         class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                                         <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
@@ -1478,6 +1484,80 @@ function set_permission(type) {
         }
         if (delete_type) {
             delete_type.checked = false;
+        }
+    }
+}
+let export_excel = document.querySelector("#export_excel");
+let print = document.querySelector("#print");
+
+let li_print = document.querySelectorAll(".print_val");
+var k;
+function printable() {
+    let li_print_array = Array.from(li_print);
+    let length = li_print_array.length;
+    li_print_array.map((data) => {
+        let input = data.querySelector("input");
+        if (input.checked == true) {
+            k = length -= 1;
+        }
+    });
+    if (k != length) {
+        print.style.display = "none";
+        export_excel.style.display = "none";
+    } else {
+        print.style.display = "block";
+        export_excel.style.display = "block";
+    }
+}
+
+function print_group() {
+    let li_print_array = Array.from(li_print);
+    let id_for_print = [];
+    li_print_array.map((data) => {
+        let input = data.querySelector("input");
+        if (input.checked == true) {
+            let val = input.getAttribute("data-id");
+            id_for_print.push(val);
+        }
+    });
+
+    if (id_for_print.length > 0) {
+        let id_input = document.querySelector("#id_printer");
+        id_input.value = id_for_print;
+
+        let form = document.querySelector("#form_print");
+
+        console.log(form);
+        form.submit();
+    }
+}
+function select_all() {
+    let select_all_v = document.querySelector("#select_all");
+    let input_select = document.querySelectorAll(".select_box");
+
+    if (select_all_v) {
+        if (select_all_v.checked == true) {
+            if (input_select) {
+                let tbody = Array.from(input_select);
+                if (tbody) {
+                    tbody.map((target) => {
+                        if (target) {
+                            target.checked = true;
+                        }
+                    });
+                }
+            }
+        } else {
+            if (input_select) {
+                let tbody = Array.from(input_select);
+                if (tbody) {
+                    tbody.map((target) => {
+                        if (target) {
+                            target.checked = false;
+                        }
+                    });
+                }
+            }
         }
     }
 }

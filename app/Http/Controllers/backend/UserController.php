@@ -70,7 +70,7 @@ class UserController extends Controller
         } else {
             $assets_update  = 0;
         }
-    
+
         if (!empty($request->transfer_read)) {
             $transfer_read  = 1;
         } else {
@@ -91,7 +91,7 @@ class UserController extends Controller
         } else {
             $transfer_update  = 0;
         }
-    
+
         if (!empty($request->quick_read)) {
             $quick_read  = 1;
         } else {
@@ -149,7 +149,7 @@ class UserController extends Controller
         $permission->save();
 
 
-        $this->Change_log($user->id , "" ,"Add New", "User Record",Auth::user()->fname." ".Auth::user()->lname,Auth::user()->id);
+        $this->Change_log($user->id, "", "Insert", "User Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
         if ($user) {
             return redirect('/admin/user/list')->with('success', 'Added 1 user.');
         } else {
@@ -167,7 +167,7 @@ class UserController extends Controller
         }
         $user = User::find($request->id)->delete();
 
-        $this->Change_log($user->id , "" ,"Delete", "User Record",Auth::user()->fname." ".Auth::user()->lname,Auth::user()->id);
+        $this->Change_log($user->id, "", "Delete", "User Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
         if ($user) {
             return redirect('/admin/user/list')->with('success', 'Deleted 1 user.');
         } else {
@@ -251,12 +251,12 @@ class UserController extends Controller
         } else {
             $transfer_update   = 0;
         }
-        if(!empty($request->status)){
+        if (!empty($request->status)) {
             $status = 1;
-        }else{
+        } else {
             $status = 0;
         }
-          
+
         if (!empty($request->quick_read)) {
             $quick_read  = 1;
         } else {
@@ -277,10 +277,10 @@ class UserController extends Controller
         } else {
             $quick_update  = 0;
         }
-     
 
-        $user = User::where('id', $request->id)->first(); 
-        
+
+        $user = User::where('id', $request->id)->first();
+
         $user->name = $request->login_name;
         $user->email = $request->email;
         $user->fname = $request->fname;
@@ -288,8 +288,8 @@ class UserController extends Controller
         $user->phone = $request->phone;
         $user->company = $request->company;
         $user->department = $request->department;
-        $user->status= $status;
-        if(!empty($request->password)){
+        $user->status = $status;
+        if (!empty($request->password)) {
             $user->password = Hash::make($request->password);
         }
         $user->save();
@@ -310,7 +310,7 @@ class UserController extends Controller
         $permission->transfer_update = $transfer_update;
         $permission->transfer_delete = $transfer_delete;
 
-  
+
         $permission->quick_read = $quick_read;
         $permission->quick_write = $quick_write;
         $permission->quick_update = $quick_update;
@@ -318,7 +318,7 @@ class UserController extends Controller
         $permission->update();
 
 
-        $this->Change_log($user->id , "" ,"Update", "User Record",Auth::user()->fname." ".Auth::user()->lname,Auth::user()->id);
+        $this->Change_log($user->id, "", "Update", "User Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
         return view('backend.user-update', ['user' => $user]);
     }
 }

@@ -12,12 +12,13 @@ use App\Models\RawFixAssets;
 use App\Models\StoredAssets;
 use App\Models\StoredAssetsUser;
 use App\Models\QuickData;
-use SimpleSoftwareIO\QrCode\Facades\QrCode; 
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+
 class AssetsController extends Controller
 {
     public function assetes_add()
@@ -48,7 +49,7 @@ class AssetsController extends Controller
 
 
                 $asset =  StoredAssetsUser::orderBy('id', 'desc')
-                ->where('deleted',0)
+                    ->where('deleted', 0)
                     ->get();
                 // return $asset;
                 return view('backend.list_asset_staff', [
@@ -486,7 +487,7 @@ class AssetsController extends Controller
             }
         }
 
-        $this->Change_log($asset_user->id, 0, "Add New", "Asset Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);
+        $this->Change_log($asset_user->id, 0, "Insert", "Asset Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);
 
         if ($asset) {
             return redirect('/admin/assets/list')->with('success', 'Added 1 Asset Record.');
@@ -506,29 +507,29 @@ class AssetsController extends Controller
         $count -= 1;
         $current_varaint = $count;
         $qr_code = "No QR Code Generated";
-        if($asset[$count]->assets1.$asset[$count]->assets2 != ""){
-            $qr_code = QrCode::size(300)->format('svg')->generate($asset[$count]->assets1.$asset[$count]->assets2);
+        if ($asset[$count]->assets1 . $asset[$count]->assets2 != "") {
+            $qr_code = QrCode::size(300)->format('svg')->generate($asset[$count]->assets1 . $asset[$count]->assets2);
         }
-       
+
 
         // Save the SVG to temporary storage
         $svgContent = $qr_code;
-        if($svgContent){
+        if ($svgContent) {
             Storage::disk('public')->put('qrcodes/my-qrcode.svg', $svgContent);
         }
-       
-        
 
-        $department = QuickData::where('type','department')->select('content')->orderby('id','desc')->get(); 
-        $company = QuickData::where('type','company')->select('content')->orderby('id','desc')->get(); 
+
+
+        $department = QuickData::where('type', 'department')->select('content')->orderby('id', 'desc')->get();
+        $company = QuickData::where('type', 'company')->select('content')->orderby('id', 'desc')->get();
         // return $count;
         if (Auth::user()->role == "admin") {
 
             // return $asset;
-            return view('backend.update-assets-by-variant', ['asset' => $asset, 'total_varaint' => $count, 'current_varaint' => $current_varaint , 'department'=>$department ,'company' => $company, 'qr_code' => $qr_code]);
+            return view('backend.update-assets-by-variant', ['asset' => $asset, 'total_varaint' => $count, 'current_varaint' => $current_varaint, 'department' => $department, 'company' => $company, 'qr_code' => $qr_code]);
         } elseif (Auth::user()->role == "staff") {
-            
-            return view('backend.update-assets', ['asset' => $asset[$count], 'department'=>$department ,'company' => $company,'qr_code' => $qr_code]);
+
+            return view('backend.update-assets', ['asset' => $asset[$count], 'department' => $department, 'company' => $company, 'qr_code' => $qr_code]);
         } else {
             return view('backend.dashboard')->with('fail', "You do not have permission on this function.");
         }
@@ -616,6 +617,7 @@ class AssetsController extends Controller
             $asset->document = $request->document ?? "";
             $asset->assets1 = $request->asset_code1 ?? "";
             $asset->assets2 = $request->asset_code2 ?? "";
+            
             $asset->fa_no = $request->fa_no ?? "";
             $asset->item = $request->item ?? "";
             $asset->issue_date = $request->issue_date ? Carbon::parse($request->issue_date)->format('Y-m-d H:i:s') : null;
@@ -822,7 +824,14 @@ class AssetsController extends Controller
         $count -= 1;
         $current_varaint = $var;
 
-        return view('backend.update-assets-by-variant', ['asset' => $asset, 'total_varaint' => $count, 'current_varaint' => $current_varaint]);
+
+        $qr_code = "No QR Code Generated";
+        if ($asset[$var]->assets1 . $asset[$var]->assets2 != "") {
+            $qr_code = QrCode::size(300)->format('svg')->generate($asset[$var]->assets1 . $asset[$var]->assets2);
+        }
+
+
+        return view('backend.update-assets-by-variant', ['asset' => $asset, 'total_varaint' => $count, 'current_varaint' => $current_varaint,'qr_code' => $qr_code]);
     }
 
     public function delete_admin_asset(request $request)
@@ -1066,13 +1075,29 @@ class AssetsController extends Controller
             return redirect('/admin/assets/list')->with('fail', 'Opp!. Something when wronge.');
         }
     }
-    public function print_qr($assets){
+    public function print_qr($assets)
+    {
         $qr_code = QrCode::size(50)->format('svg')->generate($assets);
 
         // Save the SVG to temporary storage
         $svgContent = $qr_code;
         Storage::disk('public')->put('qrcodes/my-qrcode.svg', $svgContent);
+
+        return view('backend.print-qr', ['qr_code' => $qr_code, 'raw' => $assets]);
+    }
+
+    public function multi_print(Request $request){
+        $id = explode(',',$request->id);
         
-        return view('backend.print-qr',['qr_code'=>$qr_code,'raw'=>$assets]);
+        $count = count($id);
+        $array_qr = [];
+        if($count > 0 ){
+            foreach($id as $item){
+                $object = StoredAssetsUser::where('id',$item)->first();
+                array_push($array_qr,$object);
+            }
+        }
+
+        return view('backend.print-qr',['array_qr'=>$array_qr]);
     }
 }

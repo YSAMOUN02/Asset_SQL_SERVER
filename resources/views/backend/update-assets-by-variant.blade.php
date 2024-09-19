@@ -91,11 +91,11 @@
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset Code <span
                         class="text-rose-500">*</span></label>
                 <div class="flex w-full">
-                    <input type="text" id="Asset_Code" name="asset_code1" disabled
+                    <input type="text" id="Asset_Code" name="asset_code1" readonly
                         class="percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value="{{ old('asset_code1', $asset[$current_varaint]->assets1 ?? '') }}" />
 
-                    <input type="text" name="asset_code2" disabled
+                    <input type="text" name="asset_code2" readonly
                         value="{{ old('asset_code1', $asset[$current_varaint]->assets2 ?? '') }}"
                         class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 </div>

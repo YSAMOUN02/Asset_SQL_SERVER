@@ -71,6 +71,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/quick/data/update/submit', [QuickDataController::class, 'update_quick_data']);
 
     Route::get('/admin/qr/code/print/assets={assets}', [AssetsController::class, 'print_qr']);
+
+    
+    Route::post('/admin/qr/code/print/assets', [AssetsController::class, 'multi_print']); 
 });
 
 

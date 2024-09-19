@@ -283,6 +283,7 @@ body{
   top: 0;
   right: 0;
 }
+
   @keyframes fade_out{
     0%{
       display: block;

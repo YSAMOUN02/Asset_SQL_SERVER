@@ -19,22 +19,15 @@
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
                     Code <span class="text-rose-500">*</span></label>
                 <div class="flex w-full">
-                    @if (!empty($asset->assets1))
-                        <input type="text" id="Asset_Code" name="asset_code1"
+                 
+                        <input type="text" id="Asset_Code" name="asset_code1" readonly
                             class="percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset->assets1 }}" />
-                    @else
-                        <input type="text" id="Asset_Code" name="asset_code1"
-                            class="percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    @endif
-                    @if (!empty($asset->assets2))
-                        <input type="text" name="asset_code2" value="{{ $asset->assets2 }}"
+                            id="asset_code1" value="{{ old('asset_code1', $asset->assets1 ?? '') }}" />
+                  
+            
+                        <input type="text" name="asset_code2" value="{{ old('asset_code1', $asset->assets2 ?? '') }}" readonly
                             class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    @else
-                        <input type="text" name="asset_code2" value=""
-                            class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    @endif
-
+                  
                 </div>
             </div>
             <div>
