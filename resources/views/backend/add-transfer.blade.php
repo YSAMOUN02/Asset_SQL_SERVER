@@ -9,11 +9,11 @@
     </div>
     <form class="p-10 py-15 dark:bg-gray-900" enctype="multipart/form-data" action="/admin/assets/add/submit" method="POST">
         @csrf
-        <h1 class="title_base dark:text-blue-100">Transfer Info</h1>
+        <h1 class="title_base dark:text-blue-100">Movement Info</h1>
         <div class="grid gap-6 mb-6 md:grid-cols-2">
             <div>
 
-                <label for="Issue_Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Transfer
+                <label for="Issue_Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Movement
                     Date</label>
                 <input type="datetime-local" id="Issue_Date"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -21,7 +21,7 @@
 
             </div>
             <div>
-                <label for="Reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Transfer No<span
+                <label for="Reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Movement  No<span
                         class="text-rose-500">*</span></label>
                 <input type="text" id="Reference"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -37,20 +37,14 @@
 
 
 
-            <div>
-                <label for="remark_assets"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark</label>
-                <input type="text" id="remark_assets"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="remark_assets" />
-            </div>
+          
         </div>
 
         <div class="grid gap-6 mb-6 md:grid-cols-2">
 
 
             <div class="grid gap-6 lg:grid-cols-1 md:grid-cols-1">
-                <span class="title_base text-lg dark:text-blue-100">Transfer From</span>
+                <span class="title_base text-lg dark:text-blue-100">Movement From</span>
                 <div>
                     <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">From
                         Name</label>
@@ -80,18 +74,18 @@
                         name="fa_no" />
                 </div>
                 <div>
-                    <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Authorized
-                        by</label>
-                    <input type="text" id="fa_no"
+                    <label for="remark_assets"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark</label>
+                    <input type="text" id="remark_assets"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="fa_no" />
+                        name="remark_assets" />
                 </div>
             </div>
 
 
 
             <div class="grid gap-6 lg:grid-cols-1 md:grid-cols-1">
-                <span class="title_base text-lg dark:text-blue-100">Transfer To</span>
+                <span class="title_base text-lg dark:text-blue-100">Movement To</span>
                 <div>
                     <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To
                         Name</label>
@@ -133,14 +127,6 @@
         </div>
         <h1 class="title_base dark:text-blue-100">Other Information</h1>
         <div class="grid gap-6 lg:grid-cols-3 md:grid-cols-3">
-
-            <div>
-                <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Description
-                </label>
-                <textarea id="description" name="description" 
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
-            </div>
             <div>
                 <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Conditions
@@ -158,6 +144,13 @@
                 <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Verify By
                 </label>
+                <input type="text" id="fa_no"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    name="fa_no" />
+            </div>
+            <div>
+                <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Authorized
+                    by</label>
                 <input type="text" id="fa_no"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="fa_no" />

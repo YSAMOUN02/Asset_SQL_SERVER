@@ -26,7 +26,7 @@
                   
             
                         <input type="text" name="asset_code2" value="{{ old('asset_code1', $asset->assets2 ?? '') }}" readonly
-                            class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            class="percent30 bg-gray-50 border border-graxy-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                   
                 </div>
             </div>
@@ -84,7 +84,25 @@
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="asset_group" />
             </div>
+            <div>
+                <label for="status"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
+                <select id="status" name="status"
+                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
+
+
+                    @if ($asset->deleted == 2)
+                        <option value="2">Sold</option>
+                        <option value="0">Available</option>
+               
+                    @elseif($asset->delected == 0)
+                        <option value="0">Available</option>
+                        <option value="2">Sold</option>
+                    @endif
+
+                </select>
+            </div>
             <div>
                 <label for="remark_assets"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark</label>
@@ -486,10 +504,13 @@
             </div>
         </div>
         <h1 class="mb-2 title_base dark:text-blue-100">QR Code  </h1>
-        <div>
-           <a href="">
-             {{$qr_code}}
-           </a>
+        <div id="qr_code">
+            <a target="_blank"
+                href="/admin/qr/code/print/assets={{ $asset->assets1 . $asset->assets2 }}">
+                {{ $qr_code }}
+            </a>
+
+
         </div>
         <h1 class="mb-2 title_base dark:text-blue-100">Image </h1>
         <input type="text" class="hidden" name="image_state" value="0" id="image_state">

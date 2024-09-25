@@ -111,5 +111,17 @@ return [
     */
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
+    'guards' => [
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
+    ],
+
+    'api' => [
+        'driver' => 'sanctum', // Use sanctum as the driver
+        'provider' => 'users',
+        'hash' => false, // You can set this to true if you want hashed API tokens
+    ],
+],
 
 ];

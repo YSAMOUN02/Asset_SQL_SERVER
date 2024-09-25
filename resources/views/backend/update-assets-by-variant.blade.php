@@ -156,6 +156,25 @@
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="asset_group" value="{{ old('asset_group', $asset[$current_varaint]->asset_group ?? '') }}" />
             </div>
+            <div>
+                <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
+                <select id="status" name="status"
+                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+
+
+                    @if ($asset[$current_varaint]->deleted == 2)
+                        <option value="2">Sold</option>
+                        <option value="1">Deleted</option>
+                        <option value="0">Available</option>
+                    @elseif($asset[$current_varaint]->delected == 0)
+                        <option value="0">Available</option>
+                        <option value="1">Deleted</option>
+                        <option value="2">Sold</option>
+                    @endif
+
+                </select>
+            </div>
 
             <div>
                 <label for="remark_assets"
@@ -527,11 +546,12 @@
         </div>
         <h1 class="mb-2 title_base dark:text-blue-100">QR Code </h1>
         <div id="qr_code">
-            <a target="_blank"  href="/admin/qr/code/print/assets={{$asset[$current_varaint]->assets1.$asset[$current_varaint]->assets2}}">
-                {{$qr_code}}
+            <a target="_blank"
+                href="/admin/qr/code/print/assets={{ $asset[$current_varaint]->assets1 . $asset[$current_varaint]->assets2 }}">
+                {{ $qr_code }}
             </a>
 
-            
+
         </div>
         <h1 class="mb-2 title_base mt-4 dark:text-blue-100">Image </h1>
         <input type="text" class="hidden" name="image_state" value="0" id="image_state">

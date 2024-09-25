@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+
     {{-- ICON Website  --}}
     <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/16925/16925957.png" type="image/x-icon">
     {{-- Tail Wind  --}}
@@ -107,13 +107,13 @@
                         class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                         Sign in to your account
                     </h1>
-                    <form class="space-y-4 md:space-y-6" action="/login/submit" method="POST">
+                    <form class="space-y-4 md:space-y-6" action="/login/submit" method="POST" id="form_login" onsubmit="event.preventDefault(); submit_with_api();">
                         @csrf
                         <div>
                             <label for="email"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User Name or
                                 Email</label>
-                            <input type="text" name="name_email" id="email"
+                            <input type="text" name="name_email" id="name_email"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="name@company.com" required="">
                         </div>
@@ -149,5 +149,41 @@
     </section>
 
 </body>
+
+{{-- <script src="{{ URL('/assets/js/backend_script.js') }}"></script> --}}
+<script>
+    async function submit_with_api() {
+        try {
+
+
+            const response = await fetch('/api/login/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name_email: document.getElementById('name_email').value,
+                    password: document.getElementById('password').value,
+                    remember: document.getElementById('remember').checked,
+                }),
+            });
+
+            const data = await response.json();
+            console.log(data)
+            if (response.ok) {
+                console.log('Login successful:', data);
+                localStorage.setItem('token', data.token); // Store the token if present
+
+                    document.getElementById('form_login').submit();
+          
+            } else {
+                console.error('Login API failed:', data.message || 'Unknown error');
+          
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+</script>
 
 </html>

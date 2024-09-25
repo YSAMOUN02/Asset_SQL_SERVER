@@ -18,6 +18,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Worksheet\Table\TableStyle;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AssetsController extends Controller
 {
@@ -39,7 +43,7 @@ class AssetsController extends Controller
                     ->where("last_varaint", 1)
                     ->get();
 
-
+                    
                 return view('backend.list_asset', [
                     'asset' => $asset,
                     'start_date' => $start_date,
@@ -49,7 +53,7 @@ class AssetsController extends Controller
 
 
                 $asset =  StoredAssetsUser::orderBy('id', 'desc')
-                    ->where('deleted', 0)
+                    ->where('deleted','<>', 1)
                     ->get();
                 // return $asset;
                 return view('backend.list_asset_staff', [
@@ -593,7 +597,8 @@ class AssetsController extends Controller
         $asset_user->contact = $request->contact ?? "";
         $asset_user->phone = $request->phone ?? "";
         $asset_user->email = $request->email ?? "";
-
+        $asset_user->deleted = $request->status ?? 0;
+        
         // Save the data
         $asset_user->save();
 
@@ -617,7 +622,7 @@ class AssetsController extends Controller
             $asset->document = $request->document ?? "";
             $asset->assets1 = $request->asset_code1 ?? "";
             $asset->assets2 = $request->asset_code2 ?? "";
-            
+
             $asset->fa_no = $request->fa_no ?? "";
             $asset->item = $request->item ?? "";
             $asset->issue_date = $request->issue_date ? Carbon::parse($request->issue_date)->format('Y-m-d H:i:s') : null;
@@ -669,7 +674,7 @@ class AssetsController extends Controller
             $asset->contact = $request->contact ?? "";
             $asset->phone = $request->phone ?? "";
             $asset->email = $request->email ?? "";
-
+            $asset->deleted = $request->status ?? 0;
             // Save the data
             $asset->save();
         }
@@ -831,7 +836,7 @@ class AssetsController extends Controller
         }
 
 
-        return view('backend.update-assets-by-variant', ['asset' => $asset, 'total_varaint' => $count, 'current_varaint' => $current_varaint,'qr_code' => $qr_code]);
+        return view('backend.update-assets-by-variant', ['asset' => $asset, 'total_varaint' => $count, 'current_varaint' => $current_varaint, 'qr_code' => $qr_code]);
     }
 
     public function delete_admin_asset(request $request)
@@ -1086,18 +1091,188 @@ class AssetsController extends Controller
         return view('backend.print-qr', ['qr_code' => $qr_code, 'raw' => $assets]);
     }
 
-    public function multi_print(Request $request){
-        $id = explode(',',$request->id);
-        
+    public function multi_print(Request $request)
+    {
+        $id = explode(',', $request->id);
+
         $count = count($id);
         $array_qr = [];
-        if($count > 0 ){
-            foreach($id as $item){
-                $object = StoredAssetsUser::where('id',$item)->first();
-                array_push($array_qr,$object);
+        if ($count > 0) {
+            foreach ($id as $item) {
+                $object = StoredAssetsUser::where('id', $item)->first();
+                array_push($array_qr, $object);
             }
         }
 
-        return view('backend.print-qr',['array_qr'=>$array_qr]);
+        return view('backend.print-qr', ['array_qr' => $array_qr]);
+    }
+
+    public function multi_export(request $request)
+    {
+        $ids = explode(',', $request->id_export);
+        sort($ids);
+        $data = [];
+        foreach ($ids as $id) {
+            $assets =  StoredAssetsUser::where('id', $id)->first();
+            if ($assets) {
+                Array_push($data, $assets);
+            }
+        }
+
+        // return $data;
+        $spreadsheet = new Spreadsheet();
+
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $headers = [
+            'A1' => 'ID',
+            'B1' => 'Assets',
+            'C1' => 'Refference',
+            'D1' => 'Fix Assets No',
+            'E1' => 'Item',
+            'F1' => 'Issue Date',
+            'G1' => 'Initial Condition',
+            'H1' => 'Specifications',
+            'I1' => 'Item Description',
+            'J1' => 'Assets Group',
+            'K1' => 'Assets Remark',
+            'L1' => 'Created At',
+            'M1' => 'Assets Holder ID',
+            'N1' => 'Name',
+            'O1' => 'Position/Title',
+            'P1' => 'Location',
+            'Q1' => 'Department',
+            'R1' => 'Company',
+            'S1' => 'Assets Holder Remark',
+            'T1' => 'GRN',
+            'U1' => 'PO No',
+            'V1' => 'PR',
+            'W1' => 'DR',
+            'X1' => 'DR request by',
+            'Y1' => 'DR Date',
+            'Z1' => 'Internal Document Remark',
+            'AA1' => 'Assets Code (Account)',
+            'AB1' => 'Invoice Date',
+            'AC1' => 'Invoice No',
+            'AD1' => 'Fix Asset No',
+            'AE1' => 'Fix Asset Class',
+            'AF1' => 'Fix Asset Sub Class',
+            'AG1' => 'Depreciation Book Code',
+            'AH1' => 'FA Posting Type',
+            'AI1' => 'FA Location',
+            'AJ1' => 'Cost',
+            'AK1' => 'Currency',
+            'AL1' => 'VAT',
+            'AM1' => 'Description',
+            'AN1' => 'Invoice Description',
+            'AO1' => 'Vendor No',
+            'AP1' => 'Vendor Name',
+            'AQ1' => 'Address',
+            'AR1' => 'Address 2',
+            'AS1' => 'Contact',
+            'AT1' => 'Phone',
+            'AU1' => 'E-Mail'
+        ];
+        // return $data;
+        // Set headers in Excel
+        foreach ($headers as $cell => $header) {
+            $sheet->setCellValue($cell, $header);
+        }
+        $row = 2; // Starting from the second row as the first row is for headers
+        foreach ($data as $assets) {
+
+
+
+            // Assets Info
+            $sheet->setCellValue('A' . $row, $assets->id);  // ID in column A
+            $sheet->setCellValue('B' . $row, $assets->assets1 . ' ' . $assets->assets2);  // Combine assets1 and assets2 in column B
+            $sheet->setCellValue('C' . $row, $assets->document);  // Document in column C
+            $sheet->setCellValue('D' . $row, $assets->fa_no);  // Fix Assets No in column D
+            $sheet->setCellValue('E' . $row, $assets->item);  // Item in column E
+            $sheet->setCellValue('F' . $row, $assets->issue_date);  // Issue Date in column F
+            $sheet->setCellValue('G' . $row, $assets->initial_condition);  // Initial Condition in column G
+            $sheet->setCellValue('H' . $row, $assets->specification);  // Specifications in column H
+            $sheet->setCellValue('I' . $row, $assets->item_description);  // Item Description in column I
+            $sheet->setCellValue('J' . $row, $assets->asset_group);  // Assets Group in column J
+            $sheet->setCellValue('K' . $row, $assets->remark_assets);  // Assets Remark in column K
+            $sheet->setCellValue('L' . $row, $assets->created_at);  // Created At in column L
+
+
+            // Assets Holder
+            $sheet->setCellValue('M' . $row, $assets->asset_holder);  // Asset Holder in column M
+            $sheet->setCellValue('N' . $row, $assets->holder_name);  // Holder Name in column N
+            $sheet->setCellValue('O' . $row, $assets->position);  // Position in column O
+            $sheet->setCellValue('P' . $row, $assets->location);  // Location in column P
+            $sheet->setCellValue('Q' . $row, $assets->department);  // Department in column Q
+            $sheet->setCellValue('R' . $row, $assets->company);  // Company in column R
+            $sheet->setCellValue('S' . $row, $assets->remark_holder);  // Remark Holder in column S
+
+
+            // Internal Document
+            $sheet->setCellValue('T' . $row, $assets->grn);  // GRN in column T
+            $sheet->setCellValue('U' . $row, $assets->po);   // PO in column U
+            $sheet->setCellValue('V' . $row, $assets->pr);   // PR in column V
+            $sheet->setCellValue('W' . $row, $assets->dr);   // DR in column W
+            $sheet->setCellValue('X' . $row, $assets->dr_requested_by);  // DR requested by in column X
+            $sheet->setCellValue('Y' . $row, $assets->dr_date);  // DR Date in column Y
+            $sheet->setCellValue('Z' . $row, $assets->remark_internal_doc);  // Internal Document Remark in column Z
+
+            // ERP Invoice
+            $sheet->setCellValue('AA' . $row, $assets->asset_code_account);  // Assets Code (Account) in column AA
+            $sheet->setCellValue('AB' . $row, $assets->invoice_date);        // Invoice Date in column AB
+            $sheet->setCellValue('AC' . $row, $assets->invoice_no);          // Invoice No in column AC
+            $sheet->setCellValue('AD' . $row, $assets->fa);                  // Fix Asset No in column AD
+            $sheet->setCellValue('AE' . $row, $assets->fa_class);            // Fix Asset Class in column AE
+            $sheet->setCellValue('AF' . $row, $assets->fa_subclass);         // Fix Asset Sub Class in column AF
+            $sheet->setCellValue('AG' . $row, $assets->depreciation);        // Depreciation Book Code in column AG
+            $sheet->setCellValue('AH' . $row, $assets->fa_type);             // FA Posting Type in column AH
+            $sheet->setCellValue('AI' . $row, $assets->fa_location);         // FA Location in column AI
+            $sheet->setCellValue('AJ' . $row, $assets->cost);                // Cost in column AJ
+            $sheet->setCellValue('AK' . $row, $assets->currency);            // Currency in column AK
+            $sheet->setCellValue('AL' . $row, $assets->vat);                 // VAT in column AL
+            $sheet->setCellValue('AM' . $row, $assets->description);         // Description in column AM
+            $sheet->setCellValue('AN' . $row, $assets->invoice_description);  // Invoice Description in column AN
+
+
+            // Vendor Info
+            $sheet->setCellValue('AO' . $row, $assets->vendor); // Set vendor in column AO
+            $sheet->setCellValue('AP' . $row, $assets->vendor_name); // Set vendor_name in column AP
+            $sheet->setCellValue('AQ' . $row, $assets->address);
+            $sheet->setCellValue('AR' . $row, $assets->address2);
+            $sheet->setCellValue('AS' . $row, $assets->contact);
+            $sheet->setCellValue('AT' . $row, $assets->phone);
+            $sheet->setCellValue('AU' . $row, $assets->email); // Adjust column for email if necessary
+
+
+
+            // Move to the next row for the next data entry
+            $row++;
+        }
+
+
+        // Auto-fit columns from A to AU
+        for ($col = 'A'; $col !== 'AV'; $col++) { // 'AV' is exclusive, so it will go up to 'AU'
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'users.xlsx';
+        $response = new StreamedResponse(function () use ($writer) {
+            $writer->save('php://output');
+        });
+
+        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $filename . '"');
+        $response->headers->set('Cache-Control', 'max-age=0');
+
+        // Save the spreadsheet to a temporary file
+        $filename = 'Assets.xlsx';
+        $tempFilePath = storage_path('app/' . $filename);
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($tempFilePath);
+
+        // Prepare the response to download the file
+        return response()->download($tempFilePath, $filename)->deleteFileAfterSend(true);
     }
 }

@@ -74,6 +74,11 @@ Route::middleware(['auth'])->group(function () {
 
     
     Route::post('/admin/qr/code/print/assets', [AssetsController::class, 'multi_print']); 
+
+    
+    Route::post('/admin/export/excel/assets', [AssetsController::class, 'multi_export']); 
+
+    
 });
 
 

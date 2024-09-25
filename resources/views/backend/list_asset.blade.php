@@ -81,74 +81,60 @@
                 @csrf
                 <div class="max-w-full min-h-full grid px-2 py-1 gap-2 grid-cols-4">
                     <div>
+                        <label for="id_asset" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">ID</label>
+
+                            <input type="text" id="id_asset" name="assets"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                
+                    </div>
+                    <div>
                         <label for="assets" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Assets
                             Code</label>
 
-
-                        @if (!empty($search))
-                            <input type="text" id="assets" value="{{ $search['assets'] }}" name="assets"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                        @else
                             <input type="text" id="assets" name="assets"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                        @endif
+                
                     </div>
                     <div>
                         <label for="fa" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">FIX
                             Asset</label>
-                        @if (!empty($search))
-                            <input type="text" id="fa" value="{{ $search['fa'] }}" name="fa"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                        @else
+                   
                             <input type="text" id="fa" name="fa"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                        @endif
+                    
                     </div>
                     <div>
                         <label for="invoice"
                             class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Invoice</label>
-                        @if (!empty($search))
-                            <input type="text" id="invoice" value="{{ $search['invoice'] }}" name="invoice"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                        @else
+                 
                             <input type="text" id="invoice" name="invoice"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                        @endif
+                      
                     </div>
                     <div>
                         <label for="description"
                             class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                        @if (!empty($search))
-                            <input type="text" id="description" value="{{ $search['description'] }}" name="description"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                        @else
+                    
                             <input type="text" id="description" name="description"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                        @endif
+                    
                     </div>
                     <div>
                         <label for="start_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Start
-                            from date</label>
-                        @if (!empty($search))
-                            <input type="date" id="start_date" name="start_date" value="{{ $search['start_date'] }}"
-                                name="end_date"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                        @else
+                            from date (Create Date)</label>
+                  
                             <input type="date" id="start_date" name="start_date" value="{{ $start_date }}"
                                 name="end_date"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                        @endif
+            
                     </div>
                     <div>
                         <label for="end_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">To
-                            date</label>
-                        @if (!empty($search))
-                            <input type="date" id="end_date" value="{{ $search['end_date'] }}" name="end_date"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                        @else
+                            date (Create Date)</label>
+                  
                             <input type="date" id="end_date" value="{{ $end_date }}" name="end_date"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                        @endif
+                    
                     </div>
 
 
@@ -158,47 +144,83 @@
                             class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">State</label>
                         <select id="state" name="state"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            @if (!empty($search))
-                                @if ($search['state'] == 'invoice')
-                                    <option value="invoice">Invoice</option>
-                                    <option value="no_invoice">No Invoice</option>
-                                    <option value="All">All</option>
-                                @elseif($search['state'] == 'All')
-                                    <option value="All">All</option>
-                                    <option value="no_invoice">No Invoice</option>
-                                    <option value="invoice">Invoice</option>
-                                @else
-                                    <option value="no_invoice">No Invoice</option>
-                                    <option value="invoice">Invoice</option>
-                                    <option value="All">All</option>
-                                @endif
-                            @else
                                 <option value="All">All</option>
-                                <option value="no_invoice">No Invoice</option>
-                                <option value="invoice">Invoice</option>
-                            @endif
+                                <option value="0">Available</option>
+                                <option value="2">Sold</option>
+                                <option value="1">Deleted</option>
+                        
 
                         </select>
                     </div>
                 </div>
-                <div class="max-w-full flex justify-end px-5">
+                <div class="max-w-full flex  justify-between px-2 mt-2 py-2">
+                    
+                    <div class="flex">
+                
+                        <select name="" onchange="otherSearch()" id="other_search" class= " w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="">Other Search</option>
+                            <option value="document">Refference</option>
+                            <option value="item">Item</option>
+                            <option value="initial_condition">Initail Condition</option>
+                            <option value="specification">Specification</option>
+                            <option value="item_description">Item Description</option>
+                            <option value="asset_group">Asset Group</option>
+                            <option value="remark_assets">Remark Assets</option>
 
-                    <button type="button" id="print" onclick="print_group()"
+
+                            <option value="asset_holder">Assets Holder ID</option>
+                            <option value="holder_name">Holder Name</option>
+                            <option value="position">Position</option>
+                            <option value="location">Location</option>
+                            <option value="department">Department</option>
+                            <option value="company">Company</option>
+                            <option value="remark_holder">Remark Holder</option>
+
+
+                            <option value="grn">GRN</option>
+                            <option value="pr">PR</option>
+                            <option value="po">PO</option>
+                            <option value="dr">DR</option>
+                            <option value="dr_requested_by">DR Request by</option>
+                            <option value="remark_internal_doc">Remark Document</option>
+                      
+                            <option value="fa_class">Fix Asset Class</option>
+                            <option value="fa_subclass">Fix Asset Sub Class</option>
+                            <option value="depreciation">Depreciation</option>
+                            <option value="fa_type">Fix Asset Type</option>
+                            <option value="fa_location">Fix Assets Location</option>
+                            <option value="invoice_description">Invoice Description</option>
+
+
+                            <option value="vendor">Vendor</option>
+                            <option value="vendor_name">Vendor Name</option>
+                            <option value="address">Address</option>
+                            <option value="address2">Address 2</option>
+                            <option value="contact">Contact</option>
+                            <option value="phone">Phone </option>
+                            <option value="email">Email</option>
+                        </select>
+                        <input type="text" id="other_value"  class= " w-32  bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block mx-2 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </div>
+
+                    <div class="flex">
+                        <button type="button" id="print" onclick="print_group()"
                         class="text-white  hidden bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                         Print
                     </button>
-                    <button type="button" id="export_excel"
+                 
+                        <button type="button" id="export_excel" onclick="export_group()"
                         class="text-white  hidden bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                         Export
                     </button>
-                    <button type="button" id="print"
-                        class="text-white  bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                        Export All
-                    </button>
-                    <button type="submit"
+                   
+
+                  
+                    <button type="button" onclick="search_asset()"
                         class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                         <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                     </button>
+                    </div>
                 </div>
             </form>
 
@@ -210,7 +232,7 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
-                            <input onchange="select_all()" 
+                            <input onchange="select_all()"  
                                 type="checkbox" id="select_all"
                                 class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
 
@@ -238,7 +260,7 @@
                         <th scope="col" class="px-6 py-3" onclick="dynamic_sort('deleted','string','assets')">
 
                             Status &ensp; <i class="fa-solid fa-sort"></i>
-                            </td>
+                            </th>
 
 
 
@@ -309,11 +331,19 @@
                                             <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
                                             Available
                                         </span>
-                                    @else
+                                    @elseif($item->deleted == 1)
                                         <span
                                             class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                                             <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
                                             Deleted
+                                        </span>
+                                       
+                            
+                                     @elseif($item->deleted == 2)
+                                        <span
+                                        class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                        <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                        Sold
                                         </span>
                                     @endif
                                 </td>
@@ -377,6 +407,11 @@
         <form id="form_print" action="/admin/qr/code/print/assets" method="post">
             @csrf
             <input type="text" name="id" id="id_printer">
+            <button type="submit">submit</button>
+        </form>
+        <form id="form_export" action="/admin/export/excel/assets" method="post">
+            @csrf
+            <input type="text" name="id_export" id="id_export">
             <button type="submit">submit</button>
         </form>
     </div>

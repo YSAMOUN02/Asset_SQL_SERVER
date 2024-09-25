@@ -31,17 +31,18 @@ class AdminController extends Controller
         // // Return the array as a JSON response
         // return ($data) ;
         // // return $arr;
-        
+            return Auth::user();
         return view('backend.dashboard');
     }
     public function login(){
         return view('backend.login');
     }
     public function login_submit(Request $request){
+        
         $name_email = $request->input('name_email');
         $password = $request->password;
         $remember = $request->remember;
-
+        
         if(Auth::attempt(['name' => $name_email, 'password' => $password],$remember)){
                 if(Auth::user()->status == 0){
                     Auth::logout();

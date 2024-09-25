@@ -289,6 +289,7 @@
             </button>
         </a>
     </div>
+    @if(!empty($array_qr))
     <div id="list">
 
 
@@ -522,11 +523,20 @@
 
 
     </div>
+    @endif
+    @php 
+        if(empty($array_qr)){
+            $array_qr = null;
+        }
+    @endphp
 </body>
 
 <script src="{{ URL('/assets/js/print_qr.js') }}"></script>
 <script>
-    let array = @json($array_qr);
+    if($array_qr != null){
+        let array = @json($array_qr);
+    }
+   
 </script>
 
 </html>

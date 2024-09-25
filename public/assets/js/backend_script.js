@@ -253,7 +253,12 @@ async function search_assets() {
     if (id) {
         let url = `/api/assets/${id}`;
 
-        let data = await fetch(url)
+        let data = await fetch(url,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }})
             .then((response) => {
                 if (!response.ok) {
                     console.log(2);
@@ -272,7 +277,7 @@ async function search_assets() {
                 );
             });
 
-        if (data != "Data not Found") {
+        if (data) {
             if (data.length == 1) {
                 let assetCodeAccount = document.querySelector(
                     "#asset_code_account"
@@ -437,7 +442,7 @@ async function search_assets() {
                 alert("Data not Found");
             }
         } else {
-            alert(data);
+            alert("Error This function is cant be used.");
         }
     } else {
         let label = document.querySelector("#assets_label");
@@ -596,78 +601,86 @@ async function raw_assets() {
         StartDate.value || "NA"
     }/end=${EndDate.value || "NA"}/state=${State.value || "NA"}`;
 
-    let data = await fetch(url)
+
+    let data = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }})
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Network response was not ok");
-            }
+            }   
             return response.json(); // Expecting JSON
         })
         .then((data) => {
             return data; // Handle your data
         })
         .catch((error) => {
-            console.error(
-                "There was a problem with the fetch operation:",
-                error
-            );
+           alert(error);
         });
 
     let body_table = document.querySelector("#table_raw_body");
-    console.log(data);
+
     if (data) {
-        body_table.innerHTML = `
-                ${data
-                    .map(
-                        (item, index) => `
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <td scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                ${index + 1}
-                            </td>
-                            <td scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    ${
-                                        item.posting_date
-                                            ? new Date(
-                                                  item.posting_date
-                                              ).toLocaleDateString("en-US", {
-                                                  year: "numeric",
-                                                  month: "short",
-                                                  day: "numeric",
-                                              })
-                                            : ""
-                                    }
-                            </td>
-                            <td scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                               ${item.assets}
-                            </td>
-                            <td scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                ${item.fa}
-                            </td>
-                            <td scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                ${item.invoice_no}
-                            </td>
-                            <td scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                ${item.description}
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="/admin/assets/add/assets=${
-                                    item.assets
-                                }/invoice_no=${
-                            item.fa ? item.fa.replace(/\//g, "-") : "NA"
-                        }"
-                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a>
-                            </td>
-                        </tr>
-                    `
-                    )
-                    .join("")}
-            `;
+        if(data.length > 0){
+            body_table.innerHTML = `
+            ${data
+                .map(
+                    (item, index) => `
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <td scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            ${index + 1}
+                        </td>
+                        <td scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                ${
+                                    item.posting_date
+                                        ? new Date(
+                                              item.posting_date
+                                          ).toLocaleDateString("en-US", {
+                                              year: "numeric",
+                                              month: "short",
+                                              day: "numeric",
+                                          })
+                                        : ""
+                                }
+                        </td>
+                        <td scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                           ${item.assets}
+                        </td>
+                        <td scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            ${item.fa}
+                        </td>
+                        <td scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            ${item.invoice_no}
+                        </td>
+                        <td scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            ${item.description}
+                        </td>
+                        <td class="px-6 py-4">
+                            <a href="/admin/assets/add/assets=${
+                                item.assets
+                            }/invoice_no=${
+                        item.fa ? item.fa.replace(/\//g, "-") : "NA"
+                    }"
+                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a>
+                        </td>
+                    </tr>
+                `
+                )
+                .join("")}
+        `;
+    array = data;
+        }else{
+            alert("No Data Found.")
+        }
     }
 }
 
@@ -798,217 +811,221 @@ function select_all_permission() {
     }
 }
 
-FusionCharts.ready(async function () {
-    let url = "/api/assets_status";
-    let jsonData2 = await fetch(url)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json(); // Parse the JSON response directly
-        })
-        .then((data) => {
-            return data; // Handle your JSON data as a JavaScript object
-        })
-        .catch((error) => {
-            console.error(
-                "There was a problem with the fetch operation:",
-                error
-            );
-        });
+// FusionCharts.ready(async function () {
+//     let url = "/api/assets_status";
+//     let jsonData2 = await fetch(url)
+//         .then((response) => {
+//             if (!response.ok) {
+//                 throw new Error("Network response was not ok");
+//             }
+//             return response.json(); // Parse the JSON response directly
+//         })
+//         .then((data) => {
+//             return data; // Handle your JSON data as a JavaScript object
+//         })
+//         .catch((error) => {
+//             console.error(
+//                 "There was a problem with the fetch operation:",
+//                 error
+//             );
+//         });
 
-    // Original calendar array
-    let calendar = [
-        { label: "jan", value: 0 },
-        { label: "feb", value: 0 },
-        { label: "mar", value: 0 },
-        { label: "apr", value: 0 },
-        { label: "may", value: 0 },
-        { label: "jun", value: 0 },
-        { label: "jul", value: 0 },
-        { label: "aug", value: 0 },
-        { label: "sep", value: 0 },
-        { label: "oct", value: 0 },
-        { label: "nov", value: 0 },
-        { label: "dec", value: 0 },
-    ];
+//     // Original calendar array
+//     let calendar = [
+//         { label: "jan", value: 0 },
+//         { label: "feb", value: 0 },
+//         { label: "mar", value: 0 },
+//         { label: "apr", value: 0 },
+//         { label: "may", value: 0 },
+//         { label: "jun", value: 0 },
+//         { label: "jul", value: 0 },
+//         { label: "aug", value: 0 },
+//         { label: "sep", value: 0 },
+//         { label: "oct", value: 0 },
+//         { label: "nov", value: 0 },
+//         { label: "dec", value: 0 },
+//     ];
 
-    // Convert the calendar array to a map for fast lookup
-    let calendarMap = new Map(calendar.map((month) => [month.label, month]));
+//     // Convert the calendar array to a map for fast lookup
+//     let calendarMap = new Map(calendar.map((month) => [month.label, month]));
 
-    const monthAbbreviations = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-    ];
+//     const monthAbbreviations = [
+//         "Jan",
+//         "Feb",
+//         "Mar",
+//         "Apr",
+//         "May",
+//         "Jun",
+//         "Jul",
+//         "Aug",
+//         "Sep",
+//         "Oct",
+//         "Nov",
+//         "Dec",
+//     ];
 
-    const currentDate = new Date();
-    const currentMonthIndex = currentDate.getMonth(); // Zero-based index
-    const currentMonthAbbreviation = monthAbbreviations[currentMonthIndex];
+//     const currentDate = new Date();
+//     const currentMonthIndex = currentDate.getMonth(); // Zero-based index
+//     const currentMonthAbbreviation = monthAbbreviations[currentMonthIndex];
 
-    let val = 0;
-    // Update the values from jsonData2
-    jsonData2.forEach((data) => {
-        let lowerCaseLabel = data.label.toLowerCase();
-        if (calendarMap.has(lowerCaseLabel)) {
-            calendarMap.get(lowerCaseLabel).value = Number(data.value);
-            if (currentMonthAbbreviation == data.label) {
-                val = data.value;
-            }
-        }
-    });
+//     let val = 0;
+//     // Update the values from jsonData2
+//     jsonData2.forEach((data) => {
+//         let lowerCaseLabel = data.label.toLowerCase();
+//         if (calendarMap.has(lowerCaseLabel)) {
+//             calendarMap.get(lowerCaseLabel).value = Number(data.value);
+//             if (currentMonthAbbreviation == data.label) {
+//                 val = data.value;
+//             }
+//         }
+//     });
 
-    // Convert the map back to an array if needed
-    calendar = Array.from(calendarMap.values());
-    var chartObj = new FusionCharts({
-        type: "column2d",
-        renderAt: "chart-container",
-        width: "680",
-        height: "390",
-        dataFormat: "json",
-        dataSource: {
-            chart: {
-                caption: "Assets Created by Month",
+//     // Convert the map back to an array if needed
+//     calendar = Array.from(calendarMap.values());
+//     var chartObj = new FusionCharts({
+//         type: "column2d",
+//         renderAt: "chart-container",
+//         width: "680",
+//         height: "390",
+//         dataFormat: "json",
+//         dataSource: {
+//             chart: {
+//                 caption: "Assets Created by Month",
 
-                xAxisName: "Month",
-                yAxisName: "Asset Data",
-                numberPrefix: "Created Assets: ",
-                theme: "fusion",
-            },
-            data: calendar,
-            trendlines: [
-                {
-                    line: [
-                        {
-                            startvalue: val,
-                            valueOnRight: "1",
-                            displayvalue: "This Month",
-                        },
-                    ],
-                },
-            ],
-        },
-    });
-    chartObj.render();
-});
+//                 xAxisName: "Month",
+//                 yAxisName: "Asset Data",
+//                 numberPrefix: "Created Assets: ",
+//                 theme: "fusion",
+//             },
+//             data: calendar,
+//             trendlines: [
+//                 {
+//                     line: [
+//                         {
+//                             startvalue: val,
+//                             valueOnRight: "1",
+//                             displayvalue: "This Month",
+//                         },
+//                     ],
+//                 },
+//             ],
+//         },
+//     });
+//     chartObj.render();
+// });
 
-FusionCharts.ready(async function () {
-    let url = "/api/fixAsset/location";
-    let jsonData = await fetch(url)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json(); // Parse the JSON response directly
-        })
-        .then((data) => {
-            return data; // Handle your JSON data as a JavaScript object
-        })
-        .catch((error) => {
-            console.error(
-                "There was a problem with the fetch operation:",
-                error
-            );
-        });
+// FusionCharts.ready(async function () {
+//     let url = "/api/fixAsset/location";
+//     let jsonData = await fetch(url)
+//         .then((response) => {
+//             if (!response.ok) {
+//                 throw new Error("Network response was not ok");
+//             }
+//             return response.json(); // Parse the JSON response directly
+//         })
+//         .then((data) => {
+//             return data; // Handle your JSON data as a JavaScript object
+//         })
+//         .catch((error) => {
+//             console.error(
+//                 "There was a problem with the fetch operation:",
+//                 error
+//             );
+//         });
 
-    var chartObj = new FusionCharts({
-        type: "doughnut3d",
-        renderAt: "chart-container-round",
-        width: "550",
-        height: "450",
-        dataFormat: "json",
-        dataSource: {
-            chart: {
-                caption: "Assets ",
-                subCaption: "All Year",
-                numberPrefix: "$",
-                bgColor: "#ffffff",
-                startingAngle: "310",
-                showLegend: "1",
-                defaultCenterLabel: "Total revenue: $64.08K",
-                centerLabel: "Revenue from $label: $value",
-                centerLabelBold: "1",
-                showTooltip: "0",
-                decimals: "0",
-                theme: "fusion",
-            },
-            data: jsonData, // Pass the parsed JavaScript object
-        },
-    });
-    chartObj.render();
-});
+//     var chartObj = new FusionCharts({
+//         type: "doughnut3d",
+//         renderAt: "chart-container-round",
+//         width: "550",
+//         height: "450",
+//         dataFormat: "json",
+//         dataSource: {
+//             chart: {
+//                 caption: "Assets ",
+//                 subCaption: "All Year",
+//                 numberPrefix: "$",
+//                 bgColor: "#ffffff",
+//                 startingAngle: "310",
+//                 showLegend: "1",
+//                 defaultCenterLabel: "Total revenue: $64.08K",
+//                 centerLabel: "Revenue from $label: $value",
+//                 centerLabelBold: "1",
+//                 showTooltip: "0",
+//                 decimals: "0",
+//                 theme: "fusion",
+//             },
+//             data: jsonData, // Pass the parsed JavaScript object
+//         },
+//     });
+//     chartObj.render();
+// });
 
 function dynamic_sort(by, method, table) {
-    if (method == "int") {
-        if (sort_state == 0) {
-            // Sort by the specified property in ascending order
-            array.sort((a, b) => a[by] - b[by]);
-            sort_state = 1;
-        } else {
-            // Sort by the specified property in descending order
-            array.sort((a, b) => b[by] - a[by]);
-            sort_state = 0;
+    if (array.length < 500) {
+        if (method == "int") {
+            if (sort_state == 0) {
+                // Sort by the specified property in ascending order
+                array.sort((a, b) => a[by] - b[by]);
+                sort_state = 1;
+            } else {
+                // Sort by the specified property in descending order
+                array.sort((a, b) => b[by] - a[by]);
+                sort_state = 0;
+            }
+        } else if (method == "string") {
+            if (sort_state == 0) {
+                // Sort by 'change' (ascending order)
+                array.sort((a, b) => a[by].localeCompare(b[by]));
+                sort_state = 1;
+            } else {
+                // Sort by 'change' (descending order)
+                array.sort((a, b) => b[by].localeCompare(a[by]));
+                sort_state = 0;
+            }
+        } else if (method == "date") {
+            if (sort_state == 0) {
+                // Sort by the specified date property in ascending order
+
+                array.sort((a, b) => {
+                    let dateA = new Date(a[by]);
+                    let dateB = new Date(b[by]);
+
+                    // Handle invalid dates
+                    if (isNaN(dateA)) return 1; // Push invalid dates to the end
+                    if (isNaN(dateB)) return -1; // Push invalid dates to the end
+
+                    return dateA - dateB; // Compare dates in ascending order
+                });
+                sort_state = 1;
+            } else {
+                // Sort by the specified date property in descending order
+                array.sort((a, b) => {
+                    let dateA = new Date(a[by]);
+                    let dateB = new Date(b[by]);
+
+                    // Handle invalid dates
+                    if (isNaN(dateA)) return 1; // Push invalid dates to the end
+                    if (isNaN(dateB)) return -1; // Push invalid dates to the end
+
+                    return dateB - dateA; // Compare dates in descending order
+                });
+                sort_state = 0;
+            }
         }
-    } else if (method == "string") {
-        if (sort_state == 0) {
-            // Sort by 'change' (ascending order)
-            array.sort((a, b) => a[by].localeCompare(b[by]));
-            sort_state = 1;
-        } else {
-            // Sort by 'change' (descending order)
-            array.sort((a, b) => b[by].localeCompare(a[by]));
-            sort_state = 0;
+
+        if (table == "assets") {
+            show_sort_asset();
+        } else if (table == "changelog") {
+            show_sort_change_log();
+        } else if (table == "raw_assets") {
+            show_sort_raw_asset();
+        } else if (table == "quick") {
+            show_sort_quick_data();
+        } else if (table == "asset_staff") {
+            show_sort_staff_asset();
         }
-    } else if (method == "date") {
-        if (sort_state == 0) {
-            console.log("sort date called");
-            // Sort by the specified date property in ascending order
-
-            array.sort((a, b) => {
-                let dateA = new Date(a[by]);
-                let dateB = new Date(b[by]);
-
-                // Handle invalid dates
-                if (isNaN(dateA)) return 1; // Push invalid dates to the end
-                if (isNaN(dateB)) return -1; // Push invalid dates to the end
-
-                return dateA - dateB; // Compare dates in ascending order
-            });
-            sort_state = 1;
-        } else {
-            // Sort by the specified date property in descending order
-            array.sort((a, b) => {
-                let dateA = new Date(a[by]);
-                let dateB = new Date(b[by]);
-
-                // Handle invalid dates
-                if (isNaN(dateA)) return 1; // Push invalid dates to the end
-                if (isNaN(dateB)) return -1; // Push invalid dates to the end
-
-                return dateB - dateA; // Compare dates in descending order
-            });
-            sort_state = 0;
-        }
-    }
-    if (table == "assets") {
-        show_sort_asset();
-    } else if (table == "changelog") {
-        show_sort_change_log();
-    } else if (table == "raw_assets") {
-        show_sort_raw_asset();
-    } else if (table == "quick") {
-        show_sort_quick_data();
-    } else if (table == "asset_staff") {
-        show_sort_staff_asset();
+    } else {
+        alert("Data too Big Can't be sort. It's may crash your browser");
     }
 }
 
@@ -1019,6 +1036,13 @@ function show_sort_staff_asset() {
         body_change.innerHTML += `
         
      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                     <td class="print_val px-6 py-4">
+                                            <input onchange="printable()" data-id="${
+                                                item.id
+                                            }" id="green-checkbox"
+                                            type="checkbox" value=""
+                                        class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    </td>
                                     <td class="px-6 py-4">
                                         ${item.id || ""}
                                     </td>
@@ -1051,6 +1075,31 @@ function show_sort_staff_asset() {
                                     </td>
                                     <td class="px-6 py-4">
                                  ${item.fa_type || ""}
+                                    </td>
+                                    
+                                        <td class="px-6 py-4">
+                               ${
+                                   item.deleted == 0
+                                       ? `  <span
+                                        class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                        <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                        Available
+                                    </span>
+                                    `
+                                       : item.deleted == 1
+                                       ? `
+                                       <span
+                                      class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                      <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                      Deleted
+                                  </span>
+                              `
+                                       : ` <span
+                                    class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                    <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                    Sold
+                                </span>`
+                               }
                                     </td>
                                     <td class="px-6 py-4">
                                ${item.fa_class || ""}
@@ -1220,9 +1269,14 @@ function show_sort_asset() {
         body_change.innerHTML += `
         
      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <td  class="print_val px-6 py-4">
-                                                            <input onchange="printable()" data-id="{{ $item->assets_id }}" id="green-checkbox"  type="checkbox" value="" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    </td>
+                                  
+                                <td class="print_val px-6 py-4">
+                                    <input onchange="printable()" data-id="${
+                                        item.assets_id || ""
+                                    }" id="green-checkbox"
+                                        type="checkbox" value=""
+                                        class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                </td>
                                     <td class="px-6 py-4">
                                         ${item.assets_id || ""}
                                     </td>
@@ -1266,13 +1320,19 @@ function show_sort_asset() {
                                         Available
                                     </span>
                                     `
-                                       : `
-                                         <span
-                                        class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                        <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                        Deleted
-                                    </span>
-                                `
+                                       : item.deleted == 1
+                                       ? `
+                                       <span
+                                      class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                      <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                      Deleted
+                                  </span>
+                              `
+                                       : ` <span
+                                    class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                    <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                    Sold
+                                </span>`
                                }
                                     </td>
                                     <td class="px-6 py-4">
@@ -1490,17 +1550,22 @@ function set_permission(type) {
 let export_excel = document.querySelector("#export_excel");
 let print = document.querySelector("#print");
 
-let li_print = document.querySelectorAll(".print_val");
 var k;
 function printable() {
+    let li_print = document.querySelectorAll(".print_val");
     let li_print_array = Array.from(li_print);
+
     let length = li_print_array.length;
+
     li_print_array.map((data) => {
         let input = data.querySelector("input");
         if (input.checked == true) {
             k = length -= 1;
         }
     });
+
+    // console.log(data);
+
     if (k != length) {
         print.style.display = "none";
         export_excel.style.display = "none";
@@ -1528,6 +1593,26 @@ function print_group() {
         let form = document.querySelector("#form_print");
 
         console.log(form);
+        form.submit();
+    }
+}
+
+function export_group() {
+    let li_print_array = Array.from(li_print);
+    let id_for_export = [];
+    li_print_array.map((data) => {
+        let input = data.querySelector("input");
+        if (input.checked == true) {
+            let val = input.getAttribute("data-id");
+            id_for_export.push(val);
+        }
+    });
+
+    if (id_for_export.length > 0) {
+        let input_export = document.querySelector("#id_export");
+        input_export.value = id_for_export;
+
+        let form = document.querySelector("#form_export");
         form.submit();
     }
 }
@@ -1560,4 +1645,283 @@ function select_all() {
             }
         }
     }
+    printable();
 }
+
+
+function otherSearch(){
+    let other = document.querySelector("#other_search");
+
+    if(other){
+        if(other.value != ""){
+            other_search = 1;
+        }else{
+            other_search = 0;
+            alert("Select Field to Search.")
+        }
+    }
+   
+}
+const token = localStorage.getItem('token');
+
+
+let other_search = 0;
+async function search_asset() {
+
+
+    let fa = document.querySelector("#fa");
+    let asset_input = document.querySelector("#assets");
+    let invoice = document.querySelector("#invoice");
+    let description = document.querySelector("#description");
+    let start = document.querySelector("#start_date");
+    let end = document.querySelector("#end_date");
+    let state = document.querySelector("#state");
+    let id_asset = document.querySelector("#id_asset");
+    
+    let id_val = "NA";
+    let fa_val = "NA";
+    let asset_val = "NA";
+    let invoice_val = "NA";
+    let description_val = "NA";
+    let start_val = "NA";
+    let end_val = "NA";
+    let state_val = "NA";
+
+    if(id_asset){
+        if(id_asset.value != ""){
+            id_val = id_asset.value;
+        }
+    }
+    if (fa) {
+        if (fa.value != "") {
+            fa_val = fa.value.replace(/\//g, "-");
+        }
+    }
+    if (asset_input) {
+        if (asset_input.value != "") {
+            asset_val = asset_input.value.replace(/\//g, "-");
+        }
+    }
+    if (invoice) {
+        if (invoice.value != "") {
+            invoice_val = invoice.value.replace(/\//g, "-");
+        }
+    }
+    if (description) {
+        if (description.value != "") {
+            description_val = description.value.replace(/\//g, "-");
+        }
+    }
+    if (start) {
+        if (start.value != "") {
+            start_val = start.value;
+        }
+    }
+    if (end) {
+        if (end.value != "") {
+            end_val = end.value;
+        }
+    }
+    if (state) {
+        if (state.value != "") {
+            state_val = state.value;
+        }
+    }
+
+    if (start_val && end_val && start_val != "NA" && end_val != "NA") {
+        if (start_val > end_val) {
+            alert(
+                "Start Date is greater than End Date.Please select correct date and Try again."
+            );
+            return;
+        }
+    }
+    // console.log("Fa:"+fa_val,"Assets:"+asset_val,"invoice:"+invoice_val,"des:"+description_val,"start:"+start_val,"end:"+end_val,"state:"+state_val);
+
+    if(other_search == 0){
+        url = `/api/fect/id=${id_val}/assets=${asset_val}/fa=${fa_val}/invoice=${invoice_val}/description=${description_val}/start=${start_val}/end=${end_val}/state=${state_val}`;
+    }else{
+        let other = document.querySelector("#other_search");
+        let value =document.querySelector("#other_value");
+        let value_val = "NA";
+        let type = "NA";
+        if(other){
+            
+            type = other.value;
+        }
+
+        if(value){
+           if(value.value !="")
+           {
+            value_val = value.value.replace(/\//g, "-");
+           }
+            }
+           
+        url = `/api/fect/id=${id_val}/assets=${asset_val}/fa=${fa_val}/invoice=${invoice_val}/description=${description_val}/start=${start_val}/end=${end_val}/state=${state_val}/type=${type}/value=${value_val}`;
+    }
+    let data = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }})
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json(); // Expecting JSON
+        })
+        .then((data) => {
+            return data; // Handle your data
+        })
+        .catch((error) => {
+            console.error(
+                "There was a problem with the fetch operation:",
+                error
+            );
+        });
+    
+    if (data) {
+        if (data.length > 0) {
+            let body_change = document.querySelector("#assets_body");
+            body_change.innerHTML = ``;
+            data.map((item) => {
+                body_change.innerHTML += `
+                
+             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                          
+                                        <td class="print_val px-6 py-4">
+                                            <input onchange="printable()" data-id="${
+                                                item.assets_id || ""
+                                            }" id="green-checkbox"
+                                                type="checkbox" value=""
+                                                class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                        </td>
+                                            <td class="px-6 py-4">
+                                                ${item.assets_id || ""}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                           ${
+                                               item.created_at
+                                                   ? new Date(
+                                                         item.created_at
+                                                     ).toLocaleDateString(
+                                                         "en-US",
+                                                         {
+                                                             year: "numeric",
+                                                             month: "short",
+                                                             day: "numeric",
+                                                         }
+                                                     )
+                                                   : ""
+                                           }
+        
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                  ${item.document || ""}
+                                            </td>
+        
+                                            <td class="px-6 py-4">
+                                                     ${
+                                                         item.assets1 +
+                                                             item.assets2 || ""
+                                                     }
+                                            </td>
+                                            <td class="px-6 py-4">
+                                        ${item.fa || ""}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                         ${item.fa_type || ""}
+                                            </td>
+        
+                                                <td class="px-6 py-4">
+                                       ${
+                                           item.deleted == 0
+                                               ? `  <span
+                                                class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                                <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                                Available
+                                            </span>
+                                            `
+                                               : item.deleted == 1
+                                               ? `
+                                               <span
+                                              class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                              <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                              Deleted
+                                          </span>
+                                      `
+                                               : ` <span
+                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                            Sold
+                                        </span>`
+                                       }
+                                            </td>
+                                            <td class="px-6 py-4">
+                                       ${item.fa_class || ""}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                              ${item.fa_subclass || ""}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                   ${item.depreciation || ""}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                               ${item.dr || ""}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                ${item.pr || ""}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                ${item.invoice_no || ""}
+                                               
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                 ${item.description || ""}
+                                            </td>
+                                          <td class="px-6 py-4 dark:bg-slate-900"
+                                            style="position: sticky; right: 0; background-color: white;">
+                                            ${
+                                                auth?.permission
+                                                    ?.assets_write == 1
+                                                    ? `
+                                                        <a href="/admin/assets/edit/id=${item.assets_id}">
+                                                            <button type="button"
+                                                                class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                                    class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
+                                                            </button>
+                                                         </a>
+                                                    `
+                                                    : // If auth.permission.assets_write is 1
+                                                      `` // If not, show nothing
+                                            }
+                                            ${
+                                                auth?.permission
+                                                    ?.assets_delete == 1
+                                                    ? `
+                                                         <button type="button" data-id="${item.assets_id}"
+                                                            id="btn_delete_asset${item.assets_id}"
+                                                            onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')"
+                                                            class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                            <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+                                                    `
+                                                    : // If auth.permission.assets_write is 1
+                                                      `` // If not, show nothing
+                                            }
+        
+                                            
+                                        </td>
+        
+        
+                                        </tr>
+          `;
+            });
+        }else{
+            alert("Data not Found.");
+        }
+    }
+}
+
+
+
