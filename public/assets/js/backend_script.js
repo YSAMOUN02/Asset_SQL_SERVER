@@ -1760,168 +1760,174 @@ async function search_asset() {
         url = `/api/fect/id=${id_val}/assets=${asset_val}/fa=${fa_val}/invoice=${invoice_val}/description=${description_val}/start=${start_val}/end=${end_val}/state=${state_val}/type=${type}/value=${value_val}`;
     }
     let data = await fetch(url, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        }})
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json(); // Expecting JSON
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name_email: document.getElementById('name_email').value,
+            password: document.getElementById('password').value,
+            remember: document.getElementById('remember').checked,
         })
-        .then((data) => {
-            return data; // Handle your data
-        })
-        .catch((error) => {
-            console.error(
-                "There was a problem with the fetch operation:",
-                error
-            );
-        });
+    })
+        // .then((response) => {
+        //     if (!response.ok) {
+        //         throw new Error("Network response was not ok");
+        //     }
+        //     return response.json(); // Expecting JSON
+        // })
+        // .then((data) => {
+        //     return data; // Handle your data
+        // })
+        // .catch((error) => {
+        //     console.error(
+        //         "There was a problem with the fetch operation:",
+        //         error
+        //     );
+        // });
     
-    if (data) {
-        if (data.length > 0) {
-            let body_change = document.querySelector("#assets_body");
-            body_change.innerHTML = ``;
-            data.map((item) => {
-                body_change.innerHTML += `
+    // if (data) {
+    //     if (data.length > 0) {
+    //         let body_change = document.querySelector("#assets_body");
+    //         body_change.innerHTML = ``;
+    //         data.map((item) => {
+    //             body_change.innerHTML += `
                 
-             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+    //          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                           
-                                        <td class="print_val px-6 py-4">
-                                            <input onchange="printable()" data-id="${
-                                                item.assets_id || ""
-                                            }" id="green-checkbox"
-                                                type="checkbox" value=""
-                                                class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        </td>
-                                            <td class="px-6 py-4">
-                                                ${item.assets_id || ""}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                           ${
-                                               item.created_at
-                                                   ? new Date(
-                                                         item.created_at
-                                                     ).toLocaleDateString(
-                                                         "en-US",
-                                                         {
-                                                             year: "numeric",
-                                                             month: "short",
-                                                             day: "numeric",
-                                                         }
-                                                     )
-                                                   : ""
-                                           }
+    //                                     <td class="print_val px-6 py-4">
+    //                                         <input onchange="printable()" data-id="${
+    //                                             item.assets_id || ""
+    //                                         }" id="green-checkbox"
+    //                                             type="checkbox" value=""
+    //                                             class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+    //                                     </td>
+    //                                         <td class="px-6 py-4">
+    //                                             ${item.assets_id || ""}
+    //                                         </td>
+    //                                         <td class="px-6 py-4">
+    //                                        ${
+    //                                            item.created_at
+    //                                                ? new Date(
+    //                                                      item.created_at
+    //                                                  ).toLocaleDateString(
+    //                                                      "en-US",
+    //                                                      {
+    //                                                          year: "numeric",
+    //                                                          month: "short",
+    //                                                          day: "numeric",
+    //                                                      }
+    //                                                  )
+    //                                                : ""
+    //                                        }
         
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                  ${item.document || ""}
-                                            </td>
+    //                                         </td>
+    //                                         <td class="px-6 py-4">
+    //                                               ${item.document || ""}
+    //                                         </td>
         
-                                            <td class="px-6 py-4">
-                                                     ${
-                                                         item.assets1 +
-                                                             item.assets2 || ""
-                                                     }
-                                            </td>
-                                            <td class="px-6 py-4">
-                                        ${item.fa || ""}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                         ${item.fa_type || ""}
-                                            </td>
+    //                                         <td class="px-6 py-4">
+    //                                                  ${
+    //                                                      item.assets1 +
+    //                                                          item.assets2 || ""
+    //                                                  }
+    //                                         </td>
+    //                                         <td class="px-6 py-4">
+    //                                     ${item.fa || ""}
+    //                                         </td>
+    //                                         <td class="px-6 py-4">
+    //                                      ${item.fa_type || ""}
+    //                                         </td>
         
-                                                <td class="px-6 py-4">
-                                       ${
-                                           item.deleted == 0
-                                               ? `  <span
-                                                class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                                <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                                Available
-                                            </span>
-                                            `
-                                               : item.deleted == 1
-                                               ? `
-                                               <span
-                                              class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                              <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                              Deleted
-                                          </span>
-                                      `
-                                               : ` <span
-                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                            Sold
-                                        </span>`
-                                       }
-                                            </td>
-                                            <td class="px-6 py-4">
-                                       ${item.fa_class || ""}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                              ${item.fa_subclass || ""}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                   ${item.depreciation || ""}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                               ${item.dr || ""}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                ${item.pr || ""}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                ${item.invoice_no || ""}
+    //                                             <td class="px-6 py-4">
+    //                                    ${
+    //                                        item.deleted == 0
+    //                                            ? `  <span
+    //                                             class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+    //                                             <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+    //                                             Available
+    //                                         </span>
+    //                                         `
+    //                                            : item.deleted == 1
+    //                                            ? `
+    //                                            <span
+    //                                           class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+    //                                           <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+    //                                           Deleted
+    //                                       </span>
+    //                                   `
+    //                                            : ` <span
+    //                                         class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+    //                                         <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+    //                                         Sold
+    //                                     </span>`
+    //                                    }
+    //                                         </td>
+    //                                         <td class="px-6 py-4">
+    //                                    ${item.fa_class || ""}
+    //                                         </td>
+    //                                         <td class="px-6 py-4">
+    //                                           ${item.fa_subclass || ""}
+    //                                         </td>
+    //                                         <td class="px-6 py-4">
+    //                                                ${item.depreciation || ""}
+    //                                         </td>
+    //                                         <td class="px-6 py-4">
+    //                                            ${item.dr || ""}
+    //                                         </td>
+    //                                         <td class="px-6 py-4">
+    //                                             ${item.pr || ""}
+    //                                         </td>
+    //                                         <td class="px-6 py-4">
+    //                                             ${item.invoice_no || ""}
                                                
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                 ${item.description || ""}
-                                            </td>
-                                          <td class="px-6 py-4 dark:bg-slate-900"
-                                            style="position: sticky; right: 0; background-color: white;">
-                                            ${
-                                                auth?.permission
-                                                    ?.assets_write == 1
-                                                    ? `
-                                                        <a href="/admin/assets/edit/id=${item.assets_id}">
-                                                            <button type="button"
-                                                                class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                                    class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-                                                            </button>
-                                                         </a>
-                                                    `
-                                                    : // If auth.permission.assets_write is 1
-                                                      `` // If not, show nothing
-                                            }
-                                            ${
-                                                auth?.permission
-                                                    ?.assets_delete == 1
-                                                    ? `
-                                                         <button type="button" data-id="${item.assets_id}"
-                                                            id="btn_delete_asset${item.assets_id}"
-                                                            onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')"
-                                                            class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                                            <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
-                                                    `
-                                                    : // If auth.permission.assets_write is 1
-                                                      `` // If not, show nothing
-                                            }
+    //                                         </td>
+    //                                         <td class="px-6 py-4">
+    //                                              ${item.description || ""}
+    //                                         </td>
+    //                                       <td class="px-6 py-4 dark:bg-slate-900"
+    //                                         style="position: sticky; right: 0; background-color: white;">
+    //                                         ${
+    //                                             auth?.permission
+    //                                                 ?.assets_write == 1
+    //                                                 ? `
+    //                                                     <a href="/admin/assets/edit/id=${item.assets_id}">
+    //                                                         <button type="button"
+    //                                                             class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+    //                                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
+    //                                                         </button>
+    //                                                      </a>
+    //                                                 `
+    //                                                 : // If auth.permission.assets_write is 1
+    //                                                   `` // If not, show nothing
+    //                                         }
+    //                                         ${
+    //                                             auth?.permission
+    //                                                 ?.assets_delete == 1
+    //                                                 ? `
+    //                                                      <button type="button" data-id="${item.assets_id}"
+    //                                                         id="btn_delete_asset${item.assets_id}"
+    //                                                         onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')"
+    //                                                         class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+    //                                                         <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+    //                                                 `
+    //                                                 : // If auth.permission.assets_write is 1
+    //                                                   `` // If not, show nothing
+    //                                         }
         
                                             
-                                        </td>
+    //                                     </td>
         
         
-                                        </tr>
-          `;
-            });
-        }else{
-            alert("Data not Found.");
-        }
-    }
-}
+    //                                     </tr>
+    //       `;
+    //         });
+    //     }else{
+    //         alert("Data not Found.");
+    //     }
+    // }
 
+}
 
 

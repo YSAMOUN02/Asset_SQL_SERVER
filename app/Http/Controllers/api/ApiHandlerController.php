@@ -104,7 +104,7 @@ class ApiHandlerController extends Controller
 
 
         $data = $sql->get();
-        $count = $data->count();
+        $count = count($data);
         if ($count > 0) {
             $sql = RawFixAssets::orderBy("assets_date", "desc");
 
@@ -145,7 +145,7 @@ class ApiHandlerController extends Controller
                 }
             }
             $data = $sql->get();
-            $count = $data->count();
+            $count = count($data);
         }
 
 

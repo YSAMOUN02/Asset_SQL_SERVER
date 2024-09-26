@@ -31,7 +31,7 @@ class AdminController extends Controller
         // // Return the array as a JSON response
         // return ($data) ;
         // // return $arr;
-            return Auth::user();
+         
         return view('backend.dashboard');
     }
     public function login(){
