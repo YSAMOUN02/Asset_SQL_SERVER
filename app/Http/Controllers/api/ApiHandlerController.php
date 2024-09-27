@@ -3,27 +3,31 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\ChangeLog;
 use App\Models\Fix_assets;
 use App\Models\RawFixAssets;
 use App\Models\StoredAssets;
 use App\Models\StoredAssetsUser;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+use Exception;
 
 class ApiHandlerController extends Controller
 {
-    public function login_submit(Request $request) {
+    public function login_submit(Request $request)
+    {
         $name_email = $request->input('name_email');
         $password = $request->password;
         $remember = $request->remember;
-    
+
         if (Auth::attempt(['name' => $name_email, 'password' => $password], $remember)) {
             $user = Auth::user();
             $token = $user->createToken('MyAppToken')->plainTextToken;
-    
+
             return response()->json([
                 'success' => 'Login Success.',
                 'token' => $token,
@@ -32,18 +36,18 @@ class ApiHandlerController extends Controller
         } elseif (Auth::attempt(['email' => $name_email, 'password' => $password], $remember)) {
             $user = Auth::user();
             $token = $user->createToken('MyAppToken')->plainTextToken;
-    
+
             return response()->json([
                 'success' => 'Login Success.',
                 'token' => $token,
                 'user' => $user,
             ]);
         }
-    
+
         return response()->json(['error' => 'Invalid credentials'], 401);
     }
-    
-    
+
+
     public function raw_search_detail($id)
     {
 
@@ -53,13 +57,15 @@ class ApiHandlerController extends Controller
     }
 
 
-    public function Search_Raw_assets($assets, $fa, $invoice, $description, $start, $end, $state)
+    public function Search_Raw_assets(request $request)
     {
-        $modifiedString_fa = str_replace('-', '/', $fa);
-        $modifiedString_invoice = str_replace('-', '/', $invoice);
-        $modifiedString_description = str_replace('-', '/', $description);
-
-        // RENEWAL AMM OF COTRIM SUSP FL/50ML
+        $assets = $request->asset_val??'NA';
+        $fa = $request->fa_val??'NA';
+        $invoice = $request->invoice_val??'NA';
+        $description = $request->description_val??'NA';
+        $start = $request->start_val??'NA';
+        $end = $request->end_val??'NA';
+        $state = $request->state_val??'NA';
 
         $sql = RawFixAssets::orderBy("assets_date", "desc");
 
@@ -68,14 +74,14 @@ class ApiHandlerController extends Controller
         }
         if ($fa != "NA") {
 
-            $sql->where("fa", "like", "%" . $modifiedString_fa  . "%");
+            $sql->where("fa", "like", "%" . $fa . "%");
         }
         if ($invoice != "NA") {
 
-            $sql->where("invoice_no", "like", "%" . $modifiedString_invoice . "%");
+            $sql->where("invoice_no", "like", "%" .  $invoice . "%");
         }
         if ($description != "NA") {
-            $sql->where("description", "like", "%" . $modifiedString_description . "%");
+            $sql->where("description", "like", "%".$description."%");
         }
         if ($state != "NA") {
             if ($state == "All") {
@@ -104,51 +110,9 @@ class ApiHandlerController extends Controller
 
 
         $data = $sql->get();
+
+   
         $count = count($data);
-        if ($count > 0) {
-            $sql = RawFixAssets::orderBy("assets_date", "desc");
-
-            if ($assets != "NA") {
-                $sql->where("assets", "like", "%" . strtoupper($assets) . "%");
-            }
-            if ($fa != "NA") {
-    
-                $sql->where("fa", "like", "%" . strtoupper($modifiedString_fa)  . "%");
-            }
-            if ($invoice != "NA") {
-    
-                $sql->where("invoice_no", "like", "%" . strtoupper($modifiedString_invoice) . "%");
-            }
-            if ($description != "NA") {
-                $sql->where("description", "like", "%" . strtoupper($modifiedString_description ). "%");
-            }
-            if ($state != "NA") {
-                if ($state == "All") {
-                    if ($start != "NA" && $end != "NA") {
-                        $sql->whereBetween('posting_date', [$start, $end]);
-                    } elseif ($start != "NA" && $end == "NA") {
-                        $sql->where('posting_date', ">=", $start);
-                    } elseif ($start == "NA" && $end != "NA") {
-                        $sql->where('posting_date', "<=", $end);
-                    }
-                } elseif ($state == "invoice") {
-                    if ($start != "NA" && $end != "NA") {
-                        $sql->whereBetween('posting_date', [$start, $end]);
-                    } elseif ($start != "NA" && $end == "NA") {
-                        $sql->where('posting_date', ">=", $start);
-                    } elseif ($start == "NA" && $end != "NA") {
-                        $sql->where('posting_date', "<", $end);
-                    }
-                    $sql->where('state', 'like', ["%" . $state . "%"]);
-                } elseif ($state == "no_invoice") {
-                    $sql->where("state", 'like', ["%" . $state . "%"]);
-                }
-            }
-            $data = $sql->get();
-            $count = count($data);
-        }
-
-
 
 
 
@@ -262,40 +226,24 @@ class ApiHandlerController extends Controller
         // return response()->json($test);
     }
 
+    public function search_list_asset_more(request $request)
+    {
 
 
-
-
-
-
-
-
-
-    public function search_list_asset_more(request $request){
-        $type = $request->type??"NA";
-        $value = $request->value??"NA";
-        $modifiedString_value  = str_replace('-', '/', $value);
 
 
         $fa = $request->fa ?? "";
-        $modifiedString_fa = str_replace('-', '/', $fa);
-
         $invoice = $request->invoice ?? "";
-        $modifiedString_invoice  = str_replace('-', '/', $invoice);
-
         $assets = $request->asset ?? "";
-        $modifiedString_assets = str_replace('/', '-', $assets);
-
-
         $description = $request->description ?? "";
-
-        $modifiedString_decs = str_replace('-', '/', $description);
         $start = $request->start ?? "";
-
         $end = $request->end ?? "";
-        $state = $request->state ?? "";
+        $state = $request->state ?? "NA";
+        $type = $request->type ?? "NA";
+        $value = $request->value ?? "NA";
+        $id = $request->id ?? "NA";
 
-        $id = $request->id;
+
 
         $data =  StoredAssets::orderBy('assets_id', 'desc')
             ->where("last_varaint", 1);
@@ -304,47 +252,160 @@ class ApiHandlerController extends Controller
             $data->where("assets_id", $id);
         }
         if ($assets != "NA") {
-            $data->where(DB::raw("CONCAT(assets1, assets2)"), 'LIKE', "%" . $modifiedString_assets . "%");
+            $data->where(DB::raw("CONCAT(assets1, assets2)"), 'LIKE', "%".$assets."%");
         }
         if ($fa != "NA") {
-            $data->where("fa", 'LIKE', "%" . $modifiedString_fa . "%");
+            $data->where("fa", 'LIKE',"%".$fa."%");
         }
         if ($invoice != "NA") {
-            $data->where("invoice_no", 'LIKE', "%" . $modifiedString_invoice . "%");
+            $data->where("invoice_no", 'LIKE',"%".$invoice."%");
         }
         if ($description != "NA") {
-            $data->where("description", 'LIKE', "%" . $modifiedString_decs . "%");
+            $data->where("description", 'LIKE',"%".$description."%");
         }
 
-        // $sql->whereBetween('posting_date', [$start, $end]);
-        // Two date 
+       
+
+        // Check if start and end are provided and not "NA"
         if ($start != "NA" && $end != "NA") {
-            $data->whereBetween("created_at", [$start, $end]);
+            // Ensure both start and end are in the correct date format (e.g., 'Y-m-d H:i:s')
+            $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay(); // or use ->toDateTimeString() if needed
+            $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay(); // or use ->toDateTimeString()
 
-            // Start Only
+            // Query between the start and end dates
+            $data->whereBetween('created_at', [$startDate, $endDate]);
+
+            // Start date only provided
         } elseif ($start != "NA" && $end == "NA") {
-            $data->where("created_at", '>=', $start);
-            // End Only
+            $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
+            $data->where('created_at', '>=', $startDate);
+
+            // End date only provided
         } elseif ($start == "NA" && $end != "NA") {
-            $data->where("created_at", '<=', $end);
+            $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
+            $data->where('created_at', '<=', $endDate);
         }
 
-        if ($state == "All") {
-        } elseif ($state == 0) {
-            $data->where("deleted", 0);
-        } elseif ($state == 1) {
-            $data->where("deleted", 1);
-        } elseif ($state == 2) {
-            $data->where("deleted", 2);
+
+        if($state != "NA"){
+            if ($state == "All") {
+            } elseif ($state == 0) {
+                $data->where("deleted", 0);
+            } elseif ($state == 1) {
+                $data->where("deleted", 1);
+            } elseif ($state == 2) {
+                $data->where("deleted", 2);
+            }
+
+
         }
 
-        if($type != "NA" && $value != "NA"){
-            $data->where($type,'LIKE','%'.$modifiedString_value.'%');
+        if ($type != "NA" && $value != "NA") {
+            $data->where($type, 'LIKE', '%' . $value . '%');
         }
+
 
         $asset_data = $data->get();
+        $count = count($asset_data);
 
-        // $asset_data = [$id];
-        return response()->json($asset_data);
+        if ($count > 0) {
+            return response()->json($asset_data);
+        } else {
+            return response()->json([]);
+        }
     }
+
+    public function seach_changeLog(Request $request)
+    {
+
+        $start = $request->start ?? "NA";
+        $end = $request->end ?? "NA";
+      
+        $key = $request->key??'NA';
+        $varaint = $request->varaint??'NA';
+        $change = $request->change??'NA';
+        $section = $request->section??'NA';
+        $change_by= $request->change_by??'NA';
+        $page =$request->page;
+
+        $changeLog = ChangeLog::orderBy("id", "desc");
+            if($key != 'NA'){
+                $changeLog->where('key', $key);
+            }
+            if($varaint != 'NA'){
+                $changeLog->where('varaint','LIKE', '%'.$varaint.'%');
+            }
+
+            if($change  != 'NA'){
+                $changeLog->where('change','LIKE', '%'.$change .'%');
+            }
+
+
+            if($section != 'NA'){
+                $changeLog->where('section','LIKE', '%'.$section.'%');
+            }
+            if($change_by != 'NA'){
+                $changeLog->where('change_by','LIKE', '%'.$change_by.'%');
+            }
+
+          // Check if start and end are provided and not "NA"
+          if ($start != "NA" && $end != "NA") {
+            // Ensure both start and end are in the correct date format (e.g., 'Y-m-d H:i:s')
+            $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay(); // or use ->toDateTimeString() if needed
+            $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay(); // or use ->toDateTimeString()
+
+            // Query between the start and end dates
+            $changeLog->whereBetween('created_at', [$startDate, $endDate]);
+
+            // Start date only provided
+        } elseif ($start != "NA" && $end == "NA") {
+            $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
+            $changeLog->where('created_at', '>=', $startDate);
+
+            // End date only provided
+        } elseif ($start == "NA" && $end != "NA") {
+            $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
+            $changeLog->where('created_at', '<=', $endDate);
+        }
+
+        
+            $data = $changeLog->get();
+            $count = count($data);
+    
+
+            $limit = 300;
+
+            $total_pages = ceil($count/$limit);
+            $offet = 0;
+            if($page != 0){
+                $offet = ($page - 1) * $limit;
+            }
+
+            $changeLog->limit($limit);
+            $changeLog->offset($offet);
+            $datas = $changeLog->get();
+            $count = count($datas );
+        
+         
+           
+           $arr = new arr();
+           $arr->page = $page;
+           $arr->total_page = $total_pages;
+           $arr->data = $datas;
+           
+
+            if ($count > 0) {
+                return response()->json($arr);
+            } else {
+                return response()->json([]);
+            }
+    
+      
+    }
+}
+class arr {
+    public $page;
+    public $total_page;
+    public $data;
+    
 }

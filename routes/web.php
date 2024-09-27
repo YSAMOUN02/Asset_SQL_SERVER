@@ -51,10 +51,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/admin/assets/restore', [AssetsController::class, 'restore']);
 
-    Route::get('/admin/assets/change/log', [ChangeLogController::class, 'ChangeLog']);
-    
-    Route::post('/admin/change/log/search', [ChangeLogController::class, 'ChangeLogSearch']);
 
+    
+    Route::get('/admin/assets/change/log/{page}', [ChangeLogController::class, 'ChangeLog']);
         
     Route::get('/admin/transfer/add', [TransferController::class, 'add_transfer']);
     

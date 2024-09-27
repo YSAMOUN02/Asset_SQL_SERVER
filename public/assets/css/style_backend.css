@@ -31,7 +31,7 @@ body{
 .resultList{
   overflow: visible !important;
 }
-#resultList thead{
+#resultList thead,#table_change_log thead{
   position: sticky;
   top: 0px;
 }
@@ -283,7 +283,32 @@ body{
   top: 0;
   right: 0;
 }
+.pagination_by_search{
+  display: none;
+}
+.pagination_by_search li:hover{
+  cursor: pointer;
+}
+#loading{
+  width: 200px;
+  height: 100px;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 99;
+  backdrop-filter: blur(10px);
+  background-color: black;
+  color: white;
 
+  /* display: none; */
+}
+#loading_inner{
+  
+}
+#loading h1{
+  margin: 0 10px;
+}
   @keyframes fade_out{
     0%{
       display: block;
@@ -306,7 +331,7 @@ body{
 
 @media (min-width: 1000px) and (max-width: 1400px) {
   .table-data{
-    height: 55vh;
+    height: 50vh;
 
   }
   .table-data button{

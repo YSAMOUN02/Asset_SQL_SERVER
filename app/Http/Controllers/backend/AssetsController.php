@@ -40,6 +40,7 @@ class AssetsController extends Controller
         if (Auth::user()->permission->assets_read == 1) {
             if (Auth::user()->role == "admin") {
                 $asset =  StoredAssets::orderBy('assets_id', 'desc')
+                    ->whereBetween('created_at', [$start_date, $end_date])
                     ->where("last_varaint", 1)
                     ->get();
 
@@ -53,6 +54,7 @@ class AssetsController extends Controller
 
 
                 $asset =  StoredAssetsUser::orderBy('id', 'desc')
+                    ->whereBetween('created_at', [$start_date, $end_date])
                     ->where('deleted','<>', 1)
                     ->get();
                 // return $asset;

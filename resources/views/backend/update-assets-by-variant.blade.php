@@ -688,7 +688,7 @@
         </div>
 
         </div>
-        @if ($total_varaint == $current_varaint && $asset[$current_varaint]->deleted == 0)
+        @if ($total_varaint == $current_varaint && ($asset[$current_varaint]->deleted == 0 || $asset[$current_varaint]->deleted == 2))
             <div class="btn_float_right">
 
                 <button type="button" onclick="append_img()"

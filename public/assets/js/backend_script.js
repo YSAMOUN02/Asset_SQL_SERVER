@@ -253,12 +253,13 @@ async function search_assets() {
     if (id) {
         let url = `/api/assets/${id}`;
 
-        let data = await fetch(url,{
-            method: 'GET',
+        let data = await fetch(url, {
+            method: "GET",
             headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            }})
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        })
             .then((response) => {
                 if (!response.ok) {
                     console.log(2);
@@ -542,148 +543,6 @@ function remove_image_from_stored_varaint(id) {
     document.querySelector("#image_box_varaint" + id).remove();
 }
 
-async function raw_assets() {
-    let Assets = document.querySelector("#assets");
-    let Fa = document.querySelector("#fa");
-    let Invoice = document.querySelector("#invoice");
-    let Description = document.querySelector("#description");
-    let StartDate = document.querySelector("#start_date");
-    let EndDate = document.querySelector("#end_date");
-    let State = document.querySelector("#state");
-
-    let startDateValue = StartDate.value;
-    let endDateValue = EndDate.value;
-
-    let startDate = new Date(startDateValue);
-    let endDate = new Date(endDateValue);
-
-    if (startDate > endDate) {
-        console.log("Start Date is greater.Select Correct Date and Try again.");
-        alert(
-            "Start Date is greater than End Date.Please select correct date and Try again."
-        );
-        return;
-    }
-    let fa_value;
-
-    if (Fa) {
-        if (Fa.value != "") {
-            fa_value = Fa.value.replace(/\//g, "-");
-        } else {
-            fa_value = "NA";
-        }
-    }
-
-    let invoice_value;
-
-    if (Invoice) {
-        if (Invoice.value != "") {
-            // Assume Fa.value is a string
-            invoice_value = Invoice.value.replace(/\//g, "-");
-        } else {
-            invoice_value = "NA";
-        }
-    }
-
-    let description_value;
-
-    if (Description) {
-        if (Description.value != "") {
-            description_value = Description.value.replace(/\//g, "-");
-        } else {
-            description_value = "NA";
-        }
-    }
-
-    let url = `/api/RawAssets/assets=${
-        Assets.value || "NA"
-    }/fa=${fa_value}/invoice=${invoice_value}/description=${description_value}/start=${
-        StartDate.value || "NA"
-    }/end=${EndDate.value || "NA"}/state=${State.value || "NA"}`;
-
-
-    let data = await fetch(url, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        }})
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }   
-            return response.json(); // Expecting JSON
-        })
-        .then((data) => {
-            return data; // Handle your data
-        })
-        .catch((error) => {
-           alert(error);
-        });
-
-    let body_table = document.querySelector("#table_raw_body");
-
-    if (data) {
-        if(data.length > 0){
-            body_table.innerHTML = `
-            ${data
-                .map(
-                    (item, index) => `
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <td scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            ${index + 1}
-                        </td>
-                        <td scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                ${
-                                    item.posting_date
-                                        ? new Date(
-                                              item.posting_date
-                                          ).toLocaleDateString("en-US", {
-                                              year: "numeric",
-                                              month: "short",
-                                              day: "numeric",
-                                          })
-                                        : ""
-                                }
-                        </td>
-                        <td scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                           ${item.assets}
-                        </td>
-                        <td scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            ${item.fa}
-                        </td>
-                        <td scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            ${item.invoice_no}
-                        </td>
-                        <td scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            ${item.description}
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="/admin/assets/add/assets=${
-                                item.assets
-                            }/invoice_no=${
-                        item.fa ? item.fa.replace(/\//g, "-") : "NA"
-                    }"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a>
-                        </td>
-                    </tr>
-                `
-                )
-                .join("")}
-        `;
-    array = data;
-        }else{
-            alert("No Data Found.")
-        }
-    }
-}
-
 function select_all_permission() {
     let user_read = document.querySelector("#user_read");
     let user_write = document.querySelector("#user_write");
@@ -961,7 +820,7 @@ function select_all_permission() {
 // });
 
 function dynamic_sort(by, method, table) {
-    if (array.length < 500) {
+    if (array.length <= 500) {
         if (method == "int") {
             if (sort_state == 0) {
                 // Sort by the specified property in ascending order
@@ -1236,11 +1095,9 @@ function show_sort_change_log() {
                           ${item.section || ""}
                        </td>
                        <td class="px-6 py-4">
-                          ${item.users.name || ""}
+                          ${item.change_by || ""}
                        </td>
-                       <td class="px-6 py-4">
-                        ${item.users.role || ""}
-                       </td>
+                    
                        <td class="px-6 py-4"> 
                           ${
                               item.created_at
@@ -1576,6 +1433,7 @@ function printable() {
 }
 
 function print_group() {
+    let li_print = document.querySelectorAll(".print_val");
     let li_print_array = Array.from(li_print);
     let id_for_print = [];
     li_print_array.map((data) => {
@@ -1598,6 +1456,7 @@ function print_group() {
 }
 
 function export_group() {
+    let li_print = document.querySelectorAll(".print_val");
     let li_print_array = Array.from(li_print);
     let id_for_export = [];
     li_print_array.map((data) => {
@@ -1648,27 +1507,22 @@ function select_all() {
     printable();
 }
 
-
-function otherSearch(){
+function otherSearch() {
     let other = document.querySelector("#other_search");
 
-    if(other){
-        if(other.value != ""){
+    if (other) {
+        if (other.value != "") {
             other_search = 1;
-        }else{
+        } else {
             other_search = 0;
-            alert("Select Field to Search.")
+            alert("Select Field to Search.");
         }
     }
-   
 }
-const token = localStorage.getItem('token');
-
+const token = localStorage.getItem("token");
 
 let other_search = 0;
 async function search_asset() {
-
-
     let fa = document.querySelector("#fa");
     let asset_input = document.querySelector("#assets");
     let invoice = document.querySelector("#invoice");
@@ -1677,7 +1531,9 @@ async function search_asset() {
     let end = document.querySelector("#end_date");
     let state = document.querySelector("#state");
     let id_asset = document.querySelector("#id_asset");
-    
+    let other = document.querySelector("#other_search");
+    let value = document.querySelector("#other_value");
+
     let id_val = "NA";
     let fa_val = "NA";
     let asset_val = "NA";
@@ -1686,30 +1542,32 @@ async function search_asset() {
     let start_val = "NA";
     let end_val = "NA";
     let state_val = "NA";
+    let type_val = "NA";
+    let value_val = "NA";
 
-    if(id_asset){
-        if(id_asset.value != ""){
+    if (id_asset) {
+        if (id_asset.value != "") {
             id_val = id_asset.value;
         }
     }
     if (fa) {
         if (fa.value != "") {
-            fa_val = fa.value.replace(/\//g, "-");
+            fa_val = fa.value;
         }
     }
     if (asset_input) {
         if (asset_input.value != "") {
-            asset_val = asset_input.value.replace(/\//g, "-");
+            asset_val = asset_input.value;
         }
     }
     if (invoice) {
         if (invoice.value != "") {
-            invoice_val = invoice.value.replace(/\//g, "-");
+            invoice_val = invoice.value;
         }
     }
     if (description) {
         if (description.value != "") {
-            description_val = description.value.replace(/\//g, "-");
+            description_val = description.value;
         }
     }
     if (start) {
@@ -1736,198 +1594,599 @@ async function search_asset() {
             return;
         }
     }
-    // console.log("Fa:"+fa_val,"Assets:"+asset_val,"invoice:"+invoice_val,"des:"+description_val,"start:"+start_val,"end:"+end_val,"state:"+state_val);
-
-    if(other_search == 0){
-        url = `/api/fect/id=${id_val}/assets=${asset_val}/fa=${fa_val}/invoice=${invoice_val}/description=${description_val}/start=${start_val}/end=${end_val}/state=${state_val}`;
-    }else{
-        let other = document.querySelector("#other_search");
-        let value =document.querySelector("#other_value");
-        let value_val = "NA";
-        let type = "NA";
-        if(other){
-            
-            type = other.value;
+    if (value) {
+        if (value.value != "") {
+            value_val = value.value;
         }
-
-        if(value){
-           if(value.value !="")
-           {
-            value_val = value.value.replace(/\//g, "-");
-           }
-            }
-           
-        url = `/api/fect/id=${id_val}/assets=${asset_val}/fa=${fa_val}/invoice=${invoice_val}/description=${description_val}/start=${start_val}/end=${end_val}/state=${state_val}/type=${type}/value=${value_val}`;
     }
+    if (other) {
+        type_val = other.value;
+    }
+    url = `/api/fect/asset/data`;
+
     let data = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            name_email: document.getElementById('name_email').value,
-            password: document.getElementById('password').value,
-            remember: document.getElementById('remember').checked,
-        })
+            type: type_val,
+            value: value_val,
+            id: id_val,
+            state: state_val,
+            asset: asset_val,
+            fa: fa_val,
+            invoice: invoice_val,
+            end: end_val,
+            start: start_val,
+            description: description_val,
+        }),
     })
-        // .then((response) => {
-        //     if (!response.ok) {
-        //         throw new Error("Network response was not ok");
-        //     }
-        //     return response.json(); // Expecting JSON
-        // })
-        // .then((data) => {
-        //     return data; // Handle your data
-        // })
-        // .catch((error) => {
-        //     console.error(
-        //         "There was a problem with the fetch operation:",
-        //         error
-        //     );
-        // });
-    
-    // if (data) {
-    //     if (data.length > 0) {
-    //         let body_change = document.querySelector("#assets_body");
-    //         body_change.innerHTML = ``;
-    //         data.map((item) => {
-    //             body_change.innerHTML += `
+        .then((res) => res.json())
+        .catch((error) => {
+            alert(error);
+        });
+
+    if (data) {
+        if (data.length > 0) {
+            let body_change = document.querySelector("#assets_body");
+            body_change.innerHTML = ``;
+            data.map((item) => {
+                body_change.innerHTML += `
                 
-    //          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                           
-    //                                     <td class="print_val px-6 py-4">
-    //                                         <input onchange="printable()" data-id="${
-    //                                             item.assets_id || ""
-    //                                         }" id="green-checkbox"
-    //                                             type="checkbox" value=""
-    //                                             class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-    //                                     </td>
-    //                                         <td class="px-6 py-4">
-    //                                             ${item.assets_id || ""}
-    //                                         </td>
-    //                                         <td class="px-6 py-4">
-    //                                        ${
-    //                                            item.created_at
-    //                                                ? new Date(
-    //                                                      item.created_at
-    //                                                  ).toLocaleDateString(
-    //                                                      "en-US",
-    //                                                      {
-    //                                                          year: "numeric",
-    //                                                          month: "short",
-    //                                                          day: "numeric",
-    //                                                      }
-    //                                                  )
-    //                                                : ""
-    //                                        }
+                                        <td class="print_val px-6 py-4">
+                                            <input onchange="printable()" data-id="${
+                                                item.assets_id || ""
+                                            }" id="green-checkbox"
+                                                type="checkbox" value=""
+                                                class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                        </td>
+                                            <td class="px-6 py-4">
+                                                ${item.assets_id || ""}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                           ${
+                                               item.created_at
+                                                   ? new Date(
+                                                         item.created_at
+                                                     ).toLocaleDateString(
+                                                         "en-US",
+                                                         {
+                                                             year: "numeric",
+                                                             month: "short",
+                                                             day: "numeric",
+                                                         }
+                                                     )
+                                                   : ""
+                                           }
         
-    //                                         </td>
-    //                                         <td class="px-6 py-4">
-    //                                               ${item.document || ""}
-    //                                         </td>
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                  ${item.document || ""}
+                                            </td>
         
-    //                                         <td class="px-6 py-4">
-    //                                                  ${
-    //                                                      item.assets1 +
-    //                                                          item.assets2 || ""
-    //                                                  }
-    //                                         </td>
-    //                                         <td class="px-6 py-4">
-    //                                     ${item.fa || ""}
-    //                                         </td>
-    //                                         <td class="px-6 py-4">
-    //                                      ${item.fa_type || ""}
-    //                                         </td>
+                                            <td class="px-6 py-4">
+                                                     ${
+                                                         item.assets1 +
+                                                             item.assets2 || ""
+                                                     }
+                                            </td>
+                                            <td class="px-6 py-4">
+                                        ${item.fa || ""}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                         ${item.fa_type || ""}
+                                            </td>
         
-    //                                             <td class="px-6 py-4">
-    //                                    ${
-    //                                        item.deleted == 0
-    //                                            ? `  <span
-    //                                             class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-    //                                             <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-    //                                             Available
-    //                                         </span>
-    //                                         `
-    //                                            : item.deleted == 1
-    //                                            ? `
-    //                                            <span
-    //                                           class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-    //                                           <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-    //                                           Deleted
-    //                                       </span>
-    //                                   `
-    //                                            : ` <span
-    //                                         class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-    //                                         <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-    //                                         Sold
-    //                                     </span>`
-    //                                    }
-    //                                         </td>
-    //                                         <td class="px-6 py-4">
-    //                                    ${item.fa_class || ""}
-    //                                         </td>
-    //                                         <td class="px-6 py-4">
-    //                                           ${item.fa_subclass || ""}
-    //                                         </td>
-    //                                         <td class="px-6 py-4">
-    //                                                ${item.depreciation || ""}
-    //                                         </td>
-    //                                         <td class="px-6 py-4">
-    //                                            ${item.dr || ""}
-    //                                         </td>
-    //                                         <td class="px-6 py-4">
-    //                                             ${item.pr || ""}
-    //                                         </td>
-    //                                         <td class="px-6 py-4">
-    //                                             ${item.invoice_no || ""}
+                                                <td class="px-6 py-4">
+                                       ${
+                                           item.deleted == 0
+                                               ? `  <span
+                                                class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                                <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                                Available
+                                            </span>
+                                            `
+                                               : item.deleted == 1
+                                               ? `
+                                               <span
+                                              class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                              <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                              Deleted
+                                          </span>
+                                      `
+                                               : ` <span
+                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                            Sold
+                                        </span>`
+                                       }
+                                            </td>
+                                            <td class="px-6 py-4">
+                                       ${item.fa_class || ""}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                              ${item.fa_subclass || ""}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                   ${item.depreciation || ""}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                               ${item.dr || ""}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                ${item.pr || ""}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                ${item.invoice_no || ""}
                                                
-    //                                         </td>
-    //                                         <td class="px-6 py-4">
-    //                                              ${item.description || ""}
-    //                                         </td>
-    //                                       <td class="px-6 py-4 dark:bg-slate-900"
-    //                                         style="position: sticky; right: 0; background-color: white;">
-    //                                         ${
-    //                                             auth?.permission
-    //                                                 ?.assets_write == 1
-    //                                                 ? `
-    //                                                     <a href="/admin/assets/edit/id=${item.assets_id}">
-    //                                                         <button type="button"
-    //                                                             class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-    //                                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-    //                                                         </button>
-    //                                                      </a>
-    //                                                 `
-    //                                                 : // If auth.permission.assets_write is 1
-    //                                                   `` // If not, show nothing
-    //                                         }
-    //                                         ${
-    //                                             auth?.permission
-    //                                                 ?.assets_delete == 1
-    //                                                 ? `
-    //                                                      <button type="button" data-id="${item.assets_id}"
-    //                                                         id="btn_delete_asset${item.assets_id}"
-    //                                                         onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')"
-    //                                                         class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-    //                                                         <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
-    //                                                 `
-    //                                                 : // If auth.permission.assets_write is 1
-    //                                                   `` // If not, show nothing
-    //                                         }
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                 ${item.description || ""}
+                                            </td>
+                                          <td class="px-6 py-4 dark:bg-slate-900"
+                                            style="position: sticky; right: 0; background-color: white;">
+                                            ${
+                                                auth?.permission
+                                                    ?.assets_write == 1
+                                                    ? `
+                                                        <a href="/admin/assets/edit/id=${item.assets_id}">
+                                                            <button type="button"
+                                                                class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                                    class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
+                                                            </button>
+                                                         </a>
+                                                    `
+                                                    : // If auth.permission.assets_write is 1
+                                                      `` // If not, show nothing
+                                            }
+                                            ${
+                                                auth?.permission
+                                                    ?.assets_delete == 1
+                                                    ? `
+                                                         <button type="button" data-id="${item.assets_id}"
+                                                            id="btn_delete_asset${item.assets_id}"
+                                                            onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')"
+                                                            class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                            <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+                                                    `
+                                                    : // If auth.permission.assets_write is 1
+                                                      `` // If not, show nothing
+                                            }
         
                                             
-    //                                     </td>
+                                        </td>
         
         
-    //                                     </tr>
-    //       `;
-    //         });
-    //     }else{
-    //         alert("Data not Found.");
-    //     }
-    // }
-
+                                        </tr>
+          `;
+            });
+            array = data;
+        } else {
+            alert("Data not Found.");
+        }
+    } else {
+        alert("Problem on database connection.");
+    }
 }
 
+function check_date() {
+    // initailize
+    let start_input = "NA";
+    let end_input = "NA";
 
+    let input_start = document.querySelector("#start_date");
+    let input_end = document.querySelector("#end_date");
+
+    if (input_start) {
+        if (input_start != "") {
+            start_input = new Date(input_start.value);
+        }
+    }
+    if (input_end) {
+        if (input_end != "") {
+            end_input = new Date(input_end.value);
+        }
+    }
+    if (start_input != "NA" && end_input != "NA") {
+        if (start_input > end_input) {
+            alert(
+                "Start Date is greater than End Date.Please select correct date and Try again."
+            );
+            // Get today's date in the format 'YYYY-MM-DD'
+            let today = new Date().toISOString().split("T")[0];
+
+            input_start.value = today;
+            return;
+        }
+    }
+}
+
+async function raw_assets() {
+    let Assets = document.querySelector("#assets");
+    let Fa = document.querySelector("#fa");
+    let Invoice = document.querySelector("#invoice");
+    let Description = document.querySelector("#description");
+    let StartDate = document.querySelector("#start_date");
+    let EndDate = document.querySelector("#end_date");
+    let State = document.querySelector("#state");
+
+    let fa_value = "NA";
+    let invoice_value = "NA";
+    let startDateValue = "NA";
+    let endDateValue = "NA";
+    let description_value = "NA";
+    let assets_value = "NA";
+    let state_value = "NA";
+
+    if (Fa) {
+        if (Fa.value != "") {
+            fa_value = Fa.value;
+        }
+    }
+
+    if (StartDate) {
+        if (StartDate.value != "") {
+            startDateValue = new Date(StartDate.value);
+        }
+    }
+    if (EndDate) {
+        if (EndDate.value != "") {
+            endDateValue = new Date(EndDate.value);
+        }
+    }
+
+    if (Invoice) {
+        if (Invoice.value != "") {
+            invoice_value = Invoice.value;
+        }
+    }
+
+    if (Description) {
+        if (Description.value != "") {
+            description_value = Description.value;
+        }
+    }
+    if (Assets) {
+        if (Assets.value != "") {
+            assets_value = Assets.value;
+        }
+    }
+    if (State) {
+        if (State.value != "") {
+            state_value = State.value;
+        }
+    }
+
+    let url = `/api/raw/assets`;
+
+    let data = await fetch(url, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            asset_val: assets_value,
+            fa_val: fa_value,
+            invoice_val: invoice_value,
+            description_val: description_value,
+            start_val: startDateValue,
+            end_val: endDateValue,
+            state_val: state_value,
+        }),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json(); // Expecting JSON
+        })
+        .then((data) => {
+            return data; // Handle your data
+        })
+        .catch((error) => {
+            alert(error);
+        });
+    let body_table = document.querySelector("#table_raw_body");
+
+    if (data) {
+        if (data.length > 0) {
+            body_table.innerHTML = `
+            ${data
+                .map(
+                    (item, index) => `
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <td scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            ${index + 1}
+                        </td>
+                        <td scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                ${
+                                    item.posting_date
+                                        ? new Date(
+                                              item.posting_date
+                                          ).toLocaleDateString("en-US", {
+                                              year: "numeric",
+                                              month: "short",
+                                              day: "numeric",
+                                          })
+                                        : ""
+                                }
+                        </td>
+                        <td scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                           ${item.assets}
+                        </td>
+                        <td scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            ${item.fa}
+                        </td>
+                        <td scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            ${item.invoice_no}
+                        </td>
+                        <td scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            ${item.description}
+                        </td>
+                        <td class="px-6 py-4">
+                            <a href="/admin/assets/add/assets=${
+                                item.assets
+                            }/invoice_no=${item.fa ? item.fa : "NA"}"
+                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a>
+                        </td>
+                    </tr>
+                `
+                )
+                .join("")}
+        `;
+            array = data;
+        } else {
+            alert("No Data Found.");
+        }
+    }
+}
+function filter_by_page(no){
+    search_change_log(no);
+}
+
+async function search_change_log(no) {
+
+    let key = document.querySelector("#key");
+    let varaint = document.querySelector("#varaint");
+    let change = document.querySelector("#change");
+    let section = document.querySelector("#section");
+    let change_by = document.querySelector("#chang_by");
+    let start_change = document.querySelector("#start_date");
+    let end_change = document.querySelector("#end_date");
+
+    let key_val = "NA";
+    let varaint_val = "NA";
+    let change_val = "NA";
+    let section_val = "NA";
+    let change_by_val = "NA";
+    let start_val = "NA";
+    let end_val = "NA";
+
+    if (key) {
+        if (key.value != "") {
+            key_val = key.value;
+        }
+    }
+    if (varaint) {
+        if (varaint.value != "") {
+            varaint_val = varaint.value;
+        }
+    }
+    if (change) {
+        if (change.value != "") {
+            change_val = change.value;
+        }
+    }
+    if (section) {
+        if (section.value != "") {
+            section_val = section.value;
+        }
+    }
+    if (change_by) {
+        if (change_by.value != "") {
+            change_by_val = change_by.value;
+        }
+    }
+    if (start_change) {
+        if (start_change.value != "") {
+            start_val = start_change.value;
+        }
+    }
+    if (end_change) {
+        if (end_change.value != "") {
+            end_val = end_change.value;
+        }
+    }
+
+    let page = 1;
+    if(no != 0){
+        page = no;
+    }
+
+
+    // Loading label 
+    document.querySelector("#loading").style.display = 'block';
+
+
+    let url = `/api/change/log`;
+    let data = await fetch(url, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            key: key_val,
+            varaint: varaint_val,
+            change: change_val,
+            section: section_val,
+            change_by: change_by_val,
+            start: start_val,
+            end: end_val,
+            page: page,
+        }),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json(); // Expecting JSON
+        })
+        .then((data) => {
+            return data; // Handle your data
+        })
+        .catch((error) => {
+            alert(error);
+        });
+
+    if (data) {
+        console.log(data);
+        if (data.data) {
+            document.querySelector("#loading").style.display = 'none';
+            if (data.data.length > 0) {
+                let defualt = document.querySelector(".defualt");
+                if (defualt) {
+                    defualt.style.display = "none";
+                }
+
+                let pagination_search = document.querySelector(
+                    ".pagination_by_search"
+                );
+
+                if (pagination_search) {
+                    pagination_search.style.display = "block";
+
+                    if (data.page != 0) {
+                                let page = data.page;
+                                let totalPage = data.total_page;
+                 // Start by building the entire HTML content in one go
+                                let paginationHtml = `
+                                <ul class="flex items-center -space-x-px h-8 text-sm">
+                                    <li>
+                                        <a href=""
+                                            class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                            <i class="fa-solid fa-angle-left"></i>
+                                        </a>
+                                    </li>
+                                `;
+
+                                // Add the current page dynamically
+                                let left_val = page - 5;
+                                if(left_val < 1){
+                                    left_val = 1;
+                                }
+
+                                let right_val = page + 5;
+                                if(right_val > totalPage){
+                                    right_val = totalPage;
+                                }
+
+                                for (let i = left_val; i <= right_val ; i++) {
+                                    paginationHtml += `
+                                       <li onclick="filter_by_page(${i})" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                       >
+                                  
+                                                ${i}
+                                                 
+                                           
+                                        </li>
+                                    `;
+                                }
+                                
+                                if(page != totalPage){
+                                    paginationHtml += `
+                                    <li>
+                                        <a href=""
+                                            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                            <i class="fa-solid fa-chevron-right"></i>
+                                        </a>
+                                    </li>
+                                        `;      
+                                }
+                                        
+                             
+
+                                // Add the remaining pagination buttons and close the list
+                                paginationHtml += `
+                             
+
+                                <li class="mx-2">
+                                    <a href="1" aria-current="page"
+                                        class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                        <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;"></i>
+                                    </a>
+                                </li>
+                                </ul>
+                                `;
+
+                                // Finally, assign the full HTML to the element
+                                pagination_search.innerHTML = paginationHtml;
+                    }
+                }
+
+                let body_change = document.querySelector("#table_body_change");
+                body_change.innerHTML = ``;
+                data.data.map((item) => {
+                    body_change.innerHTML += `
+                
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                               <td class="px-6 py-4">
+                                   ${item.id || ""}
+                               </td>
+                               <td class="px-6 py-4">
+                                    ${item.key || ""}
+                               </td>
+                               <td class="px-6 py-4">
+                                  ${item.varaint || ""}
+                               </td>
+                               <td class="px-6 py-4">
+                                  ${item.change || ""}
+                               </td>
+                               <td class="px-6 py-4">
+                                  ${item.section || ""}
+                               </td>
+                               <td class="px-6 py-4">
+                                  ${item.change_by || ""}
+                               </td>
+                         
+                               <td class="px-6 py-4"> 
+                                  ${
+                                      item.created_at
+                                          ? new Date(
+                                                item.created_at
+                                            ).toLocaleDateString("en-US", {
+                                                year: "numeric",
+                                                month: "short",
+                                                day: "numeric",
+                                            })
+                                          : ""
+                                  }
+        
+                               </td>
+        
+        
+                           </tr>
+          `;
+                });
+                array = data.data;
+            } else {
+                alert("Data not found");
+            }
+        } else {
+            alert("Data not found");
+        }
+    } else {
+        alert("Error Fetch not responce");
+    }
+}

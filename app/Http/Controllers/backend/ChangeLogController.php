@@ -4,44 +4,56 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\ChangeLog;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ChangeLogController extends Controller
 {
-    public function ChangeLog(){
-        $changeLog = ChangeLog::with(['users'])->Orderby("id","desc")->get();
+    public function ChangeLog($page)
+    {
 
-  
-        // return $changeLog;
-        return view("backend.list-change-log",['changeLog' =>$changeLog ]);
-    }
+        // Set the start date to January 1st of the current year
+        $start_year = date('Y');
+        $start_month_day = '01-01';
+        $start_date = $start_year . '-' . $start_month_day;
+    
 
-    public function ChangeLogSearch(request $request){
+        $limit = 500;
+        $count_post = ChangeLog::count();
+        // return  $count_post ;
+        $total_page = ceil($count_post/$limit);
+        $offet = 0;
+        if($page != 0){
+            $offet = ($page - 1) * $limit;
+        }
+       
+
+        // Set the end date to the end of today
+        $end_date = Carbon::now()->endOfDay(); // Sets the time to 23:59:59 of today
+    
+        // Fetch change log entries between the start and end dates
       
-        // "varaint": "fg",
-        // "change": "efgdfg",
-        // "section": "user",
-        // "chang_by": "user",
-        // "start_date": "2024-08-20",
-        // "end_date": "2024-09-03"
-        $changeLog = ChangeLog::with(['users']);
-        
-        if(!empty($request->varaint)){
-            $changeLog->where("varaint","LIKE","%".$request->varaint."%");
-        }
-     
-        if(!empty($request->change)){
-            $changeLog->where("change","LIKE","%".$request->change."%");
-        }
-        if(!empty($request->section)){
-            $changeLog->where("section","LIKE","%".$request->section."%");
-        }
-        if(!empty($request->chang_by)){
-            $changeLog->where("change_by","LIKE","%".$request->chang_by."%");
-        }
-        $changeLog->Orderby("id","desc");
-        $changeLog = $changeLog->get();
+            $changeLog = ChangeLog::with(['users'])
+            ->orderBy("id", "desc")
+            ->limit($limit)
+            ->offset($offet)
+            ->get();
+            $change_by = ChangeLog::select('change_by')->distinct()->get();
 
-        return view("backend.list-change-log",['changeLog' =>$changeLog ]);
+
+    
+           
+        
+        // Pass the data to the view
+        return view("backend.list-change-log", [
+            'changeLog' => $changeLog,
+            'start_date' => $start_date, 
+            'end_date' => $end_date->toDateString() // Format the date for display
+            ,'change_by'=>$change_by,
+            'total_page' => $total_page,
+            'page' => $page
+        ]);
     }
+
+
 }
