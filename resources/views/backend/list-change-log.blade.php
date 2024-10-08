@@ -82,7 +82,7 @@
 
                 </div>
                 <div class="max-w-full flex justify-between px-5">
-                    <div class="defualt">
+                    <div class="pagination_by_search defualt">
                         @if (!empty($total_page))
                         @php
                             $left_limit = max(1, $page - 5); // Set the left boundary, but not below 1
@@ -132,13 +132,7 @@
                     @endif
                     
                     </div>
-                    <div class="pagination_by_search">
-                    
-                        <nav aria-label="Page navigation example">
-                         
-                        </nav>
-                  
-                    </div>
+               
                  
                    
                     <button type="button" onclick="search_change_log(0)"

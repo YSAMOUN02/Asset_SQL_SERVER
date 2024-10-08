@@ -16,6 +16,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/raw/assets', [ApiHandlerController::class, 'Search_Raw_assets']);
     
     Route::post('/fect/asset/data', [ApiHandlerController::class, 'search_list_asset_more']);
+
+    Route::post('/fect/asset/staff/data', [ApiHandlerController::class, 'search_list_asset_more_staff']);
+    
     
     Route::get('/fixAsset/location', [ApiHandlerController::class, 'fa_location']);
     

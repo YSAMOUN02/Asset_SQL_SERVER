@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/admin/assets/add', [AssetsController::class, 'list_select']);
 
-    Route::get('/admin/assets/list', [AssetsController::class, 'list_assets']); // for added assets
+    Route::get('/admin/assets/list/{page}', [AssetsController::class, 'list_assets']); // for added assets
 
     Route::post('/admin/assets/list/search', [AssetsController::class, 'list_asset_search']); // for added assets
 

@@ -29,7 +29,7 @@ class AssetsController extends Controller
     {
         return view('backend.add-assets');
     }
-    public function list_assets()
+    public function list_assets($page)
     {
         $start_year = date('Y');
         $start_month_day = '01-01';
@@ -37,10 +37,36 @@ class AssetsController extends Controller
         $end_date = date('Y-m-d');
 
 
+
+
+        $limit = 150;
+        $count_post = StoredAssets::where("last_varaint", 1)->count();
+        // return  $count_post ;
+        $total_page = ceil($count_post/$limit);
+        $offset = 0;
+        if($page != 0){
+            $offset = ($page - 1) * $limit;
+        }
+       
+
+    
+    
+        // Fetch change log entries between the start and end dates
+      
+            // $changeLog = ChangeLog::with(['users'])
+            // ->orderBy("id", "desc")
+            // ->limit($limit)
+            // ->offset($offet)
+            // ->get();
+            // $change_by = ChangeLog::select('change_by')->distinct()->get();
+
+
+
         if (Auth::user()->permission->assets_read == 1) {
             if (Auth::user()->role == "admin") {
                 $asset =  StoredAssets::orderBy('assets_id', 'desc')
-                    ->whereBetween('created_at', [$start_date, $end_date])
+                    ->limit($limit)
+                    ->offset($offset)
                     ->where("last_varaint", 1)
                     ->get();
 
@@ -48,20 +74,24 @@ class AssetsController extends Controller
                 return view('backend.list_asset', [
                     'asset' => $asset,
                     'start_date' => $start_date,
-                    'end_date' => $end_date
+                    'end_date' => $end_date,
+                    'total_page' => $total_page,
+                    'page' => $page
                 ]);
             } elseif (Auth::user()->role == "staff") {
 
-
                 $asset =  StoredAssetsUser::orderBy('id', 'desc')
-                    ->whereBetween('created_at', [$start_date, $end_date])
+                    ->limit($limit)
+                    ->offset($offset)
                     ->where('deleted','<>', 1)
                     ->get();
                 // return $asset;
                 return view('backend.list_asset_staff', [
                     'asset' => $asset,
                     'start_date' => $start_date,
-                    'end_date' => $end_date
+                    'end_date' => $end_date,
+                    'total_page' => $total_page,
+                    'page' => $page
                 ]);
             } else {
                 return redirect("/")->with("fail", "You do not have User role in system.");
@@ -502,9 +532,10 @@ class AssetsController extends Controller
         }
     }
 
+    
     public function update_asset($id)
     {
-
+        // return 123;
         $asset = StoredAssets::with(['images', 'files'])
             ->where('assets_id', $id)
             ->Orderby('varaint', 'asc')

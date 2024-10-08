@@ -283,9 +283,7 @@ body{
   top: 0;
   right: 0;
 }
-.pagination_by_search{
-  display: none;
-}
+
 .pagination_by_search li:hover{
   cursor: pointer;
 }
@@ -303,9 +301,7 @@ body{
 
   /* display: none; */
 }
-#loading_inner{
-  
-}
+
 #loading h1{
   margin: 0 10px;
 }

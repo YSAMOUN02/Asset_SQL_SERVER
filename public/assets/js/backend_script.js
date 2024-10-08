@@ -1522,7 +1522,7 @@ function otherSearch() {
 const token = localStorage.getItem("token");
 
 let other_search = 0;
-async function search_asset() {
+async function search_asset(no) {
     let fa = document.querySelector("#fa");
     let asset_input = document.querySelector("#assets");
     let invoice = document.querySelector("#invoice");
@@ -1545,6 +1545,10 @@ async function search_asset() {
     let type_val = "NA";
     let value_val = "NA";
 
+    let page = 1;
+    if (no) {
+        page = no;
+    }
     if (id_asset) {
         if (id_asset.value != "") {
             id_val = id_asset.value;
@@ -1603,6 +1607,8 @@ async function search_asset() {
         type_val = other.value;
     }
     url = `/api/fect/asset/data`;
+    // Loading label
+    document.querySelector("#loading").style.display = "block";
 
     let data = await fetch(url, {
         method: "POST",
@@ -1621,6 +1627,7 @@ async function search_asset() {
             end: end_val,
             start: start_val,
             description: description_val,
+            page: page,
         }),
     })
         .then((res) => res.json())
@@ -1629,150 +1636,692 @@ async function search_asset() {
         });
 
     if (data) {
-        if (data.length > 0) {
-            let body_change = document.querySelector("#assets_body");
-            body_change.innerHTML = ``;
-            data.map((item) => {
-                body_change.innerHTML += `
-                
-             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                          
-                                        <td class="print_val px-6 py-4">
-                                            <input onchange="printable()" data-id="${
-                                                item.assets_id || ""
-                                            }" id="green-checkbox"
-                                                type="checkbox" value=""
-                                                class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        </td>
-                                            <td class="px-6 py-4">
-                                                ${item.assets_id || ""}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                           ${
-                                               item.created_at
-                                                   ? new Date(
-                                                         item.created_at
-                                                     ).toLocaleDateString(
-                                                         "en-US",
-                                                         {
-                                                             year: "numeric",
-                                                             month: "short",
-                                                             day: "numeric",
-                                                         }
-                                                     )
-                                                   : ""
-                                           }
-        
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                  ${item.document || ""}
-                                            </td>
-        
-                                            <td class="px-6 py-4">
-                                                     ${
-                                                         item.assets1 +
-                                                             item.assets2 || ""
-                                                     }
-                                            </td>
-                                            <td class="px-6 py-4">
-                                        ${item.fa || ""}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                         ${item.fa_type || ""}
-                                            </td>
-        
-                                                <td class="px-6 py-4">
-                                       ${
-                                           item.deleted == 0
-                                               ? `  <span
-                                                class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                                <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                                Available
-                                            </span>
-                                            `
-                                               : item.deleted == 1
-                                               ? `
-                                               <span
-                                              class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                              <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                              Deleted
-                                          </span>
-                                      `
-                                               : ` <span
-                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                            Sold
-                                        </span>`
-                                       }
-                                            </td>
-                                            <td class="px-6 py-4">
-                                       ${item.fa_class || ""}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                              ${item.fa_subclass || ""}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                   ${item.depreciation || ""}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                               ${item.dr || ""}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                ${item.pr || ""}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                ${item.invoice_no || ""}
-                                               
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                 ${item.description || ""}
-                                            </td>
-                                          <td class="px-6 py-4 dark:bg-slate-900"
-                                            style="position: sticky; right: 0; background-color: white;">
-                                            ${
-                                                auth?.permission
-                                                    ?.assets_write == 1
-                                                    ? `
-                                                        <a href="/admin/assets/edit/id=${item.assets_id}">
-                                                            <button type="button"
-                                                                class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                                    class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-                                                            </button>
-                                                         </a>
-                                                    `
-                                                    : // If auth.permission.assets_write is 1
-                                                      `` // If not, show nothing
-                                            }
-                                            ${
-                                                auth?.permission
-                                                    ?.assets_delete == 1
-                                                    ? `
-                                                         <button type="button" data-id="${item.assets_id}"
-                                                            id="btn_delete_asset${item.assets_id}"
-                                                            onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')"
-                                                            class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                                            <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
-                                                    `
-                                                    : // If auth.permission.assets_write is 1
-                                                      `` // If not, show nothing
-                                            }
-        
+        if (data.data) {
+            if (data.data.length > 0) {
+                let pagination_search = document.querySelector(
+                    ".pagination_by_search"
+                );
+                if (pagination_search) {
+                    pagination_search.style.display = "block";
+
+                    if (data.page != 0) {
+                        let page = data.page;
+                        let totalPage = data.total_page;
+                        // Start by building the entire HTML content in one go
+                        let paginationHtml = `
+                            <div class="flex">
+                                <ul class="flex items-center -space-x-px h-8 text-sm">
+                                 
+                                `;
+
+                        // Add the current page dynamically
+                        let left_val = page - 5;
+                        if (left_val < 1) {
+                            left_val = 1;
+                        }
+                        if (page != 1 && totalPage != 1) {
+                            paginationHtml += `
+                                    <li onclick="search_asset(${
+                                        page - 1
+                                    })"  class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                     
+                                                
+                                            <i class="fa-solid fa-angle-left"></i>
+                        
+                                    </li>
+                                 `;
+                        }
+                        let right_val = page + 5;
+                        if (right_val > totalPage) {
+                            right_val = totalPage;
+                        }
+
+                        for (let i = left_val; i <= right_val; i++) {
+                            if (i != page) {
+                                paginationHtml += `
+                                        <li onclick="search_asset(${i})" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                        >
+                                   
+                                                 ${i}
+                                                  
                                             
-                                        </td>
-        
-        
-                                        </tr>
-          `;
-            });
-            array = data;
+                                         </li>
+                                     `;
+                            } else if (i == page) {
+                                paginationHtml += `
+                                          <li onclick="search_asset(${i})" class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                          
+                                                ${i}
+                                           
+                                        </li>
+                                     `;
+                            }
+                        }
+
+                        if (page != totalPage) {
+                            paginationHtml += `
+                                    <li  onclick="search_asset(${
+                                        page + 1
+                                    })" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                 
+                                            
+                                            <i class="fa-solid fa-chevron-right"></i>
+                   
+                                    </li>
+                    `;
+                        }
+             
+                        paginationHtml += `
+                           <li class="mx-2" style="margin-left:10px;">
+                                    <a href="1" aria-current="page"
+                                        class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                        <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;"></i>
+                                    </a>
+                                </li>
+                                </ul>
+                        <select
+                            onchange="set_page_dynamic_admin()"
+                            id="select_page_dynamic"
+                             class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                             `;
+                         if (page != 1) {
+                             paginationHtml += `
+                                 <option value="${page}">${page}</option>
+                                 `;
+                         }
+ 
+                         for (let i = 1; i <= totalPage; i++) {
+                             paginationHtml += `
+                                 <option value="${i}">${i}</option>
+                                 `;
+                         }
+ 
+                         paginationHtml += `
+                                 </select>
+                                 </div>
+                                       </div>
+                                 `;
+
+             
+
+                        // Finally, assign the full HTML to the element
+                        pagination_search.innerHTML = paginationHtml;
+                    }
+                }
+
+                let body_change = document.querySelector("#assets_body");
+                body_change.innerHTML = ``;
+                data.data.map((item) => {
+                    body_change.innerHTML += `
+                    
+                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                              
+                                            <td class="print_val px-6 py-4">
+                                                <input onchange="printable()" data-id="${
+                                                    item.assets_id || ""
+                                                }" id="green-checkbox"
+                                                    type="checkbox" value=""
+                                                    class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            </td>
+                                                <td class="px-6 py-4">
+                                                    ${item.assets_id || ""}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                               ${
+                                                   item.created_at
+                                                       ? new Date(
+                                                             item.created_at
+                                                         ).toLocaleDateString(
+                                                             "en-US",
+                                                             {
+                                                                 year: "numeric",
+                                                                 month: "short",
+                                                                 day: "numeric",
+                                                             }
+                                                         )
+                                                       : ""
+                                               }
+            
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                      ${item.document || ""}
+                                                </td>
+            
+                                                <td class="px-6 py-4">
+                                                         ${
+                                                             item.assets1 +
+                                                                 item.assets2 ||
+                                                             ""
+                                                         }
+                                                </td>
+                                                <td class="px-6 py-4">
+                                            ${item.fa || ""}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                             ${item.fa_type || ""}
+                                                </td>
+            
+                                                    <td class="px-6 py-4">
+                                           ${
+                                               item.deleted == 0
+                                                   ? `  <span
+                                                    class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                                    <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                                    Available
+                                                </span>
+                                                `
+                                                   : item.deleted == 1
+                                                   ? `
+                                                   <span
+                                                  class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                                  <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                                  Deleted
+                                              </span>
+                                          `
+                                                   : ` <span
+                                                class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                                <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                                Sold
+                                            </span>`
+                                           }
+                                                </td>
+                                                <td class="px-6 py-4">
+                                           ${item.fa_class || ""}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                  ${item.fa_subclass || ""}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                       ${
+                                                           item.depreciation ||
+                                                           ""
+                                                       }
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                   ${item.dr || ""}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    ${item.pr || ""}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    ${item.invoice_no || ""}
+                                                   
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                     ${item.description || ""}
+                                                </td>
+                                              <td class="px-6 py-4 dark:bg-slate-900"
+                                                style="position: sticky; right: 0; background-color: white;">
+                                                ${
+                                                    auth?.permission
+                                                        ?.assets_write == 1
+                                                        ? `
+                                                            <a href="/admin/assets/edit/id=${item.assets_id}">
+                                                                <button type="button"
+                                                                    class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                                        class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
+                                                                </button>
+                                                             </a>
+                                                        `
+                                                        : // If auth.permission.assets_write is 1
+                                                          `` // If not, show nothing
+                                                }
+                                                ${
+                                                    auth?.permission
+                                                        ?.assets_delete == 1
+                                                        ? `
+                                                             <button type="button" data-id="${item.assets_id}"
+                                                                id="btn_delete_asset${item.assets_id}"
+                                                                onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')"
+                                                                class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                                <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+                                                        `
+                                                        : // If auth.permission.assets_write is 1
+                                                          `` // If not, show nothing
+                                                }
+            
+                                                
+                                            </td>
+            
+            
+                                            </tr>
+              `;
+                });
+                array = data.data;
+
+                document.querySelector("#loading").style.display = "none";
+            } else {
+                alert("Data not Found.");
+                document.querySelector("#loading").style.display = "none";
+            }
         } else {
-            alert("Data not Found.");
+            alert("Data not array");
+            document.querySelector("#loading").style.display = "none";
         }
     } else {
         alert("Problem on database connection.");
+
+        document.querySelector("#loading").style.display = "none";
+    }
+}
+async function search_asset_staff(no) {
+    let fa = document.querySelector("#fa");
+    let asset_input = document.querySelector("#assets");
+    let invoice = document.querySelector("#invoice");
+    let description = document.querySelector("#description");
+    let start = document.querySelector("#start_date");
+    let end = document.querySelector("#end_date");
+    let state = document.querySelector("#state");
+    let id_asset = document.querySelector("#id_asset");
+    let other = document.querySelector("#other_search");
+    let value = document.querySelector("#other_value");
+
+    let id_val = "NA";
+    let fa_val = "NA";
+    let asset_val = "NA";
+    let invoice_val = "NA";
+    let description_val = "NA";
+    let start_val = "NA";
+    let end_val = "NA";
+    let state_val = "NA";
+    let type_val = "NA";
+    let value_val = "NA";
+
+    let page = 1;
+    if (no) {
+        page = no;
+    }
+    if (id_asset) {
+        if (id_asset.value != "") {
+            id_val = id_asset.value;
+        }
+    }
+    if (fa) {
+        if (fa.value != "") {
+            fa_val = fa.value;
+        }
+    }
+    if (asset_input) {
+        if (asset_input.value != "") {
+            asset_val = asset_input.value;
+        }
+    }
+    if (invoice) {
+        if (invoice.value != "") {
+            invoice_val = invoice.value;
+        }
+    }
+    if (description) {
+        if (description.value != "") {
+            description_val = description.value;
+        }
+    }
+    if (start) {
+        if (start.value != "") {
+            start_val = start.value;
+        }
+    }
+    if (end) {
+        if (end.value != "") {
+            end_val = end.value;
+        }
+    }
+    if (state) {
+        if (state.value != "") {
+            state_val = state.value;
+        }
+    }
+
+    if (start_val && end_val && start_val != "NA" && end_val != "NA") {
+        if (start_val > end_val) {
+            alert(
+                "Start Date is greater than End Date.Please select correct date and Try again."
+            );
+            return;
+        }
+    }
+    if (value) {
+        if (value.value != "") {
+            value_val = value.value;
+        }
+    }
+    if (other) {
+        type_val = other.value;
+    }
+    url = `/api/fect/asset/staff/data`;
+
+    // Loading label
+    document.querySelector("#loading").style.display = "block";
+
+    let form = document.querySelector("#form_search");
+    if (form) {
+        if (!form.checkValidity()) {
+            // Trigger native form validation messages without submitting
+            form.reportValidity();
+        }
+    }
+
+    // console.log("type: "+ type_val+"    value "+value_val+"    "+id_val+"    "+state_val+"    "+start_val+"    "+end_val+"    "+description_val+"    page"+page+"    "+invoice_val+"    "+fa_val+"    ")
+    let data = await fetch(url, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            type: type_val,
+            value: value_val,
+            id: id_val,
+            state: state_val,
+            asset: asset_val,
+            fa: fa_val,
+            invoice: invoice_val,
+            end: end_val,
+            start: start_val,
+            description: description_val,
+            page: page,
+        }),
+    })
+        .then((res) => res.json())
+        .catch((error) => {
+            alert(error);
+        });
+
+    if (data) {
+
+        if (data.data) {
+            if (data.data.length > 0) {
+                let pagination_search = document.querySelector(
+                    ".pagination_by_search"
+                );
+                if (pagination_search) {
+                    pagination_search.style.display = "block";
+
+                    if (data.page != 0) {
+                        let page = data.page;
+                        let totalPage = data.total_page;
+                        // Start by building the entire HTML content in one go
+                        let paginationHtml = `
+                            <div class="flex">
+                                <ul class="flex items-center -space-x-px h-8 text-sm">
+                                 
+                                `;
+
+                        
+                        let left_val = page - 5;
+                        // Prevent < 0
+                        if (left_val < 1) {
+                            left_val = 1;
+                        }
+                        // Left Arrow 
+                        if (page != 1 && totalPage != 1) {
+                            paginationHtml += `
+                                    <li onclick="search_asset_staff(${
+                                        page - 1
+                                    })"  class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                     
+                                                
+                                            <i class="fa-solid fa-angle-left"></i>
+                        
+                                    </li>
+                                 `;
+                        }
+
+                        let right_val = page + 5;
+                
+                        // Prevent < total
+                        if (right_val > totalPage) {
+                            right_val = totalPage;
+                        }
+
+                        // For on left and right Value 
+                   
+                   
+                        for (let i = left_val; i <= right_val; i++) {
+                            
+                            if (i != page) {
+                                paginationHtml += `
+                                        <li onclick="search_asset_staff(${i})" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                        >
+                                   
+                                                 ${i}
+                                            
+                                         </li>
+                                     `;
+                            } else if (i == page) {
+                                paginationHtml += `
+                                          <li onclick="search_asset_staff(${i})" class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                          
+                                                ${i}
+                                           
+                                        </li>
+                                     `;
+                            }
+                        }
+
+                        if (page != totalPage) {
+                            paginationHtml += `
+                                    <li  onclick="search_asset_staff(${
+                                        page + 1
+                                    })" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                 
+                                            
+                                            <i class="fa-solid fa-chevron-right"></i>
+                   
+                                    </li>
+                                        `;
+                        }
+
+                        // Add the remaining pagination buttons and close the list
+                        paginationHtml += `
+                        <li class="mx-2" style="margin-left:10px;">
+                                    <a href="1" aria-current="page"
+                                        class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                        <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;"></i>
+                                    </a>
+                                </li>
+                                </ul>
+                                 <select
+                                    onchange="set_page_dynamic()"
+                                    id="select_page_dynamic"
+                                    class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                `;
+
+                        if (page != 1) {
+                            paginationHtml += `
+                                <option value="${page}">${page}</option>
+                                `;
+                        }
+
+                        for (let i = 1; i <= totalPage; i++) {
+                            paginationHtml += `
+                                <option value="${i}">${i}</option>
+                                `;
+                        }
+
+                        paginationHtml += `
+                                </select>
+                                </div>
+                                `;
+
+                        // Finally, assign the full HTML to the element
+                        pagination_search.innerHTML = paginationHtml;
+                    }
+                }
+
+                let body_change = document.querySelector("#asset_staff_body");
+                body_change.innerHTML = ``;
+                data.data.map((item) => {
+                    body_change.innerHTML += `
+                    
+                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                              
+                                            <td class="print_val px-6 py-4">
+                                                <input onchange="printable()" data-id="${
+                                                    item.id || ""
+                                                }" id="green-checkbox"
+                                                    type="checkbox" value=""
+                                                    class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            </td>
+                                                <td class="px-6 py-4">
+                                                    ${item.id || ""}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                               ${
+                                                   item.created_at
+                                                       ? new Date(
+                                                             item.created_at
+                                                         ).toLocaleDateString(
+                                                             "en-US",
+                                                             {
+                                                                 year: "numeric",
+                                                                 month: "short",
+                                                                 day: "numeric",
+                                                             }
+                                                         )
+                                                       : ""
+                                               }
+            
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                      ${item.document || ""}
+                                                </td>
+            
+                                                <td class="px-6 py-4">
+                                                         ${
+                                                             item.assets1 +
+                                                                 item.assets2 ||
+                                                             ""
+                                                         }
+                                                </td>
+                                                <td class="px-6 py-4">
+                                            ${item.fa || ""}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                             ${item.fa_type || ""}
+                                                </td>
+            
+                                                    <td class="px-6 py-4">
+                                           ${
+                                               item.deleted == 0
+                                                   ? `  <span
+                                                    class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                                    <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                                    Available
+                                                </span>
+                                                `
+                                                   : item.deleted == 1
+                                                   ? `
+                                                   <span
+                                                  class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                                  <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                                  Deleted
+                                              </span>
+                                          `
+                                                   : ` <span
+                                                class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                                <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                                Sold
+                                            </span>`
+                                           }
+                                                </td>
+                                                <td class="px-6 py-4">
+                                           ${item.fa_class || ""}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                  ${item.fa_subclass || ""}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                       ${
+                                                           item.depreciation ||
+                                                           ""
+                                                       }
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                   ${item.dr || ""}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    ${item.pr || ""}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    ${item.invoice_no || ""}
+                                                   
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                     ${item.description || ""}
+                                                </td>
+                                              <td class="px-6 py-4 dark:bg-slate-900"
+                                                style="position: sticky; right: 0; background-color: white;">
+                                                ${
+                                                    auth?.permission
+                                                        ?.assets_write == 1
+                                                        ? `
+                                                            <a href="/admin/assets/edit/id=${item.id}">
+                                                                <button type="button"
+                                                                    class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                                        class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
+                                                                </button>
+                                                             </a>
+                                                        `
+                                                        : // If auth.permission.assets_write is 1
+                                                          `` // If not, show nothing
+                                                }
+                                                ${
+                                                    auth?.permission
+                                                        ?.assets_delete == 1
+                                                        ? `
+                                                             <button type="button" data-id="${item.id}"
+                                                                id="btn_delete_asset${item.id}"
+                                                                onclick="delete_value('btn_delete_asset'+${item.id},'delete_asset_admin','delete_value_asset')"
+                                                                class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                                <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+                                                        `
+                                                        : // If auth.permission.assets_write is 1
+                                                          `` // If not, show nothing
+                                                }
+            
+                                                
+                                            </td>
+            
+            
+                                            </tr>
+              `;
+                });
+                array = data.data;
+
+                document.querySelector("#loading").style.display = "none";
+            } else {
+                alert("Data not Found.");
+                document.querySelector("#loading").style.display = "none";
+            }
+        } else {
+            alert("Data not array");
+            document.querySelector("#loading").style.display = "none";
+        }
+    } else {
+        alert("Problem on database connection.");
+
+        document.querySelector("#loading").style.display = "none";
     }
 }
 
+function set_page_dynamic(){
+    let select = document.querySelector("#select_page_dynamic");
+    if(select){
+        if(select.value != ''){
+            search_asset_staff(parseInt(select.value));
+        }
+    }
+
+}
+function set_page_dynamic_admin(){
+    let select = document.querySelector("#select_page_dynamic");
+    if(select){
+        if(select.value != ''){
+            search_asset(parseInt(select.value));
+        }
+    }
+}
 function check_date() {
     // initailize
     let start_input = "NA";
@@ -1951,12 +2500,11 @@ async function raw_assets() {
         }
     }
 }
-function filter_by_page(no){
+function filter_by_page(no) {
     search_change_log(no);
 }
 
 async function search_change_log(no) {
-
     let key = document.querySelector("#key");
     let varaint = document.querySelector("#varaint");
     let change = document.querySelector("#change");
@@ -2010,14 +2558,12 @@ async function search_change_log(no) {
     }
 
     let page = 1;
-    if(no != 0){
+    if (no != 0) {
         page = no;
     }
 
-
-    // Loading label 
-    document.querySelector("#loading").style.display = 'block';
-
+    // Loading label
+    document.querySelector("#loading").style.display = "block";
 
     let url = `/api/change/log`;
     let data = await fetch(url, {
@@ -2051,9 +2597,8 @@ async function search_change_log(no) {
         });
 
     if (data) {
-        console.log(data);
         if (data.data) {
-            document.querySelector("#loading").style.display = 'none';
+            document.querySelector("#loading").style.display = "none";
             if (data.data.length > 0) {
                 let defualt = document.querySelector(".defualt");
                 if (defualt) {
@@ -2068,70 +2613,86 @@ async function search_change_log(no) {
                     pagination_search.style.display = "block";
 
                     if (data.page != 0) {
-                                let page = data.page;
-                                let totalPage = data.total_page;
-                 // Start by building the entire HTML content in one go
-                                let paginationHtml = `
+                        let page = data.page;
+                        let totalPage = data.total_page;
+                        // Start by building the entire HTML content in one go
+                        let paginationHtml = `
                                 <ul class="flex items-center -space-x-px h-8 text-sm">
-                                    <li>
-                                        <a href=""
-                                            class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                            <i class="fa-solid fa-angle-left"></i>
-                                        </a>
-                                    </li>
+                                 
                                 `;
 
-                                // Add the current page dynamically
-                                let left_val = page - 5;
-                                if(left_val < 1){
-                                    left_val = 1;
-                                }
+                        // Add the current page dynamically
+                        let left_val = page - 5;
+                        if (left_val < 1) {
+                            left_val = 1;
+                        }
+                        if (page != 1 && totalPage != 1) {
+                            paginationHtml += `
+                                    <li onclick="filter_by_page(${
+                                        page - 1
+                                    })"  class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                     
+                                                
+                                            <i class="fa-solid fa-angle-left"></i>
+                        
+                                    </li>
+                                 `;
+                        }
+                        let right_val = page + 5;
+                        if (right_val > totalPage) {
+                            right_val = totalPage;
+                        }
 
-                                let right_val = page + 5;
-                                if(right_val > totalPage){
-                                    right_val = totalPage;
-                                }
-
-                                for (let i = left_val; i <= right_val ; i++) {
-                                    paginationHtml += `
-                                       <li onclick="filter_by_page(${i})" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                       >
-                                  
+                        for (let i = left_val; i <= right_val; i++) {
+                            if (i != page) {
+                                paginationHtml += `
+                                        <li onclick="filter_by_page(${i})" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                        >
+                                   
+                                                 ${i}
+                                                  
+                                            
+                                         </li>
+                                     `;
+                            } else if (i == page) {
+                                paginationHtml += `
+                                          <li onclick="filter_by_page(${i})" class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                          
                                                 ${i}
-                                                 
                                            
                                         </li>
-                                    `;
-                                }
-                                
-                                if(page != totalPage){
-                                    paginationHtml += `
+                                     `;
+                            }
+                        }
+
+                        if (page != totalPage) {
+                            paginationHtml += `
                                     <li>
                                         <a href=""
                                             class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                             <i class="fa-solid fa-chevron-right"></i>
                                         </a>
                                     </li>
-                                        `;      
-                                }
-                                        
+                                        `;
+                        }
+
+                        // Add the remaining pagination buttons and close the list
+                        paginationHtml += `
                              
 
-                                // Add the remaining pagination buttons and close the list
-                                paginationHtml += `
-                             
-
-                                <li class="mx-2">
+                                <li class="mx-2" style="margin-left:10px;">
                                     <a href="1" aria-current="page"
                                         class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
                                         <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;"></i>
                                     </a>
                                 </li>
                                 </ul>
+
+                              
                                 `;
 
-                                // Finally, assign the full HTML to the element
-                                pagination_search.innerHTML = paginationHtml;
+                        // Finally, assign the full HTML to the element
+                        pagination_search.innerHTML = paginationHtml;
                     }
                 }
 
@@ -2182,11 +2743,23 @@ async function search_change_log(no) {
                 array = data.data;
             } else {
                 alert("Data not found");
+                document.querySelector("#loading").style.display = "none";
             }
         } else {
             alert("Data not found");
+            document.querySelector("#loading").style.display = "none";
         }
     } else {
         alert("Error Fetch not responce");
+        document.querySelector("#loading").style.display = "none";
+    }
+}
+function set_page() {
+    let select_page = document.querySelector("#select_page");
+
+    if (select_page) {
+        if (select_page.value != "") {
+            window.location.href = `/admin/assets/list/${select_page.value}`;
+        }
     }
 }

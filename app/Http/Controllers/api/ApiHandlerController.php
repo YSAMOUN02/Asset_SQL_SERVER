@@ -242,7 +242,7 @@ class ApiHandlerController extends Controller
         $type = $request->type ?? "NA";
         $value = $request->value ?? "NA";
         $id = $request->id ?? "NA";
-
+        $page =$request->page??1;
 
 
         $data =  StoredAssets::orderBy('assets_id', 'desc')
@@ -305,16 +305,142 @@ class ApiHandlerController extends Controller
         }
 
 
+        $limit = 150;
+     
+        $offet = 0;
+        if($page != 0){
+            $offet = ($page - 1) * $limit;
+        }
+        $count = $data->count();
+
+        $data->limit($limit);
+        $data->offset($offet);
         $asset_data = $data->get();
-        $count = count($asset_data);
+        
+        $total_pages = ceil($count/$limit);
+       
+        // return response()->json($count);
+        $arr = new arr();
+        $arr->page = $page;
+        $arr->total_page = $total_pages;
+        $arr->data = $asset_data;
+
 
         if ($count > 0) {
-            return response()->json($asset_data);
+            return response()->json($arr );
         } else {
             return response()->json([]);
         }
     }
 
+
+    public function search_list_asset_more_staff(request $request)
+    {
+
+
+
+
+        $fa = $request->fa ?? "";
+        $invoice = $request->invoice ?? "";
+        $assets = $request->asset ?? "";
+        $description = $request->description ?? "";
+        $start = $request->start ?? "";
+        $end = $request->end ?? "";
+        $state = $request->state ?? "NA";
+        $type = $request->type ?? "NA";
+        $value = $request->value ?? "NA";
+        $id = $request->id ?? "NA";
+        $page =$request->page??1;
+
+        // return response()->json([$fa,$invoice,$assets]);
+
+        $data =  StoredAssetsUser::orderBy('id', 'desc')
+            ->where("deleted",'<>', 1);
+
+        if ($id != "NA") {
+            $data->where("id", $id);
+        }
+        if ($assets != "NA") {
+            $data->where(DB::raw("CONCAT(assets1, assets2)"), 'LIKE', "%".$assets."%");
+        }
+        if ($fa != "NA") {
+            $data->where("fa", 'LIKE',"%".$fa."%");
+        }
+        if ($invoice != "NA") {
+            $data->where("invoice_no", 'LIKE',"%".$invoice."%");
+        }
+        if ($description != "NA") {
+            $data->where("description", 'LIKE',"%".$description."%");
+        }
+
+       
+
+        // Check if start and end are provided and not "NA"
+        if ($start != "NA" && $end != "NA") {
+            // Ensure both start and end are in the correct date format (e.g., 'Y-m-d H:i:s')
+            $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay(); // or use ->toDateTimeString() if needed
+            $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay(); // or use ->toDateTimeString()
+
+            // Query between the start and end dates
+            $data->whereBetween('created_at', [$startDate, $endDate]);
+
+            // Start date only provided
+        } elseif ($start != "NA" && $end == "NA") {
+            $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
+            $data->where('created_at', '>=', $startDate);
+
+            // End date only provided
+        } elseif ($start == "NA" && $end != "NA") {
+            $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
+            $data->where('created_at', '<=', $endDate);
+        }
+
+
+        if($state != "NA"){
+            if ($state == "All") {
+            } elseif ($state == 0) {
+                $data->where("deleted", 0);
+            } elseif ($state == 1) {
+                $data->where("deleted", 1);
+            } elseif ($state == 2) {
+                $data->where("deleted", 2);
+            }
+
+
+        }
+
+        if ($type != "NA" && $value != "NA") {
+            $data->where($type, 'LIKE', '%' . $value . '%');
+        }
+
+
+        $limit = 150;
+     
+        $offet = 0;
+        if($page != 0){
+            $offet = ($page - 1) * $limit;
+        }
+        $count = $data->count();
+
+        $data->limit($limit);
+        $data->offset($offet);
+        $asset_data = $data->get();
+        
+        $total_pages = ceil($count/$limit);
+       
+        // return response()->json($count);
+        $arr = new arr();
+        $arr->page = $page;
+        $arr->total_page = $total_pages;
+        $arr->data = $asset_data;
+
+
+        if ($count > 0) {
+            return response()->json($arr );
+        } else {
+            return response()->json([]);
+        }
+    }
     public function seach_changeLog(Request $request)
     {
 
@@ -373,13 +499,14 @@ class ApiHandlerController extends Controller
             $count = count($data);
     
 
-            $limit = 300;
+            $limit = 150;
 
             $total_pages = ceil($count/$limit);
             $offet = 0;
             if($page != 0){
                 $offet = ($page - 1) * $limit;
             }
+
 
             $changeLog->limit($limit);
             $changeLog->offset($offet);
