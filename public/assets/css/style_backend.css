@@ -287,7 +287,8 @@ body{
 .pagination_by_search li:hover{
   cursor: pointer;
 }
-#loading{
+
+#loading_style{
   width: 200px;
   height: 100px;
   position: absolute;
@@ -298,10 +299,7 @@ body{
   backdrop-filter: blur(10px);
   background-color: black;
   color: white;
-
-  /* display: none; */
 }
-
 #loading h1{
   margin: 0 10px;
 }
