@@ -79,7 +79,7 @@
 
             <form id="form_search" action="/admin/assets/add/search" method="POST">
                 @csrf
-                <div class="max-w-full min-h-full grid px-2 py-1 gap-2 grid-cols-4">
+                <div class="max-w-full min-h-full grid  px-2 py-1 gap-2 grid-cols-1 lg:grid-cols-4 md:grid-cols-2">
                     <div>
                         <label for="id_asset"
                             class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">ID</label>
@@ -201,6 +201,7 @@
                             class= " w-32  bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block mx-2 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <div class="max-w-full flex  px-5 ">
                             <div class="max-w-full flex justify-between ">
+                                {{-- Override when search  --}}
                                 <div class="pagination_by_search defualt item-center flex ">
                                     @if (!empty($total_page))
                                         @php
@@ -263,7 +264,7 @@
                   
                                     </select>
                                 </div>
-
+                                
                             </div>
 
                    

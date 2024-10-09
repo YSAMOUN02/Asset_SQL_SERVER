@@ -287,7 +287,9 @@ body{
 .pagination_by_search li:hover{
   cursor: pointer;
 }
-
+.aside{
+  z-index: 99999999999 !important;
+}
 #loading_style{
   width: 200px;
   height: 100px;

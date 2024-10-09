@@ -820,73 +820,79 @@ function select_all_permission() {
 // });
 
 function dynamic_sort(by, method, table) {
+    // Check if array length is less than or equal to 500
     if (array.length <= 500) {
-        if (method == "int") {
-            if (sort_state == 0) {
-                // Sort by the specified property in ascending order
-                array.sort((a, b) => a[by] - b[by]);
-                sort_state = 1;
-            } else {
-                // Sort by the specified property in descending order
-                array.sort((a, b) => b[by] - a[by]);
-                sort_state = 0;
+        // Show loading panel
+        document.querySelector("#loading").style.display = "block";
+
+        // Wrap the sorting operation in a setTimeout to simulate the loading panel
+        setTimeout(() => {
+            // Sorting by integer
+            if (method == "int") {
+                if (sort_state == 0) {
+                    array.sort((a, b) => a[by] - b[by]); // Ascending
+                    sort_state = 1;
+                } else {
+                    array.sort((a, b) => b[by] - a[by]); // Descending
+                    sort_state = 0;
+                }
+            } 
+            // Sorting by string
+            else if (method == "string") {
+                if (sort_state == 0) {
+                    array.sort((a, b) => a[by].localeCompare(b[by])); // Ascending
+                    sort_state = 1;
+                } else {
+                    array.sort((a, b) => b[by].localeCompare(a[by])); // Descending
+                    sort_state = 0;
+                }
+            } 
+            // Sorting by date
+            else if (method == "date") {
+                if (sort_state == 0) {
+                    array.sort((a, b) => {
+                        let dateA = new Date(a[by]);
+                        let dateB = new Date(b[by]);
+                        if (isNaN(dateA)) return 1;  // Invalid date to end
+                        if (isNaN(dateB)) return -1; // Invalid date to end
+                        return dateA - dateB; // Ascending
+                    });
+                    sort_state = 1;
+                } else {
+                    array.sort((a, b) => {
+                        let dateA = new Date(a[by]);
+                        let dateB = new Date(b[by]);
+                        if (isNaN(dateA)) return 1;  // Invalid date to end
+                        if (isNaN(dateB)) return -1; // Invalid date to end
+                        return dateB - dateA; // Descending
+                    });
+                    sort_state = 0;
+                }
             }
-        } else if (method == "string") {
-            if (sort_state == 0) {
-                // Sort by 'change' (ascending order)
-                array.sort((a, b) => a[by].localeCompare(b[by]));
-                sort_state = 1;
-            } else {
-                // Sort by 'change' (descending order)
-                array.sort((a, b) => b[by].localeCompare(a[by]));
-                sort_state = 0;
+
+            // Show sorted table data based on the table type
+            if (table == "assets") {
+                show_sort_asset();
+            } else if (table == "changelog") {
+                show_sort_change_log();
+            } else if (table == "raw_assets") {
+                show_sort_raw_asset();
+            } else if (table == "quick") {
+                show_sort_quick_data();
+            } else if (table == "asset_staff") {
+                show_sort_staff_asset();
             }
-        } else if (method == "date") {
-            if (sort_state == 0) {
-                // Sort by the specified date property in ascending order
 
-                array.sort((a, b) => {
-                    let dateA = new Date(a[by]);
-                    let dateB = new Date(b[by]);
+            // Hide loading panel after sorting is done
+            document.querySelector("#loading").style.display = "none";
 
-                    // Handle invalid dates
-                    if (isNaN(dateA)) return 1; // Push invalid dates to the end
-                    if (isNaN(dateB)) return -1; // Push invalid dates to the end
+        }, 500); // Adjust the timeout as needed
 
-                    return dateA - dateB; // Compare dates in ascending order
-                });
-                sort_state = 1;
-            } else {
-                // Sort by the specified date property in descending order
-                array.sort((a, b) => {
-                    let dateA = new Date(a[by]);
-                    let dateB = new Date(b[by]);
-
-                    // Handle invalid dates
-                    if (isNaN(dateA)) return 1; // Push invalid dates to the end
-                    if (isNaN(dateB)) return -1; // Push invalid dates to the end
-
-                    return dateB - dateA; // Compare dates in descending order
-                });
-                sort_state = 0;
-            }
-        }
-
-        if (table == "assets") {
-            show_sort_asset();
-        } else if (table == "changelog") {
-            show_sort_change_log();
-        } else if (table == "raw_assets") {
-            show_sort_raw_asset();
-        } else if (table == "quick") {
-            show_sort_quick_data();
-        } else if (table == "asset_staff") {
-            show_sort_staff_asset();
-        }
     } else {
-        alert("Data too Big Can't be sort. It's may crash your browser");
+        alert("Data too Big. Sorting might crash your browser.");
     }
 }
+
 
 function show_sort_staff_asset() {
     let body_change = document.querySelector("#asset_staff_body");
@@ -1889,20 +1895,20 @@ async function search_asset(no) {
                 });
                 array = data.data;
 
-                document.querySelector("#loading").style.display = "none";
+    
             } else {
                 alert("Data not Found.");
-                document.querySelector("#loading").style.display = "none";
+
             }
         } else {
             alert("Data not array");
-            document.querySelector("#loading").style.display = "none";
+
         }
     } else {
         alert("Problem on database connection.");
 
-        document.querySelector("#loading").style.display = "none";
     }
+    document.querySelector("#loading").style.display = "none";
 }
 async function search_asset_staff(no) {
     let fa = document.querySelector("#fa");

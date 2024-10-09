@@ -79,7 +79,7 @@
 
             <form action="/admin/assets/add/search" method="POST">
                 @csrf
-                <div class="max-w-full min-h-full grid px-2 py-1 gap-2 grid-cols-4">
+                <div class="max-w-full min-h-full grid px-2 py-1 gap-2 grid-cols-1 lg:grid-cols-4 md:grid-cols-2">
                     <div>
                         <label for="id_asset" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">ID</label>
 
@@ -153,7 +153,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="max-w-full items-center flex  justify-between px-2 mt-2 py-2">
+                <div class="max-w-full items-center flex  justify-between px-2 mt-2 py-2  sm:grid sm:grid-cols-1">
                     
                     <div class="flex">
                 
