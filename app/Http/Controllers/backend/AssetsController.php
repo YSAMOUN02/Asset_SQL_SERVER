@@ -31,10 +31,7 @@ class AssetsController extends Controller
     }
     public function list_assets($page)
     {
-        $start_year = date('Y');
-        $start_month_day = '01-01';
-        $start_date = $start_year . '-' . $start_month_day;
-        $end_date = date('Y-m-d');
+ 
 
 
 
@@ -49,19 +46,6 @@ class AssetsController extends Controller
         }
        
 
-    
-    
-        // Fetch change log entries between the start and end dates
-      
-            // $changeLog = ChangeLog::with(['users'])
-            // ->orderBy("id", "desc")
-            // ->limit($limit)
-            // ->offset($offet)
-            // ->get();
-            // $change_by = ChangeLog::select('change_by')->distinct()->get();
-
-
-
         if (Auth::user()->permission->assets_read == 1) {
             if (Auth::user()->role == "admin") {
                 $asset =  StoredAssets::orderBy('assets_id', 'desc')
@@ -73,10 +57,10 @@ class AssetsController extends Controller
                     
                 return view('backend.list_asset', [
                     'asset' => $asset,
-                    'start_date' => $start_date,
-                    'end_date' => $end_date,
                     'total_page' => $total_page,
-                    'page' => $page
+                    'page' => $page,
+                    'total_assets' =>$count_post,
+                    'total_page' => $total_page 
                 ]);
             } elseif (Auth::user()->role == "staff") {
 
@@ -88,10 +72,10 @@ class AssetsController extends Controller
                 // return $asset;
                 return view('backend.list_asset_staff', [
                     'asset' => $asset,
-                    'start_date' => $start_date,
-                    'end_date' => $end_date,
                     'total_page' => $total_page,
-                    'page' => $page
+                    'page' => $page,
+                    'total_assets' =>$count_post,
+                    'total_page' => $total_page 
                 ]);
             } else {
                 return redirect("/")->with("fail", "You do not have User role in system.");
@@ -101,13 +85,13 @@ class AssetsController extends Controller
         }
     }
 
-    public function list_select()
+    public function list_select($page)
     {
 
-        $start_year = date('Y');
-        $start_month_day = '01-01';
-        $start_date = $start_year . '-' . $start_month_day;
-        $end_date = date('Y-m-d');
+        $limit = 150;
+  
+        // return  $count_post ;
+    
 
         // return "start_date : ". $start_date. "  end date: ".$end_date; 
         $data = RawFixAssets::select(
@@ -120,17 +104,29 @@ class AssetsController extends Controller
             'state',
             DB::raw("FORMAT(posting_date, 'yyyy-MM-dd') as assets_date")
 
-        )
+        );
+        $count_post = $data->count();
 
-            ->orderBy('assets_date', 'desc')
-            ->whereBetween('posting_date', [$start_date, $end_date])
-            ->get();
+        $total_page = ceil($count_post/$limit);
+        $offset = 0;
+        if($page != 0){
+            $offset = ($page - 1) * $limit;
+        }
+        
+        $data->limit($limit);
+        $data->offset($offset);
+        $data->orderBy('assets_date','desc');
+
+        $datas = $data->get();
 
         // return $data;
         return view('backend.list-select', [
-            'data' => $data,
-            'start_date' => $start_date,
-            'end_date' => $end_date
+            'data' => $datas,
+            'total_page' => $total_page,
+            'page' => $page,
+            'total_record' =>$count_post,
+           
+     
         ]);
     }
 
@@ -269,88 +265,88 @@ class AssetsController extends Controller
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public function list_asset_search(Request $request)
-    {
+    // public function list_asset_search(Request $request)
+    // {
 
 
-        $query = null;
-        $query = StoredAssets::orderBy("issue_date", "desc");
+    //     $query = null;
+    //     $query = StoredAssets::orderBy("issue_date", "desc");
 
-        if (!empty($request->assets)) {
-            $query->where('assets', 'like', strtoupper('%' . $request->assets) . '%');
-        }
-        if (!empty($request->fa)) {
-            $query->where('fa', 'like', strtoupper('%' . $request->fa) . '%');
-        }
-        if (!empty($request->fa)) {
-            $query->where('invoice_no', 'like', strtoupper('%' . $request->invoice) . '%');
-        }
+    //     if (!empty($request->assets)) {
+    //         $query->where('assets', 'like', strtoupper('%' . $request->assets) . '%');
+    //     }
+    //     if (!empty($request->fa)) {
+    //         $query->where('fa', 'like', strtoupper('%' . $request->fa) . '%');
+    //     }
+    //     if (!empty($request->fa)) {
+    //         $query->where('invoice_no', 'like', strtoupper('%' . $request->invoice) . '%');
+    //     }
 
-        if (!empty($request->description)) {
-            $query->where('description', 'like', strtoupper('%' . $request->description) . '%');
-        }
-        if (!empty($request->state)) {
-            if ($request->state != "All") {
-                $query->where('state', $request->state);
-            }
-        }
-        $query->whereBetween('issue_date', [$request->start_date, $request->end_date]);
-        $query->select(
-            '*',
+    //     if (!empty($request->description)) {
+    //         $query->where('description', 'like', strtoupper('%' . $request->description) . '%');
+    //     }
+    //     if (!empty($request->state)) {
+    //         if ($request->state != "All") {
+    //             $query->where('state', $request->state);
+    //         }
+    //     }
+    //     $query->whereBetween('issue_date', [$request->start_date, $request->end_date]);
+    //     $query->select(
+    //         '*',
 
-            DB::raw("FORMAT(issue_date, 'yyyy-MM-dd') as assets_date")
-        );
-        $asset = $query->get();
+    //         DB::raw("FORMAT(issue_date, 'yyyy-MM-dd') as assets_date")
+    //     );
+    //     $asset = $query->get();
 
 
 
-        $count = COUNT($asset);
+    //     $count = COUNT($asset);
 
-        if ($count == 0) {
-            $query = StoredAssets::orderBy("issue_date", "desc");
+    //     if ($count == 0) {
+    //         $query = StoredAssets::orderBy("issue_date", "desc");
 
-            if (!empty($request->assets)) {
-                $query->where('assets', 'like', '%' . $request->assets . '%');
-            }
-            if (!empty($request->fa)) {
-                $query->where('fa', 'like', '%' . $request->fa . '%');
-            }
-            if (!empty($request->fa)) {
-                $query->where('invoice_no', 'like', '%' . $request->invoice . '%');
-            }
+    //         if (!empty($request->assets)) {
+    //             $query->where('assets', 'like', '%' . $request->assets . '%');
+    //         }
+    //         if (!empty($request->fa)) {
+    //             $query->where('fa', 'like', '%' . $request->fa . '%');
+    //         }
+    //         if (!empty($request->fa)) {
+    //             $query->where('invoice_no', 'like', '%' . $request->invoice . '%');
+    //         }
 
-            if (!empty($request->description)) {
-                $query->where('description', 'like', '%' . $request->description . '%');
-            }
-            if (!empty($request->state)) {
-                if ($request->state != "All") {
-                    $query->where('state', $request->state);
-                }
-            }
+    //         if (!empty($request->description)) {
+    //             $query->where('description', 'like', '%' . $request->description . '%');
+    //         }
+    //         if (!empty($request->state)) {
+    //             if ($request->state != "All") {
+    //                 $query->where('state', $request->state);
+    //             }
+    //         }
 
-            $query->select(
-                '*',
+    //         $query->select(
+    //             '*',
 
-                DB::raw("FORMAT(issue_date, 'yyyy-MM-dd') as assets_date")
-            );
-            $asset = $query->get();
-        }
-        // return $request->state;
-        $search = array(
-            "assets" => $request->assets,
-            "fa" => $request->fa,
-            "invoice" => $request->invoice,
-            "description" => $request->description,
-            "state"  => $request->state,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date
-        );
+    //             DB::raw("FORMAT(issue_date, 'yyyy-MM-dd') as assets_date")
+    //         );
+    //         $asset = $query->get();
+    //     }
+    //     // return $request->state;
+    //     $search = array(
+    //         "assets" => $request->assets,
+    //         "fa" => $request->fa,
+    //         "invoice" => $request->invoice,
+    //         "description" => $request->description,
+    //         "state"  => $request->state,
+    //         'start_date' => $request->start_date,
+    //         'end_date' => $request->end_date
+    //     );
 
-        return view('backend.list-assets', [
-            'asset' => $asset,
-            'search' => $search
-        ]);
-    }
+    //     return view('backend.list-assets', [
+    //         'asset' => $asset,
+    //         'search' => $search
+    //     ]);
+    // }
     public function assets_add_submit(Request $request)
     {
         // return $request;
@@ -535,7 +531,7 @@ class AssetsController extends Controller
     
     public function update_asset($id)
     {
-        // return 123;
+
         $asset = StoredAssets::with(['images', 'files'])
             ->where('assets_id', $id)
             ->Orderby('varaint', 'asc')

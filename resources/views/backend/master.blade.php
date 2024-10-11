@@ -202,7 +202,7 @@
                                 @endphp
                                 @if (Auth::user()->Permission->assets_write == 1)
                                     <li>
-                                        <a href="/admin/assets/add"
+                                        <a href="/admin/assets/add/1"
                                             class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Create
                                             Assets</a>
                                     </li>
@@ -307,7 +307,7 @@
                     @endif
                     @if ( Auth::user()->Permission->quick_read == 1)
                     <li>
-                                         <a  href="/quick/data">
+                                         <a  href="/quick/data/1">
                         {{-- <a href="/admin/user/list"> --}}
                             <button type="button"
                                 class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">

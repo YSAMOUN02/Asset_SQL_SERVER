@@ -90,25 +90,25 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
 
-                        <th scope="col" class="px-6 py-4">ID</th>
-                        <th scope="col" class="px-6 py-4">Asset Date</th>
-                        <th scope="col" class="px-6 py-4">Reference</th>
-                        <th scope="col" class="px-6 py-4">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">ID</th>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">Asset Date</th>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">Reference</th>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                             Assets Code
                         </th>
-                        <th scope="col" class="px-6 py-4">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                             Fix Assets
                         </th>
 
 
 
-                        <th scope="col" class="px-6 py-4">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                             Invoice
                         </th>
-                        <th scope="col" class="px-6 py-4">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                             Item Description
                         </th>
-                        <th scope="col" class="px-6 py-4">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                             Invoice Description
                         </th>
                         <th scope="col" class="px-6 py-3"
@@ -125,44 +125,44 @@
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
                                 <td scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $item->id }}
                                 </td>
                                 <td scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
 
                                 </td>
                                 <td scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $item->document }}
                                 </td>
                                 <td scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $item->assets1 . $item->assets2 }}
                                 </td>
                                 <td scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $item->fa }}
                                 </td>
 
                                 <td scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $item->invoice_no }}
                                 </td>
                                 <td scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $item->item_description }}
                                 </td>
 
                                 <td scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $item->invoice_description }}
                                 </td>
 
 
-                                <td class="px-6 py-4 dark:bg-slate-900"
-                                style="  position: sticky; right: 0;   background-color: white; ">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   dark:bg-slate-900"
+                                    style="  position: sticky; right: 0;   background-color: white; ">
 
                                     <a href="/admin/transfer/add/assets_id={{ $item->id }}"
                                         class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a>

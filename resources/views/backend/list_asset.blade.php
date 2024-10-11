@@ -81,60 +81,60 @@
                 @csrf
                 <div class="max-w-full min-h-full grid px-2 py-1 gap-2 grid-cols-1 lg:grid-cols-4 md:grid-cols-2">
                     <div>
-                        <label for="id_asset" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">ID</label>
+                        <label for="id_asset"
+                            class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">ID</label>
 
-                            <input type="number" id="id_asset" name="assets"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                
+                        <input type="number" id="id_asset" name="assets"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+
                     </div>
                     <div>
                         <label for="assets" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Assets
                             Code</label>
 
-                            <input type="text" id="assets" name="assets"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                
+                        <input type="text" id="assets" name="assets"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+
                     </div>
                     <div>
                         <label for="fa" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">FIX
                             Asset</label>
-                   
-                            <input type="text" id="fa" name="fa"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    
+
+                        <input type="text" id="fa" name="fa"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+
                     </div>
                     <div>
                         <label for="invoice"
                             class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Invoice</label>
-                 
-                            <input type="text" id="invoice" name="invoice"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                      
+
+                        <input type="text" id="invoice" name="invoice"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+
                     </div>
                     <div>
                         <label for="description"
                             class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                    
-                            <input type="text" id="description" name="description"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    
+
+                        <input type="text" id="description" name="description"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+
                     </div>
                     <div>
                         <label for="start_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Start
                             from date (Create Date)</label>
-                  
-                            <input type="date" id="start_date" name="start_date" value="{{ $start_date }}"
-                                name="end_date"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-            
+
+                        <input type="date" id="start_date" name="start_date" name="end_date"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+
                     </div>
                     <div>
                         <label for="end_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">To
                             date (Create Date)</label>
-                  
-                            <input type="date" id="end_date" value="{{ $end_date }}" name="end_date"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    
+
+                        <input type="date" id="end_date" name="end_date"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+
                     </div>
 
 
@@ -144,20 +144,21 @@
                             class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">State</label>
                         <select id="state" name="state"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value="All">All</option>
-                                <option value="0">Available</option>
-                                <option value="2">Sold</option>
-                                <option value="1">Deleted</option>
-                        
+                            <option value="All">All</option>
+                            <option value="0">Available</option>
+                            <option value="2">Sold</option>
+                            <option value="1">Deleted</option>
+
 
                         </select>
                     </div>
                 </div>
                 <div class="max-w-full items-center flex  justify-between px-2 mt-2 py-2  sm:grid sm:grid-cols-1">
-                    
+
                     <div class="flex">
-                
-                        <select name="" onchange="otherSearch()" id="other_search" class= " w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                        <select name="" onchange="otherSearch()" id="other_search"
+                            class= " w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="">Other Search</option>
                             <option value="document">Refference</option>
                             <option value="item">Item</option>
@@ -183,7 +184,7 @@
                             <option value="dr">DR</option>
                             <option value="dr_requested_by">DR Request by</option>
                             <option value="remark_internal_doc">Remark Document</option>
-                      
+
                             <option value="fa_class">Fix Asset Class</option>
                             <option value="fa_subclass">Fix Asset Sub Class</option>
                             <option value="depreciation">Depreciation</option>
@@ -200,94 +201,98 @@
                             <option value="phone">Phone </option>
                             <option value="email">Email</option>
                         </select>
-                        <input type="text" id="other_value"  class= " w-32  bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block mx-2 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <input type="text" id="other_value"
+                            class= " w-32  bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block mx-2 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <div class="max-w-full flex justify-between px-5">
                             <div class="pagination_by_search defualt flex">
                                 @if (!empty($total_page))
-                                @php
-                                    $left_limit = max(1, $page - 5); // Set the left boundary, but not below 1
-                                    $right_limit = min($total_page, $page + 5); // Set the right boundary, but not above the total pages
-                                @endphp
-                                <nav aria-label="Page navigation example">
-                                    <ul class="flex items-center -space-x-px h-8 text-sm">
-                            
-                                        {{-- Previous Button --}}
-                                        @if ($page != 1)
-                                            <li>
-                                                <a href="{{ $page - 1 }}"
-                                                    class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                                    <i class="fa-solid fa-angle-left"></i>
-                                                </a>
-                                            </li>
-                                        @endif
-                            
-                                        {{-- Page Numbers in Ascending Order --}}
-                                        @for ($i = $left_limit; $i <= $right_limit; $i++) {{-- Loop from left to right in ascending order --}}
-                                            @if ($i == $page)
+                                    @php
+                                        $left_limit = max(1, $page - 5); // Set the left boundary, but not below 1
+                                        $right_limit = min($total_page, $page + 5); // Set the right boundary, but not above the total pages
+                                    @endphp
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="flex items-center -space-x-px h-8 text-sm">
+
+                                            {{-- Previous Button --}}
+                                            @if ($page != 1)
                                                 <li>
-                                                    <a href="{{ $i }}" aria-current="page"
-                                                        class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ $i }}</a>
-                                                </li>
-                                            @else
-                                                <li>
-                                                    <a href="{{ $i }}"
-                                                        class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ $i }}</a>
+                                                    <a href="{{ $page - 1 }}"
+                                                        class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                                        <i class="fa-solid fa-angle-left"></i>
+                                                    </a>
                                                 </li>
                                             @endif
-                                        @endfor
-                            
-                                        {{-- Next Button --}}
-                                        @if ($page != $total_page)
-                                            <li>
-                                                <a href="{{ $page + 1 }}"
-                                                    class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                                    <i class="fa-solid fa-chevron-right"></i>
-                                                </a>
-                                            </li>
-                                        @endif
-                            
-                                    </ul>
-                                </nav>
-                                
-                            @endif
-                                <select  onchange="set_page()" id="select_page"  class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"  name="" id="">
-                                        @if($page != 1)
-                                            <option value="{{$page}}">{{$page}}</option>
-                                        @else
-                                            <option value="">More</option>
-                                        @endif
-                                       {{-- Page Numbers in Ascending Order --}}
-                                       @for ($i = 1; $i <= $total_page; $i++)
-                                       <option value="{{$i}}">{{$i}}</option>
-                                    
+
+                                            {{-- Page Numbers in Ascending Order --}}
+                                            @for ($i = $left_limit; $i <= $right_limit; $i++)
+                                                {{-- Loop from left to right in ascending order --}}
+                                                @if ($i == $page)
+                                                    <li>
+                                                        <a href="{{ $i }}" aria-current="page"
+                                                            class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ $i }}</a>
+                                                    </li>
+                                                @else
+                                                    <li>
+                                                        <a href="{{ $i }}"
+                                                            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ $i }}</a>
+                                                    </li>
+                                                @endif
+                                            @endfor
+
+                                            {{-- Next Button --}}
+                                            @if ($page != $total_page)
+                                                <li>
+                                                    <a href="{{ $page + 1 }}"
+                                                        class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                                        <i class="fa-solid fa-chevron-right"></i>
+                                                    </a>
+                                                </li>
+                                            @endif
+
+                                        </ul>
+                                    </nav>
+                                @endif
+                                <select onchange="set_page()" id="select_page"
+                                    class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                    name="" id="">
+                                    @if ($page != 1)
+                                        <option value="{{ $page }}">{{ $page }}</option>
+                                    @else
+                                        <option value="">More</option>
+                                    @endif
+                                    {{-- Page Numbers in Ascending Order --}}
+                                    @for ($i = 1; $i <= $total_page; $i++)
+                                        <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
-                  
-                                    </select>
+
+                                </select>
+                                <span class="font-bold flex justify-center items-center dark:text-slate-50">Page :{{ $total_page }} Pages
+                                    &ensp;Total Assets: {{ $total_assets }} Records</span>
                             </div>
-                            
+
                         </div>
                     </div>
-                    
+
                     <div class="flex">
                         <button type="button" id="print" onclick="print_group()"
-                        class="text-white  hidden bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                        Print
-                    </button>
-                 
-                        <button type="button" id="export_excel" onclick="export_group()"
-                        class="text-white  hidden bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                        Export
-                    </button>
-                   
+                            class="text-white  hidden bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                            Print
+                        </button>
 
-                  
-                    <button type="button" onclick="search_asset(0)"
-                        class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                        <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
-                    </button>
+                        <button type="button" id="export_excel" onclick="export_group()"
+                            class="text-white  hidden bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                            Export
+                        </button>
+
+
+
+                        <button type="button" onclick="search_asset(0)"
+                            class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                            <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
+                        </button>
                     </div>
                 </div>
-       
+
             </form>
 
         </div>
@@ -298,8 +303,7 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
-                            <input onchange="select_all()"  
-                                type="checkbox" id="select_all"
+                            <input onchange="select_all()" type="checkbox" id="select_all"
                                 class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
 
                         </th>
@@ -326,7 +330,7 @@
                         <th scope="col" class="px-6 py-3" onclick="dynamic_sort('deleted','string','assets')">
 
                             Status &ensp; <i class="fa-solid fa-sort"></i>
-                            </th>
+                        </th>
 
 
 
@@ -362,35 +366,35 @@
                         @foreach ($asset as $item)
                             <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
-                                <td class="print_val px-6 py-4">
+                                <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     <input onchange="printable()" data-id="{{ $item->assets_id }}" id="green-checkbox"
                                         type="checkbox" value=""
                                         class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
 
                                     {{ $item->assets_id }}
 
 
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
 
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->document }}
                                 </td>
 
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->assets1 . $item->assets2 }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->fa }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->fa_type }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     @if ($item->deleted == 0)
                                         <span
                                             class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
@@ -403,45 +407,43 @@
                                             <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
                                             Deleted
                                         </span>
-                                       
-                            
-                                     @elseif($item->deleted == 2)
+                                    @elseif($item->deleted == 2)
                                         <span
-                                        class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                        <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                        Sold
+                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                            Sold
                                         </span>
                                     @endif
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->fa_class }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->fa_subclass }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->depreciation }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->dr }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->pr }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->invoice_no }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->description }}
                                 </td>
-                                <td class="px-6 py-4 dark:bg-slate-900"
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   dark:bg-slate-900"
                                     style="  position: sticky; right: 0;   background-color: white; ">
 
                                     {{-- BTN UPDATE  --}}
 
                                     <a href="/admin/assets/edit/id={{ $item->assets_id }}">
                                         <button type="button"
-                                            class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                            class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                         </button>
                                     </a>
@@ -454,7 +456,7 @@
                                         <button type="button" data-id="{{ $item->assets_id }}"
                                             id="btn_delete_asset{{ $item->assets_id }}"
                                             onclick="delete_value('btn_delete_asset'+{{ $item->assets_id }},'delete_asset_admin','delete_value_asset')"
-                                            class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
                                     @endif
                                 </td>

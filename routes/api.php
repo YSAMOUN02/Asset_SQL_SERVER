@@ -23,7 +23,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/fixAsset/location', [ApiHandlerController::class, 'fa_location']);
     
     
-    
+    Route::post('/quick/data/search', [ApiHandlerController::class, 'qucik_data_search']);
+
+
     Route::get('/assets_status', [ApiHandlerController::class, 'assets_status']);
     
     Route::post('/change/log', [ApiHandlerController::class, 'seach_changeLog']);

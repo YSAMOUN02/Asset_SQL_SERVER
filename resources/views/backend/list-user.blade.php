@@ -80,7 +80,7 @@
 
         </div>
     </div>
-    
+
 
 
 
@@ -89,16 +89,19 @@
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr id="user_th">
-                    <th scope="col" class="px-6 py-3" onclick="dynamic_sort('id','int','quick')">
-                        User Name  &ensp; <i class="fa-solid fa-sort"></i>
+                    <th scope="col" class="px-6 py-3" onclick="dynamic_sort('id','int','users')">
+                        ID &ensp; <i class="fa-solid fa-sort"></i>
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3" onclick="dynamic_sort('name','string','users')">
+                        User Name &ensp; <i class="fa-solid fa-sort"></i>
+                    </th>
+                    <th scope="col" class="px-6 py-3" onclick="dynamic_sort('email','string','users')">
                         Email &ensp; <i class="fa-solid fa-sort"></i>
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3" onclick="dynamic_sort('role','string','users')">
                         Role &ensp; <i class="fa-solid fa-sort"></i>
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3" onclick="dynamic_sort('status','int','users')">
                         Status &ensp; <i class="fa-solid fa-sort"></i>
                     </th>
 
@@ -108,23 +111,27 @@
 
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="user_tb">
 
                 @if (!empty($user))
                     @foreach ($user as $item)
                         @if (Auth::user()->id == $item->id)
                             <tr class="bg-green-300 border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <td scope="row"
+                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ $item->id }}
+                                </td>
+                                <td scope="row"
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $item->fname . ' ' . $item->lname }}
-                                </th>
-                                <td class="px-6 py-4">
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->email }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     Admin
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     @if ($item->status == 0)
                                         <span
                                             class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -141,7 +148,7 @@
 
                                 </td>
 
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     @if (Auth::user()->Permission->user_update == 1)
                                         <a href="/admin/user/update/id={{ $item->id }}">
                                             <button type="button"
@@ -173,17 +180,21 @@
                             </tr>
                         @else
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <td scope="row"
+                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ $item->id }}
+                                </td>
+                                <td scope="row"
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $item->fname . ' ' . $item->lname }}
-                                </th>
-                                <td class="px-6 py-4">
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->email }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     Admin
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     @if ($item->status == 0)
                                         <span
                                             class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -200,7 +211,7 @@
 
                                 </td>
 
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     @if (Auth::user()->Permission->user_update == 1)
                                         <a href="/admin/user/update/id={{ $item->id }}">
                                             <button type="button"
@@ -239,7 +250,12 @@
             </tbody>
         </table>
     </div>
+<script>
+      let array = @json($user);
+      let auth = @json(Auth::user());
+      let sort_state = 0;
 
+</script>
 
 
 @endsection

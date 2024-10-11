@@ -12,13 +12,9 @@ class ChangeLogController extends Controller
     public function ChangeLog($page)
     {
 
-        // Set the start date to January 1st of the current year
-        $start_year = date('Y');
-        $start_month_day = '01-01';
-        $start_date = $start_year . '-' . $start_month_day;
     
 
-        $limit = 500;
+        $limit = 150;
         $count_post = ChangeLog::count();
         // return  $count_post ;
         $total_page = ceil($count_post/$limit);
@@ -47,10 +43,9 @@ class ChangeLogController extends Controller
         // Pass the data to the view
         return view("backend.list-change-log", [
             'changeLog' => $changeLog,
-            'start_date' => $start_date, 
-            'end_date' => $end_date->toDateString() // Format the date for display
-            ,'change_by'=>$change_by,
+            'change_by'=>$change_by,
             'total_page' => $total_page,
+            'total_record' => $count_post,
             'page' => $page
         ]);
     }

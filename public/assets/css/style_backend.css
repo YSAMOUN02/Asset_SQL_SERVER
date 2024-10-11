@@ -31,7 +31,7 @@ body{
 .resultList{
   overflow: visible !important;
 }
-#resultList thead,#table_change_log thead{
+#resultList thead,#table_change_log thead ,#table_quick_data thead{
   position: sticky;
   top: 0px;
 }
@@ -283,12 +283,14 @@ body{
   top: 0;
   right: 0;
 }
-
+.pagination_by_search{
+  white-space: wrap;
+}
 .pagination_by_search li:hover{
   cursor: pointer;
 }
 .aside{
-  z-index: 99999999999 !important;
+  z-index: 9999 !important;
 }
 #loading_style{
   width: 200px;

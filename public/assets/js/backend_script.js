@@ -821,78 +821,175 @@ function select_all_permission() {
 
 function dynamic_sort(by, method, table) {
     // Check if array length is less than or equal to 500
-    if (array.length <= 500) {
-        // Show loading panel
-        document.querySelector("#loading").style.display = "block";
 
-        // Wrap the sorting operation in a setTimeout to simulate the loading panel
-        setTimeout(() => {
-            // Sorting by integer
-            if (method == "int") {
-                if (sort_state == 0) {
-                    array.sort((a, b) => a[by] - b[by]); // Ascending
-                    sort_state = 1;
-                } else {
-                    array.sort((a, b) => b[by] - a[by]); // Descending
-                    sort_state = 0;
+    if (array) {
+        if (array.length <= 500) {
+            // Show loading panel
+            document.querySelector("#loading").style.display = "block";
+
+            // Wrap the sorting operation in a setTimeout to simulate the loading panel
+            setTimeout(() => {
+                // Sorting by integer
+                if (method == "int") {
+                    if (sort_state == 0) {
+                        array.sort((a, b) => a[by] - b[by]); // Ascending
+                        sort_state = 1;
+                    } else {
+                        array.sort((a, b) => b[by] - a[by]); // Descending
+                        sort_state = 0;
+                    }
                 }
-            } 
-            // Sorting by string
-            else if (method == "string") {
-                if (sort_state == 0) {
-                    array.sort((a, b) => a[by].localeCompare(b[by])); // Ascending
-                    sort_state = 1;
-                } else {
-                    array.sort((a, b) => b[by].localeCompare(a[by])); // Descending
-                    sort_state = 0;
+                // Sorting by string
+                else if (method == "string") {
+                    if (sort_state == 0) {
+                        
+                        array.sort((a, b) => a[by].localeCompare(b[by])); // Ascending
+                        sort_state = 1;
+                    } else {
+                        array.sort((a, b) => b[by].localeCompare(a[by])); // Descending
+                        sort_state = 0;
+                    }
                 }
-            } 
-            // Sorting by date
-            else if (method == "date") {
-                if (sort_state == 0) {
-                    array.sort((a, b) => {
-                        let dateA = new Date(a[by]);
-                        let dateB = new Date(b[by]);
-                        if (isNaN(dateA)) return 1;  // Invalid date to end
-                        if (isNaN(dateB)) return -1; // Invalid date to end
-                        return dateA - dateB; // Ascending
-                    });
-                    sort_state = 1;
-                } else {
-                    array.sort((a, b) => {
-                        let dateA = new Date(a[by]);
-                        let dateB = new Date(b[by]);
-                        if (isNaN(dateA)) return 1;  // Invalid date to end
-                        if (isNaN(dateB)) return -1; // Invalid date to end
-                        return dateB - dateA; // Descending
-                    });
-                    sort_state = 0;
+                // Sorting by date
+                else if (method == "date") {
+                    if (sort_state == 0) {
+                        array.sort((a, b) => {
+                            let dateA = new Date(a[by]);
+                            let dateB = new Date(b[by]);
+                            if (isNaN(dateA)) return 1; // Invalid date to end
+                            if (isNaN(dateB)) return -1; // Invalid date to end
+                            return dateA - dateB; // Ascending
+                        });
+                        sort_state = 1;
+                    } else {
+                        array.sort((a, b) => {
+                            let dateA = new Date(a[by]);
+                            let dateB = new Date(b[by]);
+                            if (isNaN(dateA)) return 1; // Invalid date to end
+                            if (isNaN(dateB)) return -1; // Invalid date to end
+                            return dateB - dateA; // Descending
+                        });
+                        sort_state = 0;
+                    }
                 }
-            }
 
-            // Show sorted table data based on the table type
-            if (table == "assets") {
-                show_sort_asset();
-            } else if (table == "changelog") {
-                show_sort_change_log();
-            } else if (table == "raw_assets") {
-                show_sort_raw_asset();
-            } else if (table == "quick") {
-                show_sort_quick_data();
-            } else if (table == "asset_staff") {
-                show_sort_staff_asset();
-            }
+                // Show sorted table data based on the table type
+                if (table == "assets") {
+                    show_sort_asset();
+                } else if (table == "changelog") {
+                    show_sort_change_log();
+                } else if (table == "raw_assets") {
+                    show_sort_raw_asset();
+                } else if (table == "quick") {
+                    show_sort_quick_data();
+                } else if (table == "asset_staff") {
+                    show_sort_staff_asset();
+                } else if (table == "users") {
+                    show_sort_user();
+                }
 
-            // Hide loading panel after sorting is done
-            document.querySelector("#loading").style.display = "none";
-
-        }, 500); // Adjust the timeout as needed
-
+                // Hide loading panel after sorting is done
+                document.querySelector("#loading").style.display = "none";
+            }, 500); // Adjust the timeout as needed
+        } else {
+            alert("Data too Big. Sorting might crash your browser.");
+        }
     } else {
-        alert("Data too Big. Sorting might crash your browser.");
+        alert("Data not valid.");
     }
 }
+function show_sort_user() {
+    let body_change = document.querySelector("#user_tb");
+    if (body_change) {
+        body_change.innerHTML = ``;
 
+        array.map((item) => {
+            let custom = ``;
+            if (auth.id == item.id) {
+                custom += `
+                <tr class="bg-green-300 border-b dark:bg-gray-800 dark:border-gray-700">`;
+            } else {
+                custom += `<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+               `;
+            }
+
+            custom += `    
+                         <td scope="row"
+                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                              ${item.id}
+                          </td>
+                         <td scope="row"
+                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                              ${item.fname + item.lname}
+                          </td>
+                          <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                              ${item.email}
+                          </td>
+                          <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                ${item.role}
+                          </td>`;
+            if (item.status == 0) {
+                custom += `  
+       <td scope="row" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                   <span
+                                      class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                      <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                      Inactive
+                                  </span>
+      </td>`;
+            } else {
+                custom += `     
+         <td scope="row" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                       <span
+                                      class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                      <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                      Active
+                                  </span>
+                                                  </td>`;
+            }
+            custom += `<td scope="row" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">`;
+            if (auth.permission.user_update == 1) {
+                custom += `     
+
+              <a href="/admin/user/update/id=${item.id}">
+                                      <button type="button"
+                                          class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                              class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
+               </a>  
+     `;
+            }
+            if (
+                (auth.permission.user_write == 0 &&
+                    auth.permission.user_update == 0) ||
+                (auth.permission.user_write == 1 &&
+                    auth.permission.user_update == 0)
+            ) {
+                custom += `     
+                                   <button type="button"
+                                      class="text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                      <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
+                                  </button>
+      `;
+            }
+            if (auth.permission.user_delete == 1) {
+                custom += `     
+                                  <button type="button" data-id="${item.id}"
+                                      onclick="delete_value('btn_delete'+${item.id},'delete_user','delete_value')"
+                                      id="btn_delete${item.id}"
+                                      class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                          class="fa-solid fa-trash" style="color: #ffffff;"></i>
+
+                                  </button>`;
+            }
+            custom += `</td>`;
+            custom += `</tr>`;
+
+            body_change.innerHTML += custom;
+        });
+    } else {
+        alert("Error No Table body.");
+    }
+}
 
 function show_sort_staff_asset() {
     let body_change = document.querySelector("#asset_staff_body");
@@ -1716,7 +1813,7 @@ async function search_asset(no) {
                                     </li>
                     `;
                         }
-             
+
                         paginationHtml += `
                            <li class="mx-2" style="margin-left:10px;">
                                     <a href="1" aria-current="page"
@@ -1730,25 +1827,23 @@ async function search_asset(no) {
                             id="select_page_dynamic"
                              class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                              `;
-                         if (page != 1) {
-                             paginationHtml += `
+                        if (page != 1) {
+                            paginationHtml += `
                                  <option value="${page}">${page}</option>
                                  `;
-                         }
- 
-                         for (let i = 1; i <= totalPage; i++) {
-                             paginationHtml += `
+                        }
+
+                        for (let i = 1; i <= totalPage; i++) {
+                            paginationHtml += `
                                  <option value="${i}">${i}</option>
                                  `;
-                         }
- 
-                         paginationHtml += `
+                        }
+
+                        paginationHtml += `
                                  </select>
                                  </div>
                                        </div>
                                  `;
-
-             
 
                         // Finally, assign the full HTML to the element
                         pagination_search.innerHTML = paginationHtml;
@@ -1894,19 +1989,14 @@ async function search_asset(no) {
               `;
                 });
                 array = data.data;
-
-    
             } else {
                 alert("Data not Found.");
-
             }
         } else {
             alert("Data not array");
-
         }
     } else {
         alert("Problem on database connection.");
-
     }
     document.querySelector("#loading").style.display = "none";
 }
@@ -2034,7 +2124,6 @@ async function search_asset_staff(no) {
         });
 
     if (data) {
-
         if (data.data) {
             if (data.data.length > 0) {
                 let pagination_search = document.querySelector(
@@ -2053,13 +2142,12 @@ async function search_asset_staff(no) {
                                  
                                 `;
 
-                        
                         let left_val = page - 5;
                         // Prevent < 0
                         if (left_val < 1) {
                             left_val = 1;
                         }
-                        // Left Arrow 
+                        // Left Arrow
                         if (page != 1 && totalPage != 1) {
                             paginationHtml += `
                                     <li onclick="search_asset_staff(${
@@ -2074,17 +2162,15 @@ async function search_asset_staff(no) {
                         }
 
                         let right_val = page + 5;
-                
+
                         // Prevent < total
                         if (right_val > totalPage) {
                             right_val = totalPage;
                         }
 
-                        // For on left and right Value 
-                   
-                   
+                        // For on left and right Value
+
                         for (let i = left_val; i <= right_val; i++) {
-                            
                             if (i != page) {
                                 paginationHtml += `
                                         <li onclick="search_asset_staff(${i})" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -2311,20 +2397,35 @@ async function search_asset_staff(no) {
     }
 }
 
-function set_page_dynamic(){
+function set_page_dynamic() {
     let select = document.querySelector("#select_page_dynamic");
-    if(select){
-        if(select.value != ''){
+    if (select) {
+        if (select.value != "") {
             search_asset_staff(parseInt(select.value));
         }
     }
-
 }
-function set_page_dynamic_admin(){
+function set_page_dynamic_admin() {
     let select = document.querySelector("#select_page_dynamic");
-    if(select){
-        if(select.value != ''){
+    if (select) {
+        if (select.value != "") {
             search_asset(parseInt(select.value));
+        }
+    }
+}
+function set_page_dynamic_changelog() {
+    let select = document.querySelector("#select_page_dynamic_changelog");
+    if (select) {
+        if (select.value != "") {
+            search_change_log(parseInt(select.value));
+        }
+    }
+}
+function set_page_dynamic_quick() {
+    let select = document.querySelector("#select_page_dynamic_quick");
+    if (select) {
+        if (select.value != "") {
+            search_quick_data(parseInt(select.value));
         }
     }
 }
@@ -2603,6 +2704,7 @@ async function search_change_log(no) {
         });
 
     if (data) {
+        console.log(data);
         if (data.data) {
             document.querySelector("#loading").style.display = "none";
             if (data.data.length > 0) {
@@ -2621,8 +2723,10 @@ async function search_change_log(no) {
                     if (data.page != 0) {
                         let page = data.page;
                         let totalPage = data.total_page;
+                        let totalRecord = data.total_record ?? 0;
                         // Start by building the entire HTML content in one go
                         let paginationHtml = `
+                            <div class="flex">
                                 <ul class="flex items-center -space-x-px h-8 text-sm">
                                  
                                 `;
@@ -2634,7 +2738,7 @@ async function search_change_log(no) {
                         }
                         if (page != 1 && totalPage != 1) {
                             paginationHtml += `
-                                    <li onclick="filter_by_page(${
+                                    <li onclick="search_change_log(${
                                         page - 1
                                     })"  class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                      
@@ -2652,7 +2756,7 @@ async function search_change_log(no) {
                         for (let i = left_val; i <= right_val; i++) {
                             if (i != page) {
                                 paginationHtml += `
-                                        <li onclick="filter_by_page(${i})" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                        <li onclick="search_change_log(${i})" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                         >
                                    
                                                  ${i}
@@ -2662,7 +2766,7 @@ async function search_change_log(no) {
                                      `;
                             } else if (i == page) {
                                 paginationHtml += `
-                                          <li onclick="filter_by_page(${i})" class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                          <li onclick="search_change_log(${i})" class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
                                           
                                                 ${i}
                                            
@@ -2697,6 +2801,26 @@ async function search_change_log(no) {
                               
                                 `;
 
+                        paginationHtml += `
+                                <select  onchange="set_page_dynamic_changelog()" id="select_page_dynamic_changelog"  class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"  name="" id="">
+                                <option value="${page}">${page}</option>
+                                `;
+
+                        for (i = 1; i <= totalPage; i++) {
+                            paginationHtml += `<option value="${i}">${i}</option>`;
+                        }
+
+                        paginationHtml += `
+                                </select>
+                             `;
+
+                        paginationHtml += `
+                            <span class="font-bold flex justify-center items-center">Page :${totalPage} Pages  &ensp;Total Assets: ${totalRecord} Records</span>
+
+                            </div>
+                            `;
+
+                        totalRecord;
                         // Finally, assign the full HTML to the element
                         pagination_search.innerHTML = paginationHtml;
                     }
@@ -2767,5 +2891,236 @@ function set_page() {
         if (select_page.value != "") {
             window.location.href = `/admin/assets/list/${select_page.value}`;
         }
+    }
+}
+function set_page_changeLog() {
+    let select_page = document.querySelector("#select_page");
+
+    if (select_page) {
+        if (select_page.value != "") {
+            window.location.href = `/admin/assets/change/log/${select_page.value}`;
+        }
+    }
+}
+function set_page_quick_data() {
+    let select_page = document.querySelector("#select_page");
+
+    if (select_page) {
+        if (select_page.value != "") {
+            window.location.href = `/quick/data/${select_page.value}`;
+        }
+    }
+}
+function set_page_raw() {
+    let select_page = document.querySelector("#select_page");
+
+    if (select_page) {
+        if (select_page.value != "") {
+            window.location.href = `/admin/assets/add/${select_page.value}`;
+        }
+    }
+}
+async function search_quick_data(no) {
+    let type = document.querySelector("#type_search");
+    let content = document.querySelector("#content_search");
+
+    let type_val = "NA";
+    let content_val = "NA";
+
+    if (type) {
+        if (type.value != "") {
+            type_val = type.value;
+        }
+    }
+    if (content) {
+        if (content.value != "") {
+            content_val = content.value;
+        }
+    }
+
+    let page = 1;
+    if (no != 0) {
+        page = no;
+    }
+
+    // Loading label
+    document.querySelector("#loading").style.display = "block";
+    let url = `/api/quick/data/search`;
+    let data = await fetch(url, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            type: type_val,
+            content: content_val,
+            page: page,
+        }),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json(); // Expecting JSON
+        })
+        .then((data) => {
+            return data; // Handle your data
+        })
+        .catch((error) => {
+            alert(error);
+        });
+
+    if (data) {
+        console.log(data);
+        if (data.data) {
+            if (data.data.length > 0) {
+                let page = data.page;
+                let totalPage = data.total_page;
+                let totalRecord = data.total_record ?? 0;
+                let total_label = document.querySelector("#total_state");
+                if (totalRecord) {
+                    total_label.innerHTML = `
+     
+                       <span class="font-bold flex justify-left items-center">Found: ${totalPage} Pages
+                                    &ensp; ${totalRecord} Records</span>
+                 `;
+                }
+
+                let pagination_search = document.querySelector(
+                    ".pagination_by_search"
+                );
+
+                if (pagination_search) {
+                
+
+                    if (totalRecord  > 150) {
+                        pagination_search.style.display = "block";
+                        //   Start by building the entire HTML content in one go
+                        let paginationHtml = `
+                             <div class="flex">
+                                 <ul class="flex items-center -space-x-px h-8 text-sm">
+                                 
+                                 `;
+
+                        //   Add the current page dynamically
+                        let left_val = page - 5;
+                        if (left_val < 1) {
+                            left_val = 1;
+                        }
+                        if (page != 1 && totalPage != 1) {
+                            paginationHtml += `
+                                     <li onclick="search_quick_data(${
+                                         page - 1
+                                     })"  class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                     
+                                                
+                                             <i class="fa-solid fa-angle-left"></i>
+                        
+                                     </li>
+                                  `;
+                        }
+                        let right_val = page + 5;
+                        if (right_val > totalPage) {
+                            right_val = totalPage;
+                        }
+
+                        for (let i = left_val; i <= right_val; i++) {
+                            if (i != page) {
+                                paginationHtml += `
+                                         <li onclick="search_quick_data(${i})" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                         >
+                                   
+                                                  ${i}
+                                                  
+                                            
+                                          </li>
+                                      `;
+                            } else if (i == page) {
+                                paginationHtml += `
+                                           <li onclick="search_quick_data(${i})" class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                           ${i}
+                                         </li>
+                                      `;
+                            }
+                        }
+
+                        if (page != totalPage) {
+                            paginationHtml += `
+                                     <li onclick="search_quick_data(${
+                                         page + 1
+                                     })" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                             <i class="fa-solid fa-chevron-right"></i>
+                                  
+                                     </li>
+                                         `;
+                        }
+
+                        //   Add the remaining pagination buttons and close the list
+                        paginationHtml += `
+                             
+
+                                 <li class="mx-2" style="margin-left:10px;">
+                                     <a href="1" aria-current="page"
+                                         class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                         <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;"></i>
+                                     </a>
+                                 </li>
+                                 </ul>
+
+                              
+                                 `;
+
+                        paginationHtml += `
+                                 <select  onchange="set_page_dynamic_quick()" id="select_page_dynamic_quick"  class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"  name="" id="">
+                                 <option value="${page}">${page}</option>
+                                 `;
+
+                        for (i = 1; i <= totalPage; i++) {
+                            paginationHtml += `<option value="${i}">${i}</option>`;
+                        }
+
+                        paginationHtml += `
+                                 </select>
+                            </div>
+                              `;
+
+                        //   Finally, assign the full HTML to the element
+                        pagination_search.innerHTML = paginationHtml;
+                    }else{
+                        pagination_search.innerHTML = ``;
+                        pagination_search.style.display = "block";
+                    }
+                }
+
+                let body_change = document.querySelector("#body_quick_data");
+                body_change.innerHTML = ``;
+                data.data.map((item) => {
+                    body_change.innerHTML += `
+                
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                               <td class="px-6 py-4">
+                                    ${item.id}
+                               </td>
+                               <td class="px-6 py-4">
+                                    ${item.content}
+                               </td>        
+                                 <td class="px-6 py-4">
+                                    ${item.type}
+                               </td>    
+                           </tr>
+          `;
+                });
+                array = data.data;
+            } else {
+                alert("Data not found");
+            }
+        } else {
+            alert("Data not found");
+        }
+        document.querySelector("#loading").style.display = "none";
+    } else {
+        alert("Error Fetch not responce");
+        document.querySelector("#loading").style.display = "none";
     }
 }

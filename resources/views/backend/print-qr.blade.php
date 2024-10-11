@@ -169,11 +169,11 @@
         @if (!empty($array_qr))
             @foreach ($array_qr as $item)
                 @if ($item->assets1 . $item->assets2 == '')
-                    <div onclick="remove_QR('#qr_{{$item->id}}')" id="qr_{{$item->id}}" class="box_qr flex">
-                      Asset Code Null,<br>  Can't generate. Click to Remove
+                    <div onclick="remove_QR('#qr_{{ $item->id }}')" id="qr_{{ $item->id }}" class="box_qr flex">
+                        Asset Code Null,<br> Can't generate. Click to Remove
                     </div>
                 @else
-                    <div onclick="remove_QR('#qr_{{$item->id}}')" id="qr_{{$item->id}}" class="box_qr flex">
+                    <div onclick="remove_QR('#qr_{{ $item->id }}')" id="qr_{{ $item->id }}" class="box_qr flex">
                         {!! QrCode::size(150)->generate($item->assets1 . $item->assets2) !!} &ensp; <span>{{ $item->assets1 . $item->assets2 }}</span>
                     </div>
                 @endif
@@ -289,243 +289,248 @@
             </button>
         </a>
     </div>
-    @if(!empty($array_qr))
-    <div id="list">
+    @if (!empty($array_qr))
+        <div id="list">
 
 
 
-        <span class=" text-2xl font-bold">Assets List </span>
-        <table id="list_assets"
-            class="table_respond max-w-full  mt-5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr id="th">
+            <span class=" text-2xl font-bold">Assets List </span>
+            <table id="list_assets"
+                class="table_respond max-w-full  mt-5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr id="th">
 
-                    <th scope="col" class="px-6 py-3">
-                        ID
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Create Date
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Refference
-                    </th>
+                        <th scope="col" class="px-6 py-3">
+                            ID
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Create Date
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Refference
+                        </th>
 
-                    <th scope="col" class="px-6 py-3">
-                        Asset Code
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Fix Asset No
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Fix Asset Type
-                    </th>
+                        <th scope="col" class="px-6 py-3">
+                            Asset Code
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Fix Asset No
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Fix Asset Type
+                        </th>
 
-                    <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3">
 
-                        Status
-                        </td>
-
-
-
-                    <th scope="col" class="px-6 py-3">
-                        Fix Asset class
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Fix Asset Subclass
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Deoreciation Code
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        DR
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        PR
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Invoice No
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Description
-                    </th>
-
-                </tr>
-            </thead>
-            <tbody>
-                @if (!empty($array_qr))
-                    @foreach ($array_qr as $item)
-                        <tr id="td" class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-
-
-                            <td class="px-6 py-4">
-
-                                {{ $item->id }}
-
-
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
-
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item->document }}
+                            Status
                             </td>
 
-                            <td class="px-6 py-4">
-                                {{ $item->assets1 . $item->assets2 }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item->fa }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item->fa_type }}
-                            </td>
-                            <td class="px-6 py-4">
-                                @if ($item->deleted == 0)
-                                    <span
-                                        class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                        <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                        Available
-                                    </span>
-                                @else
-                                    <span
-                                        class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                        <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                        Deleted
-                                    </span>
-                                @endif
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item->fa_class }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item->fa_subclass }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item->depreciation }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item->dr }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item->pr }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item->invoice_no }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item->description }}
-                            </td>
 
-                        </tr>
-                    @endforeach
-                @endif
-            </tbody>
-        </table>
-        <div class="panel">
-            <div class="customize_panel_list">
-                <kbd
-                    class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
-                        for="id">ID</label>
-                    <input onchange="remove_child_table(1)" id="id" checked type="checkbox" value=""
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
-                <kbd
-                    class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
-                        for="date">Created
-                        Date</label> <input onchange="remove_child_table(2)" checked id="date" type="checkbox"
-                        value=""
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
-                <kbd
-                    class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
-                        for="ref">Refference</label>
-                    <input onchange="remove_child_table(3)" checked id="ref" type="checkbox" value=""
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
-                <kbd
-                    class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
-                        for="ac">Asset
-                        Code</label> <input onchange="remove_child_table(4)" checked id="ac" type="checkbox"
-                        value=""
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
 
-                <kbd
-                    class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
-                        for="ano">Fix Asset No</label> <input onchange="remove_child_table(5)" checked id="ano" type="checkbox"
-                        value=""
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
-                <kbd
-                    class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
-                        for="at">Fix
-                        Asset Type</label> <input onchange="remove_child_table(6)" checked id="at"
-                        type="checkbox" value=""
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
-                <kbd
-                    class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
-                        for="st">Status</label> <input onchange="remove_child_table(7)" checked id="st"
-                        type="checkbox" value=""
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
-                <kbd
-                    class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
-                        for="acc">Fix
-                        Asset Class</label> <input onchange="remove_child_table(8)" checked id="acc"
-                        type="checkbox" value=""
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
-                <kbd
-                    class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
-                        for="as">Fix
-                        Asset Subclass</label> <input onchange="remove_child_table(9)" checked id="as"
-                        type="checkbox" value=""
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
-                <kbd
-                    class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
-                        for="dc">Depreciation
-                        Code</label> <input onchange="remove_child_table(10)" checked id="dc" type="checkbox"
-                        value=""
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
-                <kbd
-                    class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
-                        for="dr">DR</label>
-                    <input onchange="remove_child_table(11)" checked id="dr" type="checkbox" value=""
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
-                <kbd
-                    class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
-                        for="pr">PR</label>
-                    <input onchange="remove_child_table(12)" checked id="pr" type="checkbox" value=""
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
-                <kbd
-                    class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
-                        for="in">Invoice
-                        No</label> <input onchange="remove_child_table(13)" checked id="in" type="checkbox"
-                        value=""
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
-                <kbd
-                    class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
-                        for="d">Description</label>
-                    <input onchange="remove_child_table(14)" checked id="d" type="checkbox" value=""
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
+                        <th scope="col" class="px-6 py-3">
+                            Fix Asset class
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Fix Asset Subclass
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Deoreciation Code
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            DR
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            PR
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Invoice No
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Description
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!empty($array_qr))
+                        @foreach ($array_qr as $item)
+                            <tr id="td" class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+
+
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+
+                                    {{ $item->id }}
+
+
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
+
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->document }}
+                                </td>
+
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->assets1 . $item->assets2 }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->fa }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->fa_type }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    @if ($item->deleted == 0)
+                                        <span
+                                            class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                            <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                            Available
+                                        </span>
+                                    @else
+                                        <span
+                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                            Deleted
+                                        </span>
+                                    @endif
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->fa_class }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->fa_subclass }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->depreciation }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->dr }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->pr }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->invoice_no }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->description }}
+                                </td>
+
+                            </tr>
+                        @endforeach
+                    @endif
+                </tbody>
+            </table>
+            <div class="panel">
+                <div class="customize_panel_list">
+                    <kbd
+                        class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
+                            for="id">ID</label>
+                        <input onchange="remove_child_table(1)" id="id" checked type="checkbox"
+                            value=""
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
+                    <kbd
+                        class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
+                            for="date">Created
+                            Date</label> <input onchange="remove_child_table(2)" checked id="date"
+                            type="checkbox" value=""
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
+                    <kbd
+                        class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
+                            for="ref">Refference</label>
+                        <input onchange="remove_child_table(3)" checked id="ref" type="checkbox"
+                            value=""
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
+                    <kbd
+                        class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
+                            for="ac">Asset
+                            Code</label> <input onchange="remove_child_table(4)" checked id="ac"
+                            type="checkbox" value=""
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
+
+                    <kbd
+                        class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
+                            for="ano">Fix Asset No</label> <input onchange="remove_child_table(5)" checked
+                            id="ano" type="checkbox" value=""
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
+                    <kbd
+                        class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
+                            for="at">Fix
+                            Asset Type</label> <input onchange="remove_child_table(6)" checked id="at"
+                            type="checkbox" value=""
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
+                    <kbd
+                        class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
+                            for="st">Status</label> <input onchange="remove_child_table(7)" checked
+                            id="st" type="checkbox" value=""
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
+                    <kbd
+                        class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
+                            for="acc">Fix
+                            Asset Class</label> <input onchange="remove_child_table(8)" checked id="acc"
+                            type="checkbox" value=""
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
+                    <kbd
+                        class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
+                            for="as">Fix
+                            Asset Subclass</label> <input onchange="remove_child_table(9)" checked id="as"
+                            type="checkbox" value=""
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
+                    <kbd
+                        class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
+                            for="dc">Depreciation
+                            Code</label> <input onchange="remove_child_table(10)" checked id="dc"
+                            type="checkbox" value=""
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
+                    <kbd
+                        class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
+                            for="dr">DR</label>
+                        <input onchange="remove_child_table(11)" checked id="dr" type="checkbox"
+                            value=""
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
+                    <kbd
+                        class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
+                            for="pr">PR</label>
+                        <input onchange="remove_child_table(12)" checked id="pr" type="checkbox"
+                            value=""
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
+                    <kbd
+                        class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
+                            for="in">Invoice
+                            No</label> <input onchange="remove_child_table(13)" checked id="in"
+                            type="checkbox" value=""
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
+                    <kbd
+                        class="mx-2 px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500"><label
+                            for="d">Description</label>
+                        <input onchange="remove_child_table(14)" checked id="d" type="checkbox"
+                            value=""
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></kbd>
+
+                </div>
+            </div>
+
+
+
+
+
+
+            <div id="btn_print_list">
+
+
+                <button onclick="window.print()"
+                    class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 mx-2">Print</button>
+                <button onclick="close_list_print()"
+                    class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 mx-2">Close</button>
 
             </div>
-        </div>
 
-
-
-
-
-
-        <div id="btn_print_list">
-
-
-            <button onclick="window.print()"
-                class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 mx-2">Print</button>
-            <button onclick="close_list_print()"
-                class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 mx-2">Close</button>
 
         </div>
-
-
-    </div>
     @endif
-    @php 
-        if(empty($array_qr)){
+    @php
+        if (empty($array_qr)) {
             $array_qr = null;
         }
     @endphp
@@ -533,10 +538,9 @@
 
 <script src="{{ URL('/assets/js/print_qr.js') }}"></script>
 <script>
-    if($array_qr != null){
+    if ($array_qr != null) {
         let array = @json($array_qr);
     }
-   
 </script>
 
 </html>

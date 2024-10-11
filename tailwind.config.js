@@ -8,7 +8,11 @@ export default {
   ],
   darkMode: 'class', // Enable dark mode with a custom class
   theme: {
-    extend: {},
+    extend: {
+      gridTemplateColumns: {
+        '13': 'repeat(13, minmax(0, 1fr))', // Creates 13 equal columns
+      },
+    },
   },
   plugins: [
     require('flowbite/plugin')

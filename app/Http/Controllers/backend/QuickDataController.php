@@ -9,10 +9,28 @@ use Illuminate\Support\Facades\Auth;
 
 class QuickDataController extends Controller
 {
-    public function control_quick_data(){
+    public function control_quick_data($page){
 
-        $data = QuickData::orderby('id','desc')->get();
-        return view('backend.add-quick-data',['data'=>$data]);
+
+        $limit = 10;
+        // $count_post = QuickData::count();
+        $count_post = 10;
+        // return  $count_post ;
+        $total_page = ceil($count_post/$limit);
+        $offset = 0;
+        if($page != 0){
+            $offset = ($page - 1) * $limit;
+        }
+
+        $data = QuickData::orderby('id','desc')->limit($limit)->offset($offset)->get();
+
+
+        return view('backend.add-quick-data',[
+            'data'=>$data,
+            'page'=>$page,
+            'total_page' => $total_page,
+            'total_record' =>$count_post,
+        ]);
     }
 
     public function add_submit_quick_data(Request $request){
@@ -21,6 +39,9 @@ class QuickDataController extends Controller
         $data->type = $request->type;
         $data->created_by = Auth::user()->name;
         $data->save();
+
+
+     
         if($data){
 
             $this->Change_log($data->id, "", "Insert", "Quick Data Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);

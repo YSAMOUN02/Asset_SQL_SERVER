@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\ChangeLog;
 use App\Models\Fix_assets;
+use App\Models\QuickData;
 use App\Models\RawFixAssets;
 use App\Models\StoredAssets;
 use App\Models\StoredAssetsUser;
@@ -181,7 +182,7 @@ class ApiHandlerController extends Controller
             ->where("last_varaint", 1);
 
         if ($id != "NA") {
-            $data->where("assets_id", $id);
+            $data->where("assets_id", 'LIKE', "%".$id."%");
         }
         if ($assets != "NA") {
             $data->where(DB::raw("CONCAT(assets1, assets2)"), 'LIKE', "%" . $modifiedString_assets . "%");
@@ -249,7 +250,7 @@ class ApiHandlerController extends Controller
             ->where("last_varaint", 1);
 
         if ($id != "NA") {
-            $data->where("assets_id", $id);
+            $data->where("assets_id", 'LIKE', "%".$id."%");
         }
         if ($assets != "NA") {
             $data->where(DB::raw("CONCAT(assets1, assets2)"), 'LIKE', "%".$assets."%");
@@ -323,6 +324,7 @@ class ApiHandlerController extends Controller
         $arr = new arr();
         $arr->page = $page;
         $arr->total_page = $total_pages;
+        $arr->total_record = $count;
         $arr->data = $asset_data;
 
 
@@ -358,7 +360,7 @@ class ApiHandlerController extends Controller
             ->where("deleted",'<>', 1);
 
         if ($id != "NA") {
-            $data->where("id", $id);
+            $data->where("id", 'LIKE', "%".$id."%");
         }
         if ($assets != "NA") {
             $data->where(DB::raw("CONCAT(assets1, assets2)"), 'LIKE', "%".$assets."%");
@@ -432,6 +434,7 @@ class ApiHandlerController extends Controller
         $arr = new arr();
         $arr->page = $page;
         $arr->total_page = $total_pages;
+        $arr->total_record = $count;
         $arr->data = $asset_data;
 
 
@@ -456,7 +459,7 @@ class ApiHandlerController extends Controller
 
         $changeLog = ChangeLog::orderBy("id", "desc");
             if($key != 'NA'){
-                $changeLog->where('key', $key);
+                $changeLog->where('key','LIKE', '%'. $key .'%');
             }
             if($varaint != 'NA'){
                 $changeLog->where('varaint','LIKE', '%'.$varaint.'%');
@@ -507,7 +510,7 @@ class ApiHandlerController extends Controller
                 $offet = ($page - 1) * $limit;
             }
 
-
+            $count_record =   $changeLog->count();
             $changeLog->limit($limit);
             $changeLog->offset($offet);
             $datas = $changeLog->get();
@@ -518,6 +521,7 @@ class ApiHandlerController extends Controller
            $arr = new arr();
            $arr->page = $page;
            $arr->total_page = $total_pages;
+           $arr->total_record = $count_record;
            $arr->data = $datas;
            
 
@@ -529,10 +533,51 @@ class ApiHandlerController extends Controller
     
       
     }
+    public function qucik_data_search(Request $request){
+        $type = $request->type??'NA';
+        $content = $request->content??'NA';
+        $page = $request->page??1;
+
+        $data = QuickData::orderby('id','desc');
+        if($type    != 'NA' && $content != 'NA'){
+            $data->where($type,'LIKE', '%'.$content.'%');
+        }
+        $count_post =  $data->count();
+      
+        $limit = 150;
+        $total_pages = ceil($count_post/$limit);
+        $offet = 0;
+        if($page != 0){
+            $offet = ($page - 1) * $limit;
+        }
+
+        $data->limit($limit);
+        $data->offset($offet);
+       
+       
+  
+        $datas = $data->get();
+        $arr = new arr();
+
+        $arr->page = $page;
+        $arr->total_page = $total_pages;
+        $arr->total_record = $count_post;
+        $arr->data = $datas;
+
+        if($count_post > 0 ){
+            return response()->json($arr);
+        }else{
+            return response()->json([]);
+        }
+      
+    }
 }
+
+
 class arr {
     public $page;
     public $total_page;
+    public $total_record;
     public $data;
     
 }

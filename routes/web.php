@@ -22,7 +22,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [AdminController::class, 'logout']);
 
 
-    Route::get('/admin/assets/add', [AssetsController::class, 'list_select']);
+    Route::get('/admin/assets/add/{page}', [AssetsController::class, 'list_select']);
 
     Route::get('/admin/assets/list/{page}', [AssetsController::class, 'list_assets']); // for added assets
 
@@ -60,7 +60,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/transfer/add/assets_id={id}', [TransferController::class, 'add_transfer_detail']);
     
 
-    Route::get('/quick/data', [QuickDataController::class, 'control_quick_data']);
+    Route::get('/quick/data/{page}', [QuickDataController::class, 'control_quick_data']);
 
     
     Route::post('/quick/data/add', [QuickDataController::class, 'add_submit_quick_data']);

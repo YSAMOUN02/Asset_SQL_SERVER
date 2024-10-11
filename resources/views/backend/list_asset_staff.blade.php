@@ -124,7 +124,7 @@
                         <label for="start_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Start
                             from date</label>
 
-                        <input type="date" id="start_date" name="start_date" value="{{ $start_date }}" name="end_date"
+                        <input type="date" id="start_date" name="start_date" name="end_date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                     </div>
@@ -132,7 +132,7 @@
                         <label for="end_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">To
                             date</label>
 
-                        <input type="date" id="end_date" value="{{ $end_date }}" name="end_date"
+                        <input type="date" id="end_date" name="end_date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                     </div>
@@ -250,26 +250,27 @@
                                             </ul>
                                         </nav>
                                     @endif
-                                    <select  onchange="set_page()" id="select_page"  class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"  name="" id="">
-                                        @if($page != 1)
-                                            <option value="{{$page}}">{{$page}}</option>
+                                    <select onchange="set_page()" id="select_page"
+                                        class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                        name="" id="">
+                                        @if ($page != 1)
+                                            <option value="{{ $page }}">{{ $page }}</option>
                                         @else
                                             <option value="">More</option>
                                         @endif
-                                       {{-- Page Numbers in Ascending Order --}}
-                                       @for ($i = 1; $i <= $total_page; $i++)
-                                       <option value="{{$i}}">{{$i}}</option>
-                                    
-                                    @endfor
-                  
+                                        {{-- Page Numbers in Ascending Order --}}
+                                        @for ($i = 1; $i <= $total_page; $i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
+
                                     </select>
                                 </div>
-                                
+
                             </div>
 
-                   
 
-                           
+
+
 
                         </div>
 
@@ -366,34 +367,34 @@
                     @if (!empty($asset))
                         @foreach ($asset as $item)
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <td class="print_val px-6 py-4">
+                                <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     <input onchange="printable()" data-id="{{ $item->id }}" id="green-checkbox"
                                         type="checkbox" value=""
                                         class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
 
                                     {{ $item->id }}
 
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
 
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->document }}
                                 </td>
 
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->assets1 . $item->assets2 }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->fa }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->fa_type }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     @if ($item->deleted == 0)
                                         <span
                                             class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
@@ -414,28 +415,28 @@
                                         </span>
                                     @endif
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->fa_class }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->fa_subclass }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->depreciation }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->dr }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->pr }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->invoice_no }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->description }}
                                 </td>
-                                <td class="px-6 py-4 dark:bg-slate-900"
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   dark:bg-slate-900"
                                     style="  position: sticky; right: 0;   background-color: white; ">
                                     @if (Auth::user()->Permission->assets_read == 1 && Auth::user()->Permission->assets_update == 0)
                                         <button type="button"
