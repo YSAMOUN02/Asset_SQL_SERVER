@@ -252,7 +252,6 @@
     </div>
 <script>
       let array = @json($user);
-      let auth = @json(Auth::user());
       let sort_state = 0;
 
 </script>

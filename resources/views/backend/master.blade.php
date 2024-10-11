@@ -171,12 +171,15 @@
                 <form action="#" method="GET" class="md:hidden mb-2">
                     <label for="sidebar-search" class="sr-only">Search</label>
                     <div class="relative">
-                        <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                            <i class="fa-solid fa-magnifying-glass"></i>
+                        <div id="search_icon_mobile" class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                       
+                                <i  class="fa-solid fa-magnifying-glass"></i>
+                
                         </div>
-                        <input type="text" name="search" id="sidebar-search"
+                        <input autocomplete="off" onkeyup="search_mobile()" type="text" name="search" id="sidebar-search"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="Search" />
+                            placeholder="Search Assets Code" />
+                   
                     </div>
                 </form>
                 <ul class="space-y-2">
@@ -362,6 +365,10 @@
 
         </main>
         </div>
+
+        <div id="show_list" class="bg-white border-b dark:text-slate-50 dark:bg-gray-600 dark:border-gray-300">
+
+        </div>
     </main>
 
     <script src="{{ URL('/assets/js/backend_script.js') }}"></script>
@@ -374,8 +381,10 @@
         // Hide the loading graphic and show the content once the page is fully loaded
 
         document.querySelector("#loading").style.display = 'none';
-
+      
     };
+    let auth = @json(Auth::user());
+
 
 </script>
 

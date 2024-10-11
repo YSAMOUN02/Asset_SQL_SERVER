@@ -29,6 +29,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/assets_status', [ApiHandlerController::class, 'assets_status']);
     
     Route::post('/change/log', [ApiHandlerController::class, 'seach_changeLog']);
+
+    Route::post('/search/mobile', [ApiHandlerController::class, 'mobile_search']);
+    
 });
 
 Route::post('/login/submit', [ApiHandlerController::class, 'login_submit']);

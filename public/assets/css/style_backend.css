@@ -307,6 +307,28 @@ body{
 #loading h1{
   margin: 0 10px;
 }
+#search_icon_mobile{
+z-index: 99;
+
+}
+#search_icon_mobile:hover{
+  cursor: pointer;
+
+}
+#show_list{
+  display: none;
+  width: 90%;
+  height: 500px;
+  padding: 20px;
+  border-radius: 10px;
+  position: fixed;    
+  font-weight: 800;
+  top: 400px ;
+  left: 50%;
+  z-index: 99999999;
+  transform: translate(-50%,-50%);
+  overflow: auto;
+}
   @keyframes fade_out{
     0%{
       display: block;

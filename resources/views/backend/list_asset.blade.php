@@ -485,7 +485,7 @@
     </div>
     <script>
         let array = @json($asset);
-        let auth = @json(Auth::user());
+
 
         let sort_state = 0;
     </script>

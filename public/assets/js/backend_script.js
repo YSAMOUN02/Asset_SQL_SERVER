@@ -991,6 +991,9 @@ function show_sort_user() {
     }
 }
 
+
+
+
 function show_sort_staff_asset() {
     let body_change = document.querySelector("#asset_staff_body");
     body_change.innerHTML = ``;
@@ -1623,6 +1626,8 @@ function otherSearch() {
     }
 }
 const token = localStorage.getItem("token");
+
+
 
 let other_search = 0;
 async function search_asset(no) {
@@ -2972,7 +2977,7 @@ async function search_quick_data(no) {
         });
 
     if (data) {
-        console.log(data);
+
         if (data.data) {
             if (data.data.length > 0) {
                 let page = data.page;
@@ -3123,4 +3128,113 @@ async function search_quick_data(no) {
         alert("Error Fetch not responce");
         document.querySelector("#loading").style.display = "none";
     }
+}
+ 
+async function search_mobile(asset){
+    let input_assets = document.querySelector('#sidebar-search');
+    let panel_list = document.querySelector("#show_list");
+    
+   
+
+    let val = 'NA';
+    if(input_assets){
+        if(input_assets.value != ''){
+            val = input_assets.value;
+        }
+    }
+
+
+    let url = `/api/search/mobile`;
+    let data = await fetch(url, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            assets: val,
+            role: auth.role
+        }),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json(); // Expecting JSON
+        })
+        .then((data) => {
+            return data; // Handle your data
+        })
+        .catch((error) => {
+            alert(error);
+        });
+
+        if(data){
+            console.log(data)
+            console.log(data.data)
+            if(data.data){
+               
+                if(data.data.length != 0){
+                    console.log("123")
+                    panel_list.innerHTML = ``;
+                    let custom = `
+                      <table id="list_assets"
+                            class="table_respond max-w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                              <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                    Assets Code
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                    Invoice
+                                    </th>
+                                     <th scope="col" class="px-6 py-3">
+                                    Description
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="assets_body">
+                            `;
+                        
+                    data.data.map((item,index)=>{
+                        custom +=  `
+                        <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                                ${ item.assets1+item.assets2}
+                                             </td>
+                                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                                ${ item.assets1+item.assets2}
+                                             </td>
+                                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                                ${ item.invoice_no}
+                                             </td>
+                                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                                ${ item.description}
+                                             </td>
+                         </tr>`
+                         
+                    })
+                
+                    custom +=    `
+                            </tbody>
+                        </table>
+                    `;
+                    panel_list.innerHTML = custom;
+                    panel_list.style.display = 'block';
+           
+                }else{
+                        panel_list.innerHTML = ``;
+                        panel_list.innerHTML= `<h1>No Data Found.</h1>`;
+                        panel_list.style.display = 'block';
+                }
+            }else{
+                panel_list.innerHTML = ``;
+                panel_list.innerHTML= `<h1>No Data Found.</h1>`;
+                panel_list.style.display = 'block';
+            }
+        }else{
+            panel_list.innerHTML = ``;
+            panel_list.innerHTML= `<h1>Problem Data rendering</h1>`;
+            panel_list.style.display = 'block';
+        }
 }

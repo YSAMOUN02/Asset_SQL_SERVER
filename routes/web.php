@@ -37,8 +37,6 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/admin/assets/edit/id={id}', [AssetsController::class, 'update_asset']);
 
-   
-
     Route::post('/admin/assets/admin/delete/submit', [AssetsController::class, 'delete_admin_asset']);
 
     Route::get('/admin/assets/view/varaint={var}/id={id}', [AssetsController::class, 'view_varaint_asset']);

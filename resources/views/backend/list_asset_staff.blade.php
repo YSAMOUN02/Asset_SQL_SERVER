@@ -487,7 +487,7 @@
         </form>
     </div>
     <script>
-        let auth = @json(Auth::user());
+   
 
         let array = @json($asset);
 

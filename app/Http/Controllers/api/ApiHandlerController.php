@@ -571,6 +571,43 @@ class ApiHandlerController extends Controller
         }
       
     }
+
+    public function mobile_search(Request $request){
+        $assets = $request->assets??'NA';
+        $role = $request->role??'NA';
+
+        if($assets != 'NA'){
+            if($role == 'admin'){
+                $sql =  StoredAssets::orderBy('assets_id', 'desc');
+                $sql->where("last_varaint", 1);      
+                $sql->where(DB::raw("CONCAT(assets1, assets2)"), 'LIKE', "%".$assets."%");
+                $count =  $sql->count();
+                $sql->limit(15);
+                $datas = $sql->get();
+      
+
+                $arr = new arr();
+                $arr->page  =1;
+                $arr->total_page = 1;
+                $arr->total_record = $count ;
+                $arr->data = $datas;
+                
+              
+                if($count > 0){
+                    return response()->json($arr);
+                }else{
+                    return response()->json([]);
+                }
+              
+            }else{
+                // staff
+            }
+
+
+           
+        }
+        return response()->json([]);
+    }
 }
 
 
