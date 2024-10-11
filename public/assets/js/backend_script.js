@@ -3182,6 +3182,9 @@ async function search_mobile(asset){
                             class="table_respond max-w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                               <tr>
+                                 <th scope="col" class="px-6 py-3">
+                                    Action
+                                    </th>
                                     <th scope="col" class="px-6 py-3">
                                     Assets Code
                                     </th>
@@ -3200,7 +3203,7 @@ async function search_mobile(asset){
                         custom +=  `
                         <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                                ${ item.assets1+item.assets2}
+                                                <button>View</button>
                                              </td>
                                              <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                                 ${ item.assets1+item.assets2}

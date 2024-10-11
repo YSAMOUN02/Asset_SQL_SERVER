@@ -329,6 +329,9 @@ z-index: 99;
   transform: translate(-50%,-50%);
   overflow: auto;
 }
+#show_list table tr td , #show_list table tr th{
+  white-space: nowrap;
+}
   @keyframes fade_out{
     0%{
       display: block;
