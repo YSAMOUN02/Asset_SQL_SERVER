@@ -67,6 +67,7 @@ class ApiHandlerController extends Controller
         $start = $request->start_val??'NA';
         $end = $request->end_val??'NA';
         $state = $request->state_val??'NA';
+        $page = $request->page??0;
 
         $sql = RawFixAssets::orderBy("assets_date", "desc");
 
@@ -107,22 +108,41 @@ class ApiHandlerController extends Controller
             }
         }
 
+        $limit = 150;
+        $offet = 0;
+        if($page != 0){
+            $offet = ($page - 1) * $limit;
+        }
+        $count = $sql->count();
+
+
+
+        $sql->limit($limit);
+        $sql->offset($offet);
+        $asset_data = $sql->get();
+        $total_pages = ceil($count/$limit);
+ 
+
+        $arr = new arr();
+        $arr->page = $page;
+        $arr->total_page = $total_pages;
+        $arr->total_record = $count;
+        $arr->data = $asset_data;
+
 
 
 
         $data = $sql->get();
 
-   
-        $count = count($data);
-
-
-
         if ($count > 0) {
-            return response()->json($data);
+            return response()->json($arr);
         } else {
             return response()->json([]);
         }
     }
+
+
+
 
     public function fa_location()
     {

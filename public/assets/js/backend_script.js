@@ -390,7 +390,7 @@ async function search_assets() {
                                 .map(
                                     (item, index) => `
                                 <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                       ${
                                           item.posting_date
                                               ? new Date(
@@ -403,28 +403,28 @@ async function search_assets() {
                                               : ""
                                       }
                                     </td>
-                                    <td class="px-6 py-4 no_wrap">${
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  no_wrap">${
                                         item.assets || ""
                                     }</td>
-                                    <td class="px-6 py-4 no_wrap">${
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  no_wrap">${
                                         item.fa || ""
                                     }</td>
-                                    <td class="px-6 py-4 no_wrap">${
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  no_wrap">${
                                         item.invoice_no || ""
                                     }</td>
-                                    <td class="px-6 py-4">${
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">${
                                         item.description || ""
                                     }</td>
-                                    <td class="px-6 py-4">${
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">${
                                         item.fa_description || ""
                                     }</td>
-                                    <td class="px-6 py-4">${
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">${
                                         parseFloat(item.cost) || ""
                                     }</td>
-                                    <td class="px-6 py-4">${
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">${
                                         item.currency || ""
                                     }</td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                         <button type="button"  onclick="assets_invoice_choose(${index})"
                                         class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                         Select</button>
@@ -842,7 +842,6 @@ function dynamic_sort(by, method, table) {
                 // Sorting by string
                 else if (method == "string") {
                     if (sort_state == 0) {
-                        
                         array.sort((a, b) => a[by].localeCompare(b[by])); // Ascending
                         sort_state = 1;
                     } else {
@@ -991,9 +990,6 @@ function show_sort_user() {
     }
 }
 
-
-
-
 function show_sort_staff_asset() {
     let body_change = document.querySelector("#asset_staff_body");
     body_change.innerHTML = ``;
@@ -1001,17 +997,17 @@ function show_sort_staff_asset() {
         body_change.innerHTML += `
         
      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                     <td class="print_val px-6 py-4">
+                                     <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                             <input onchange="printable()" data-id="${
                                                 item.id
                                             }" id="green-checkbox"
                                             type="checkbox" value=""
                                         class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                         ${item.id || ""}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                    ${
                                        item.created_at
                                            ? new Date(
@@ -1025,24 +1021,24 @@ function show_sort_staff_asset() {
                                    }
 
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                           ${item.document || ""}
                                     </td>
 
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                              ${
                                                  item.assets1 + item.assets2 ||
                                                  ""
                                              }
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                 ${item.fa || ""}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                  ${item.fa_type || ""}
                                     </td>
                                     
-                                        <td class="px-6 py-4">
+                                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                ${
                                    item.deleted == 0
                                        ? `  <span
@@ -1066,29 +1062,29 @@ function show_sort_staff_asset() {
                                 </span>`
                                }
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                ${item.fa_class || ""}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                       ${item.fa_subclass || ""}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                            ${item.depreciation || ""}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                        ${item.dr || ""}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                         ${item.pr || ""}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                         ${item.invoice_no || ""}
                                        
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                          ${item.description || ""}
                                     </td>
-                                  <td class="px-6 py-4 dark:bg-slate-900"
+                                  <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  dark:bg-slate-900"
                                     style="position: sticky; right: 0; background-color: white;">
                                     ${
                                         (auth?.permission?.assets_read == 1) &
@@ -1143,19 +1139,19 @@ function show_sort_quick_data() {
         
     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                        <td scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             ${item.id}
                         </td>
                         <td scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                  ${item.content}
                         </td>
                         <td scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                  ${item.type}
                         </td>
                                  <td scope="row"
-                                        class=" px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
 
 
                                         <button type="button" data-modal-target="small-modal"
@@ -1185,26 +1181,26 @@ function show_sort_change_log() {
         body_change.innerHTML += `
         
     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                       <td class="px-6 py-4">
+                       <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                            ${item.id || ""}
                        </td>
-                       <td class="px-6 py-4">
+                       <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                             ${item.key || ""}
                        </td>
-                       <td class="px-6 py-4">
+                       <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                           ${item.varaint || ""}
                        </td>
-                       <td class="px-6 py-4">
+                       <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                           ${item.change || ""}
                        </td>
-                       <td class="px-6 py-4">
+                       <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                           ${item.section || ""}
                        </td>
-                       <td class="px-6 py-4">
+                       <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                           ${item.change_by || ""}
                        </td>
                     
-                       <td class="px-6 py-4"> 
+                       <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 "> 
                           ${
                               item.created_at
                                   ? new Date(
@@ -1233,17 +1229,17 @@ function show_sort_asset() {
         
      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                   
-                                <td class="print_val px-6 py-4">
+                                <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                     <input onchange="printable()" data-id="${
                                         item.assets_id || ""
                                     }" id="green-checkbox"
                                         type="checkbox" value=""
                                         class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                         ${item.assets_id || ""}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                    ${
                                        item.created_at
                                            ? new Date(
@@ -1257,24 +1253,24 @@ function show_sort_asset() {
                                    }
 
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                           ${item.document || ""}
                                     </td>
 
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                              ${
                                                  item.assets1 + item.assets2 ||
                                                  ""
                                              }
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                 ${item.fa || ""}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                  ${item.fa_type || ""}
                                     </td>
 
-                                        <td class="px-6 py-4">
+                                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                ${
                                    item.deleted == 0
                                        ? `  <span
@@ -1298,29 +1294,29 @@ function show_sort_asset() {
                                 </span>`
                                }
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                ${item.fa_class || ""}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                       ${item.fa_subclass || ""}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                            ${item.depreciation || ""}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                        ${item.dr || ""}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                         ${item.pr || ""}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                         ${item.invoice_no || ""}
                                        
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                          ${item.description || ""}
                                     </td>
-                                  <td class="px-6 py-4 dark:bg-slate-900"
+                                  <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  dark:bg-slate-900"
                                     style="position: sticky; right: 0; background-color: white;">
                                     ${
                                         auth?.permission?.assets_write == 1
@@ -1365,11 +1361,11 @@ function show_sort_raw_asset() {
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
                                             <td scope="row"
-                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 ${index + 1}
                                             </td>
                                             <td scope="row"
-                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                
 
                                                   ${
@@ -1388,25 +1384,25 @@ function show_sort_raw_asset() {
                                                   }
                                             </td>
                                             <td scope="row"
-                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 ${item.assets}
                                             </td>
                                             <td scope="row"
-                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 ${item.fa || ""}
                                             </td>
 
                                             <td scope="row"
-                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 ${item.invoice_no}
                                             </td>
                                             <td scope="row"
-                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 ${item.description}
                                             </td>
 
 
-                                            <td class="px-6 py-4">
+                                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                 <a href="/admin/assets/add/assets=${
                                                     item.assets
                                                 }/invoice_no=${item.fa.replace(
@@ -1627,8 +1623,6 @@ function otherSearch() {
 }
 const token = localStorage.getItem("token");
 
-
-
 let other_search = 0;
 async function search_asset(no) {
     let fa = document.querySelector("#fa");
@@ -1755,9 +1749,11 @@ async function search_asset(no) {
                     if (data.page != 0) {
                         let page = data.page;
                         let totalPage = data.total_page;
+                        let totalRecord = data.total_record;
+                        console.log(data);
                         // Start by building the entire HTML content in one go
                         let paginationHtml = `
-                            <div class="flex">
+             
                                 <ul class="flex items-center -space-x-px h-8 text-sm">
                                  
                                 `;
@@ -1771,7 +1767,7 @@ async function search_asset(no) {
                             paginationHtml += `
                                     <li onclick="search_asset(${
                                         page - 1
-                                    })"  class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                    })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                      
                                                 
                                             <i class="fa-solid fa-angle-left"></i>
@@ -1787,7 +1783,7 @@ async function search_asset(no) {
                         for (let i = left_val; i <= right_val; i++) {
                             if (i != page) {
                                 paginationHtml += `
-                                        <li onclick="search_asset(${i})" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                        <li onclick="search_asset(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                         >
                                    
                                                  ${i}
@@ -1797,7 +1793,7 @@ async function search_asset(no) {
                                      `;
                             } else if (i == page) {
                                 paginationHtml += `
-                                          <li onclick="search_asset(${i})" class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                          <li onclick="search_asset(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
                                           
                                                 ${i}
                                            
@@ -1810,7 +1806,7 @@ async function search_asset(no) {
                             paginationHtml += `
                                     <li  onclick="search_asset(${
                                         page + 1
-                                    })" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                    })" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                  
                                             
                                             <i class="fa-solid fa-chevron-right"></i>
@@ -1822,7 +1818,7 @@ async function search_asset(no) {
                         paginationHtml += `
                            <li class="mx-2" style="margin-left:10px;">
                                     <a href="1" aria-current="page"
-                                        class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                        class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
                                         <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;"></i>
                                     </a>
                                 </li>
@@ -1830,7 +1826,7 @@ async function search_asset(no) {
                         <select
                             onchange="set_page_dynamic_admin()"
                             id="select_page_dynamic"
-                             class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                             class="flex  items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                              `;
                         if (page != 1) {
                             paginationHtml += `
@@ -1846,8 +1842,13 @@ async function search_asset(no) {
 
                         paginationHtml += `
                                  </select>
+                         
+                                      
+                                    <span class="font-bold flex justify-center items-center dark:text-slate-50">Found Page :${totalPage} Pages
+                                        &ensp;Total Assets: ${totalRecord} Records</span>
+                                 
+                                   
                                  </div>
-                                       </div>
                                  `;
 
                         // Finally, assign the full HTML to the element
@@ -1862,17 +1863,17 @@ async function search_asset(no) {
                     
                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                               
-                                            <td class="print_val px-6 py-4">
+                                            <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                 <input onchange="printable()" data-id="${
                                                     item.assets_id || ""
                                                 }" id="green-checkbox"
                                                     type="checkbox" value=""
                                                     class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                     ${item.assets_id || ""}
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                ${
                                                    item.created_at
                                                        ? new Date(
@@ -1889,25 +1890,25 @@ async function search_asset(no) {
                                                }
             
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                       ${item.document || ""}
                                                 </td>
             
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                          ${
                                                              item.assets1 +
                                                                  item.assets2 ||
                                                              ""
                                                          }
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                             ${item.fa || ""}
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                              ${item.fa_type || ""}
                                                 </td>
             
-                                                    <td class="px-6 py-4">
+                                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                            ${
                                                item.deleted == 0
                                                    ? `  <span
@@ -1931,32 +1932,32 @@ async function search_asset(no) {
                                             </span>`
                                            }
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                            ${item.fa_class || ""}
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                   ${item.fa_subclass || ""}
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                        ${
                                                            item.depreciation ||
                                                            ""
                                                        }
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                    ${item.dr || ""}
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                     ${item.pr || ""}
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                     ${item.invoice_no || ""}
                                                    
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                      ${item.description || ""}
                                                 </td>
-                                              <td class="px-6 py-4 dark:bg-slate-900"
+                                              <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  dark:bg-slate-900"
                                                 style="position: sticky; right: 0; background-color: white;">
                                                 ${
                                                     auth?.permission
@@ -1964,7 +1965,7 @@ async function search_asset(no) {
                                                         ? `
                                                             <a href="/admin/assets/edit/id=${item.assets_id}">
                                                                 <button type="button"
-                                                                    class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                                    class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                                         class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                                                 </button>
                                                              </a>
@@ -1979,7 +1980,7 @@ async function search_asset(no) {
                                                              <button type="button" data-id="${item.assets_id}"
                                                                 id="btn_delete_asset${item.assets_id}"
                                                                 onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')"
-                                                                class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                                class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                                 <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
                                                         `
                                                         : // If auth.permission.assets_write is 1
@@ -2157,7 +2158,7 @@ async function search_asset_staff(no) {
                             paginationHtml += `
                                     <li onclick="search_asset_staff(${
                                         page - 1
-                                    })"  class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                    })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                      
                                                 
                                             <i class="fa-solid fa-angle-left"></i>
@@ -2178,7 +2179,7 @@ async function search_asset_staff(no) {
                         for (let i = left_val; i <= right_val; i++) {
                             if (i != page) {
                                 paginationHtml += `
-                                        <li onclick="search_asset_staff(${i})" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                        <li onclick="search_asset_staff(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                         >
                                    
                                                  ${i}
@@ -2187,7 +2188,7 @@ async function search_asset_staff(no) {
                                      `;
                             } else if (i == page) {
                                 paginationHtml += `
-                                          <li onclick="search_asset_staff(${i})" class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                          <li onclick="search_asset_staff(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
                                           
                                                 ${i}
                                            
@@ -2200,7 +2201,7 @@ async function search_asset_staff(no) {
                             paginationHtml += `
                                     <li  onclick="search_asset_staff(${
                                         page + 1
-                                    })" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                    })" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                  
                                             
                                             <i class="fa-solid fa-chevron-right"></i>
@@ -2213,7 +2214,7 @@ async function search_asset_staff(no) {
                         paginationHtml += `
                         <li class="mx-2" style="margin-left:10px;">
                                     <a href="1" aria-current="page"
-                                        class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                        class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
                                         <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;"></i>
                                     </a>
                                 </li>
@@ -2221,7 +2222,7 @@ async function search_asset_staff(no) {
                                  <select
                                     onchange="set_page_dynamic()"
                                     id="select_page_dynamic"
-                                    class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                    class="flex mx-2 items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                 `;
 
                         if (page != 1) {
@@ -2253,17 +2254,17 @@ async function search_asset_staff(no) {
                     
                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                               
-                                            <td class="print_val px-6 py-4">
+                                            <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                 <input onchange="printable()" data-id="${
                                                     item.id || ""
                                                 }" id="green-checkbox"
                                                     type="checkbox" value=""
                                                     class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                     ${item.id || ""}
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                ${
                                                    item.created_at
                                                        ? new Date(
@@ -2280,25 +2281,25 @@ async function search_asset_staff(no) {
                                                }
             
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                       ${item.document || ""}
                                                 </td>
             
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                          ${
                                                              item.assets1 +
                                                                  item.assets2 ||
                                                              ""
                                                          }
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                             ${item.fa || ""}
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                              ${item.fa_type || ""}
                                                 </td>
             
-                                                    <td class="px-6 py-4">
+                                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                            ${
                                                item.deleted == 0
                                                    ? `  <span
@@ -2322,32 +2323,32 @@ async function search_asset_staff(no) {
                                             </span>`
                                            }
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                            ${item.fa_class || ""}
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                   ${item.fa_subclass || ""}
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                        ${
                                                            item.depreciation ||
                                                            ""
                                                        }
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                    ${item.dr || ""}
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                     ${item.pr || ""}
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                     ${item.invoice_no || ""}
                                                    
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                      ${item.description || ""}
                                                 </td>
-                                              <td class="px-6 py-4 dark:bg-slate-900"
+                                              <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  dark:bg-slate-900"
                                                 style="position: sticky; right: 0; background-color: white;">
                                                 ${
                                                     auth?.permission
@@ -2466,7 +2467,7 @@ function check_date() {
     }
 }
 
-async function raw_assets() {
+async function raw_assets(no) {
     let Assets = document.querySelector("#assets");
     let Fa = document.querySelector("#fa");
     let Invoice = document.querySelector("#invoice");
@@ -2482,6 +2483,10 @@ async function raw_assets() {
     let description_value = "NA";
     let assets_value = "NA";
     let state_value = "NA";
+    let page = 1;
+    if (no) {
+        page = no;
+    }
 
     if (Fa) {
         if (Fa.value != "") {
@@ -2521,7 +2526,8 @@ async function raw_assets() {
             state_value = State.value;
         }
     }
-
+    // Loading label
+    document.querySelector("#loading").style.display = "block";
     let url = `/api/raw/assets`;
 
     let data = await fetch(url, {
@@ -2538,6 +2544,7 @@ async function raw_assets() {
             start_val: startDateValue,
             end_val: endDateValue,
             state_val: state_value,
+            page: page,
         }),
     })
         .then((response) => {
@@ -2555,18 +2562,150 @@ async function raw_assets() {
     let body_table = document.querySelector("#table_raw_body");
 
     if (data) {
-        if (data.length > 0) {
-            body_table.innerHTML = `
-            ${data
+        console.log(data);
+        if (data.data) {
+            if (data.data.length > 0) {
+                let defualt = document.querySelector(".defualt");
+                if (defualt) {
+                    defualt.style.display = "none";
+                }
+
+                let pagination_search = document.querySelector(
+                    ".pagination_by_search"
+                );
+
+                if (pagination_search) {
+                    pagination_search.style.display = "block";
+
+                    if (data.page != 0) {
+                        let page = data.page;
+                        let totalPage = data.total_page;
+                        let totalRecord = data.total_record ?? 0;
+                        // Start by building the entire HTML content in one go
+                        let paginationHtml = `
+                        <div class="flex">
+                            <ul class="flex items-center -space-x-px h-8 text-sm">
+                             
+                            `;
+
+                        // Add the current page dynamically
+                        let left_val = page - 5;
+                        if (left_val < 1) {
+                            left_val = 1;
+                        }
+                        if (page != 1 && totalPage != 1) {
+                            paginationHtml += `
+                                <li onclick="raw_assets(${
+                                    page - 1
+                                })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                 
+                                            
+                                        <i class="fa-solid fa-angle-left"></i>
+                    
+                                </li>
+                             `;
+                        }
+                        let right_val = page + 5;
+                        if (right_val > totalPage) {
+                            right_val = totalPage;
+                        }
+                        var state_i = 0;
+                        for (let i = left_val; i <= right_val; i++) {
+                            if (i != page) {
+                                paginationHtml += `
+                                    <li onclick="raw_assets(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                    >
+                               
+                                             ${i}
+                                              
+                                        
+                                     </li>
+                                 `;
+                                state_i = i;
+                            } else if (i == page) {
+                                paginationHtml += `
+                                      <li onclick="raw_assets(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                      
+                                            ${i}
+                                       
+                                    </li>
+                                 `;
+                                state_i = i;
+                            }
+                        }
+                        if (state_i != totalPage) {
+                            paginationHtml += `
+                         <li onclick="raw_assets(${totalPage})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    >
+            
+                            ${totalPage}
+                            
+                        
+                 </li>`;
+                        }
+
+                        if (page != totalPage) {
+                            paginationHtml += `
+                            
+                                <li>
+                                    <a href=""
+                                        class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                        <i class="fa-solid fa-chevron-right"></i>
+                                    </a>
+                                </li>
+                                    `;
+                        }
+
+                        // Add the remaining pagination buttons and close the list
+                        paginationHtml += `
+                         
+
+                            <li class="mx-2" style="margin-left:10px;">
+                                <a href="1" aria-current="page"
+                                    class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                    <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;"></i>
+                                </a>
+                            </li>
+                            </ul>
+
+                          
+                            `;
+
+                        paginationHtml += `
+                            <select  onchange="set_page_dynamic_changelog()" id="select_page_dynamic_changelog"  class="flex mx-2 items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-4 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"  name="" id="">
+                            <option value="${page}">${page}</option>
+                            `;
+
+                        for (i = 1; i <= totalPage; i++) {
+                            paginationHtml += `<option value="${i}">${i}</option>`;
+                        }
+
+                        paginationHtml += `
+                            </select>
+                         `;
+
+                        paginationHtml += `
+                        <span class="font-bold flex justify-center items-center">Page :${totalPage} Pages  &ensp;Total Assets: ${totalRecord} Records</span>
+
+                        </div>
+                        `;
+
+                        totalRecord;
+                        // Finally, assign the full HTML to the element
+                        pagination_search.innerHTML = paginationHtml;
+                    }
+                }
+                body_table.innerHTML = `
+            ${data.data
                 .map(
                     (item, index) => `
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             ${index + 1}
                         </td>
                         <td scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 ${
                                     item.posting_date
                                         ? new Date(
@@ -2580,22 +2719,22 @@ async function raw_assets() {
                                 }
                         </td>
                         <td scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                            ${item.assets}
                         </td>
                         <td scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             ${item.fa}
                         </td>
                         <td scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             ${item.invoice_no}
                         </td>
                         <td scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             ${item.description}
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                             <a href="/admin/assets/add/assets=${
                                 item.assets
                             }/invoice_no=${item.fa ? item.fa : "NA"}"
@@ -2606,11 +2745,16 @@ async function raw_assets() {
                 )
                 .join("")}
         `;
-            array = data;
-        } else {
-            alert("No Data Found.");
+                array = data;
+            } else {
+                alert("No Data Found.");
+            }
         }
+    } else {
+        alert("No Data Found.");
     }
+    // Loading label
+    document.querySelector("#loading").style.display = "none";
 }
 function filter_by_page(no) {
     search_change_log(no);
@@ -2745,7 +2889,7 @@ async function search_change_log(no) {
                             paginationHtml += `
                                     <li onclick="search_change_log(${
                                         page - 1
-                                    })"  class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                    })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                      
                                                 
                                             <i class="fa-solid fa-angle-left"></i>
@@ -2761,7 +2905,7 @@ async function search_change_log(no) {
                         for (let i = left_val; i <= right_val; i++) {
                             if (i != page) {
                                 paginationHtml += `
-                                        <li onclick="search_change_log(${i})" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                        <li onclick="search_change_log(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                         >
                                    
                                                  ${i}
@@ -2771,7 +2915,7 @@ async function search_change_log(no) {
                                      `;
                             } else if (i == page) {
                                 paginationHtml += `
-                                          <li onclick="search_change_log(${i})" class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                          <li onclick="search_change_log(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
                                           
                                                 ${i}
                                            
@@ -2784,7 +2928,7 @@ async function search_change_log(no) {
                             paginationHtml += `
                                     <li>
                                         <a href=""
-                                            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                            class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                             <i class="fa-solid fa-chevron-right"></i>
                                         </a>
                                     </li>
@@ -2797,7 +2941,7 @@ async function search_change_log(no) {
 
                                 <li class="mx-2" style="margin-left:10px;">
                                     <a href="1" aria-current="page"
-                                        class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                        class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
                                         <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;"></i>
                                     </a>
                                 </li>
@@ -2807,7 +2951,7 @@ async function search_change_log(no) {
                                 `;
 
                         paginationHtml += `
-                                <select  onchange="set_page_dynamic_changelog()" id="select_page_dynamic_changelog"  class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"  name="" id="">
+                                <select  onchange="set_page_dynamic_changelog()" id="select_page_dynamic_changelog"  class="flex mx-2 items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"  name="" id="">
                                 <option value="${page}">${page}</option>
                                 `;
 
@@ -2837,26 +2981,26 @@ async function search_change_log(no) {
                     body_change.innerHTML += `
                 
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                               <td class="px-6 py-4">
+                               <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                    ${item.id || ""}
                                </td>
-                               <td class="px-6 py-4">
+                               <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                     ${item.key || ""}
                                </td>
-                               <td class="px-6 py-4">
+                               <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                   ${item.varaint || ""}
                                </td>
-                               <td class="px-6 py-4">
+                               <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                   ${item.change || ""}
                                </td>
-                               <td class="px-6 py-4">
+                               <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                   ${item.section || ""}
                                </td>
-                               <td class="px-6 py-4">
+                               <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                   ${item.change_by || ""}
                                </td>
                          
-                               <td class="px-6 py-4"> 
+                               <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 "> 
                                   ${
                                       item.created_at
                                           ? new Date(
@@ -2977,7 +3121,6 @@ async function search_quick_data(no) {
         });
 
     if (data) {
-
         if (data.data) {
             if (data.data.length > 0) {
                 let page = data.page;
@@ -2997,9 +3140,7 @@ async function search_quick_data(no) {
                 );
 
                 if (pagination_search) {
-                
-
-                    if (totalRecord  > 150) {
+                    if (totalRecord > 150) {
                         pagination_search.style.display = "block";
                         //   Start by building the entire HTML content in one go
                         let paginationHtml = `
@@ -3017,7 +3158,7 @@ async function search_quick_data(no) {
                             paginationHtml += `
                                      <li onclick="search_quick_data(${
                                          page - 1
-                                     })"  class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                     })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                      
                                                 
                                              <i class="fa-solid fa-angle-left"></i>
@@ -3029,11 +3170,11 @@ async function search_quick_data(no) {
                         if (right_val > totalPage) {
                             right_val = totalPage;
                         }
-
+                        let state_i = 0;
                         for (let i = left_val; i <= right_val; i++) {
                             if (i != page) {
                                 paginationHtml += `
-                                         <li onclick="search_quick_data(${i})" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                         <li onclick="search_quick_data(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                          >
                                    
                                                   ${i}
@@ -3041,20 +3182,32 @@ async function search_quick_data(no) {
                                             
                                           </li>
                                       `;
+                                state_i = i;
                             } else if (i == page) {
                                 paginationHtml += `
-                                           <li onclick="search_quick_data(${i})" class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                           <li onclick="search_quick_data(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
                                            ${i}
                                          </li>
                                       `;
+                                state_i = i;
                             }
                         }
 
+                        if (state_i != totalPage) {
+                            paginationHtml += `
+                             <li onclick="search_quick_data(${totalPage})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                        >
+                
+                                ${totalPage}
+                                
+                            
+                     </li>`;
+                        }
                         if (page != totalPage) {
                             paginationHtml += `
                                      <li onclick="search_quick_data(${
                                          page + 1
-                                     })" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                     })" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                              <i class="fa-solid fa-chevron-right"></i>
                                   
                                      </li>
@@ -3067,7 +3220,7 @@ async function search_quick_data(no) {
 
                                  <li class="mx-2" style="margin-left:10px;">
                                      <a href="1" aria-current="page"
-                                         class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                         class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
                                          <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;"></i>
                                      </a>
                                  </li>
@@ -3077,7 +3230,7 @@ async function search_quick_data(no) {
                                  `;
 
                         paginationHtml += `
-                                 <select  onchange="set_page_dynamic_quick()" id="select_page_dynamic_quick"  class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"  name="" id="">
+                                 <select  onchange="set_page_dynamic_quick()" id="select_page_dynamic_quick"  class="flex mx-2 items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"  name="" id="">
                                  <option value="${page}">${page}</option>
                                  `;
 
@@ -3092,7 +3245,7 @@ async function search_quick_data(no) {
 
                         //   Finally, assign the full HTML to the element
                         pagination_search.innerHTML = paginationHtml;
-                    }else{
+                    } else {
                         pagination_search.innerHTML = ``;
                         pagination_search.style.display = "block";
                     }
@@ -3104,13 +3257,13 @@ async function search_quick_data(no) {
                     body_change.innerHTML += `
                 
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                               <td class="px-6 py-4">
+                               <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                     ${item.id}
                                </td>
-                               <td class="px-6 py-4">
+                               <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                     ${item.content}
                                </td>        
-                                 <td class="px-6 py-4">
+                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                     ${item.type}
                                </td>    
                            </tr>
@@ -3129,20 +3282,17 @@ async function search_quick_data(no) {
         document.querySelector("#loading").style.display = "none";
     }
 }
- 
-async function search_mobile(asset){
-    let input_assets = document.querySelector('#sidebar-search');
-    let panel_list = document.querySelector("#show_list");
-    
-   
 
-    let val = 'NA';
-    if(input_assets){
-        if(input_assets.value != ''){
+async function search_mobile(asset) {
+    let input_assets = document.querySelector("#sidebar-search");
+    let panel_list = document.querySelector("#show_list");
+
+    let val = "NA";
+    if (input_assets) {
+        if (input_assets.value != "") {
             val = input_assets.value;
         }
     }
-
 
     let url = `/api/search/mobile`;
     let data = await fetch(url, {
@@ -3153,7 +3303,7 @@ async function search_mobile(asset){
         },
         body: JSON.stringify({
             assets: val,
-            role: auth.role
+            role: auth.role,
         }),
     })
         .then((response) => {
@@ -3169,15 +3319,13 @@ async function search_mobile(asset){
             alert(error);
         });
 
-        if(data){
-            console.log(data)
-            console.log(data.data)
-            if(data.data){
-               
-                if(data.data.length != 0){
-                    console.log("123")
-                    panel_list.innerHTML = ``;
-                    let custom = `
+    if (data) {
+        console.log(data);
+        console.log(data.data);
+        if (data.data) {
+            if (data.data.length != 0) {
+                panel_list.innerHTML = ``;
+                let custom = `
                       <table id="list_assets"
                             class="table_respond max-w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -3198,46 +3346,44 @@ async function search_mobile(asset){
                             </thead>
                             <tbody id="assets_body">
                             `;
-                        
-                    data.data.map((item,index)=>{
-                        custom +=  `
+
+                data.data.map((item, index) => {
+                    custom += `
                         <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                                 <button>View</button>
                                              </td>
                                              <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                                ${ item.assets1+item.assets2}
+                                                ${item.assets1 + item.assets2}
                                              </td>
                                              <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                                ${ item.invoice_no}
+                                                ${item.invoice_no}
                                              </td>
                                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                                ${ item.description}
+                                                ${item.description}
                                              </td>
-                         </tr>`
-                         
-                    })
-                
-                    custom +=    `
+                         </tr>`;
+                });
+
+                custom += `
                             </tbody>
                         </table>
                     `;
-                    panel_list.innerHTML = custom;
-                    panel_list.style.display = 'block';
-           
-                }else{
-                        panel_list.innerHTML = ``;
-                        panel_list.innerHTML= `<h1>No Data Found.</h1>`;
-                        panel_list.style.display = 'block';
-                }
-            }else{
+                panel_list.innerHTML = custom;
+                panel_list.style.display = "block";
+            } else {
                 panel_list.innerHTML = ``;
-                panel_list.innerHTML= `<h1>No Data Found.</h1>`;
-                panel_list.style.display = 'block';
+                panel_list.innerHTML = `<h1>No Data Found.</h1>`;
+                panel_list.style.display = "block";
             }
-        }else{
+        } else {
             panel_list.innerHTML = ``;
-            panel_list.innerHTML= `<h1>Problem Data rendering</h1>`;
-            panel_list.style.display = 'block';
+            panel_list.innerHTML = `<h1>No Data Found.</h1>`;
+            panel_list.style.display = "block";
         }
+    } else {
+        panel_list.innerHTML = ``;
+        panel_list.innerHTML = `<h1>Problem Data rendering</h1>`;
+        panel_list.style.display = "block";
+    }
 }

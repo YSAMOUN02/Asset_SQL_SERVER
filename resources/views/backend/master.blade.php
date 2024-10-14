@@ -359,7 +359,7 @@
             </div>
         </aside>
         @endif
-        <main class="pl-5   md:ml-64 min-h-screen pt-20 dark:bg-gray-600">
+        <main class="pl-0 lg:pl-5 md:pl-2   md:ml-64 min-h-screen pt-20 dark:bg-gray-600">
             @yield('content')
 
 

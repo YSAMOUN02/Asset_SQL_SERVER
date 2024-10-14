@@ -83,79 +83,80 @@
                 <div class="max-w-full flex items-center">
 
                     <div class="pagination_by_search w-full defualt flex   px-2">
-                      
-                            @if (!empty($total_page))
-                                @php
-                                    $left_limit = max(1, $page - 5); // Set the left boundary, but not below 1
-                                    $right_limit = min($total_page, $page + 5); // Set the right boundary, but not above the total pages
-                                @endphp
-                                <nav aria-label="Page navigation example">
-                                    <ul class="flex items-center -space-x-px h-8 text-sm ">
 
-                                        {{-- Previous Button --}}
-                                        @if ($page != 1)
+                        @if (!empty($total_page))
+                            @php
+                                $left_limit = max(1, $page - 5); // Set the left boundary, but not below 1
+                                $right_limit = min($total_page, $page + 5); // Set the right boundary, but not above the total pages
+                            @endphp
+                            <nav aria-label="Page navigation example">
+                                <ul class="flex items-center -space-x-px h-8 text-sm ">
+
+                                    {{-- Previous Button --}}
+                                    @if ($page != 1)
+                                        <li>
+                                            <a href="{{ $page - 1 }}"
+                                                class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                                <i class="fa-solid fa-angle-left"></i>
+                                            </a>
+                                        </li>
+                                    @endif
+
+                                    {{-- Page Numbers in Ascending Order --}}
+                                    @for ($i = $left_limit; $i <= $right_limit; $i++)
+                                        {{-- Loop from left to right in ascending order --}}
+                                        @if ($i == $page)
                                             <li>
-                                                <a href="{{ $page - 1 }}"
-                                                    class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                                    <i class="fa-solid fa-angle-left"></i>
-                                                </a>
+                                                <a href="{{ $i }}" aria-current="page"
+                                                    class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ $i }}</a>
+                                            </li>
+                                        @else
+                                            <li>
+                                                <a href="{{ $i }}"
+                                                    class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ $i }}</a>
                                             </li>
                                         @endif
+                                    @endfor
+                                    @if ($total_page > 6 && $page != $total_page)
+                                        <li>
+                                            <a href="{{ $total_page }}"
+                                                class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                                {{ $total_page }}
+                                            </a>
+                                        </li>
+                                    @endif
+                                    {{-- Next Button --}}
+                                    @if ($page != $total_page)
+                                        <li>
+                                            <a href="{{ $page + 1 }}"
+                                                class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                                <i class="fa-solid fa-chevron-right"></i>
+                                            </a>
+                                        </li>
+                                    @endif
 
-                                        {{-- Page Numbers in Ascending Order --}}
-                                        @for ($i = $left_limit; $i <= $right_limit; $i++)
-                                            {{-- Loop from left to right in ascending order --}}
-                                            @if ($i == $page)
-                                                <li>
-                                                    <a href="{{ $i }}" aria-current="page"
-                                                        class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ $i }}</a>
-                                                </li>
-                                            @else
-                                                <li>
-                                                    <a href="{{ $i }}"
-                                                        class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ $i }}</a>
-                                                </li>
-                                            @endif
-                                        @endfor
-                                        @if ($total_page > 6 && $page != $total_page)
-                                            <li>
-                                                <a href="{{ $total_page }}"
-                                                    class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                                    {{ $total_page }}
-                                                </a>
-                                            </li>
-                                        @endif
-                                        {{-- Next Button --}}
-                                        @if ($page != $total_page)
-                                            <li>
-                                                <a href="{{ $page + 1 }}"
-                                                    class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                                    <i class="fa-solid fa-chevron-right"></i>
-                                                </a>
-                                            </li>
-                                        @endif
-
-                                    </ul>
-                                </nav>
+                                </ul>
+                            </nav>
+                        @endif
+                        <select onchange="set_page()" id="select_page"
+                            class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                            name="" id="">
+                            @if ($page != 1)
+                                <option value="{{ $page }}">{{ $page }}</option>
+                            @else
+                                <option value="">More</option>
                             @endif
-                            <select onchange="set_page()" id="select_page"
-                                class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                name="" id="">
-                                @if ($page != 1)
-                                    <option value="{{ $page }}">{{ $page }}</option>
-                                @else
-                                    <option value="">More</option>
-                                @endif
-                                {{-- Page Numbers in Ascending Order --}}
-                                @for ($i = 1; $i <= $total_page; $i++)
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
+                            {{-- Page Numbers in Ascending Order --}}
+                            @for ($i = 1; $i <= $total_page; $i++)
+                                <option value="{{ $i }}">{{ $i }}</option>
+                            @endfor
 
-                            </select>
-                            <span class="font-bold flex justify-center items-center text-sm lg:text-lg" >Page :{{ $total_page }} Pages
-                                &ensp;Total Assets: {{ $total_record }} Records</span>
+                        </select>
+                        <span class="font-bold flex justify-center items-center text-sm lg:text-lg">Page
+                            :{{ $total_page }} Pages
+                            &ensp;Total Assets: {{ $total_record }} Records</span>
 
-                
+
 
                     </div>
                     <button type="button" onclick="search_change_log(0)"
@@ -208,21 +209,22 @@
             <tbody id="table_body_change">
                 @foreach ($changeLog as $item)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <td class="px-6 py-4">
+                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                             {{ $item->id }}
                         </td>
-                        <td class="px-6 py-4">{{ $item->key }}
+                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">{{ $item->key }}
                         </td>
-                        <td class="px-6 py-4">{{ $item->varaint }}
+                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">{{ $item->varaint }}
                         </td>
-                        <td class="px-6 py-4">{{ $item->change }}
+                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">{{ $item->change }}
                         </td>
-                        <td class="px-6 py-4">{{ $item->section }}
+                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">{{ $item->section }}
                         </td>
-                        <td class="px-6 py-4">{{ $item->change_by }}
+                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">{{ $item->change_by }}
                         </td>
 
-                        <td class="px-6 py-4"> {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
+                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                            {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
                         </td>
 
 

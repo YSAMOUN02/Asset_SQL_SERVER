@@ -284,6 +284,7 @@ body{
   right: 0;
 }
 .pagination_by_search{
+  display: flex !important;
   white-space: wrap;
 }
 .pagination_by_search li:hover{
@@ -295,7 +296,7 @@ body{
 #loading_style{
   width: 200px;
   height: 100px;
-  position: absolute;
+  position: fixed;
   top: 20%;
   left: 50%;
   transform: translate(-50%,-50%);
@@ -351,7 +352,51 @@ z-index: 99;
 
     }
 }
+@media  (max-width: 430px) {
+  .main_page{
+    flex-direction: column;
+    gap: 8px;
+    justify-content: left;
+    width: 100%;
+  }
+  .main_page .flex{
+    width: 100%;
+    justify-content: left;
+  }
+  .pagination_by_search{
+    width: 100%;
+    justify-content: left;
+  }
+  .pagination_by_search nav{
+    width: 100%;
+  }
+  .fix_button{
+    width: auto !important;
+    position: fixed;
+    justify-content: right;
+    right: 20px;
+    bottom: 20px;
+  }
 
+}
+@media (min-width: 431px) and (max-width: 999px) {
+  .table-data{
+    height: 50vh;
+
+  }
+  .table-data button{
+    padding: 5px  10px!important;
+  }
+  .table_select{
+    top: 300px;
+    height: 90vh;
+  }
+  .fix_button{
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+  }
+}
 @media (min-width: 1000px) and (max-width: 1400px) {
   .table-data{
     height: 50vh;
@@ -363,5 +408,10 @@ z-index: 99;
   .table_select{
     top: 300px;
     height: 90vh;
+  }
+  .fix_button{
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
   }
 }

@@ -12,9 +12,9 @@ class QuickDataController extends Controller
     public function control_quick_data($page){
 
 
-        $limit = 10;
+        $limit = 150;
         // $count_post = QuickData::count();
-        $count_post = 10;
+        $count_post = 150;
         // return  $count_post ;
         $total_page = ceil($count_post/$limit);
         $offset = 0;

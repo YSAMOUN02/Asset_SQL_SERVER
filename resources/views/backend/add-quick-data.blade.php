@@ -149,8 +149,9 @@
                         <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                     </button>
                 </div>
+              
                 @if (!empty($total_page))
-                    @if($total_page!= 1)
+                    @if($total_page > 1)
                     <div class="flex pagination_by_search">
                 
                         @php
