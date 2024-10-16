@@ -10,11 +10,11 @@
 
 
 
-    <form class="p-10 py-10 dark:bg-gray-900" enctype="multipart/form-data" action="/admin/assets/add/submit"
+    <form class=" p-4 py-1  lg:p-10 lg:py-10 md:p-2 md:py-2 dark:bg-gray-900" enctype="multipart/form-data" action="/admin/assets/add/submit"
         method="POST">
         @csrf
         <h1 class="title_base dark:text-blue-100">Asset Info</h1>
-        <div class="grid gap-6 mb-6 md:grid-cols-2">
+        <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2 lg:grid-cols-2 md:grid-cols-2">
             <div>
                 <label for="Reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference <span
                         class="text-rose-500">*</span></label>
@@ -29,11 +29,11 @@
                     Code <span class="text-rose-500">*</span></label>
                 <div class="flex w-full">
                     @if (!empty($asset->assets))
-                        <input type="text" id="Asset_Code" name="asset_code1"
+                        <input type="text" id="asset_Code1" name="asset_code1"
                             class="percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value="{{ $asset->assets }}" />
                     @else
-                        <input type="text" id="Asset_Code" name="asset_code1"
+                        <input type="text" id="asset_Code1" name="asset_code1"
                             class="percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     @endif
 
@@ -107,7 +107,7 @@
 
 
         <h1 class="mb-2 title_base dark:text-blue-100">Asset Holder Info</h1>
-        <div class="grid gap-6 mb-6 md:grid-cols-2">
+        <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
             <div>
                 <label for="Asset_Holder" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
                     Holder
@@ -171,7 +171,7 @@
             </div>
         </div>
         <h1 class="mb-2 title_base dark:text-blue-100">Internal Document</h1>
-        <div class="grid gap-6 mb-6 md:grid-cols-2">
+        <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
             <div>
                 <label for="grn" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">GRN No</label>
                 <input type="text" id="grn"
@@ -227,7 +227,7 @@
 
         </div>
         <h1 class="mb-2 title_base dark:text-blue-100">ERP Invoice</h1>
-        <div class="grid gap-6 mb-6 md:grid-cols-2">
+        <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
             <div class="flex flex-col w-full">
                 <label for="no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
                     Code (Account)</label>
@@ -435,7 +435,7 @@
             </div>
         </div>
         <h1 class="mb-2 title_base dark:text-blue-100">Vendor Info</h1>
-        <div class="grid gap-6 mb-6 md:grid-cols-2">
+        <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
 
             <div>
                 <div>

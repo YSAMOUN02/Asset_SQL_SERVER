@@ -248,7 +248,7 @@ function change_form_attribute() {
 }
 var data_invoice;
 async function search_assets() {
-    let id = document.querySelector("#Asset_Code").value;
+    let id = document.querySelector("#asset_Code1").value;
 
     if (id) {
         let url = `/api/assets/${id}`;
@@ -360,6 +360,11 @@ async function search_assets() {
 
                 let faLocation = document.querySelector("#fa_location");
                 if (faLocation) faLocation.value = data[0].fa_location;
+
+                let assets = document.querySelector("#asset_Code1");
+
+                if (assets) assets.value = data[0].assets;
+
                 alert("Fill Data Success.");
             } else if (data.length > 1) {
                 data_invoice = await data;
@@ -374,15 +379,15 @@ async function search_assets() {
                     <table id="table_selec_asset" class="w-full overflow-auto  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <th scope="col" class="px-6 py-3">Posting Date</th>
-                                <th scope="col" class="px-6 py-3">Assets</th>
-                                <th scope="col" class="px-6 py-3">FA</th>
-                                <th scope="col" class="px-6 py-3">Invoice No</th>
-                                <th scope="col" class="px-6 py-3">Description</th>
-                                <th scope="col" class="px-6 py-3">Invoice Description</th>
-                                <th scope="col" class="px-6 py-3">Cost</th>
-                                <th scope="col" class="px-6 py-3">Currency</th>
-                                <th scope="col" class="px-6 py-3">Action</th>
+                                <th scope="col" class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">Posting Date</th>
+                                <th scope="col" class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">Assets</th>
+                                <th scope="col" class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">FA</th>
+                                <th scope="col" class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">Invoice No</th>
+                                <th scope="col" class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">Description</th>
+                                <th scope="col" class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">Invoice Description</th>
+                                <th scope="col" class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">Cost</th>
+                                <th scope="col" class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">Currency</th>
+                                <th scope="col" class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">Action</th>
                             </tr>
                         </thead>
                         <tbody class="sticky top-0">
@@ -390,7 +395,7 @@ async function search_assets() {
                                 .map(
                                     (item, index) => `
                                 <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                       ${
                                           item.posting_date
                                               ? new Date(
@@ -403,30 +408,30 @@ async function search_assets() {
                                               : ""
                                       }
                                     </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  no_wrap">${
+                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  no_wrap">${
                                         item.assets || ""
                                     }</td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  no_wrap">${
+                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  no_wrap">${
                                         item.fa || ""
                                     }</td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  no_wrap">${
+                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  no_wrap">${
                                         item.invoice_no || ""
                                     }</td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">${
+                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">${
                                         item.description || ""
                                     }</td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">${
+                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">${
                                         item.fa_description || ""
                                     }</td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">${
+                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">${
                                         parseFloat(item.cost) || ""
                                     }</td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">${
+                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">${
                                         item.currency || ""
                                     }</td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                         <button type="button"  onclick="assets_invoice_choose(${index})"
-                                        class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                        class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                         Select</button>
                                     </td>
 
@@ -476,7 +481,7 @@ function assets_invoice_choose(index) {
     if (faPostingType) faPostingType.value = data_invoice[index].type;
 
     let cost = document.querySelector("#cost");
-    if (cost) cost.value = parseFloat(data_invoice[index].cost);
+    if (cost) cost.value = parseFloat(data_invoice[index].cost || 0);
 
     let vat = document.querySelector("#vat");
     let vat_value = "";
@@ -528,10 +533,14 @@ function assets_invoice_choose(index) {
     let faLocation = document.querySelector("#fa_location");
     if (faLocation) faLocation.value = data_invoice[index].fa_location;
 
+    let assets = document.querySelector("#asset_Code1");
+    if (assets) assets.value = data_invoice[index].assets;
+
     let table_select_assets = document.querySelector(".table_select");
     if (table_select_assets) {
         table_select_assets.style.display = "none";
     }
+
     alert("Fill Data Success.");
 }
 
@@ -1134,7 +1143,7 @@ function show_sort_staff_asset() {
 function show_sort_quick_data() {
     let body_change = document.querySelector("#body_quick_data");
     body_change.innerHTML = ``;
-    array.map((item) => {
+    array.map((item, index) => {
         body_change.innerHTML += `
         
     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -1156,8 +1165,8 @@ function show_sort_quick_data() {
 
                                         <button type="button" data-modal-target="small-modal"
                                             data-modal-toggle="small-modal"
-                                            onclick="update_quick_data(${item.id})"
-                                            class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                            onclick="update_quick_data(${index})"
+                                            class="scale-50 lg:scale-50 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                         </button>
                                         <!-- Modal toggle -->
@@ -1166,7 +1175,7 @@ function show_sort_quick_data() {
                         <button type="button" data-id="${item.id}"
                             id="btn_delete${item.id}"
                                 onclick="delete_value('btn_delete'+${item.id},'delete_data','delete_data_value')"
-                            class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                            class="scale-50 lg:scale-50 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                             <i class="fa-solid fa-trash" style="color: #ffffff;"></i>
                         </button>
                         </td>
@@ -1184,6 +1193,7 @@ function show_sort_change_log() {
                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                            ${item.id || ""}
                        </td>
+            
                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                             ${item.key || ""}
                        </td>
@@ -1219,6 +1229,9 @@ function show_sort_change_log() {
                    </tr>
   `;
     });
+}
+function isObject(data) {
+    return data !== null && typeof data === "object";
 }
 
 function show_sort_asset() {
@@ -1405,10 +1418,9 @@ function show_sort_raw_asset() {
                                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                 <a href="/admin/assets/add/assets=${
                                                     item.assets
-                                                }/invoice_no=${item.fa.replace(
-            /\//g,
-            "-"
-        )}"
+                                                }/invoice_no=${
+            item.fa ? item.fa.replace(/\//g, "-") : "NA"
+        }"
                                                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a>
                                             </td>
 
@@ -1418,17 +1430,33 @@ function show_sort_raw_asset() {
     });
 }
 function update_quick_data(item) {
-    let content = document.querySelector("#content_update");
-    let type = document.querySelector("#type_update");
-    let id = document.querySelector("#id_update");
-    if (content) {
-        content.value = item.content;
-    }
-    if (type) {
-        type.value = item.type;
-    }
-    if (id) {
-        id.value = item.id;
+    if (isObject(item) == true) {
+        let content = document.querySelector("#content_update");
+        let type = document.querySelector("#type_update");
+        let id = document.querySelector("#id_update");
+        if (content) {
+            content.value = item.content;
+        }
+        if (type) {
+            type.value = item.type;
+        }
+        if (id) {
+            id.value = item.id;
+        }
+    } else {
+        let content = document.querySelector("#content_update");
+        let type = document.querySelector("#type_update");
+        let id = document.querySelector("#id_update");
+
+        if (content) {
+            content.value = array[item].content;
+        }
+        if (type) {
+            type.value = array[item].type;
+        }
+        if (id) {
+            id.value = array[item].id;
+        }
     }
 }
 let state_asset_permission = 1;
@@ -2427,6 +2455,15 @@ function set_page_dynamic_changelog() {
         }
     }
 }
+function set_page_dynamic_raw() {
+    let select = document.querySelector("#select_page_dynamic_raw");
+    if (select) {
+        if (select.value != "") {
+            raw_assets(parseInt(select.value));
+        }
+    }
+}
+
 function set_page_dynamic_quick() {
     let select = document.querySelector("#select_page_dynamic_quick");
     if (select) {
@@ -2583,7 +2620,7 @@ async function raw_assets(no) {
                         let totalRecord = data.total_record ?? 0;
                         // Start by building the entire HTML content in one go
                         let paginationHtml = `
-                        <div class="flex">
+                        <div class="flex main_page ">
                             <ul class="flex items-center -space-x-px h-8 text-sm">
                              
                             `;
@@ -2672,7 +2709,7 @@ async function raw_assets(no) {
                             `;
 
                         paginationHtml += `
-                            <select  onchange="set_page_dynamic_changelog()" id="select_page_dynamic_changelog"  class="flex mx-2 items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-4 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"  name="" id="">
+                            <select  onchange="set_page_dynamic_raw()" id="select_page_dynamic_raw"  class="flex mx-2 items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-4 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"  name="" id="">
                             <option value="${page}">${page}</option>
                             `;
 
@@ -2745,10 +2782,10 @@ async function raw_assets(no) {
                 )
                 .join("")}
         `;
-                array = data;
-            } else {
-                alert("No Data Found.");
+                array = data.data;
             }
+        } else {
+            alert("No Data Found.");
         }
     } else {
         alert("No Data Found.");
@@ -2853,7 +2890,6 @@ async function search_change_log(no) {
         });
 
     if (data) {
-        console.log(data);
         if (data.data) {
             document.querySelector("#loading").style.display = "none";
             if (data.data.length > 0) {
@@ -2875,7 +2911,7 @@ async function search_change_log(no) {
                         let totalRecord = data.total_record ?? 0;
                         // Start by building the entire HTML content in one go
                         let paginationHtml = `
-                            <div class="flex">
+                            <div class="flex  main_page ">
                                 <ul class="flex items-center -space-x-px h-8 text-sm">
                                  
                                 `;
@@ -2951,7 +2987,7 @@ async function search_change_log(no) {
                                 `;
 
                         paginationHtml += `
-                                <select  onchange="set_page_dynamic_changelog()" id="select_page_dynamic_changelog"  class="flex mx-2 items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"  name="" id="">
+                                <select  onchange="set_page_dynamic_changelog()" id="select_page_dynamic_changelog"  class="flex mx-0 lg:mx-2 items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-4 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"  name="" id="">
                                 <option value="${page}">${page}</option>
                                 `;
 
@@ -3253,7 +3289,8 @@ async function search_quick_data(no) {
 
                 let body_change = document.querySelector("#body_quick_data");
                 body_change.innerHTML = ``;
-                data.data.map((item) => {
+
+                data.data.map((item, index) => {
                     body_change.innerHTML += `
                 
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -3265,6 +3302,22 @@ async function search_quick_data(no) {
                                </td>        
                                  <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                     ${item.type}
+                               </td>    
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                     <button type="button" data-modal-target="small-modal"
+                                            data-modal-toggle="small-modal"
+                                            onclick="update_quick_data(${index})"
+                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
+                                        </button>
+                                        <!-- Modal toggle -->
+
+
+                                        <button type="button" data-id="{{ $item->id }}"
+                                            id="btn_delete{{ $item->id }}"
+                                            onclick="delete_value('btn_delete'+${item.id},'delete_data','delete_data_value')"
+                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                            <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
                                </td>    
                            </tr>
           `;

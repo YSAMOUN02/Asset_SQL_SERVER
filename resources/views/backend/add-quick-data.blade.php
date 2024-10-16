@@ -238,17 +238,17 @@
                     class="table_respond max-w-full  mt-5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr id="quick_tr_header">
-                            <th scope="col" class="px-6 py-3" onclick="dynamic_sort('id','int','quick')">
+                            <th scope="col"  class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('id','int','quick')">
                                 ID &ensp; <i class="fa-solid fa-sort"></i>
                             </th>
-                            <th scope="col" class="px-6 py-3" onclick="dynamic_sort('content','string','quick')">
+                            <th scope="col"  class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('content','string','quick')">
                                 Content&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
-                            <th scope="col" class="px-6 py-3" onclick="dynamic_sort('type','string','quick')">
+                            <th scope="col"  class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('type','string','quick')">
                                 Type&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
-                            <th scope="col" class="px-6 py-3"
-                                style="  position: sticky; right: 0;   background-color: rgb(230, 230, 230);">
+                            <th scope="col" class="last_th px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                                style="position: sticky; right: 0;  z-index:1;  background-color: rgb(230, 230, 230);">
                                 Action
                             </th>
                         </tr>
@@ -269,14 +269,15 @@
                                         class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->type }}
                                     </td>
-                                    <td scope="row"
-                                        class=" px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   dark:bg-slate-900"
+                                    style="  position: sticky; right: 0;  background-color: white; ">
 
 
+                                  
                                         <button type="button" data-modal-target="small-modal"
                                             data-modal-toggle="small-modal"
                                             onclick="update_quick_data({{ $item }})"
-                                            class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                         </button>
                                         <!-- Modal toggle -->
@@ -285,7 +286,7 @@
                                         <button type="button" data-id="{{ $item->id }}"
                                             id="btn_delete{{ $item->id }}"
                                             onclick="delete_value('btn_delete'+{{ $item->id }},'delete_data','delete_data_value')"
-                                            class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
                                     </td>
                                 </tr>

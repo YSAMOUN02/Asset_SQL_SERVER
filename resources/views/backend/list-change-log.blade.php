@@ -7,7 +7,7 @@
 
             <form action="/admin/change/log/search" method="POST">
                 @csrf
-                <div class="max-w-full min-h-full grid px-5 py-3 gap-4 grid-cols-1 lg:grid-cols-4 md:grid-cols-2">
+                <div class="max-w-full min-h-full grid px-5 py-3 gap-4 grid-cols-2 lg:grid-cols-4 md:grid-cols-2">
                     <div>
                         <label for="key" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">
                             Key ID
@@ -60,7 +60,7 @@
                     <div>
                         <label for="start_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Start
                             from
-                            date (Change Date)</label>
+                            date</label>
 
                         <input type="date" id="start_date" name="start_date" name="end_date" onchange="check_date()"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -69,7 +69,7 @@
                     </div>
                     <div>
                         <label for="end_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">To date
-                            (Change Date)</label>
+                           </label>
 
                         <input type="date" id="end_date" name="end_date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -80,9 +80,9 @@
 
 
                 </div>
-                <div class="max-w-full flex items-center">
+                <div class="max-w-full flex items-center px-5 lg:px-0">
 
-                    <div class="pagination_by_search w-full defualt flex   px-2">
+                    <div class="pagination_by_search flex main_page w-full defualt ">
 
                         @if (!empty($total_page))
                             @php
@@ -138,8 +138,8 @@
                                 </ul>
                             </nav>
                         @endif
-                        <select onchange="set_page()" id="select_page"
-                            class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                        <select onchange="set_page_changeLog()" id="select_page"
+                            class="flex mx-0 lg:mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                             name="" id="">
                             @if ($page != 1)
                                 <option value="{{ $page }}">{{ $page }}</option>
@@ -159,10 +159,12 @@
 
 
                     </div>
+                    <div class="flex fix_button">
                     <button type="button" onclick="search_change_log(0)"
                         class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                             class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                     </button>
+                    </div>
                 </div>
 
 

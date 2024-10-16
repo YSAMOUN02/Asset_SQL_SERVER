@@ -31,9 +31,10 @@ body{
 .resultList{
   overflow: visible !important;
 }
-#resultList thead,#table_change_log thead ,#table_quick_data thead{
+#resultList thead,#table_change_log thead ,#table_quick_data thead , #table_quick_data thead{
   position: sticky;
   top: 0px;
+  z-index: 9;
 }
 
 
@@ -212,6 +213,12 @@ body{
   padding:  5px;
   overflow: hidden;
 }
+.table_select span{
+  font-size: 20px !important;
+  font-weight: 400;
+
+
+}
 .select_id_assets{
   height: 100% ;
   min-width: 100%;
@@ -249,7 +256,7 @@ body{
   background-color: rgb(201, 201, 201);
   position: sticky;
   right: 0;
-  z-index: 1 !important;
+  z-index: 1 ;
 }
 .align_right{
   padding: 5px 10px;
@@ -268,7 +275,7 @@ body{
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  z-index: 9999;
+  z-index:9999;
 }
 #qr_code{
   width: auto ;
@@ -333,6 +340,12 @@ z-index: 99;
 #show_list table tr td , #show_list table tr th{
   white-space: nowrap;
 }
+.last_td{
+  background-color: white;
+}
+.last_th{
+  z-index: 99 !important;
+}
   @keyframes fade_out{
     0%{
       display: block;
@@ -380,22 +393,42 @@ z-index: 99;
 
 }
 @media (min-width: 431px) and (max-width: 999px) {
-  .table-data{
-    height: 50vh;
 
-  }
   .table-data button{
     padding: 5px  10px!important;
   }
-  .table_select{
-    top: 300px;
-    height: 90vh;
-  }
+ 
   .fix_button{
     position: fixed;
     right: 20px;
     bottom: 20px;
   }
+  .last_td{
+    background-color: black !important;
+  }
+
+  .table_select{
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 100px !important;
+    transform: translate(-50%,-50%);
+    width: 98% !important;
+    height: 80vh;
+  
+    z-index: 9999;
+    background-color: white;
+    border:  1px solid black;
+    padding:  5px;
+    overflow: hidden;
+  }
+  .table_select span{
+    font-size: 15px !important;
+    font-weight: 400;
+  
+  
+  }
+
 }
 @media (min-width: 1000px) and (max-width: 1400px) {
   .table-data{

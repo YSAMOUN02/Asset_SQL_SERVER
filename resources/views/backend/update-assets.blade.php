@@ -4,7 +4,7 @@
         @csrf
         <h1 class="title_base dark:text-blue-100">Asset Info</h1>
      
-        <div class="grid gap-6 mb-6 md:grid-cols-2">
+        <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2 lg:grid-cols-2 md:grid-cols-2">
             <div>
                 <label for="Reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference <span
                         class="text-rose-500">*</span></label>
@@ -114,7 +114,7 @@
 
 
         <h1 class="mb-2 title_base dark:text-blue-100">Asset Holder Info</h1>
-        <div class="grid gap-6 mb-6 md:grid-cols-2">
+        <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2 lg:grid-cols-2 md:grid-cols-2">
             <div>
                 <label for="Asset_Holder" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset Holder
                     ID</label>
@@ -184,7 +184,7 @@
             </div>
         </div>
         <h1 class="mb-2 title_base dark:text-blue-100">Internal Document</h1>
-        <div class="grid gap-6 mb-6 md:grid-cols-2">
+        <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2 lg:grid-cols-2 md:grid-cols-2">
             <div>
                 <label for="grn" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">GRN No</label>
                 <input type="text" id="grn" value="{{ old('grn', $asset->grn ?? '') }}"
@@ -240,7 +240,7 @@
 
         </div>
         <h1 class="mb-2 title_base dark:text-blue-100">ERP Invoice</h1>
-        <div class="grid gap-6 mb-6 md:grid-cols-2">
+        <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2 lg:grid-cols-2 md:grid-cols-2">
             <div class="flex flex-col w-full">
                 <label for="no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
                     Code (Account)</label>
@@ -393,7 +393,7 @@
             </div>
         </div>
         <h1 class="mb-2 title_base dark:text-blue-100">Vendor Info</h1>
-        <div class="grid gap-6 mb-6 md:grid-cols-2">
+        <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2 lg:grid-cols-2 md:grid-cols-2">
 
             <div>
                 <div>

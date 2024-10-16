@@ -73,10 +73,13 @@
                     </select>
                 </div>
             </div>
-            <div class="max-w-full flex justify-between items-center px-2">
+            <div class="max-w-full flex main_page justify-between items-center px-2">
+
+                  
                 @if (!empty($total_page))
                     @if ($total_page > 1)
-                        <div class="flex pagination_by_search">
+      
+                        <div class="flex main_page pagination_by_search">
 
                             @php
                                 $left_limit = max(1, $page - 5); // Set the left boundary, but not below 1
@@ -140,7 +143,7 @@
                             </nav>
              
                             <select onchange="set_page_raw()" id="select_page"
-                                class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                class="flex mx-0 lg:mx-2 md:mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                 name="" id="">
                                 @if ($page != 1)
                                     <option value="{{ $page }}">{{ $page }}</option>
@@ -153,7 +156,10 @@
                                 @endfor
 
                             </select>
+                            <span class="font-bold flex justify-center items-center dark:text-slate-50">Page :{{ $total_page }} Pages
+                                &ensp;Total Assets: {{ $total_record }} Records</span>
                         </div>
+                    
                     @endif
                 @endif
                 <div class="flex fix_button">
@@ -173,7 +179,7 @@
             {{-- </form> --}}
 
         </div>
-        <div class="table-data  max-w-full">
+        <div class="table-data  max-w-full mt-2">
             <table id="resultList" class="table_respond text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>

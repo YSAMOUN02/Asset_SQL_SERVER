@@ -132,13 +132,20 @@ class AssetsController extends Controller
 
     public function assets_add($assets, $invoice)
     {
-        $modifiedString = str_replace('-', '/', $invoice);
+        if($invoice != "NA"){
+            $modifiedString = str_replace('-', '/', $invoice);
+        }
 
+        
         // return $modifiedString;
-        $asset = Fix_assets::where('assets', $assets)
-            ->where("fa", $modifiedString)
-            ->first();
+        $sql= Fix_assets::where('assets', $assets);
+        if($invoice != "NA"){
+            $sql->where("fa", $modifiedString);
+        }
 
+        $asset = $sql->first();
+   
+        
         $department = QuickData::where('type', "department")->select('id', 'content')->orderby('id', 'desc')->get();
         $company  = QuickData::where('type', "company")->select('id', 'content')->orderby('id', 'desc')->get();
         return view('backend.add-assets', [
@@ -393,7 +400,7 @@ class AssetsController extends Controller
         $asset_user->depreciation = $request->depreciation_book_code ?? "";
         $asset_user->fa_type = $request->fa_type ?? "";
         $asset_user->fa_location = $request->fa_location ?? "";
-        $asset_user->cost = $request->cost ?? "";
+        $asset_user->cost = $request->cost ?? 0;
         $asset_user->currency = $request->currency ?? "";
         $asset_user->vat = $request->vat ?? "";
         $asset_user->description = $request->description ?? "";
@@ -457,7 +464,7 @@ class AssetsController extends Controller
         $asset->depreciation = $request->depreciation_book_code ?? "";
         $asset->fa_type = $request->fa_type ?? "";
         $asset->fa_location = $request->fa_location ?? "";
-        $asset->cost = $request->cost ?? "";
+        $asset->cost = $request->cost ??0;
         $asset->currency = $request->currency ?? "";
         $asset->vat = $request->vat ?? "";
         $asset->description = $request->description ?? "";
@@ -522,9 +529,9 @@ class AssetsController extends Controller
         $this->Change_log($asset_user->id, 0, "Insert", "Asset Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);
 
         if ($asset) {
-            return redirect('/admin/assets/list')->with('success', 'Added 1 Asset Record.');
+            return redirect('/admin/assets/list/1')->with('success', 'Added 1 Asset Record.');
         } else {
-            return redirect('/admin/assets/list')->with('fail', 'Opp!. Something when wronge.');
+            return redirect('/admin/assets/list/1')->with('fail', 'Opp!. Something when wronge.');
         }
     }
 

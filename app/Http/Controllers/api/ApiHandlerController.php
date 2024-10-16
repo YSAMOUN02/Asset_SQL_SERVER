@@ -52,9 +52,13 @@ class ApiHandlerController extends Controller
     public function raw_search_detail($id)
     {
 
-        $assets = Fix_assets::where('assets', $id)->get();
+        $assets = Fix_assets::where('assets','like', '%'.$id.'%' )->get();
+        $count = count($assets);
+        if($count == 0){
+                    $assets = Fix_assets::where('assets','like', '%'.strtoupper($id).'%' )->get();
+        }
 
-        return $assets;
+        return response()->json($assets);
     }
 
 
@@ -87,12 +91,18 @@ class ApiHandlerController extends Controller
         }
         if ($state != "NA") {
             if ($state == "All") {
+              
+                // All Date is exist 
                 if ($start != "NA" && $end != "NA") {
                     $sql->whereBetween('posting_date', [$start, $end]);
+                // End Only 
                 } elseif ($start != "NA" && $end == "NA") {
                     $sql->where('posting_date', ">=", $start);
+                // Start Only
                 } elseif ($start == "NA" && $end != "NA") {
                     $sql->where('posting_date', "<=", $end);
+                }else{
+
                 }
             } elseif ($state == "invoice") {
                 if ($start != "NA" && $end != "NA") {
@@ -101,13 +111,19 @@ class ApiHandlerController extends Controller
                     $sql->where('posting_date', ">=", $start);
                 } elseif ($start == "NA" && $end != "NA") {
                     $sql->where('posting_date', "<", $end);
+                }else{
+                    
                 }
                 $sql->where('state', 'like', ["%" . $state . "%"]);
             } elseif ($state == "no_invoice") {
-                $sql->where("state", 'like', ["%" . $state . "%"]);
+          
+                $sql->where("state",  $state );
             }
         }
+ 
+     
 
+        
         $limit = 150;
         $offet = 0;
         if($page != 0){
@@ -130,9 +146,6 @@ class ApiHandlerController extends Controller
         $arr->data = $asset_data;
 
 
-
-
-        $data = $sql->get();
 
         if ($count > 0) {
             return response()->json($arr);

@@ -79,7 +79,7 @@
 
             <form id="form_search" action="/admin/assets/add/search" method="POST">
                 @csrf
-                <div class="max-w-full min-h-full grid  px-2 py-1 gap-2 grid-cols-1 lg:grid-cols-4 md:grid-cols-2">
+                <div class="max-w-full min-h-full grid  px-2 py-1 gap-2 grid-cols-3 lg:grid-cols-4 md:grid-cols-2">
                     <div>
                         <label for="id_asset"
                             class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">ID</label>
@@ -357,8 +357,8 @@
                             onclick="dynamic_sort('description','string','asset_staff')">
                             Description&ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-6 py-3"
-                            style="  position: sticky; right: 0;   background-color: rgb(230, 230, 230);">
+                        <th scope="col" class="last_td px-6 py-3"
+                            style="  position: sticky; right: 0;">
                             Action
                         </th>
                     </tr>
@@ -436,19 +436,19 @@
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->description }}
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   dark:bg-slate-900"
-                                    style="  position: sticky; right: 0;   background-color: white; ">
+                                <td  class="last_td px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   dark:bg-slate-900"
+                                    style="  position: sticky; right: 0; ">
                                     @if (Auth::user()->Permission->assets_read == 1 && Auth::user()->Permission->assets_update == 0)
                                         <button type="button"
-                                            class="text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                            <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
+                                            class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                            <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
                                         </button>
                                     @endif
 
                                     @if (Auth::user()->Permission->assets_update == 1)
                                         <a href="/admin/assets/edit/id={{ $item->id }}">
                                             <button type="button"
-                                                class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                class="text-white  scale-50 lg:scale-100 bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                     class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                             </button>
                                         </a>
@@ -459,7 +459,7 @@
                                         <button type="button" data-id="{{ $item->id }}"
                                             id="btn_delete_asset_for_staff{{ $item->id }}"
                                             onclick="delete_value('btn_delete_asset_for_staff'+{{ $item->id }},'delete_asset_staff','delete_value_asset_staff')"
-                                            class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                            class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
                                     @endif
                                 </td>
