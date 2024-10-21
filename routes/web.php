@@ -5,8 +5,7 @@ use App\Http\Controllers\backend\AdminController;
 use App\Http\Controllers\backend\UserController;
 use App\Http\Controllers\backend\ChangeLogController;
 use App\Http\Controllers\backend\QuickDataController;
-use App\Http\Controllers\backend\TransferController;
-
+use App\Http\Controllers\backend\MovementController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -53,9 +52,7 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/admin/assets/change/log/{page}', [ChangeLogController::class, 'ChangeLog']);
         
-    Route::get('/admin/transfer/add', [TransferController::class, 'add_transfer']);
-    
-    Route::get('/admin/transfer/add/assets_id={id}', [TransferController::class, 'add_transfer_detail']);
+
     
 
     Route::get('/quick/data/{page}', [QuickDataController::class, 'control_quick_data']);
@@ -75,6 +72,13 @@ Route::middleware(['auth'])->group(function () {
     
     Route::post('/admin/export/excel/assets', [AssetsController::class, 'multi_export']); 
 
+    Route::get('/admin/transfer/add', [MovementController::class, 'add_transfer']);
+    
+    Route::get('/admin/transfer/add/assets_id={id}', [MovementController::class, 'add_transfer_detail']);
+
+    Route::post('/admin/movement/add/submit', [MovementController::class, 'add_transfer_submit']);
+
+    Route::get('/admin/movement/list/{page}', [MovementController::class, 'movement_list']);
     
 });
 

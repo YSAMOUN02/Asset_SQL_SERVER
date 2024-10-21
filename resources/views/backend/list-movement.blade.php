@@ -89,6 +89,13 @@
 
                     </div>
                     <div>
+                        <label for="fa" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Movement No</label>
+
+                        <input type="text" id="fa" name="fa"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+
+                    </div>
+                    <div>
                         <label for="assets" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Assets
                             Code</label>
 
@@ -96,17 +103,10 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                     </div>
-                    <div>
-                        <label for="fa" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">FIX
-                            Asset</label>
-
-                        <input type="text" id="fa" name="fa"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-
-                    </div>
+              
                     <div>
                         <label for="invoice"
-                            class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Invoice</label>
+                            class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Reference </label>
 
                         <input type="text" id="invoice" name="invoice"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -114,16 +114,24 @@
                     </div>
                     <div>
                         <label for="description"
-                            class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                            class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">From Department</label>
 
                         <input type="text" id="description" name="description"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                     </div>
                     <div>
-                        <label for="start_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Start</label>
+                        <label for="start_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">To Department</label>
 
-                        <input type="date" id="start_date" name="start_date" name="end_date"
+                      
+                        <input type="text" id="description" name="description"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+
+                    </div>
+                    <div>
+                        <label for="end_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">From Date</label>
+
+                        <input type="date" id="end_date" name="end_date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                     </div>
@@ -134,22 +142,6 @@
                         <input type="date" id="end_date" name="end_date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
-                    </div>
-
-
-
-                    <div>
-                        <label for="state"
-                            class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">State</label>
-                        <select id="state" name="state"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="All">All</option>
-                            <option value="0">Available</option>
-                            <option value="2">Sold</option>
-                            <option value="1">Deleted</option>
-
-
-                        </select>
                     </div>
                 </div>
                 <div class="max-w-full items-center flex  justify-between px-2 mt-1 lg:mt-2 py-1 lg:py-2 sm:grid sm:grid-cols-1">
@@ -266,23 +258,15 @@
     
                                     </select>
                                     <span class="font-bold flex justify-center items-center dark:text-slate-50">Page :{{ $total_page }} Pages
-                                        &ensp;Total Assets: {{ $total_assets }} Records</span>
+                                        &ensp;Total Movements: {{ $total_record }} Records</span>
                                 </div>
     
                         </div>
                         <div class="flex fix_button">
-                            <button type="button" id="print" onclick="print_group()"
-                                class="text-white  hidden bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                Print
-                            </button>
-    
                             <button type="button" id="export_excel" onclick="export_group()"
                                 class="text-white  hidden bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                 Export
                             </button>
-    
-    
-    
                             <button type="button" onclick="search_asset(0)"
                                 class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                 <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
@@ -302,59 +286,35 @@
                 class="table_respond max-w-full  mt-5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
-                            <input onchange="select_all()" type="checkbox" id="select_all"
-                                class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('assets_id','int','assets')">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
                             ID &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('created_at','date','assets')">
-                            Create Date&ensp; <i class="fa-solid fa-sort"></i>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
+                            Date&ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('document','string','assets')">
-                            Refference&ensp; <i class="fa-solid fa-sort"></i>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
+                            Movement No &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('assets1','string','assets')">
-                            Asset Code&ensp; <i class="fa-solid fa-sort"></i>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
+                            Assets &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('fa','string','assets')">
-                            Fix Asset No&ensp; <i class="fa-solid fa-sort"></i>
+                       
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
+                            Reference &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('fa_type','string','assets')">
-                            Fix Asset Type&ensp; <i class="fa-solid fa-sort"></i>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
+                            From Department &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('deleted','string','assets')">
-
-                            Status &ensp; <i class="fa-solid fa-sort"></i>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
+                            To Department &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-
-
-
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('fa_class','string','assets')">
-                            Fix Asset class&ensp; <i class="fa-solid fa-sort"></i>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
+                            Movement From &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('fa_subclass','string','assets')">
-                            Fix Asset Subclass&ensp; <i class="fa-solid fa-sort"></i>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
+                            Movement To &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('depreciation','string','assets')">
-                            Deoreciation Code&ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('dr','string','assets')">
-                            DR&ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('pr','string','assets')">
-                            PR&ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('invoice_no','string','assets')">
-                            Invoice No&ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('description','string','assets')">
-                            Description&ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
+                    
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
                             style="  position: sticky; right: 0;">
                             Action
@@ -362,80 +322,41 @@
                     </tr>
                 </thead>
                 <tbody id="assets_body">
-                    @if (!empty($asset))
-                        @foreach ($asset as $item)
+                    @if (!empty($movement))
+                        @foreach ($movement as $item)
                             <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
-                                <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    <input onchange="printable()" data-id="{{ $item->assets_id }}" id="green-checkbox"
-                                        type="checkbox" value=""
-                                        class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                          
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->id }}
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ \Carbon\Carbon::parse($item->movement_date)->format('M d Y') }}
+                              
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->movement_no }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->assets->assets1.$item->assets->assets2}}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->reference }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->from_department }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->to_department }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->from_name }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->to_name }}
+                                </td>
 
-                                    {{ $item->assets_id }}
-
-
-                                </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
-
-                                </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->document }}
-                                </td>
-
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->assets1 . $item->assets2 }}
-                                </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->fa }}
-                                </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->fa_type }}
-                                </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    @if ($item->deleted == 0)
-                                        <span
-                                            class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                            <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                            Available
-                                        </span>
-                                    @elseif($item->deleted == 1)
-                                        <span
-                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                            Deleted
-                                        </span>
-                                    @elseif($item->deleted == 2)
-                                        <span
-                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                            Sold
-                                        </span>
-                                    @endif
-                                </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->fa_class }}
-                                </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->fa_subclass }}
-                                </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->depreciation }}
-                                </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->dr }}
-                                </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->pr }}
-                                </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->invoice_no }}
-                                </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->description }}
-                                </td>
+                                
                                 <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
                                     style="  position: sticky; right: 0; ">
 
@@ -484,7 +405,7 @@
         </form>
     </div>
     <script>
-        let array = @json($asset);
+        let array = @json($movement);
 
 
         let sort_state = 0;

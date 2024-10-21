@@ -89,7 +89,7 @@
 
 
     <div id="logout"
-        class="toast_delete w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400"
+        class="toast_delete w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-600 dark:text-gray-400"
         role="alert">
         <div class="flex">
             <div
@@ -113,7 +113,7 @@
                     </div>
                     <div>
                         <button onclick="cancel_toast('logout')" type="button"
-                            class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-white bg-rose-600 border border-gray-300 rounded-lg hover:bg-rose-950 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-600 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">Cancel</button>
+                            class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-white bg-rose-600 border border-gray-300 rounded-lg hover:bg-rose-950 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-600 dark:text-white dark:border-rose-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">Cancel</button>
                     </div>
                 </div>
 
@@ -242,7 +242,7 @@
                                 class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                                 aria-controls="dropdown-pages-user" data-collapse-toggle="dropdown-pages-transfer">
                                 <i class="fa-solid fa-shuffle"></i>
-                                <span class="flex-1 ml-3 text-left whitespace-nowrap">Transfer</span>
+                                <span class="flex-1 ml-3 text-left whitespace-nowrap">Movement</span>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </button>
                             <ul id="dropdown-pages-transfer" class="hidden py-2 space-y-2">
@@ -251,14 +251,14 @@
                                     <li>
                                         <a href="/admin/transfer/add"
                                             class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Create
-                                            Transfer</a>
+                                            Movement</a>
                                     </li>
                                 @endif
                                 @if (Auth::user()->Permission->transfer_read == 1)
                                     <li>
-                                        <a onclick="(alert('Under Development'))"
+                                        <a href="/admin/movement/list/1"
                                             class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">List
-                                            Transfer</a>
+                                            Movement</a>
                                     </li>
                                 @endif
                             </ul>

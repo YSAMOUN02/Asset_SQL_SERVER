@@ -111,8 +111,8 @@
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                             Invoice Description
                         </th>
-                        <th scope="col" class="px-6 py-3"
-                            style="  position: sticky; right: 0;   background-color: rgb(230, 230, 230);">
+                        <th scope="col" class="px-6 py-3 text-gray-900 whitespace-nowrap dark:text-white"
+                            style="  position: sticky; right: 0; ">
                             Action
                         </th>
                         </th>
@@ -161,8 +161,8 @@
                                 </td>
 
 
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   dark:bg-slate-900"
-                                    style="  position: sticky; right: 0;   background-color: white; ">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2    text-gray-900 whitespace-nowrap dark:text-white"
+                                    style="  position: sticky; right: 0;   ">
 
                                     <a href="/admin/transfer/add/assets_id={{ $item->id }}"
                                         class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a>

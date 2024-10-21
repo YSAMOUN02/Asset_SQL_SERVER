@@ -184,10 +184,10 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
 
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                        <th scope="col"  class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             No
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  "
+                        <th scope="col"  class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
                             onclick="dynamic_sort('assets_date','date','raw_assets')">
                             Invoice Date &ensp; <i class="fa-solid fa-sort"></i>
                         </th>

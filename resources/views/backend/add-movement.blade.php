@@ -7,32 +7,32 @@
         </div>
 
     </div>
-    <form class="p-10 py-15 dark:bg-gray-900" enctype="multipart/form-data" action="/admin/assets/add/submit" method="POST">
+    <form class="p-2 lg:p-10 py-2 lg:py-15 dark:bg-gray-900" enctype="multipart/form-data" action="/admin/movement/add/submit" method="POST">
         @csrf
         <h1 class="title_base dark:text-blue-100">Movement Info</h1>
-        <div class="grid gap-6 mb-6 md:grid-cols-2">
+        <div class="grid grid-cols-2 gap-6 mb-6 md:grid-cols-2">
             <div>
 
-                <label for="Issue_Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Movement
+                <label for="movement_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Movement
                     Date</label>
-                <input type="datetime-local" id="Issue_Date"
+                <input type="datetime-local" id="movement_date"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ today() }}" name="issue_date" />
+                    value="{{ today() }}" name="movement_date" />
 
             </div>
             <div>
-                <label for="Reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Movement  No<span
+                <label for="movement_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Movement No<span
                         class="text-rose-500">*</span></label>
-                <input type="text" id="Reference"
+                <input type="text" id="movement_no"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="document" required />
+                    name="movement_no" required />
             </div>
             <div>
-                <label for="Reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference <span
+                <label for="reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference <span
                         class="text-rose-500">*</span></label>
-                <input type="text" id="Reference"
+                <input type="text" id="reference"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="document" required />
+                    name="reference"  />
             </div>
 
 
@@ -40,45 +40,72 @@
           
         </div>
 
-        <div class="grid gap-6 mb-6 md:grid-cols-2">
+        <div class="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2">
 
 
             <div class="grid gap-6 lg:grid-cols-1 md:grid-cols-1">
                 <span class="title_base text-lg dark:text-blue-100">Movement From</span>
+                
+
+
                 <div>
-                    <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">From
+                    <label for="from_department"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">From Department</label>
+                    
+                        
+
+                        @if(!empty($department))
+                            <select id="from_department"  name="from_department"
+                                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option value=""></option>
+                                @foreach ($department as $item)
+                                <option value="{{$item->content}}">{{$item->content}}</option>
+                                @endforeach
+                            </select>
+                        @else 
+                        <input type="text" id="from_department"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        name="from_department" />
+                        @endif
+                </div>
+                <div>
+                    <label for="from_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">From
                         Name</label>
-                    <input type="text" id="fa_no"
+                    <input type="text" id="from_name"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="fa_no" />
+                        name="from_name" />
                 </div>
                 <div>
-                    <label for="fa_no"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                    <input type="text" id="fa_no"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="fa_no" />
-                </div>
-                <div>
-                    <label for="Reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current
+                    <label for="from_location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current
                         Location <span class="text-rose-500">*</span></label>
-                    <input type="text" id="Reference"
+                    <input type="text" id="from_location"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="document" required />
+                        name="from_location"  />
                 </div>
                 <div>
-                    <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Given
+                    <label for="given_by" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Given
                         by</label>
-                    <input type="text" id="fa_no"
+                        @if(!empty($given_by))
+                        <select  id="to_department"      name="to_department"
+                            class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value=""></option>
+                            @foreach ($given_by as $item)
+                                <option value="{{$item->name}}">{{$item->name}}</option>
+                            @endforeach
+                        </select>
+                    @else 
+                        <input type="text" id="given_by"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="fa_no" />
+                        name="given_by" />
+                    @endif
                 </div>
+         
                 <div>
-                    <label for="remark_assets"
+                    <label for="from_remark"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark</label>
-                    <input type="text" id="remark_assets"
+                    <input type="text" id="from_remark"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="remark_assets" />
+                        name="from_remark" />
                 </div>
             </div>
 
@@ -86,40 +113,53 @@
 
             <div class="grid gap-6 lg:grid-cols-1 md:grid-cols-1">
                 <span class="title_base text-lg dark:text-blue-100">Movement To</span>
+              
                 <div>
-                    <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To
+                    <label for="to_department"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To Department</label>
+                  
+
+                    @if(!empty($department))
+                        <select  id="to_department"      name="to_department"
+                            class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value=""></option>
+                            @foreach ($department as $item)
+                            <option value="{{$item->content}}">{{$item->content}}</option>
+                            @endforeach
+                        </select>
+                    @else 
+                    <input type="text" id="to_department"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        name="to_department" />
+                    @endif
+                </div>
+                <div>
+                    <label for="to_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To
                         Name</label>
-                    <input type="text" id="fa_no"
+                    <input type="text" id="to_name"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="fa_no" />
+                        name="to_name" />
                 </div>
                 <div>
-                    <label for="fa_no"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                    <input type="text" id="fa_no"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="fa_no" />
-                </div>
-                <div>
-                    <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New
+                    <label for="to_location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New
                         Location</label>
-                    <input type="text" id="fa_no"
+                    <input type="text" id="to_location"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="fa_no" />
+                        name="to_location" />
                 </div>
                 <div>
-                    <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Received
+                    <label for="received_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Received
                         Date</label>
-                    <input type="datetime-local" id="Issue_Date"
+                    <input type="datetime-local" id="received_date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value="{{ today() }}" name="issue_date" />
+                        value="{{ today() }}" name="received_date" />
                 </div>
                 <div>
-                    <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Received
+                    <label for="received_by" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Received
                         by</label>
-                    <input type="text" id="fa_no"
+                    <input type="text" id="received_by"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="fa_no" />
+                        name="received_by" />
                 </div>
             </div>
 
@@ -128,32 +168,32 @@
         <h1 class="title_base dark:text-blue-100">Other Information</h1>
         <div class="grid gap-6 lg:grid-cols-3 md:grid-cols-3">
             <div>
-                <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label for="condition" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Conditions
                 </label>
-                <textarea id="description" name="description" 
+                <textarea id="condition" name="condition" 
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
             </div>
             <div>
-                <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label for="purpose" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Purpose
                 </label>
-                <textarea id="description" name="description" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
+                <textarea id="purpose" name="purpose" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
             </div>
             <div>
-                <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label for="verify_by" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Verify By
                 </label>
-                <input type="text" id="fa_no"
+                <input type="text" id="verify_by"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="fa_no" />
+                    name="verify_by" />
             </div>
             <div>
-                <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Authorized
+                <label for="authorized_by" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Authorized
                     by</label>
-                <input type="text" id="fa_no"
+                <input type="text" id="authorized_by"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="fa_no" />
+                    name="authorized_by" />
             </div>
         </div>
 
@@ -180,25 +220,26 @@
                 </button>
             </h2>
             <div id="accordion-flush-body-3" class="hidden" aria-labelledby="accordion-flush-heading-3">
-                <div class="py-5 border-b border-gray-200 dark:border-gray-700">
+                <div class="py-1 lg:py-5  border-b border-gray-200 dark:border-gray-700">
 
-                    <div class="grid gap-6 mb-6 md:grid-cols-2">
-                        <div>
-                            <label for="Reference"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset ID <span
-                                    class="text-rose-500">*</span></label>
+                    <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
+                        <div class="hidden">
+   
                             <input type="text" id="Reference" readonly
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                name="document" value="{{ old('id', $asset->id ?? '') }}" required />
-
+                                name="id_assets" value="{{ old('id', $asset->id ?? '') }}"  />
+                                <input type="text" id="Reference" readonly
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    name="varaint" value="{{ old('id', $asset->varaint ?? '') }}"  />
                         </div>
+                        
                         <div>
                             <label for="Reference"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference <span
                                     class="text-rose-500">*</span></label>
                             <input type="text" id="Reference" readonly
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                name="document" value="{{ old('document', $asset->document ?? '') }}" required />
+                                name="document" value="{{ old('document', $asset->document ?? '') }}"  />
 
                         </div>
 
@@ -287,7 +328,7 @@
 
 
                     <h1 class="mb-2 title_base dark:text-blue-100">Asset Holder Info</h1>
-                    <div class="grid gap-6 mb-6 md:grid-cols-2">
+                    <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
                         <div>
                             <label for="asset_holder"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
@@ -346,7 +387,7 @@
                     </div>
 
                     <h1 class="mb-2 title_base dark:text-blue-100">Internal Document</h1>
-                    <div class="grid gap-6 mb-6 md:grid-cols-2">
+                    <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
                         <div>
                             <label for="grn" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">GRN
                                 No</label>
@@ -407,7 +448,7 @@
                     </div>
 
                     <h1 class="mb-2 title_base dark:text-blue-100">ERP Invoice</h1>
-                    <div class="grid gap-6 mb-6 md:grid-cols-2">
+                    <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
                         <!-- Asset Code (Account) -->
                         <div class="flex flex-col w-full">
                             <label for="asset_code_account"
@@ -537,7 +578,7 @@
 
 
                     <h1 class="mb-2 title_base dark:text-blue-100">Vendor Info</h1>
-                    <div class="grid gap-6 mb-6 md:grid-cols-2">
+                    <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
 
                         <div>
                             <div>
@@ -649,6 +690,16 @@
 
                             </div>
                         </div>
+                    </div>
+                    <h1 class="mb-2 title_base dark:text-blue-100">QR Code  </h1>
+                    <div id="qr_code">
+                        <a target="_blank"
+                            href="/admin/qr/code/print/assets={{ $asset->assets1 . $asset->assets2 }}">
+                      
+                            {!! QrCode::size(150)->generate($asset->assets1 . $asset->assets2) !!}
+                        </a>
+            
+            
                     </div>
                     <h1 class="mb-2 title_base dark:text-blue-100">Image </h1>
                     <input type="text" class="hidden" name="image_state" value="0" id="image_state">
@@ -775,7 +826,7 @@
 
         <div class="btn_float_right">
 
-            <button type="button" onclick="{alert('Under Development')}"
+            <button type="submit" 
                 class="text-white mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Submit
             </button>

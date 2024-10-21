@@ -961,7 +961,7 @@ function show_sort_user() {
 
               <a href="/admin/user/update/id=${item.id}">
                                       <button type="button"
-                                          class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                          class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                               class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
                </a>  
      `;
@@ -974,7 +974,7 @@ function show_sort_user() {
             ) {
                 custom += `     
                                    <button type="button"
-                                      class="text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                      class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                       <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
                                   </button>
       `;
@@ -984,7 +984,7 @@ function show_sort_user() {
                                   <button type="button" data-id="${item.id}"
                                       onclick="delete_value('btn_delete'+${item.id},'delete_user','delete_value')"
                                       id="btn_delete${item.id}"
-                                      class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                      class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                           class="fa-solid fa-trash" style="color: #ffffff;"></i>
 
                                   </button>`;
@@ -1149,15 +1149,19 @@ function show_sort_quick_data() {
     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                        <td scope="row"
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            ${item.id}
+                            ${item.id??''}
                         </td>
                         <td scope="row"
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                 ${item.content}
+                                 ${item.content??''}
                         </td>
                         <td scope="row"
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                 ${item.type}
+                                 ${item.type??''}
+                        </td>
+                                 <td scope="row"
+                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                 ${item.reference??''}
                         </td>
                                  <td scope="row"
                                         class=" px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -1166,16 +1170,14 @@ function show_sort_quick_data() {
                                         <button type="button" data-modal-target="small-modal"
                                             data-modal-toggle="small-modal"
                                             onclick="update_quick_data(${index})"
-                                            class="scale-50 lg:scale-50 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                         </button>
                                         <!-- Modal toggle -->
-
-
                         <button type="button" data-id="${item.id}"
                             id="btn_delete${item.id}"
                                 onclick="delete_value('btn_delete'+${item.id},'delete_data','delete_data_value')"
-                            class="scale-50 lg:scale-50 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                             <i class="fa-solid fa-trash" style="color: #ffffff;"></i>
                         </button>
                         </td>
@@ -1419,8 +1421,7 @@ function show_sort_raw_asset() {
                                                 <a href="/admin/assets/add/assets=${
                                                     item.assets
                                                 }/invoice_no=${
-            item.fa ? item.fa.replace(/\//g, "-") : "NA"
-        }"
+                                                    item.fa ? item.fa.replace(/\//g, "-") : "NA"}"
                                                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a>
                                             </td>
 
@@ -1429,11 +1430,19 @@ function show_sort_raw_asset() {
             `;
     });
 }
+function close_modal(){
+    document.querySelector("#small-modal").style.display = "none";
+}
 function update_quick_data(item) {
+    document.querySelector("#small-modal").style.display = "block";
+
+    let content = document.querySelector("#content_update");
+    let type = document.querySelector("#type_update");
+    let id = document.querySelector("#id_update");
+    let reference = document.querySelector("#reference_update");
+    let span_reference = document.querySelector("#span_reference");
     if (isObject(item) == true) {
-        let content = document.querySelector("#content_update");
-        let type = document.querySelector("#type_update");
-        let id = document.querySelector("#id_update");
+ 
         if (content) {
             content.value = item.content;
         }
@@ -1443,11 +1452,18 @@ function update_quick_data(item) {
         if (id) {
             id.value = item.id;
         }
-    } else {
-        let content = document.querySelector("#content_update");
-        let type = document.querySelector("#type_update");
-        let id = document.querySelector("#id_update");
 
+        if(item.type == 'Employee'){
+            reference.style.display = 'block';
+            span_reference.style.display = 'block';
+            reference.value = item.reference;
+        }else{
+            reference.style.display = 'none';
+            span_reference.style.display= 'none';
+        }
+    } else {
+       
+        
         if (content) {
             content.value = array[item].content;
         }
@@ -1456,6 +1472,14 @@ function update_quick_data(item) {
         }
         if (id) {
             id.value = array[item].id;
+        }
+        if(array[item].type == 'Employee'){
+            reference.value = array[item].reference;
+            reference.style.display = 'block';
+            span_reference.style.display = 'block';
+        }else{
+            reference.style.display = 'none';
+            span_reference.style.display= 'none';
         }
     }
 }
@@ -3000,7 +3024,7 @@ async function search_change_log(no) {
                              `;
 
                         paginationHtml += `
-                            <span class="font-bold flex justify-center items-center">Page :${totalPage} Pages  &ensp;Total Assets: ${totalRecord} Records</span>
+                            <span class="font-bold flex justify-left items-center text-gray-900 dark:text-white">Page :${totalPage} Pages  &ensp;Total Assets: ${totalRecord} Records</span>
 
                             </div>
                             `;
@@ -3166,7 +3190,7 @@ async function search_quick_data(no) {
                 if (totalRecord) {
                     total_label.innerHTML = `
      
-                       <span class="font-bold flex justify-left items-center">Found: ${totalPage} Pages
+                       <span class="font-bold flex justify-left items-center text-gray-900 dark:text-white">Found: ${totalPage} Pages
                                     &ensp; ${totalRecord} Records</span>
                  `;
                 }
@@ -3303,6 +3327,9 @@ async function search_quick_data(no) {
                                  <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                     ${item.type}
                                </td>    
+                                      <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                    ${item.reference??''}
+                               </td>  
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                      <button type="button" data-modal-target="small-modal"
                                             data-modal-toggle="small-modal"
@@ -3439,4 +3466,47 @@ async function search_mobile(asset) {
         panel_list.innerHTML = `<h1>Problem Data rendering</h1>`;
         panel_list.style.display = "block";
     }
+}
+function change_type(){
+    let select_type = document.querySelector("#type");
+    let user_department = document.querySelector("#dep_user");
+    if(select_type){
+        if(select_type.value == 'Employee'){
+  
+                user_department.style.display = 'block';
+   
+        }else{
+       
+            user_department.style.display = 'none';
+
+    }
+    }
+}
+
+
+function change_department(){
+    // Select value 
+    let reference = document.querySelector("#reference_update");
+
+    // Span Text 
+    let span_reference = document.querySelector("#span_reference");
+
+    let type =  document.querySelector("#type_update");
+
+    if(type){
+        if(type.value){
+            if(type.value == 'Employee'){
+                span_reference.style.display = 'block';
+                reference.style.display = 'block';
+            }else{
+                span_reference.style.display = 'none';
+                reference.style.display = 'none';
+            }  
+        }
+    }
+
+      
+
+   
+
 }

@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('quick_data', function (Blueprint $table) {
             $table->id();
-            $table->string('content');
-            $table->string('type');
+            $table->string('content')->nullable();
+            $table->string('type')->nullable();
+            $table->string('reference')->nullable();
             $table->string('created_by');
             $table->timestamps();
         });
