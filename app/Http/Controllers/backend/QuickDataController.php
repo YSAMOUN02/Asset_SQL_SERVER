@@ -15,18 +15,23 @@ class QuickDataController extends Controller
         $limit = 150;
         // $count_post = QuickData::count();
         $count_post = 150;
-        // return  $count_post ;
+
         $total_page = ceil($count_post/$limit);
         $offset = 0;
         if($page != 0){
             $offset = ($page - 1) * $limit;
         }
 
-        $data = QuickData::orderby('id','desc')->limit($limit)->offset($offset)->get();
+        $data = QuickData::orderby('id','desc');
+        $count_post = $data->count();
+        $data->limit($limit);
+        $data->offset($offset);
+        $datas= $data->get();
+
         $department = QuickData::where('type', "department")->select('id', 'content')->orderby('id', 'desc')->get();
 
         return view('backend.add-quick-data',[
-            'data'=>$data,
+            'data'=>$datas,
             'page'=>$page,
             'total_page' => $total_page,
             'total_record' =>$count_post,
@@ -52,11 +57,6 @@ class QuickDataController extends Controller
                 $this->Change_log($data->id, "", "Insert", "Quick Data Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
                 return redirect("/quick/data/1")->with('success',"Added 1 Record success.");
             }else{
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                 return redirect("/quick/data/1")->with('fail',"Added  fail.");
             }
     }

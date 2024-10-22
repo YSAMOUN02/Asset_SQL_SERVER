@@ -89,12 +89,8 @@
 
                     </div>
                     <div>
-<<<<<<< HEAD
                         <label for="fa" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Movement
                             No</label>
-=======
-                        <label for="fa" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Movement No</label>
->>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
 
                         <input type="text" id="fa" name="fa"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -108,24 +104,16 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                     </div>
-<<<<<<< HEAD
 
                     <div>
                         <label for="invoice" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Reference
                         </label>
-=======
-              
-                    <div>
-                        <label for="invoice"
-                            class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Reference </label>
->>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
 
                         <input type="text" id="invoice" name="invoice"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                     </div>
                     <div>
-<<<<<<< HEAD
                         <label for="description" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">From
                             Department</label>
 
@@ -164,25 +152,6 @@
                     <div>
                         <label for="end_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">From
                             Date</label>
-=======
-                        <label for="description"
-                            class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">From Department</label>
-
-                        <input type="text" id="description" name="description"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-
-                    </div>
-                    <div>
-                        <label for="start_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">To Department</label>
-
-                      
-                        <input type="text" id="description" name="description"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-
-                    </div>
-                    <div>
-                        <label for="end_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">From Date</label>
->>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
 
                         <input type="date" id="end_date" name="end_date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -197,14 +166,9 @@
 
                     </div>
                 </div>
-<<<<<<< HEAD
                 <div
                     class="max-w-full items-center flex  justify-between px-2 mt-1 lg:mt-2 py-1 lg:py-2 sm:grid sm:grid-cols-1">
                     <div class="flex main_page justify-between items-center">
-=======
-                <div class="max-w-full items-center flex  justify-between px-2 mt-1 lg:mt-2 py-1 lg:py-2 sm:grid sm:grid-cols-1">
-                    <div class="flex main_page justify-between items-center" >
->>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                         <div class="flex">
                             <select name="" onchange="otherSearch()" id="other_search"
                                 class= " w-36 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 lg:p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -216,13 +180,8 @@
                                 <option value="item_description">Item Description</option>
                                 <option value="asset_group">Asset Group</option>
                                 <option value="remark_assets">Remark Assets</option>
-<<<<<<< HEAD
 
 
-=======
-    
-    
->>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                                 <option value="asset_holder">Assets Holder ID</option>
                                 <option value="holder_name">Holder Name</option>
                                 <option value="position">Position</option>
@@ -230,37 +189,22 @@
                                 <option value="department">Department</option>
                                 <option value="company">Company</option>
                                 <option value="remark_holder">Remark Holder</option>
-<<<<<<< HEAD
 
 
-=======
-    
-    
->>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                                 <option value="grn">GRN</option>
                                 <option value="pr">PR</option>
                                 <option value="po">PO</option>
                                 <option value="dr">DR</option>
                                 <option value="dr_requested_by">DR Request by</option>
                                 <option value="remark_internal_doc">Remark Document</option>
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                                 <option value="fa_class">Fix Asset Class</option>
                                 <option value="fa_subclass">Fix Asset Sub Class</option>
                                 <option value="depreciation">Depreciation</option>
                                 <option value="fa_type">Fix Asset Type</option>
                                 <option value="fa_location">Fix Assets Location</option>
                                 <option value="invoice_description">Invoice Description</option>
-<<<<<<< HEAD
 
 
-=======
-    
-    
->>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                                 <option value="vendor">Vendor</option>
                                 <option value="vendor_name">Vendor Name</option>
                                 <option value="address">Address</option>
@@ -273,7 +217,6 @@
                                 class= " w-32  bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block mx-2 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                         <div class="flex main_page items-center">
-<<<<<<< HEAD
                             <div class="pagination_by_search defualt main_page items-center flex gap-2">
                                 @if (!empty($total_page))
                                     @php
@@ -341,74 +284,6 @@
                                     &ensp;Total Movements: {{ $total_record }} Records</span>
                             </div>
 
-=======
-                                <div class="pagination_by_search defualt main_page items-center flex gap-2">
-                                    @if (!empty($total_page))
-                                        @php
-                                            $left_limit = max(1, $page - 5); // Set the left boundary, but not below 1
-                                            $right_limit = min($total_page, $page + 5); // Set the right boundary, but not above the total pages
-                                        @endphp
-                                        <nav aria-label="Page navigation example">
-                                            <ul class="flex items-center -space-x-px h-8 text-sm">
-    
-                                                {{-- Previous Button --}}
-                                                @if ($page != 1)
-                                                    <li>
-                                                        <a href="{{ $page - 1 }}"
-                                                            class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                                            <i class="fa-solid fa-angle-left"></i>
-                                                        </a>
-                                                    </li>
-                                                @endif
-    
-                                                {{-- Page Numbers in Ascending Order --}}
-                                                @for ($i = $left_limit; $i <= $right_limit; $i++)
-                                                    {{-- Loop from left to right in ascending order --}}
-                                                    @if ($i == $page)
-                                                        <li>
-                                                            <a href="{{ $i }}" aria-current="page"
-                                                                class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ $i }}</a>
-                                                        </li>
-                                                    @else
-                                                        <li>
-                                                            <a href="{{ $i }}"
-                                                                class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ $i }}</a>
-                                                        </li>
-                                                    @endif
-                                                @endfor
-    
-                                                {{-- Next Button --}}
-                                                @if ($page != $total_page)
-                                                    <li>
-                                                        <a href="{{ $page + 1 }}"
-                                                            class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                                            <i class="fa-solid fa-chevron-right"></i>
-                                                        </a>
-                                                    </li>
-                                                @endif
-    
-                                            </ul>
-                                        </nav>
-                                    @endif
-                                    <select onchange="set_page()" id="select_page"
-                                        class="flex  items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                        name="" id="">
-                                        @if ($page != 1)
-                                            <option value="{{ $page }}">{{ $page }}</option>
-                                        @else
-                                            <option value="">More</option>
-                                        @endif
-                                        {{-- Page Numbers in Ascending Order --}}
-                                        @for ($i = 1; $i <= $total_page; $i++)
-                                            <option value="{{ $i }}">{{ $i }}</option>
-                                        @endfor
-    
-                                    </select>
-                                    <span class="font-bold flex justify-center items-center dark:text-slate-50">Page :{{ $total_page }} Pages
-                                        &ensp;Total Movements: {{ $total_record }} Records</span>
-                                </div>
-    
->>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                         </div>
                         <div class="flex fix_button">
                             <button type="button" id="export_excel" onclick="export_group()"
@@ -422,11 +297,6 @@
                         </div>
                     </div>
 
-<<<<<<< HEAD
-
-=======
-                
->>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                 </div>
 
             </form>
@@ -438,7 +308,6 @@
                 class="table_respond max-w-full  mt-5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-<<<<<<< HEAD
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
                             onclick="dynamic_sort('movement_id','int','movement')">
                             ID &ensp; <i class="fa-solid fa-sort"></i>
@@ -482,38 +351,6 @@
                         </th>
                         <th scope="col"
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
-=======
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
-                            ID &ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
-                            Date&ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
-                            Movement No &ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
-                            Assets &ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                       
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
-                            Reference &ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
-                            From Department &ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
-                            To Department &ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
-                            Movement From &ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('movement_id','int','movement')">
-                            Movement To &ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                    
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
->>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                             style="  position: sticky; right: 0;">
                             Action
                         </th>
@@ -524,31 +361,17 @@
                         @foreach ($movement as $item)
                             <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
-<<<<<<< HEAD
-
-=======
-                          
->>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->id }}
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ \Carbon\Carbon::parse($item->movement_date)->format('M d Y') }}
-<<<<<<< HEAD
-
-=======
-                              
->>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->movement_no }}
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-<<<<<<< HEAD
                                     {{-- {{ $item->assets->assets1 . $item->assets->assets2 }} --}}
-=======
-                                    {{ $item->assets->assets1.$item->assets->assets2}}
->>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->reference }}
@@ -565,16 +388,25 @@
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->to_name }}
                                 </td>
-<<<<<<< HEAD
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                   Last
+                                        @if ($item->status == 0)
+                                            <span
+                                                class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                                <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                                Active
+                                            </span>
+                                        @else
+                                            <span
+                                                class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                                <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                                Inactive
+                                            </span>
+
+                                        @endif
+
                                 </td>
 
 
-=======
-
-                                
->>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                                 <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
                                     style="  position: sticky; right: 0; ">
 

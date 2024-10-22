@@ -31,16 +31,10 @@ return new class extends Migration
             $table->longText('purpose')->nullable();
             $table->string('verify_by')->nullable();
             $table->string('authorized_by')->nullable();
-<<<<<<< HEAD
             $table->string('assets_id');
             $table->string('assets_no');
             $table->string('varaint');
             $table->integer('status')->default(0);
-=======
-            $table->string('assets_no');
-            $table->string('varaint');
-            $table->integer('deleted')->default(0);
->>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
             $table->timestamps();
         });
     }
