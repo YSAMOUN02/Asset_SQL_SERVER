@@ -80,9 +80,9 @@ function append_img() {
     newElement.id = "image_box" + state_box;
     newElement.innerHTML = `
                                 <img id="${box}" onclick="maximize_minimize(${state_box})"  src="/uploads/image/{{ $item->image }}"
-                           
+
                                     alt="Item">
-                              
+
 
                                 <button type="button" id="delete_image" onclick="remove_image(${state_box})"><i class="fa-solid fa-trash"
                                         style="color: #ff0000;"></i>
@@ -91,13 +91,13 @@ function append_img() {
                                 <a download="{{ $item->image }}" href="/uploads/image/{{ $item->image }}"><button
                                         type="button" id="download_image"><i class="fa-regular fa-circle-down"
                                             style="color: #71bd00;"></i></button></a>
-                                <input id="input${state_box}"  type="file" 
+                                <input id="input${state_box}"  type="file"
                                     onchange="onchnage_imgae(event,${state_box})"  name="image${state_box}" class="hidden">
-                 
 
 
 
-               
+
+
   `;
 
     // Append image
@@ -375,7 +375,7 @@ async function search_assets() {
                     table_select_assets.innerHTML = `
                     <div class="align_right"><span>Existing Invoice in Current Assets</span><button onclick="close_table()" type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Close</button> </div>
                     <div class="inner-data dark:bg-gray-900">
-                    
+
                     <table id="table_selec_asset" class="w-full overflow-auto  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
                             <tr>
@@ -921,7 +921,7 @@ function show_sort_user() {
                `;
             }
 
-            custom += `    
+            custom += `
                          <td scope="row"
                               class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                               ${item.id}
@@ -937,7 +937,7 @@ function show_sort_user() {
                                 ${item.role}
                           </td>`;
             if (item.status == 0) {
-                custom += `  
+                custom += `
        <td scope="row" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                    <span
                                       class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -946,7 +946,7 @@ function show_sort_user() {
                                   </span>
       </td>`;
             } else {
-                custom += `     
+                custom += `
          <td scope="row" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                        <span
                                       class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
@@ -957,13 +957,13 @@ function show_sort_user() {
             }
             custom += `<td scope="row" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">`;
             if (auth.permission.user_update == 1) {
-                custom += `     
+                custom += `
 
               <a href="/admin/user/update/id=${item.id}">
                                       <button type="button"
-                                          class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                          class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                               class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
-               </a>  
+               </a>
      `;
             }
             if (
@@ -972,19 +972,19 @@ function show_sort_user() {
                 (auth.permission.user_write == 1 &&
                     auth.permission.user_update == 0)
             ) {
-                custom += `     
+                custom += `
                                    <button type="button"
-                                      class="text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                      class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                       <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
                                   </button>
       `;
             }
             if (auth.permission.user_delete == 1) {
-                custom += `     
+                custom += `
                                   <button type="button" data-id="${item.id}"
                                       onclick="delete_value('btn_delete'+${item.id},'delete_user','delete_value')"
                                       id="btn_delete${item.id}"
-                                      class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                      class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                           class="fa-solid fa-trash" style="color: #ffffff;"></i>
 
                                   </button>`;
@@ -1004,7 +1004,7 @@ function show_sort_staff_asset() {
     body_change.innerHTML = ``;
     array.map((item) => {
         body_change.innerHTML += `
-        
+
      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                      <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                             <input onchange="printable()" data-id="${
@@ -1046,17 +1046,17 @@ function show_sort_staff_asset() {
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                  ${item.fa_type || ""}
                                     </td>
-                                    
+
                                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                ${
-                                   item.deleted == 0
+                                   item.status == 0
                                        ? `  <span
                                         class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                                         <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                        Available
+                                        Active
                                     </span>
                                     `
-                                       : item.deleted == 1
+                                       : item.status == 1
                                        ? `
                                        <span
                                       class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -1088,7 +1088,7 @@ function show_sort_staff_asset() {
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                         ${item.invoice_no || ""}
-                                       
+
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                          ${item.description || ""}
@@ -1132,7 +1132,7 @@ function show_sort_staff_asset() {
                                               `` // If not, show nothing
                                     }
 
-                                    
+
                                 </td>
 
 
@@ -1145,19 +1145,23 @@ function show_sort_quick_data() {
     body_change.innerHTML = ``;
     array.map((item, index) => {
         body_change.innerHTML += `
-        
+
     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                        <td scope="row"
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            ${item.id}
+                            ${item.id??''}
                         </td>
                         <td scope="row"
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                 ${item.content}
+                                 ${item.content??''}
                         </td>
                         <td scope="row"
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                 ${item.type}
+                                 ${item.type??''}
+                        </td>
+                                 <td scope="row"
+                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                 ${item.reference??''}
                         </td>
                                  <td scope="row"
                                         class=" px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -1166,16 +1170,14 @@ function show_sort_quick_data() {
                                         <button type="button" data-modal-target="small-modal"
                                             data-modal-toggle="small-modal"
                                             onclick="update_quick_data(${index})"
-                                            class="scale-50 lg:scale-50 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                         </button>
                                         <!-- Modal toggle -->
-
-
                         <button type="button" data-id="${item.id}"
                             id="btn_delete${item.id}"
                                 onclick="delete_value('btn_delete'+${item.id},'delete_data','delete_data_value')"
-                            class="scale-50 lg:scale-50 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                             <i class="fa-solid fa-trash" style="color: #ffffff;"></i>
                         </button>
                         </td>
@@ -1188,12 +1190,12 @@ function show_sort_change_log() {
     body_change.innerHTML = ``;
     array.map((item) => {
         body_change.innerHTML += `
-        
+
     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                            ${item.id || ""}
                        </td>
-            
+
                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                             ${item.key || ""}
                        </td>
@@ -1209,8 +1211,8 @@ function show_sort_change_log() {
                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                           ${item.change_by || ""}
                        </td>
-                    
-                       <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 "> 
+
+                       <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                           ${
                               item.created_at
                                   ? new Date(
@@ -1239,9 +1241,9 @@ function show_sort_asset() {
     body_change.innerHTML = ``;
     array.map((item) => {
         body_change.innerHTML += `
-        
+
      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                  
+
                                 <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                     <input onchange="printable()" data-id="${
                                         item.assets_id || ""
@@ -1285,14 +1287,14 @@ function show_sort_asset() {
 
                                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                ${
-                                   item.deleted == 0
+                                   item.status == 0
                                        ? `  <span
                                         class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                                         <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                        Available
+                                        Active
                                     </span>
                                     `
-                                       : item.deleted == 1
+                                       : item.status == 1
                                        ? `
                                        <span
                                       class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -1324,7 +1326,7 @@ function show_sort_asset() {
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                         ${item.invoice_no || ""}
-                                       
+
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                          ${item.description || ""}
@@ -1357,7 +1359,7 @@ function show_sort_asset() {
                                               `` // If not, show nothing
                                     }
 
-                                    
+
                                 </td>
 
 
@@ -1370,7 +1372,7 @@ function show_sort_raw_asset() {
     body_change.innerHTML = ``;
     array.map((item, index) => {
         body_change.innerHTML += `
-   
+
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
                                             <td scope="row"
@@ -1379,7 +1381,7 @@ function show_sort_raw_asset() {
                                             </td>
                                             <td scope="row"
                                                 class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                               
+
 
                                                   ${
                                                       item.assets_date
@@ -1419,8 +1421,7 @@ function show_sort_raw_asset() {
                                                 <a href="/admin/assets/add/assets=${
                                                     item.assets
                                                 }/invoice_no=${
-            item.fa ? item.fa.replace(/\//g, "-") : "NA"
-        }"
+                                                    item.fa ? item.fa.replace(/\//g, "-") : "NA"}"
                                                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a>
                                             </td>
 
@@ -1429,11 +1430,19 @@ function show_sort_raw_asset() {
             `;
     });
 }
+function close_modal(){
+    document.querySelector("#small-modal").style.display = "none";
+}
 function update_quick_data(item) {
+    document.querySelector("#small-modal").style.display = "block";
+
+    let content = document.querySelector("#content_update");
+    let type = document.querySelector("#type_update");
+    let id = document.querySelector("#id_update");
+    let reference = document.querySelector("#reference_update");
+    let span_reference = document.querySelector("#span_reference");
     if (isObject(item) == true) {
-        let content = document.querySelector("#content_update");
-        let type = document.querySelector("#type_update");
-        let id = document.querySelector("#id_update");
+
         if (content) {
             content.value = item.content;
         }
@@ -1443,10 +1452,17 @@ function update_quick_data(item) {
         if (id) {
             id.value = item.id;
         }
+
+        if(item.type == 'Employee'){
+            reference.style.display = 'block';
+            span_reference.style.display = 'block';
+            reference.value = item.reference;
+        }else{
+            reference.style.display = 'none';
+            span_reference.style.display= 'none';
+        }
     } else {
-        let content = document.querySelector("#content_update");
-        let type = document.querySelector("#type_update");
-        let id = document.querySelector("#id_update");
+
 
         if (content) {
             content.value = array[item].content;
@@ -1456,6 +1472,14 @@ function update_quick_data(item) {
         }
         if (id) {
             id.value = array[item].id;
+        }
+        if(array[item].type == 'Employee'){
+            reference.value = array[item].reference;
+            reference.style.display = 'block';
+            span_reference.style.display = 'block';
+        }else{
+            reference.style.display = 'none';
+            span_reference.style.display= 'none';
         }
     }
 }
@@ -1781,9 +1805,9 @@ async function search_asset(no) {
                         console.log(data);
                         // Start by building the entire HTML content in one go
                         let paginationHtml = `
-             
+
                                 <ul class="flex items-center -space-x-px h-8 text-sm">
-                                 
+
                                 `;
 
                         // Add the current page dynamically
@@ -1796,10 +1820,10 @@ async function search_asset(no) {
                                     <li onclick="search_asset(${
                                         page - 1
                                     })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                     
-                                                
+
+
                                             <i class="fa-solid fa-angle-left"></i>
-                        
+
                                     </li>
                                  `;
                         }
@@ -1813,18 +1837,18 @@ async function search_asset(no) {
                                 paginationHtml += `
                                         <li onclick="search_asset(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                         >
-                                   
+
                                                  ${i}
-                                                  
-                                            
+
+
                                          </li>
                                      `;
                             } else if (i == page) {
                                 paginationHtml += `
                                           <li onclick="search_asset(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
-                                          
+
                                                 ${i}
-                                           
+
                                         </li>
                                      `;
                             }
@@ -1835,10 +1859,10 @@ async function search_asset(no) {
                                     <li  onclick="search_asset(${
                                         page + 1
                                     })" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                 
-                                            
+
+
                                             <i class="fa-solid fa-chevron-right"></i>
-                   
+
                                     </li>
                     `;
                         }
@@ -1870,12 +1894,12 @@ async function search_asset(no) {
 
                         paginationHtml += `
                                  </select>
-                         
-                                      
+
+
                                     <span class="font-bold flex justify-center items-center dark:text-slate-50">Found Page :${totalPage} Pages
                                         &ensp;Total Assets: ${totalRecord} Records</span>
-                                 
-                                   
+
+
                                  </div>
                                  `;
 
@@ -1888,9 +1912,9 @@ async function search_asset(no) {
                 body_change.innerHTML = ``;
                 data.data.map((item) => {
                     body_change.innerHTML += `
-                    
+
                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                              
+
                                             <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                 <input onchange="printable()" data-id="${
                                                     item.assets_id || ""
@@ -1916,12 +1940,12 @@ async function search_asset(no) {
                                                          )
                                                        : ""
                                                }
-            
+
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                       ${item.document || ""}
                                                 </td>
-            
+
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                          ${
                                                              item.assets1 +
@@ -1935,17 +1959,17 @@ async function search_asset(no) {
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                              ${item.fa_type || ""}
                                                 </td>
-            
+
                                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                            ${
-                                               item.deleted == 0
+                                               item.status == 0
                                                    ? `  <span
                                                     class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                                                     <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                                    Available
+                                                    Active
                                                 </span>
                                                 `
-                                                   : item.deleted == 1
+                                                   : item.status == 1
                                                    ? `
                                                    <span
                                                   class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -1980,7 +2004,7 @@ async function search_asset(no) {
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                     ${item.invoice_no || ""}
-                                                   
+
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                      ${item.description || ""}
@@ -2014,11 +2038,11 @@ async function search_asset(no) {
                                                         : // If auth.permission.assets_write is 1
                                                           `` // If not, show nothing
                                                 }
-            
-                                                
+
+
                                             </td>
-            
-            
+
+
                                             </tr>
               `;
                 });
@@ -2027,7 +2051,7 @@ async function search_asset(no) {
                 alert("Data not Found.");
             }
         } else {
-            alert("Data not array");
+            alert("Data not Found.");
         }
     } else {
         alert("Problem on database connection.");
@@ -2173,7 +2197,7 @@ async function search_asset_staff(no) {
                         let paginationHtml = `
                             <div class="flex">
                                 <ul class="flex items-center -space-x-px h-8 text-sm">
-                                 
+
                                 `;
 
                         let left_val = page - 5;
@@ -2187,10 +2211,10 @@ async function search_asset_staff(no) {
                                     <li onclick="search_asset_staff(${
                                         page - 1
                                     })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                     
-                                                
+
+
                                             <i class="fa-solid fa-angle-left"></i>
-                        
+
                                     </li>
                                  `;
                         }
@@ -2209,17 +2233,17 @@ async function search_asset_staff(no) {
                                 paginationHtml += `
                                         <li onclick="search_asset_staff(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                         >
-                                   
+
                                                  ${i}
-                                            
+
                                          </li>
                                      `;
                             } else if (i == page) {
                                 paginationHtml += `
                                           <li onclick="search_asset_staff(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
-                                          
+
                                                 ${i}
-                                           
+
                                         </li>
                                      `;
                             }
@@ -2230,10 +2254,10 @@ async function search_asset_staff(no) {
                                     <li  onclick="search_asset_staff(${
                                         page + 1
                                     })" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                 
-                                            
+
+
                                             <i class="fa-solid fa-chevron-right"></i>
-                   
+
                                     </li>
                                         `;
                         }
@@ -2279,9 +2303,9 @@ async function search_asset_staff(no) {
                 body_change.innerHTML = ``;
                 data.data.map((item) => {
                     body_change.innerHTML += `
-                    
+
                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                              
+
                                             <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                 <input onchange="printable()" data-id="${
                                                     item.id || ""
@@ -2307,12 +2331,12 @@ async function search_asset_staff(no) {
                                                          )
                                                        : ""
                                                }
-            
+
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                       ${item.document || ""}
                                                 </td>
-            
+
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                          ${
                                                              item.assets1 +
@@ -2326,17 +2350,17 @@ async function search_asset_staff(no) {
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                              ${item.fa_type || ""}
                                                 </td>
-            
+
                                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                            ${
-                                               item.deleted == 0
+                                               item.status == 0
                                                    ? `  <span
                                                     class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                                                     <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                                    Available
+                                                    Active
                                                 </span>
                                                 `
-                                                   : item.deleted == 1
+                                                   : item.status == 1
                                                    ? `
                                                    <span
                                                   class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -2371,7 +2395,7 @@ async function search_asset_staff(no) {
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                     ${item.invoice_no || ""}
-                                                   
+
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                      ${item.description || ""}
@@ -2405,11 +2429,11 @@ async function search_asset_staff(no) {
                                                         : // If auth.permission.assets_write is 1
                                                           `` // If not, show nothing
                                                 }
-            
-                                                
+
+
                                             </td>
-            
-            
+
+
                                             </tr>
               `;
                 });
@@ -2444,6 +2468,14 @@ function set_page_dynamic_admin() {
     if (select) {
         if (select.value != "") {
             search_asset(parseInt(select.value));
+        }
+    }
+}
+function select_page_dynamic_select_movement(){
+    let select = document.querySelector("#select_page_dynamic");
+    if (select) {
+        if (select.value != "") {
+            search_asset_for_movement(parseInt(select.value));
         }
     }
 }
@@ -2622,7 +2654,7 @@ async function raw_assets(no) {
                         let paginationHtml = `
                         <div class="flex main_page ">
                             <ul class="flex items-center -space-x-px h-8 text-sm">
-                             
+
                             `;
 
                         // Add the current page dynamically
@@ -2635,10 +2667,10 @@ async function raw_assets(no) {
                                 <li onclick="raw_assets(${
                                     page - 1
                                 })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                 
-                                            
+
+
                                         <i class="fa-solid fa-angle-left"></i>
-                    
+
                                 </li>
                              `;
                         }
@@ -2652,19 +2684,19 @@ async function raw_assets(no) {
                                 paginationHtml += `
                                     <li onclick="raw_assets(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                     >
-                               
+
                                              ${i}
-                                              
-                                        
+
+
                                      </li>
                                  `;
                                 state_i = i;
                             } else if (i == page) {
                                 paginationHtml += `
                                       <li onclick="raw_assets(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
-                                      
+
                                             ${i}
-                                       
+
                                     </li>
                                  `;
                                 state_i = i;
@@ -2674,16 +2706,16 @@ async function raw_assets(no) {
                             paginationHtml += `
                          <li onclick="raw_assets(${totalPage})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                     >
-            
+
                             ${totalPage}
-                            
-                        
+
+
                  </li>`;
                         }
 
                         if (page != totalPage) {
                             paginationHtml += `
-                            
+
                                 <li>
                                     <a href=""
                                         class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
@@ -2695,7 +2727,7 @@ async function raw_assets(no) {
 
                         // Add the remaining pagination buttons and close the list
                         paginationHtml += `
-                         
+
 
                             <li class="mx-2" style="margin-left:10px;">
                                 <a href="1" aria-current="page"
@@ -2705,7 +2737,7 @@ async function raw_assets(no) {
                             </li>
                             </ul>
 
-                          
+
                             `;
 
                         paginationHtml += `
@@ -2913,7 +2945,7 @@ async function search_change_log(no) {
                         let paginationHtml = `
                             <div class="flex  main_page ">
                                 <ul class="flex items-center -space-x-px h-8 text-sm">
-                                 
+
                                 `;
 
                         // Add the current page dynamically
@@ -2926,10 +2958,10 @@ async function search_change_log(no) {
                                     <li onclick="search_change_log(${
                                         page - 1
                                     })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                     
-                                                
+
+
                                             <i class="fa-solid fa-angle-left"></i>
-                        
+
                                     </li>
                                  `;
                         }
@@ -2943,18 +2975,18 @@ async function search_change_log(no) {
                                 paginationHtml += `
                                         <li onclick="search_change_log(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                         >
-                                   
+
                                                  ${i}
-                                                  
-                                            
+
+
                                          </li>
                                      `;
                             } else if (i == page) {
                                 paginationHtml += `
                                           <li onclick="search_change_log(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
-                                          
+
                                                 ${i}
-                                           
+
                                         </li>
                                      `;
                             }
@@ -2973,7 +3005,7 @@ async function search_change_log(no) {
 
                         // Add the remaining pagination buttons and close the list
                         paginationHtml += `
-                             
+
 
                                 <li class="mx-2" style="margin-left:10px;">
                                     <a href="1" aria-current="page"
@@ -2983,7 +3015,7 @@ async function search_change_log(no) {
                                 </li>
                                 </ul>
 
-                              
+
                                 `;
 
                         paginationHtml += `
@@ -3000,7 +3032,7 @@ async function search_change_log(no) {
                              `;
 
                         paginationHtml += `
-                            <span class="font-bold flex justify-center items-center">Page :${totalPage} Pages  &ensp;Total Assets: ${totalRecord} Records</span>
+                            <span class="font-bold flex justify-left items-center text-gray-900 dark:text-white">Page :${totalPage} Pages  &ensp;Total Assets: ${totalRecord} Records</span>
 
                             </div>
                             `;
@@ -3015,7 +3047,7 @@ async function search_change_log(no) {
                 body_change.innerHTML = ``;
                 data.data.map((item) => {
                     body_change.innerHTML += `
-                
+
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                    ${item.id || ""}
@@ -3035,8 +3067,8 @@ async function search_change_log(no) {
                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                   ${item.change_by || ""}
                                </td>
-                         
-                               <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 "> 
+
+                               <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                   ${
                                       item.created_at
                                           ? new Date(
@@ -3048,10 +3080,10 @@ async function search_change_log(no) {
                                             })
                                           : ""
                                   }
-        
+
                                </td>
-        
-        
+
+
                            </tr>
           `;
                 });
@@ -3075,6 +3107,15 @@ function set_page() {
     if (select_page) {
         if (select_page.value != "") {
             window.location.href = `/admin/assets/list/${select_page.value}`;
+        }
+    }
+}
+function set_page_movement() {
+    let select_page = document.querySelector("#select_page");
+
+    if (select_page) {
+        if (select_page.value != "") {
+            window.location.href = `/admin/movement/add/${select_page.value}`;
         }
     }
 }
@@ -3165,8 +3206,8 @@ async function search_quick_data(no) {
                 let total_label = document.querySelector("#total_state");
                 if (totalRecord) {
                     total_label.innerHTML = `
-     
-                       <span class="font-bold flex justify-left items-center">Found: ${totalPage} Pages
+
+                       <span class="font-bold flex justify-left items-center text-gray-900 dark:text-white">Found: ${totalPage} Pages
                                     &ensp; ${totalRecord} Records</span>
                  `;
                 }
@@ -3182,7 +3223,7 @@ async function search_quick_data(no) {
                         let paginationHtml = `
                              <div class="flex">
                                  <ul class="flex items-center -space-x-px h-8 text-sm">
-                                 
+
                                  `;
 
                         //   Add the current page dynamically
@@ -3195,10 +3236,10 @@ async function search_quick_data(no) {
                                      <li onclick="search_quick_data(${
                                          page - 1
                                      })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                     
-                                                
+
+
                                              <i class="fa-solid fa-angle-left"></i>
-                        
+
                                      </li>
                                   `;
                         }
@@ -3212,10 +3253,10 @@ async function search_quick_data(no) {
                                 paginationHtml += `
                                          <li onclick="search_quick_data(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                          >
-                                   
+
                                                   ${i}
-                                                  
-                                            
+
+
                                           </li>
                                       `;
                                 state_i = i;
@@ -3233,10 +3274,10 @@ async function search_quick_data(no) {
                             paginationHtml += `
                              <li onclick="search_quick_data(${totalPage})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                         >
-                
+
                                 ${totalPage}
-                                
-                            
+
+
                      </li>`;
                         }
                         if (page != totalPage) {
@@ -3245,14 +3286,14 @@ async function search_quick_data(no) {
                                          page + 1
                                      })" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                              <i class="fa-solid fa-chevron-right"></i>
-                                  
+
                                      </li>
                                          `;
                         }
 
                         //   Add the remaining pagination buttons and close the list
                         paginationHtml += `
-                             
+
 
                                  <li class="mx-2" style="margin-left:10px;">
                                      <a href="1" aria-current="page"
@@ -3262,7 +3303,7 @@ async function search_quick_data(no) {
                                  </li>
                                  </ul>
 
-                              
+
                                  `;
 
                         paginationHtml += `
@@ -3292,17 +3333,20 @@ async function search_quick_data(no) {
 
                 data.data.map((item, index) => {
                     body_change.innerHTML += `
-                
+
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                     ${item.id}
                                </td>
                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                     ${item.content}
-                               </td>        
+                               </td>
                                  <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                     ${item.type}
-                               </td>    
+                               </td>
+                                      <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                    ${item.reference??''}
+                               </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                      <button type="button" data-modal-target="small-modal"
                                             data-modal-toggle="small-modal"
@@ -3318,7 +3362,7 @@ async function search_quick_data(no) {
                                             onclick="delete_value('btn_delete'+${item.id},'delete_data','delete_data_value')"
                                             class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
-                               </td>    
+                               </td>
                            </tr>
           `;
                 });
@@ -3439,4 +3483,396 @@ async function search_mobile(asset) {
         panel_list.innerHTML = `<h1>Problem Data rendering</h1>`;
         panel_list.style.display = "block";
     }
+}
+function change_type(){
+    let select_type = document.querySelector("#type");
+    let user_department = document.querySelector("#dep_user");
+    if(select_type){
+        if(select_type.value == 'Employee'){
+
+                user_department.style.display = 'block';
+
+        }else{
+
+            user_department.style.display = 'none';
+
+    }
+    }
+}
+
+
+function change_department(){
+    // Select value
+    let reference = document.querySelector("#reference_update");
+
+    // Span Text
+    let span_reference = document.querySelector("#span_reference");
+
+    let type =  document.querySelector("#type_update");
+
+    if(type){
+        if(type.value){
+            if(type.value == 'Employee'){
+                span_reference.style.display = 'block';
+                reference.style.display = 'block';
+            }else{
+                span_reference.style.display = 'none';
+                reference.style.display = 'none';
+            }
+        }
+    }
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+async function search_asset_for_movement(no) {
+    let fa = document.querySelector("#fa");
+    let asset_input = document.querySelector("#assets");
+    let invoice = document.querySelector("#invoice");
+    let description = document.querySelector("#description");
+    let start = document.querySelector("#start_date");
+    let end = document.querySelector("#end_date");
+    let state = document.querySelector("#state");
+    let id_asset = document.querySelector("#id_asset");
+    let other = document.querySelector("#other_search");
+    let value = document.querySelector("#other_value");
+
+    let id_val = "NA";
+    let fa_val = "NA";
+    let asset_val = "NA";
+    let invoice_val = "NA";
+    let description_val = "NA";
+    let start_val = "NA";
+    let end_val = "NA";
+    let state_val = "NA";
+    let type_val = "NA";
+    let value_val = "NA";
+
+    let page = 1;
+    if (no) {
+        page = no;
+    }
+    if (id_asset) {
+        if (id_asset.value != "") {
+            id_val = id_asset.value;
+        }
+    }
+    if (fa) {
+        if (fa.value != "") {
+            fa_val = fa.value;
+        }
+    }
+    if (asset_input) {
+        if (asset_input.value != "") {
+            asset_val = asset_input.value;
+        }
+    }
+    if (invoice) {
+        if (invoice.value != "") {
+            invoice_val = invoice.value;
+        }
+    }
+    if (description) {
+        if (description.value != "") {
+            description_val = description.value;
+        }
+    }
+    if (start) {
+        if (start.value != "") {
+            start_val = start.value;
+        }
+    }
+    if (end) {
+        if (end.value != "") {
+            end_val = end.value;
+        }
+    }
+    if (state) {
+        if (state.value != "") {
+            state_val = state.value;
+        }
+    }
+
+    if (start_val && end_val && start_val != "NA" && end_val != "NA") {
+        if (start_val > end_val) {
+            alert(
+                "Start Date is greater than End Date.Please select correct date and Try again."
+            );
+            return;
+        }
+    }
+    if (value) {
+        if (value.value != "") {
+            value_val = value.value;
+        }
+    }
+    if (other) {
+        type_val = other.value;
+    }
+    url = `/api/fect/movement/data`;
+    // Loading label
+    document.querySelector("#loading").style.display = "block";
+
+    let data = await fetch(url, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            type: type_val,
+            value: value_val,
+            id: id_val,
+            state: state_val,
+            asset: asset_val,
+            fa: fa_val,
+            invoice: invoice_val,
+            end: end_val,
+            start: start_val,
+            description: description_val,
+            page: page,
+            role:auth.role
+        }),
+    })
+        .then((res) => res.json())
+        .catch((error) => {
+            alert(error);
+        });
+
+    if (data) {
+        console.log(data);
+
+        if (data.data) {
+            if (data.data.length > 0) {
+                let pagination_search = document.querySelector(
+                    ".pagination_by_search"
+                );
+                if (pagination_search) {
+                    pagination_search.style.display = "block";
+
+                    if (data.page != 0) {
+                        let page = data.page;
+                        let totalPage = data.total_page;
+                        let totalRecord = data.total_record;
+
+                        // Start by building the entire HTML content in one go
+                        let paginationHtml = `
+
+                                <ul class="flex items-center -space-x-px h-8 text-sm">
+
+                                `;
+
+                        // Add the current page dynamically
+                        let left_val = page - 5;
+                        if (left_val < 1) {
+                            left_val = 1;
+                        }
+                        if (page != 1 && totalPage != 1) {
+                            paginationHtml += `
+                                    <li onclick="search_asset_for_movement(${
+                                        page - 1
+                                    })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+
+
+                                            <i class="fa-solid fa-angle-left"></i>
+
+                                    </li>
+                                 `;
+                        }
+                        let right_val = page + 5;
+                        if (right_val > totalPage) {
+                            right_val = totalPage;
+                        }
+
+                        for (let i = left_val; i <= right_val; i++) {
+                            if (i != page) {
+                                paginationHtml += `
+                                        <li onclick="search_asset_for_movement(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                        >
+
+                                                 ${i}
+
+
+                                         </li>
+                                     `;
+                            } else if (i == page) {
+                                paginationHtml += `
+                                          <li onclick="search_asset_for_movement(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+
+                                                ${i}
+
+                                        </li>
+                                     `;
+                            }
+                        }
+
+                        if (page != totalPage) {
+                            paginationHtml += `
+                                    <li  onclick="search_asset_for_movement(${
+                                        page + 1
+                                    })" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+
+
+                                            <i class="fa-solid fa-chevron-right"></i>
+
+                                    </li>
+                    `;
+                        }
+
+                        paginationHtml += `
+                           <li class="mx-2" style="margin-left:10px;">
+                                    <a href="1" aria-current="page"
+                                        class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                        <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;"></i>
+                                    </a>
+                                </li>
+                                </ul>
+                        <select
+                            onchange="set_page_dynamic_admin_movement()"
+                            id="select_page_dynamic_select_movement"
+                             class="flex  items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                             `;
+                        if (page != 1) {
+                            paginationHtml += `
+                                 <option value="${page}">${page}</option>
+                                 `;
+                        }
+
+                        for (let i = 1; i <= totalPage; i++) {
+                            paginationHtml += `
+                                 <option value="${i}">${i}</option>
+                                 `;
+                        }
+
+                        paginationHtml += `
+                                 </select>
+
+
+                                    <span class="font-bold flex justify-center items-center dark:text-slate-50">Found Page :${totalPage} Pages
+                                        &ensp;Total Assets: ${totalRecord} Records</span>
+
+
+                                 </div>
+                                 `;
+
+                        // Finally, assign the full HTML to the element
+                        pagination_search.innerHTML = paginationHtml;
+                    }
+                }
+
+                let body_change = document.querySelector("#table_select_movement_body");
+                body_change.innerHTML = ``;
+
+                        data.data.map((item) => {
+                                let custom = ``;
+                                custom += `
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <td scope="row"
+                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                ${ item.assets_id }
+                                            </td>
+                                            <td scope="row"
+                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+
+                                                            ${
+                                                            item.created_at
+                                                                ? new Date(
+                                                                        item.created_at
+                                                                    ).toLocaleDateString(
+                                                                        "en-US",
+                                                                        {
+                                                                            year: "numeric",
+                                                                            month: "short",
+                                                                            day: "numeric",
+                                                                        }
+                                                                    )
+                                                                : ""
+                                                        }
+
+                                            </td>
+                                            <td scope="row"
+                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                ${ item.document }
+                                            </td>
+                                            <td scope="row"
+                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                ${ item.assets1 + item.assets2 }
+                                            </td>
+                                            <td scope="row"
+                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                ${ item.fa }
+                                            </td>
+
+                                            <td scope="row"
+                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            ${ item.invoice_no }
+                                            </td>
+                                `;
+                                custom += `<td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">`;
+                                if(item.status == 0){
+                                     custom += `     <span
+                                            class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                            <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                            Active
+                                        </span>`;
+                                }else if(item.status == 1){
+                                    custom += ` <span
+                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                            Deleted
+                                        </span>`;
+                                }else if(item.status == 2){
+                                    custom += `
+                                     <span
+                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                            Sold
+                                        </span>
+                                `;
+
+                                }
+                                custom+= ` </td>`;
+                               custom += `
+                                <td scope="row"
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    ${ item.item_description }
+                                </td>
+
+                                <td scope="row"
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    ${ item.invoice_description }
+                                </td>
+
+                                <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
+                                style="  position: sticky; right: 0; ">
+
+                                    <a href="/admin/movement/add/assets_id=${ item.assets_id }"
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Create Movement</a>
+                                </td>
+                            </tr>
+                    `;
+                    body_change.innerHTML += custom;
+                });
+                array = data.data;
+            } else {
+                alert("Data not Found.");
+            }
+        } else {
+            alert("Data not Found.");
+        }
+    } else {
+        alert("Problem on database connection.");
+    }
+    document.querySelector("#loading").style.display = "none";
 }

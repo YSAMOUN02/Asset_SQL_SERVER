@@ -23,44 +23,49 @@ class QuickDataController extends Controller
         }
 
         $data = QuickData::orderby('id','desc')->limit($limit)->offset($offset)->get();
-
+        $department = QuickData::where('type', "department")->select('id', 'content')->orderby('id', 'desc')->get();
 
         return view('backend.add-quick-data',[
             'data'=>$data,
             'page'=>$page,
             'total_page' => $total_page,
             'total_record' =>$count_post,
+            'department' =>$department
         ]);
     }
 
     public function add_submit_quick_data(Request $request){
-        $data = New QuickData();
-        $data->content = $request->content;
-        $data->type = $request->type;
-        $data->created_by = Auth::user()->name;
-        $data->save();
 
 
-     
-        if($data){
+            $data = New QuickData();
+            $data->content = $request->content;
+            if($request->type == 'Employee'){
+                $data->type = $request->type;
+                $data->reference = $request->department_employee;
+            }else{
+                $data->type = $request->type;
+            }
+            $data->created_by = Auth::user()->name;
+            $data->save();
+            if($data){
 
-            $this->Change_log($data->id, "", "Insert", "Quick Data Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
-            return redirect("/quick/data")->with('success',"Added 1 Record success.");
-        }else{
+                $this->Change_log($data->id, "", "Insert", "Quick Data Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
+                return redirect("/quick/data/1")->with('success',"Added 1 Record success.");
+            }else{
 
-            return redirect("/quick/data")->with('fail',"Added  fail.");
-        }
+                return redirect("/quick/data/1")->with('fail',"Added  fail.");
+            }
     }
 
     public function delete_quick_data(Request $request){
-        $deleted = QuickData::where('id',$request->id)->first();
+        $status = QuickData::where('id',$request->id)->first();
 
-        $deleted->delete();
+        $status->delete();
 
-        
-        if($deleted){
 
-            $this->Change_log($deleted->id, "", "Delete", "Quick Data Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
+        if($status){
+
+            $this->Change_log($status->id, "", "Delete", "Quick Data Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
             return redirect("/quick/data")->with('success',"Data delete success.");
         }else{
 
@@ -71,15 +76,21 @@ class QuickDataController extends Controller
 
         $update = QuickData::where('id',$request->id)->first();
         $update->content = $request->content;
+        if($request->reference_update != ''){
+            $update->reference = $request->reference_update;
+        }
         $update->type = $request->type;
         $update->save();
+
+
+
         if($update){
 
             $this->Change_log($update->id, "", "Update", "Quick Data Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
-            return redirect("/quick/data")->with('success',"Data update success.");
+            return redirect("/quick/data/1")->with('success',"Data update success.");
         }else{
 
-            return redirect("/quick/data")->with('fail',"Data update fail.");
+            return redirect("/quick/data/1")->with('fail',"Data update fail.");
         }
     }
 }

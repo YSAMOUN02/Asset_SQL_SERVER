@@ -31,7 +31,7 @@ class AssetsController extends Controller
     }
     public function list_assets($page)
     {
- 
+
 
 
 
@@ -44,7 +44,7 @@ class AssetsController extends Controller
         if($page != 0){
             $offset = ($page - 1) * $limit;
         }
-       
+
 
         if (Auth::user()->permission->assets_read == 1) {
             if (Auth::user()->role == "admin") {
@@ -54,20 +54,20 @@ class AssetsController extends Controller
                     ->where("last_varaint", 1)
                     ->get();
 
-                    
+
                 return view('backend.list_asset', [
                     'asset' => $asset,
                     'total_page' => $total_page,
                     'page' => $page,
                     'total_assets' =>$count_post,
-                    'total_page' => $total_page 
+                    'total_page' => $total_page
                 ]);
             } elseif (Auth::user()->role == "staff") {
 
                 $asset =  StoredAssetsUser::orderBy('id', 'desc')
                     ->limit($limit)
                     ->offset($offset)
-                    ->where('deleted','<>', 1)
+                    ->where('status','<>', 1)
                     ->get();
                 // return $asset;
                 return view('backend.list_asset_staff', [
@@ -75,7 +75,7 @@ class AssetsController extends Controller
                     'total_page' => $total_page,
                     'page' => $page,
                     'total_assets' =>$count_post,
-                    'total_page' => $total_page 
+                    'total_page' => $total_page
                 ]);
             } else {
                 return redirect("/")->with("fail", "You do not have User role in system.");
@@ -89,11 +89,11 @@ class AssetsController extends Controller
     {
 
         $limit = 150;
-  
-        // return  $count_post ;
-    
 
-        // return "start_date : ". $start_date. "  end date: ".$end_date; 
+        // return  $count_post ;
+
+
+        // return "start_date : ". $start_date. "  end date: ".$end_date;
         $data = RawFixAssets::select(
             'assets',
             'invoice_no',
@@ -112,7 +112,7 @@ class AssetsController extends Controller
         if($page != 0){
             $offset = ($page - 1) * $limit;
         }
-        
+
         $data->limit($limit);
         $data->offset($offset);
         $data->orderBy('assets_date','desc');
@@ -125,8 +125,8 @@ class AssetsController extends Controller
             'total_page' => $total_page,
             'page' => $page,
             'total_record' =>$count_post,
-           
-     
+
+
         ]);
     }
 
@@ -136,7 +136,7 @@ class AssetsController extends Controller
             $modifiedString = str_replace('-', '/', $invoice);
         }
 
-        
+
         // return $modifiedString;
         $sql= Fix_assets::where('assets', $assets);
         if($invoice != "NA"){
@@ -144,8 +144,8 @@ class AssetsController extends Controller
         }
 
         $asset = $sql->first();
-   
-        
+
+
         $department = QuickData::where('type', "department")->select('id', 'content')->orderby('id', 'desc')->get();
         $company  = QuickData::where('type', "company")->select('id', 'content')->orderby('id', 'desc')->get();
         return view('backend.add-assets', [
@@ -406,7 +406,7 @@ class AssetsController extends Controller
         $asset_user->description = $request->description ?? "";
         $asset_user->invoice_description = $request->invoice_description ?? "";
 
-        // Vendor 
+        // Vendor
         $asset_user->vendor = $request->vendor ?? "";
         $asset_user->vendor_name = $request->vendor_name ?? "";
         $asset_user->address = $request->address ?? "";
@@ -470,7 +470,7 @@ class AssetsController extends Controller
         $asset->description = $request->description ?? "";
         $asset->invoice_description = $request->invoice_description ?? "";
 
-        // Vendor 
+        // Vendor
         $asset->vendor = $request->vendor ?? "";
         $asset->vendor_name = $request->vendor_name ?? "";
         $asset->address = $request->address ?? "";
@@ -483,7 +483,7 @@ class AssetsController extends Controller
         $asset->save();
 
 
-        // Add New FIle 
+        // Add New FIle
         if ($request->file_state > 0) {
             for ($i = 1; $i <= $request->file_state; $i++) {  // Start from 1
                 $fileKey = 'file_doc' . $i;  // Dynamic file input key
@@ -535,7 +535,7 @@ class AssetsController extends Controller
         }
     }
 
-    
+
     public function update_asset($id)
     {
 
@@ -625,7 +625,7 @@ class AssetsController extends Controller
         $asset_user->description = $request->description ?? "";
         $asset_user->invoice_description = $request->invoice_description ?? "";
 
-        // Vendor 
+        // Vendor
         $asset_user->vendor = $request->vendor ?? "";
         $asset_user->vendor_name = $request->vendor_name ?? "";
         $asset_user->address = $request->address ?? "";
@@ -633,8 +633,8 @@ class AssetsController extends Controller
         $asset_user->contact = $request->contact ?? "";
         $asset_user->phone = $request->phone ?? "";
         $asset_user->email = $request->email ?? "";
-        $asset_user->deleted = $request->status ?? 0;
-        
+        $asset_user->status = $request->status ?? 0;
+
         // Save the data
         $asset_user->save();
 
@@ -642,14 +642,14 @@ class AssetsController extends Controller
         $last_varaint = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->select("varaint")->first();
         if (!empty($last_varaint)) {
 
-            // Update Current Varaint to 0 
+            // Update Current Varaint to 0
             $modify_last = StoredAssets::where("assets_id", $asset_user->id)->where("last_varaint", 1)->first();
             $modify_last->last_varaint = 0;
             $modify_last->save();
 
 
             $var = $last_varaint->varaint += 1;
-            // Admin Side 
+            // Admin Side
             $asset = new StoredAssets();
 
             // Asset Info
@@ -702,7 +702,7 @@ class AssetsController extends Controller
             $asset->description = $request->description ?? "";
             $asset->invoice_description = $request->invoice_description ?? "";
 
-            // Vendor 
+            // Vendor
             $asset->vendor = $request->vendor ?? "";
             $asset->vendor_name = $request->vendor_name ?? "";
             $asset->address = $request->address ?? "";
@@ -710,14 +710,14 @@ class AssetsController extends Controller
             $asset->contact = $request->contact ?? "";
             $asset->phone = $request->phone ?? "";
             $asset->email = $request->email ?? "";
-            $asset->deleted = $request->status ?? 0;
+            $asset->status = $request->status ?? 0;
             // Save the data
             $asset->save();
         }
-        // Remove Existed File 
+        // Remove Existed File
         $this->remove_existed_file($request);
 
-        // Add New FIle 
+        // Add New FIle
         if ($request->file_state > 0) {
             for ($i = 1; $i <= $request->file_state; $i++) {  // Start from 1
                 $fileKey = 'file_doc' . $i;  // Dynamic file input key
@@ -765,9 +765,9 @@ class AssetsController extends Controller
         $this->Change_log($asset_user->id, $last_varaint->varaint, "Update From", "Asset Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);
         $this->Change_log($asset_user->id, $last_varaint->varaint + 1, "Update To", "Asset Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);
         if ($asset_user) {
-            return redirect('/admin/assets/list')->with('success', 'Update Asset Record Success.');
+            return redirect('/admin/assets/list/1')->with('success', 'Update Asset Record Success.');
         } else {
-            return redirect('/admin/assets/list')->with('fail', 'Opp!. Something when wronge.');
+            return redirect('/admin/assets/list/1')->with('fail', 'Opp!. Something when wronge.');
         }
     }
     public function remove_existed_file($request)
@@ -807,13 +807,13 @@ class AssetsController extends Controller
     {
 
         $asset = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->first();
-        $asset->deleted = 1;
-        $asset->deleted_at = Carbon::parse(today())->format('Y-m-d H:i:s');
+        $asset->status = 1;
+        $asset->status_at = Carbon::parse(today())->format('Y-m-d H:i:s');
 
         $asset->save();
 
         $asset_delete = StoredAssetsUser::where('id', $request->id)->first();
-        $asset_delete->deleted = 1;
+        $asset_delete->status = 1;
         $asset_delete->save();
 
 
@@ -821,9 +821,9 @@ class AssetsController extends Controller
         $this->Change_log($asset->assets_id, $asset->varaint, "Delete", "Asset Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
 
         if ($asset_delete) {
-            return redirect("/admin/assets/list")->with('success', "Delete Record Success.");
+            return redirect("/admin/assets/list/1")->with('success', "Delete Record Success.");
         } else {
-            return redirect("/admin/assets/list")->with('fail', "Opps. Somthing went wronge.");
+            return redirect("/admin/assets/list/1")->with('fail', "Opps. Somthing went wronge.");
         }
     }
     public function update_existing_to_new_varaint($request, $id, $varaint)
@@ -879,7 +879,7 @@ class AssetsController extends Controller
     {
         $assets_id = $request->id;
 
-        // Remove file and Image from server permanent 
+        // Remove file and Image from server permanent
         $this->initailize_record($assets_id);
         File::where('asset_id', $assets_id)->delete();
         Image::where('asset_id', $assets_id)->delete();
@@ -887,7 +887,7 @@ class AssetsController extends Controller
         StoredAssetsUser::where('id', $assets_id)->delete();
 
         $this->Change_log($assets_id, "All Varaint", "Delete Permanent", "Asset Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
-        return redirect("/admin/assets/list");
+        return redirect("/admin/assets/list/1");
     }
 
     public function initailize_record($id)
@@ -924,7 +924,7 @@ class AssetsController extends Controller
     public function restore(request $request)
     {
 
-        // Update Existing Last Varaint 
+        // Update Existing Last Varaint
         $last_varaint = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->select("varaint", "assets_id")->first();
         if (!empty($last_varaint)) {
 
@@ -934,7 +934,7 @@ class AssetsController extends Controller
             $modify_last->save();
             $var = $last_varaint->varaint += 1;
 
-            // Create New Record as Last Varaint 
+            // Create New Record as Last Varaint
             $asset = new StoredAssets();
             $asset->assets_id = $request->id;
             $asset->varaint = $var;
@@ -984,7 +984,7 @@ class AssetsController extends Controller
             $asset->description = $request->description ?? "";
             $asset->invoice_description = $request->invoice_description ?? "";
 
-            // Vendor 
+            // Vendor
             $asset->vendor = $request->vendor ?? "";
             $asset->vendor_name = $request->vendor_name ?? "";
             $asset->address = $request->address ?? "";
@@ -1001,9 +1001,9 @@ class AssetsController extends Controller
 
 
 
-            // Update Disbled Assets at user to Enable and update some Restore data 
+            // Update Disbled Assets at user to Enable and update some Restore data
             $asset_user =  StoredAssetsUser::where('id', $last_varaint->assets_id)->first();
-            $asset_user->deleted = 0;
+            $asset_user->status = 0;
             $asset_user->document = $request->document ?? "";
             $asset_user->assets1 = $request->asset_code1 ?? "";
             $asset_user->assets2 = $request->asset_code2 ?? "";
@@ -1050,7 +1050,7 @@ class AssetsController extends Controller
             $asset_user->description = $request->description ?? "";
             $asset_user->invoice_description = $request->invoice_description ?? "";
 
-            // Vendor 
+            // Vendor
             $asset_user->vendor = $request->vendor ?? "";
             $asset_user->vendor_name = $request->vendor_name ?? "";
             $asset_user->address = $request->address ?? "";
@@ -1060,9 +1060,9 @@ class AssetsController extends Controller
             $asset_user->email = $request->email ?? "";
             $asset_user->save();
         } else {
-            return redirect('/admin/assets/list')->with('fail', 'Record Not Found.');
+            return redirect('/admin/assets/list/1')->with('fail', 'Record Not Found.');
         }
-        // Add New FIle 
+        // Add New FIle
         if ($request->file_state > 0) {
             for ($i = 1; $i <= $request->file_state; $i++) {  // Start from 1
                 $fileKey = 'file_doc' . $i;  // Dynamic file input key
@@ -1111,9 +1111,9 @@ class AssetsController extends Controller
         $this->update_existing_to_new_varaint($request, $last_varaint->assets_id, $var);
 
         if ($last_varaint) {
-            return redirect('/admin/assets/list')->with('success', 'Restore Success.');
+            return redirect('/admin/assets/list/1')->with('success', 'Restore Success.');
         } else {
-            return redirect('/admin/assets/list')->with('fail', 'Opp!. Something when wronge.');
+            return redirect('/admin/assets/list/1')->with('fail', 'Opp!. Something when wronge.');
         }
     }
     public function print_qr($assets)
@@ -1303,6 +1303,7 @@ class AssetsController extends Controller
         $response->headers->set('Cache-Control', 'max-age=0');
 
         // Save the spreadsheet to a temporary file
+        $today = today();
         $filename = 'Assets.xlsx';
         $tempFilePath = storage_path('app/' . $filename);
         $writer = new Xlsx($spreadsheet);

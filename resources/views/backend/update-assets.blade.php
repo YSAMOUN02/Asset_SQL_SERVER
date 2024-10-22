@@ -3,7 +3,7 @@
     <form class="p-5 dark:bg-gray-900" enctype="multipart/form-data" action="/admin/assets/update/submit" method="POST">
         @csrf
         <h1 class="title_base dark:text-blue-100">Asset Info</h1>
-     
+
         <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2 lg:grid-cols-2 md:grid-cols-2">
             <div>
                 <label for="Reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference <span
@@ -19,15 +19,15 @@
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
                     Code <span class="text-rose-500">*</span></label>
                 <div class="flex w-full">
-                 
+
                         <input type="text" id="Asset_Code" name="asset_code1" readonly
                             class="percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             id="asset_code1" value="{{ old('asset_code1', $asset->assets1 ?? '') }}" />
-                  
-            
+
+
                         <input type="text" name="asset_code2" value="{{ old('asset_code1', $asset->assets2 ?? '') }}" readonly
                             class="percent30 bg-gray-50 border border-graxy-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  
+
                 </div>
             </div>
             <div>
@@ -92,12 +92,12 @@
 
 
 
-                    @if ($asset->deleted == 2)
+                    @if ($asset->status == 2)
                         <option value="2">Sold</option>
-                        <option value="0">Available</option>
-               
-                    @elseif($asset->delected == 0)
-                        <option value="0">Available</option>
+                        <option value="0">Active</option>
+
+                    @elseif($asset->status == 0)
+                        <option value="0">Active</option>
                         <option value="2">Sold</option>
                     @endif
 
@@ -149,6 +149,9 @@
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     @if (!empty($asset->department))
                         <option value="{{ $asset->department }}">{{ $asset->department }}</option>
+                          @else
+                    <option value=""></option>
+
                     @endif
                     @if (!empty($department))
                         @foreach ($department as $item)
@@ -165,6 +168,9 @@
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     @if (!empty($asset->company))
                         <option value="{{ $asset->company }}">{{ $asset->company }}</option>
+                        @else
+                        <option value=""></option>
+
                     @endif
                     @if (!empty($company))
                         @foreach ($company as $item)
@@ -245,22 +251,22 @@
                 <label for="no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
                     Code (Account)</label>
 
-     
+
                     <input type="text" id="asset_code_account" name="asset_code_account" readonly
                         class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value="{{ $asset->asset_code_account ?? '' }}" />
-       
+
             </div>
             <div>
                 <div>
                     <label for="invoice_posting_date"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Invoice Posting Date</label>
-                  
+
                         <input type="date" id="invoice_posting_date" name="invoice_posting_date" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value="{{ old('invoice_posting_date', $asset->invoice_date?? '') }}" />
-               
+
 
                 </div>
             </div>
@@ -271,7 +277,7 @@
                     <input type="text" id="fa_invoice" readonly
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         name="invoice"   value="{{ old('invoice', $asset->invoice_no?? '') }}"/>
-          
+
 
             </div>
 
@@ -282,7 +288,7 @@
                     <input type="text" id="fa" readonly
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         name="fa" placeholder=""  value="{{ old('fa', $asset->fa?? '') }}" />
-             
+
 
             </div>
             <div>
@@ -293,7 +299,7 @@
                         <input type="text" id="fa_class" name="fa_class" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value="{{ old('fa_class', $asset->fa_class?? '') }}" />
-                 
+
 
                 </div>
             </div>
@@ -306,7 +312,7 @@
                         <input type="text" id="FA_Subclass_Code" name="fa_subclass" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value="{{ old('fa_class', $asset->fa_class?? '') }}"  />
-                   
+
 
                 </div>
             </div>
@@ -319,7 +325,7 @@
                         <input type="text" id="depreciation_book_code" name="depreciation_book_code" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                              value="{{ old('depreciation_book_code', $asset->depreciation?? '') }}" />
-               
+
 
                 </div>
             </div>
@@ -329,11 +335,11 @@
                     <label for="fa_posting_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">FA
                         Posting Type</label>
 
-        
+
                         <input type="text" id="fa_posting_type" name="fa_type"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value="{{ old('fa_type', $asset->fa_type?? '') }}"    readonly />
-          
+
 
                 </div>
             </div>
@@ -345,7 +351,7 @@
                         <input type="text" id="fa_location" name="fa_location"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value="{{ old('fa_location', $asset->fa_location?? '') }}"  readonly />
-               
+
 
                 </div>
             </div>
@@ -354,27 +360,27 @@
                 <label for="no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cost &
                     Vat</label>
                 <div class="flex w-full">
-           
+
                         <input type="text" id="cost" name="cost" readonly
                             class="percent3 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value="{{ old('cost', (float) $asset->cost?? '') }}" />
-                   
+
                         <input type="text" id="currency" name="currency"          value="{{ old('currency',  $asset->currency?? '') }}"  readonly
                             class="percent3 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-               
+
 
                         <input type="text" id="vat" name="vat"     value="{{ old('vat',$asset->vat?? '') }}"
                             readonly
                             class="percent3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  
+
                 </div>
             </div>
             <div>
                 <div>
                     <label for="description"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-  
-                 
+
+
                             <textarea id="description" name="description" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('description', $asset->description ?? '') }}</textarea>
 
@@ -385,7 +391,7 @@
                 <div>
                     <label for="invoice_description"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Invoice Description</label>
-       
+
                         <textarea id="invoice_description" name="invoice_description" readonly
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('invoice_description', $asset->invoice_description ?? '') }}</textarea>
 

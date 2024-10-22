@@ -1,79 +1,8 @@
 @extends('backend.master')
 @section('content')
 
-
-    <div id="delete_asset_admin"
-        class="toast_delete w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400"
-        role="alert">
-        <div class="flex">
-            <div
-                class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg dark:text-blue-300 dark:bg-blue-900">
-                <i class="fa-solid fa-trash" style="color: #000000;"></i>
-
-                <span class="sr-only">Refresh icon</span>
-            </div>
-            <div class="ms-3 text-sm font-normal">
-                <span class="mb-1 text-sm font-semibold text-gray-900 dark:text-white">Are you sure ?</span>
-                <div class="mb-2 text-sm font-normal">This Record will be delete Permanent.</div>
-                <form action="/admin/assets/admin/delete/submit" method="POST">
-                    @csrf
-                    <input type="text" name="id" id="delete_value_asset" class="hidden">
-                    <div class="grid grid-cols-2 gap-2">
-
-                        <div>
-
-                            <button
-                                class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-white bg-lime-600 rounded-lg hover:bg-lime-950 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800"
-                                type="submit">Yes</button>
-                        </div>
-                        <div>
-                            <button onclick="cancel_toast('delete_asset_admin')" type="button"
-                                class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-white bg-rose-600 border border-gray-300 rounded-lg hover:bg-rose-950 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-600 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">Cancel</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-    </div>
-
-
-    <div id="delete_asset_staff"
-        class="toast_delete w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400"
-        role="alert">
-        <div class="flex">
-            <div
-                class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg dark:text-blue-300 dark:bg-blue-900">
-                <i class="fa-solid fa-trash" style="color: #000000;"></i>
-
-                <span class="sr-only">Refresh icon</span>
-            </div>
-            <div class="ms-3 text-sm font-normal">
-                <span class="mb-1 text-sm font-semibold text-gray-900 dark:text-white">Are you sure ?</span>
-                <div class="mb-2 text-sm font-normal">This Record will be delete.</div>
-                <form action="/admin/assets/staff/delete/submit" method="POST">
-                    @csrf
-                    <input type="text" name="id" id="delete_value_asset_staff" class="hidden">
-                    <div class="grid grid-cols-2 gap-2">
-
-                        <div>
-
-                            <button
-                                class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-white bg-lime-600 rounded-lg hover:bg-lime-950 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800"
-                                type="submit">Yes</button>
-                        </div>
-                        <div>
-                            <button onclick="cancel_toast('delete_asset_staff')" type="button"
-                                class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-white bg-rose-600 border border-gray-300 rounded-lg hover:bg-rose-950 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-600 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">Cancel</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-    </div>
-
     <div class="container-height   shadow-md sm:rounded-lg dark:bg-gray-800">
+
         <div class="search-bar bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
 
@@ -251,7 +180,7 @@
                                             </ul>
                                         </nav>
                                     @endif
-                                    <select onchange="set_page()" id="select_page"
+                                    <select onchange="set_page_movement()" id="select_page"
                                         class="flex  items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                         name="" id="">
                                         @if ($page != 1)
@@ -266,24 +195,12 @@
 
                                     </select>
                                     <span class="font-bold flex justify-center items-center dark:text-slate-50">Page :{{ $total_page }} Pages
-                                        &ensp;Total Assets: {{ $total_assets }} Records</span>
+                                        &ensp;Total Assets: {{ $total_record }} Records</span>
                                 </div>
 
                         </div>
                         <div class="flex fix_button">
-                            <button type="button" id="print" onclick="print_group()"
-                                class="text-white  hidden bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                Print
-                            </button>
-
-                            <button type="button" id="export_excel" onclick="export_group()"
-                                class="text-white  hidden bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                Export
-                            </button>
-
-
-
-                            <button type="button" onclick="search_asset(0)" id="search_button"
+                            <button type="button" onclick="search_asset_for_movement(0)" id="search_button"
                                 class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                 <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                             </button>
@@ -302,97 +219,69 @@
                 class="table_respond max-w-full  mt-5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
-                            <input onchange="select_all()" type="checkbox" id="select_all"
-                                class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
 
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            ID</th>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            Asset Date</th>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            Reference</th>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            Assets Code
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('assets_id','int','assets')">
-                            ID &ensp; <i class="fa-solid fa-sort"></i>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            Fix Assets
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('created_at','date','assets')">
-                            Create Date&ensp; <i class="fa-solid fa-sort"></i>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            Invoice
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('document','string','assets')">
-                            Refference&ensp; <i class="fa-solid fa-sort"></i>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            Status
                         </th>
-
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('assets1','string','assets')">
-                            Asset Code&ensp; <i class="fa-solid fa-sort"></i>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            Item Description
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('fa','string','assets')">
-                            Fix Asset No&ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('fa_type','string','assets')">
-                            Fix Asset Type&ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('status','string','assets')">
-
-                            Status &ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-
-
-
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('fa_class','string','assets')">
-                            Fix Asset class&ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('fa_subclass','string','assets')">
-                            Fix Asset Subclass&ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('depreciation','string','assets')">
-                            Deoreciation Code&ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('dr','string','assets')">
-                            DR&ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('pr','string','assets')">
-                            PR&ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('invoice_no','string','assets')">
-                            Invoice No&ensp; <i class="fa-solid fa-sort"></i>
-                        </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('description','string','assets')">
-                            Description&ensp; <i class="fa-solid fa-sort"></i>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            Invoice Description
                         </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
-                            style="  position: sticky; right: 0;">
+                        style="  position: sticky; right: 0;">
                             Action
                         </th>
+                        </th>
+
                     </tr>
                 </thead>
-                <tbody id="assets_body">
-                    @if (!empty($asset))
-                        @foreach ($asset as $item)
-                            <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <tbody id="table_select_movement_body">
+                    @if (!empty($data))
+                        @foreach ($data as $item)
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
-                                <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    <input onchange="printable()" data-id="{{ $item->assets_id }}" id="green-checkbox"
-                                        type="checkbox" value=""
-                                        class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-
+                                <td scope="row"
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $item->assets_id }}
-
-
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td scope="row"
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
 
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td scope="row"
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $item->document }}
                                 </td>
-
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td scope="row"
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $item->assets1 . $item->assets2 }}
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td scope="row"
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $item->fa }}
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->fa_type }}
+
+                                <td scope="row"
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ $item->invoice_no }}
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     @if ($item->status == 0)
@@ -405,7 +294,7 @@
                                         <span
                                             class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                                             <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                            Deleted
+                                            status
                                         </span>
                                     @elseif($item->status == 2)
                                         <span
@@ -415,50 +304,21 @@
                                         </span>
                                     @endif
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->fa_class }}
+                                <td scope="row"
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ $item->item_description }}
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->fa_subclass }}
+
+                                <td scope="row"
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ $item->invoice_description }}
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->depreciation }}
-                                </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->dr }}
-                                </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->pr }}
-                                </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->invoice_no }}
-                                </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->description }}
-                                </td>
+
                                 <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
-                                    style="  position: sticky; right: 0; ">
+                                style="  position: sticky; right: 0; ">
 
-                                    {{-- BTN UPDATE  --}}
-
-                                    <a href="/admin/assets/edit/id={{ $item->assets_id }}">
-                                        <button type="button"
-                                            class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-                                        </button>
-                                    </a>
-
-
-
-                                    @if (Auth::user()->Permission->assets_delete == 1)
-                                        {{-- BTN Delete  --}}
-
-                                        <button type="button" data-id="{{ $item->assets_id }}"
-                                            id="btn_delete_asset{{ $item->assets_id }}"
-                                            onclick="delete_value('btn_delete_asset'+{{ $item->assets_id }},'delete_asset_admin','delete_value_asset')"
-                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                            <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
-                                    @endif
+                                    <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Create Movement</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -468,31 +328,24 @@
 
                 </tbody>
             </table>
-
         </div>
+
+
+
+
+
+
+
     </div>
-    <div class="hidden">
-        <form id="form_print" action="/admin/qr/code/print/assets" method="post">
-            @csrf
-            <input type="text" name="id" id="id_printer">
-            <button type="submit">submit</button>
-        </form>
-        <form id="form_export" action="/admin/export/excel/assets" method="post">
-            @csrf
-            <input type="text" name="id_export" id="id_export">
-            <button type="submit">submit</button>
-        </form>
-    </div>
+
     <script>
-        let array = @json($asset);
+            let array = @json($data);
 
-
-        let sort_state = 0;
-
+            let sort_state = 0;
 
         const button = document.querySelector('#search_button');
 
-        // id="search_button"
+
         document.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
             event.preventDefault();

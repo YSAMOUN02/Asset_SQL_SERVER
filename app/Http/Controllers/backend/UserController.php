@@ -169,7 +169,7 @@ class UserController extends Controller
 
         $this->Change_log($user->id, "", "Delete", "User Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
         if ($user) {
-            return redirect('/admin/user/list')->with('success', 'Deleted 1 user.');
+            return redirect('/admin/user/list')->with('success', 'status 1 user.');
         } else {
             return redirect('/admin/user/list')->with('fail', 'Opp. Operation fail.');
         }

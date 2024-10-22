@@ -34,8 +34,8 @@ return new class extends Migration
             $table->string('position')->nullable(); // position
             $table->string('location')->nullable(); // department
             $table->string('department')->nullable(); // department
-            $table->string('company')->nullable(); // company  
-            $table->string('remark_holder')->nullable(); // company 
+            $table->string('company')->nullable(); // company
+            $table->string('remark_holder')->nullable(); // company
 
             // Internal Document
             $table->string('grn')->nullable(); // grn
@@ -64,7 +64,7 @@ return new class extends Migration
             $table->longText('description')->nullable(); // description
             $table->longText('invoice_description')->nullable(); // invoice_description
 
-            // Vendor 
+            // Vendor
             $table->string('vendor')->nullable(); // vendor
             $table->string('vendor_name')->nullable(); // vendor_name
             $table->string('address')->nullable(); // address
@@ -75,7 +75,7 @@ return new class extends Migration
 
             // State  Asset
             $table->date('deleted_at')->nullable();
-            $table->integer('deleted')->default(0); // Delete Status
+            $table->integer('status')->default(0); // Delete Status
             $table->string('last_varaint')->default(1);
 
             $table->timestamps();

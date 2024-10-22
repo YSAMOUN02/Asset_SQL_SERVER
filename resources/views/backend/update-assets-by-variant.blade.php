@@ -19,7 +19,7 @@
 
                         <i class="fa-brands fa-codepen mr-3 "></i>Lastest Change
                         ({{ \Carbon\Carbon::parse($asset[$i]->created_at)->format('M d Y') }})
-                        @if ($asset[$i]->deleted == 1)
+                        @if ($asset[$i]->status == 1)
                             &ensp; &ensp;<i class="fa-solid fa-trash-can" style="color: #ff0000;"></i> &ensp;(Deleted at
                             {{ $asset[$i]->deleted_at }})
                         @endif
@@ -53,7 +53,7 @@
 
                         <i class="fa-solid fa-palette mr-3"></i>V {{ $i }}
                         ({{ \Carbon\Carbon::parse($asset[$i]->created_at)->format('M d Y') }})
-                        @if ($asset[$i]->deleted == 1)
+                        @if ($asset[$i]->status == 1)
                             &ensp; &ensp;<i class="fa-solid fa-trash-can" style="color: #ff0000;"></i> &ensp;(Deleted at
                             {{ $asset[$i]->deleted_at }})
                         @endif
@@ -95,7 +95,7 @@
                         class="percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value="{{ old('asset_code1', $asset[$current_varaint]->assets1 ?? '') }}" />
 
-                    <input type="text" name="asset_code2" readonly
+                    <input type="text" name="asset_code2"
                         value="{{ old('asset_code1', $asset[$current_varaint]->assets2 ?? '') }}"
                         class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 </div>
@@ -163,12 +163,12 @@
 
 
 
-                    @if ($asset[$current_varaint]->deleted == 2)
+                    @if ($asset[$current_varaint]->status == 2)
                         <option value="2">Sold</option>
                         <option value="1">Deleted</option>
-                        <option value="0">Available</option>
+                        <option value="0">Active</option>
                     @elseif($asset[$current_varaint]->delected == 0)
-                        <option value="0">Available</option>
+                        <option value="0">Active</option>
                         <option value="1">Deleted</option>
                         <option value="2">Sold</option>
                     @endif
@@ -227,6 +227,8 @@
                     @if (!empty($asset[$current_varaint]->department))
                         <option value="{{ $asset[$current_varaint]->department }}">
                             {{ $asset[$current_varaint]->department }}</option>
+                    @else
+                    <option value=""></option>
                     @endif
                     @if (!empty($department))
                         @foreach ($department as $item)
@@ -246,6 +248,9 @@
                     @if (!empty($asset[$current_varaint]->company))
                         <option value="{{ $asset[$current_varaint]->company }}">{{ $asset[$current_varaint]->company }}
                         </option>
+                        @else
+                        <option value=""></option>
+
                     @endif
                     @if (!empty($company))
                         @foreach ($company as $item)
@@ -688,7 +693,7 @@
         </div>
 
         </div>
-        @if ($total_varaint == $current_varaint && ($asset[$current_varaint]->deleted == 0 || $asset[$current_varaint]->deleted == 2))
+        @if ($total_varaint == $current_varaint && ($asset[$current_varaint]->status == 0 || $asset[$current_varaint]->status == 2))
             <div class="btn_float_right">
 
                 <button type="button" onclick="append_img()"

@@ -1248,10 +1248,6 @@ input:checked + .toggle-bg {
   margin-inline-start: 0.75rem;
 }
 
-.ms-auto {
-  margin-inline-start: auto;
-}
-
 .mt-0\.5 {
   margin-top: 0.125rem;
 }
@@ -1932,10 +1928,6 @@ input:checked + .toggle-bg {
   background-color: rgb(225 29 72 / var(--tw-bg-opacity));
 }
 
-.bg-transparent {
-  background-color: transparent;
-}
-
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -2572,11 +2564,6 @@ input:checked + .toggle-bg {
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-gray-200:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
-}
-
 .hover\:bg-lime-950:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(26 46 5 / var(--tw-bg-opacity));
@@ -2765,6 +2752,11 @@ input:checked + .toggle-bg {
 
 .dark\:border-transparent:is(.dark *) {
   border-color: transparent;
+}
+
+.dark\:border-r-red-500:is(.dark *) {
+  --tw-border-opacity: 1;
+  border-right-color: rgb(240 82 82 / var(--tw-border-opacity));
 }
 
 .dark\:bg-black:is(.dark *) {
@@ -3367,11 +3359,6 @@ input:checked + .toggle-bg {
 
   .lg\:pt-0 {
     padding-top: 0px;
-  }
-
-  .lg\:text-lg {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
   }
 
   .lg\:text-\[\#FF2D20\] {

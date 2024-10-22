@@ -86,26 +86,26 @@
 
 
     <div class="relative overflow-x-auto">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <table id="table_user" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr id="user_th">
-                    <th scope="col" class="px-6 py-3" onclick="dynamic_sort('id','int','users')">
+                    <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white" onclick="dynamic_sort('id','int','users')">
                         ID &ensp; <i class="fa-solid fa-sort"></i>
                     </th>
-                    <th scope="col" class="px-6 py-3" onclick="dynamic_sort('name','string','users')">
+                    <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white" onclick="dynamic_sort('name','string','users')">
                         User Name &ensp; <i class="fa-solid fa-sort"></i>
                     </th>
-                    <th scope="col" class="px-6 py-3" onclick="dynamic_sort('email','string','users')">
+                    <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white" onclick="dynamic_sort('email','string','users')">
                         Email &ensp; <i class="fa-solid fa-sort"></i>
                     </th>
-                    <th scope="col" class="px-6 py-3" onclick="dynamic_sort('role','string','users')">
+                    <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white" onclick="dynamic_sort('role','string','users')">
                         Role &ensp; <i class="fa-solid fa-sort"></i>
                     </th>
-                    <th scope="col" class="px-6 py-3" onclick="dynamic_sort('status','int','users')">
+                    <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white" onclick="dynamic_sort('status','int','users')">
                         Status &ensp; <i class="fa-solid fa-sort"></i>
                     </th>
 
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         Action
                     </th>
 
@@ -148,11 +148,11 @@
 
                                 </td>
 
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 whitespace-nowrap ">
                                     @if (Auth::user()->Permission->user_update == 1)
                                         <a href="/admin/user/update/id={{ $item->id }}">
                                             <button type="button"
-                                                class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                     class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
                                         </a>
                                     @endif
@@ -160,7 +160,7 @@
                                         (Auth::user()->Permission->user_write == 0 && Auth::user()->Permission->user_update == 0) ||
                                             (Auth::user()->Permission->user_write == 1 && Auth::user()->Permission->user_update == 0))
                                         <button type="button"
-                                            class="text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
                                         </button>
                                     @endif
@@ -168,7 +168,7 @@
                                         <button type="button" data-id="{{ $item->id }}"
                                             onclick="delete_value('btn_delete'+{{ $item->id }},'delete_user','delete_value')"
                                             id="btn_delete{{ $item->id }}"
-                                            class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-trash" style="color: #ffffff;"></i>
 
                                         </button>
@@ -204,7 +204,7 @@
                                     @else
                                         <span
                                             class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                            <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                            <span class=" w-2 h-2 me-1 bg-green-500 rounded-full"></span>
                                             Active
                                         </span>
                                     @endif
@@ -215,7 +215,7 @@
                                     @if (Auth::user()->Permission->user_update == 1)
                                         <a href="/admin/user/update/id={{ $item->id }}">
                                             <button type="button"
-                                                class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                class="scale-50 lg:scale-100  text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                     class="fa-solid fa-pen-to-square"
                                                     style="color: #ffffff;"></i></button>
                                         </a>
@@ -224,7 +224,7 @@
                                         (Auth::user()->Permission->user_write == 0 && Auth::user()->Permission->user_update == 0) ||
                                             (Auth::user()->Permission->user_delete == 1 && Auth::user()->Permission->user_update == 0))
                                         <button type="button"
-                                            class="text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                            class="scale-50 lg:scale-100  text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
                                         </button>
                                     @endif
@@ -232,7 +232,7 @@
                                         <button type="button" data-id="{{ $item->id }}"
                                             onclick="delete_value('btn_delete'+{{ $item->id }},'delete_user','delete_value')"
                                             id="btn_delete{{ $item->id }}"
-                                            class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                            class="scale-50 lg:scale-100  text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-trash" style="color: #ffffff;"></i>
 
                                         </button>

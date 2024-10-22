@@ -300,6 +300,9 @@ body{
 .aside{
   z-index: 9999 !important;
 }
+#logout{
+  z-index: 10000;
+}
 #loading_style{
   width: 200px;
   height: 100px;
@@ -345,6 +348,12 @@ z-index: 99;
 }
 .last_th{
   z-index: 99 !important;
+}
+#table_user th ,#table_user td {
+  white-space: nowrap;
+}
+#dep_user,#reference_update, #span_reference{
+  display: none;
 }
   @keyframes fade_out{
     0%{

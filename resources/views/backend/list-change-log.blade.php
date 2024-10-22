@@ -82,7 +82,7 @@
                 </div>
                 <div class="max-w-full flex items-center px-5 lg:px-0">
 
-                    <div class="pagination_by_search flex main_page w-full defualt ">
+                    <div class="pagination_by_search px-5 flex main_page w-full defualt ">
 
                         @if (!empty($total_page))
                             @php
@@ -152,7 +152,7 @@
                             @endfor
 
                         </select>
-                        <span class="font-bold flex justify-center items-center text-sm lg:text-lg">Page
+                        <span class="font-bold flex justify-left items-center text-gray-900 dark:text-white">Page
                             :{{ $total_page }} Pages
                             &ensp;Total Assets: {{ $total_record }} Records</span>
 
@@ -175,7 +175,7 @@
 
     </div>
 
-    <div class="table-data relative overflow-x-auto whitespace-nowrap shadow-md sm:rounded-lg">
+    <div class="table-data relative mt-2 overflow-x-auto whitespace-nowrap shadow-md sm:rounded-lg">
         <table id="table_change_log" class=" w-full mt-5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>

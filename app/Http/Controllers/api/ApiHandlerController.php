@@ -91,11 +91,11 @@ class ApiHandlerController extends Controller
         }
         if ($state != "NA") {
             if ($state == "All") {
-              
-                // All Date is exist 
+
+                // All Date is exist
                 if ($start != "NA" && $end != "NA") {
                     $sql->whereBetween('posting_date', [$start, $end]);
-                // End Only 
+                // End Only
                 } elseif ($start != "NA" && $end == "NA") {
                     $sql->where('posting_date', ">=", $start);
                 // Start Only
@@ -112,18 +112,18 @@ class ApiHandlerController extends Controller
                 } elseif ($start == "NA" && $end != "NA") {
                     $sql->where('posting_date', "<", $end);
                 }else{
-                    
+
                 }
                 $sql->where('state', 'like', ["%" . $state . "%"]);
             } elseif ($state == "no_invoice") {
-          
+
                 $sql->where("state",  $state );
             }
         }
- 
-     
 
-        
+
+
+
         $limit = 150;
         $offet = 0;
         if($page != 0){
@@ -137,7 +137,7 @@ class ApiHandlerController extends Controller
         $sql->offset($offet);
         $asset_data = $sql->get();
         $total_pages = ceil($count/$limit);
- 
+
 
         $arr = new arr();
         $arr->page = $page;
@@ -231,7 +231,7 @@ class ApiHandlerController extends Controller
         }
 
         // $sql->whereBetween('posting_date', [$start, $end]);
-        // Two date 
+        // Two date
         if ($start != "NA" && $end != "NA") {
             $data->whereBetween("created_at", [$start, $end]);
 
@@ -245,11 +245,11 @@ class ApiHandlerController extends Controller
 
         if ($state == "All") {
         } elseif ($state == 0) {
-            $data->where("deleted", 0);
+            $data->where("status", 0);
         } elseif ($state == 1) {
-            $data->where("deleted", 1);
+            $data->where("status", 1);
         } elseif ($state == 2) {
-            $data->where("deleted", 2);
+            $data->where("status", 2);
         }
 
         $asset_data = $data->get();
@@ -298,7 +298,7 @@ class ApiHandlerController extends Controller
             $data->where("description", 'LIKE',"%".$description."%");
         }
 
-       
+
 
         // Check if start and end are provided and not "NA"
         if ($start != "NA" && $end != "NA") {
@@ -324,11 +324,11 @@ class ApiHandlerController extends Controller
         if($state != "NA"){
             if ($state == "All") {
             } elseif ($state == 0) {
-                $data->where("deleted", 0);
+                $data->where("status", 0);
             } elseif ($state == 1) {
-                $data->where("deleted", 1);
+                $data->where("status", 1);
             } elseif ($state == 2) {
-                $data->where("deleted", 2);
+                $data->where("status", 2);
             }
 
 
@@ -340,7 +340,7 @@ class ApiHandlerController extends Controller
 
 
         $limit = 150;
-     
+
         $offet = 0;
         if($page != 0){
             $offet = ($page - 1) * $limit;
@@ -350,9 +350,9 @@ class ApiHandlerController extends Controller
         $data->limit($limit);
         $data->offset($offet);
         $asset_data = $data->get();
-        
+
         $total_pages = ceil($count/$limit);
-       
+
         // return response()->json($count);
         $arr = new arr();
         $arr->page = $page;
@@ -390,7 +390,7 @@ class ApiHandlerController extends Controller
         // return response()->json([$fa,$invoice,$assets]);
 
         $data =  StoredAssetsUser::orderBy('id', 'desc')
-            ->where("deleted",'<>', 1);
+            ->where("status",'<>', 1);
 
         if ($id != "NA") {
             $data->where("id", 'LIKE', "%".$id."%");
@@ -408,7 +408,7 @@ class ApiHandlerController extends Controller
             $data->where("description", 'LIKE',"%".$description."%");
         }
 
-       
+
 
         // Check if start and end are provided and not "NA"
         if ($start != "NA" && $end != "NA") {
@@ -434,11 +434,11 @@ class ApiHandlerController extends Controller
         if($state != "NA"){
             if ($state == "All") {
             } elseif ($state == 0) {
-                $data->where("deleted", 0);
+                $data->where("status", 0);
             } elseif ($state == 1) {
-                $data->where("deleted", 1);
+                $data->where("status", 1);
             } elseif ($state == 2) {
-                $data->where("deleted", 2);
+                $data->where("status", 2);
             }
 
 
@@ -450,7 +450,7 @@ class ApiHandlerController extends Controller
 
 
         $limit = 150;
-     
+
         $offet = 0;
         if($page != 0){
             $offet = ($page - 1) * $limit;
@@ -460,9 +460,9 @@ class ApiHandlerController extends Controller
         $data->limit($limit);
         $data->offset($offet);
         $asset_data = $data->get();
-        
+
         $total_pages = ceil($count/$limit);
-       
+
         // return response()->json($count);
         $arr = new arr();
         $arr->page = $page;
@@ -482,7 +482,7 @@ class ApiHandlerController extends Controller
 
         $start = $request->start ?? "NA";
         $end = $request->end ?? "NA";
-      
+
         $key = $request->key??'NA';
         $varaint = $request->varaint??'NA';
         $change = $request->change??'NA';
@@ -530,10 +530,10 @@ class ApiHandlerController extends Controller
             $changeLog->where('created_at', '<=', $endDate);
         }
 
-        
+
             $data = $changeLog->get();
             $count = count($data);
-    
+
 
             $limit = 150;
 
@@ -548,23 +548,23 @@ class ApiHandlerController extends Controller
             $changeLog->offset($offet);
             $datas = $changeLog->get();
             $count = count($datas );
-        
-         
-           
+
+
+
            $arr = new arr();
            $arr->page = $page;
            $arr->total_page = $total_pages;
            $arr->total_record = $count_record;
            $arr->data = $datas;
-           
+
 
             if ($count > 0) {
                 return response()->json($arr);
             } else {
                 return response()->json([]);
             }
-    
-      
+
+
     }
     public function qucik_data_search(Request $request){
         $type = $request->type??'NA';
@@ -576,7 +576,7 @@ class ApiHandlerController extends Controller
             $data->where($type,'LIKE', '%'.$content.'%');
         }
         $count_post =  $data->count();
-      
+
         $limit = 150;
         $total_pages = ceil($count_post/$limit);
         $offet = 0;
@@ -586,9 +586,9 @@ class ApiHandlerController extends Controller
 
         $data->limit($limit);
         $data->offset($offet);
-       
-       
-  
+
+
+
         $datas = $data->get();
         $arr = new arr();
 
@@ -602,7 +602,7 @@ class ApiHandlerController extends Controller
         }else{
             return response()->json([]);
         }
-      
+
     }
 
     public function mobile_search(Request $request){
@@ -612,34 +612,150 @@ class ApiHandlerController extends Controller
         if($assets != 'NA'){
             if($role == 'admin'){
                 $sql =  StoredAssets::orderBy('assets_id', 'desc');
-                $sql->where("last_varaint", 1);      
+                $sql->where("last_varaint", 1);
                 $sql->where(DB::raw("CONCAT(assets1, assets2)"), 'LIKE', "%".$assets."%");
                 $count =  $sql->count();
                 $sql->limit(15);
                 $datas = $sql->get();
-      
+
 
                 $arr = new arr();
                 $arr->page  =1;
                 $arr->total_page = 1;
                 $arr->total_record = $count ;
                 $arr->data = $datas;
-                
-              
+
+
                 if($count > 0){
                     return response()->json($arr);
                 }else{
                     return response()->json([]);
                 }
-              
+
             }else{
                 // staff
             }
 
 
-           
+
         }
         return response()->json([]);
+    }
+
+    public function search_list_movement_more(Request $request){
+
+
+
+
+        $fa = $request->fa ?? "";
+        $invoice = $request->invoice ?? "";
+        $assets = $request->asset ?? "";
+        $description = $request->description ?? "";
+        $start = $request->start ?? "";
+        $end = $request->end ?? "";
+        $state = $request->state ?? "NA";
+        $type = $request->type ?? "NA";
+        $value = $request->value ?? "NA";
+        $id = $request->id ?? "NA";
+        $page =$request->page??1;
+        $role = $request->role??'NA';
+
+
+
+
+        $data =  StoredAssets::orderBy('assets_id', 'desc')
+            ->where("last_varaint", 1);
+        if($role != 'NA'){
+            if($role == 'staff'){
+                $data->where('status', '<>', 1);
+            }
+        }
+        if ($id != "NA") {
+            $data->where("assets_id", 'LIKE', "%".$id."%");
+        }
+        if ($assets != "NA") {
+            $data->where(DB::raw("CONCAT(assets1, assets2)"), 'LIKE', "%".$assets."%");
+        }
+        if ($fa != "NA") {
+            $data->where("fa", 'LIKE',"%".$fa."%");
+        }
+        if ($invoice != "NA") {
+            $data->where("invoice_no", 'LIKE',"%".$invoice."%");
+        }
+        if ($description != "NA") {
+            $data->where("description", 'LIKE',"%".$description."%");
+        }
+
+
+
+        // Check if start and end are provided and not "NA"
+        if ($start != "NA" && $end != "NA") {
+            // Ensure both start and end are in the correct date format (e.g., 'Y-m-d H:i:s')
+            $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay(); // or use ->toDateTimeString() if needed
+            $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay(); // or use ->toDateTimeString()
+
+            // Query between the start and end dates
+            $data->whereBetween('created_at', [$startDate, $endDate]);
+
+            // Start date only provided
+        } elseif ($start != "NA" && $end == "NA") {
+            $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
+            $data->where('created_at', '>=', $startDate);
+
+            // End date only provided
+        } elseif ($start == "NA" && $end != "NA") {
+            $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
+            $data->where('created_at', '<=', $endDate);
+        }
+
+
+        if($state != "NA"){
+            if ($state == "All") {
+            } elseif ($state == 0) {
+                $data->where("status", 0);
+            } elseif ($state == 1) {
+                $data->where("status", 1);
+            } elseif ($state == 2) {
+                $data->where("status", 2);
+            }
+
+
+        }
+
+        if ($type != "NA" && $value != "NA") {
+            $data->where($type, 'LIKE', '%' . $value . '%');
+        }
+
+
+        $limit = 150;
+
+        $offet = 0;
+        if($page != 0){
+            $offet = ($page - 1) * $limit;
+        }
+        $data->where('status','<>',1);
+        $count = $data->count();
+
+        $data->limit($limit);
+        $data->offset($offet);
+
+        $asset_data = $data->get();
+
+        $total_pages = ceil($count/$limit);
+
+        // return response()->json($count);
+        $arr = new arr();
+        $arr->page = $page;
+        $arr->total_page = $total_pages;
+        $arr->total_record = $count;
+        $arr->data = $asset_data;
+
+
+        if ($count > 0) {
+            return response()->json($arr );
+        } else {
+            return response()->json([]);
+        }
     }
 }
 
@@ -649,5 +765,5 @@ class arr {
     public $total_page;
     public $total_record;
     public $data;
-    
+
 }

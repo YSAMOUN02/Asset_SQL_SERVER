@@ -26,7 +26,7 @@
 
     <form id="user_form" action="/admin/user/add/submit" method="POST">
         @csrf
-        <div class="h-max grid mt-5 gap-6 mb-6 md:grid-cols-2">
+        <div class="h-max grid grid-cols-2 px-2 mt-5 gap-6 mb-6 md:grid-cols-2">
             <div>
                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First
                     name</label>
@@ -79,26 +79,28 @@
 
 
         </div>
-        <div class="mb-6">
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
-            <input type="email" name="email" id="email"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="john.doe@company.com" />
+        <div class="px-2">
+            <div class="mb-6">
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
+                <input type="email" name="email" id="email"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="john.doe@company.com" />
+            </div>
+            <div class="mb-6">
+                <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                <input type="password" name="password" id="password"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="•••••••••" required />
+            </div>
+            <div class="mb-6">
+                <label for="">Preview Password</label>&ensp;
+                <input type="checkbox" id="show_pass" onchange="show_password()">
+            </div>
         </div>
-        <div class="mb-6">
-            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-            <input type="password" name="password" id="password"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="•••••••••" required />
-        </div>
-        <div class="mb-6">
-            <label for="">Preview Password</label>&ensp;
-            <input type="checkbox" id="show_pass" onchange="show_password()">
-        </div>
-
+        <div class="btn_float_right">
         <button type="button" onclick="form_submit()"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-
+        </div>
 
         <div class="toast_position">
             <!-- Toast -->
@@ -126,7 +128,7 @@
 
         <!-- Dropdown menu -->
         <div id="dropdownSearch"
-            class="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-2 z-10 min-h-96 overflow-scroll hidden w-auto bg-white rounded-lg shadow dark:bg-gray-700">
+            class="grid grid-cols-2 md:grid-cols-2  lg:grid-cols-2 z-10 min-h-96 overflow-scroll hidden w-auto bg-white rounded-lg shadow dark:bg-gray-700">
 
             <div>
                 <label class="label_user ml-5 bg-white dark:bg-gray-700 text-gray-900 rounded dark:text-gray-300"
@@ -222,7 +224,7 @@
 
 
            <div>
-            <label class="label_user ml-5 bg-white dark:bg-gray-700 dark:text-gray-300" for="">Transfer
+            <label class="label_user ml-5 bg-white dark:bg-gray-700 dark:text-gray-300" for="">Movement
                 Section</label>
             <ul class="h-56 px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
                 aria-labelledby="dropdownSearchButton">
@@ -268,8 +270,9 @@
            </div>
 
            <div>
-            <label class="label_user ml-5 bg-white dark:bg-gray-700 dark:text-gray-300" for="" > Quick Data
-                Section</label>
+   
+                <label class="label_user ml-5 bg-white dark:bg-gray-700 dark:text-gray-300" for="">QuickData
+             </label>
             <ul class="h-56 px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
                 aria-labelledby="dropdownSearchButton">
                 <li>

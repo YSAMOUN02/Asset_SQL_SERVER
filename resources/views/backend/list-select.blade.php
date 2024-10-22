@@ -75,10 +75,10 @@
             </div>
             <div class="max-w-full flex main_page justify-between items-center px-2">
 
-                  
+
                 @if (!empty($total_page))
                     @if ($total_page > 1)
-      
+
                         <div class="flex main_page pagination_by_search">
 
                             @php
@@ -100,7 +100,7 @@
                                     @endif
 
                                     {{-- Page Numbers in Ascending Order --}}
-                                    @php 
+                                    @php
                                         $state_i = 0;
                                     @endphp
                                     @for ($i = $left_limit; $i <= $right_limit; $i++)
@@ -110,7 +110,7 @@
                                                 <a href="{{ $i }}" aria-current="page"
                                                     class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ $i }}</a>
                                             </li>
-                                            @php 
+                                            @php
                                             $state_i = $i;
                                             @endphp
                                         @else
@@ -118,7 +118,7 @@
                                                 <a href="{{ $i }}"
                                                     class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ $i }}</a>
                                             </li>
-                                            @php 
+                                            @php
                                             $state_i = $i;
                                             @endphp
                                         @endif
@@ -138,10 +138,10 @@
                                             </a>
                                         </li>
                                     @endif
-                                  
+
                                 </ul>
                             </nav>
-             
+
                             <select onchange="set_page_raw()" id="select_page"
                                 class="flex mx-0 lg:mx-2 md:mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                 name="" id="">
@@ -159,7 +159,7 @@
                             <span class="font-bold flex justify-center items-center dark:text-slate-50">Page :{{ $total_page }} Pages
                                 &ensp;Total Assets: {{ $total_record }} Records</span>
                         </div>
-                    
+
                     @endif
                 @endif
                 <div class="flex fix_button">
@@ -170,7 +170,7 @@
                         </button>
                     </a>
 
-                    <button type="button" onclick="raw_assets()"
+                    <button type="button" onclick="raw_assets()" id="search_button"
                         class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                         <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                     </button>
@@ -184,10 +184,10 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
 
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                        <th scope="col"  class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             No
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  "
+                        <th scope="col"  class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
                             onclick="dynamic_sort('assets_date','date','raw_assets')">
                             Invoice Date &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
@@ -285,6 +285,16 @@
     <script>
         let array = @json($data);
         let sort_state = 0;
+
+        const button = document.querySelector('#search_button');
+
+        // id="search_button"
+        document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            button.click();
+        }
+        });
     </script>
 
 @endsection
