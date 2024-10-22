@@ -52,7 +52,11 @@ class QuickDataController extends Controller
                 $this->Change_log($data->id, "", "Insert", "Quick Data Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
                 return redirect("/quick/data/1")->with('success',"Added 1 Record success.");
             }else{
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                 return redirect("/quick/data/1")->with('fail',"Added  fail.");
             }
     }

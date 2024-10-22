@@ -1442,7 +1442,11 @@ function update_quick_data(item) {
     let reference = document.querySelector("#reference_update");
     let span_reference = document.querySelector("#span_reference");
     if (isObject(item) == true) {
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
         if (content) {
             content.value = item.content;
         }
@@ -1452,6 +1456,7 @@ function update_quick_data(item) {
         if (id) {
             id.value = item.id;
         }
+<<<<<<< HEAD
 
         if(item.type == 'Employee'){
             reference.style.display = 'block';
@@ -1463,7 +1468,20 @@ function update_quick_data(item) {
         }
     } else {
 
+=======
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
 
+        if(item.type == 'Employee'){
+            reference.style.display = 'block';
+            span_reference.style.display = 'block';
+            reference.value = item.reference;
+        }else{
+            reference.style.display = 'none';
+            span_reference.style.display= 'none';
+        }
+    } else {
+       
+        
         if (content) {
             content.value = array[item].content;
         }
@@ -3206,7 +3224,11 @@ async function search_quick_data(no) {
                 let total_label = document.querySelector("#total_state");
                 if (totalRecord) {
                     total_label.innerHTML = `
+<<<<<<< HEAD
 
+=======
+     
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                        <span class="font-bold flex justify-left items-center text-gray-900 dark:text-white">Found: ${totalPage} Pages
                                     &ensp; ${totalRecord} Records</span>
                  `;
@@ -3343,10 +3365,17 @@ async function search_quick_data(no) {
                                </td>
                                  <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                     ${item.type}
+<<<<<<< HEAD
                                </td>
                                       <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                     ${item.reference??''}
                                </td>
+=======
+                               </td>    
+                                      <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                    ${item.reference??''}
+                               </td>  
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                      <button type="button" data-modal-target="small-modal"
                                             data-modal-toggle="small-modal"
@@ -3489,11 +3518,19 @@ function change_type(){
     let user_department = document.querySelector("#dep_user");
     if(select_type){
         if(select_type.value == 'Employee'){
+<<<<<<< HEAD
 
                 user_department.style.display = 'block';
 
         }else{
 
+=======
+  
+                user_department.style.display = 'block';
+   
+        }else{
+       
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
             user_department.style.display = 'none';
 
     }
@@ -3502,10 +3539,17 @@ function change_type(){
 
 
 function change_department(){
+<<<<<<< HEAD
     // Select value
     let reference = document.querySelector("#reference_update");
 
     // Span Text
+=======
+    // Select value 
+    let reference = document.querySelector("#reference_update");
+
+    // Span Text 
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
     let span_reference = document.querySelector("#span_reference");
 
     let type =  document.querySelector("#type_update");
@@ -3518,6 +3562,7 @@ function change_department(){
             }else{
                 span_reference.style.display = 'none';
                 reference.style.display = 'none';
+<<<<<<< HEAD
             }
         }
     }
@@ -3876,3 +3921,14 @@ async function search_asset_for_movement(no) {
     }
     document.querySelector("#loading").style.display = "none";
 }
+=======
+            }  
+        }
+    }
+
+      
+
+   
+
+}
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149

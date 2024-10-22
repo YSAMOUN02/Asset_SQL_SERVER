@@ -95,7 +95,11 @@
                         class="percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value="{{ old('asset_code1', $asset[$current_varaint]->assets1 ?? '') }}" />
 
+<<<<<<< HEAD
                     <input type="text" name="asset_code2"
+=======
+                    <input type="text" name="asset_code2" 
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                         value="{{ old('asset_code1', $asset[$current_varaint]->assets2 ?? '') }}"
                         class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 </div>

@@ -7,7 +7,11 @@
         </div>
 
     </div>
+<<<<<<< HEAD
     <form class="p-2 lg:p-10 py-2 lg:py-15 dark:bg-gray-900" enctype="multipart/form-data" action="/admin/movement/add/detail/submit" method="POST">
+=======
+    <form class="p-2 lg:p-10 py-2 lg:py-15 dark:bg-gray-900" enctype="multipart/form-data" action="/admin/movement/add/submit" method="POST">
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
         @csrf
         <h1 class="title_base dark:text-blue-100">Movement Info</h1>
         <div class="grid grid-cols-2 gap-6 mb-6 md:grid-cols-2">
@@ -45,14 +49,23 @@
 
             <div class="grid gap-6 lg:grid-cols-1 md:grid-cols-1">
                 <span class="title_base text-lg dark:text-blue-100">Movement From</span>
+<<<<<<< HEAD
 
+=======
+                
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
 
 
                 <div>
                     <label for="from_department"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">From Department</label>
+<<<<<<< HEAD
 
 
+=======
+                    
+                        
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
 
                         @if(!empty($department))
                             <select id="from_department"  name="from_department"
@@ -62,7 +75,11 @@
                                 <option value="{{$item->content}}">{{$item->content}}</option>
                                 @endforeach
                             </select>
+<<<<<<< HEAD
                         @else
+=======
+                        @else 
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                         <input type="text" id="from_department"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         name="from_department" />
@@ -85,6 +102,7 @@
                 <div>
                     <label for="given_by" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Given
                         by</label>
+<<<<<<< HEAD
                         @if(!empty(Auth::user()->name))
                         <input  id="to_department" readonly  value="{{Auth::user()->name}}"     name="to_department" type="text" class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
@@ -95,6 +113,23 @@
 
                 </div>
 
+=======
+                        @if(!empty($given_by))
+                        <select  id="to_department"      name="to_department"
+                            class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value=""></option>
+                            @foreach ($given_by as $item)
+                                <option value="{{$item->name}}">{{$item->name}}</option>
+                            @endforeach
+                        </select>
+                    @else 
+                        <input type="text" id="given_by"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        name="given_by" />
+                    @endif
+                </div>
+         
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                 <div>
                     <label for="from_remark"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark</label>
@@ -108,11 +143,19 @@
 
             <div class="grid gap-6 lg:grid-cols-1 md:grid-cols-1">
                 <span class="title_base text-lg dark:text-blue-100">Movement To</span>
+<<<<<<< HEAD
 
                 <div>
                     <label for="to_department"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To Department</label>
 
+=======
+              
+                <div>
+                    <label for="to_department"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To Department</label>
+                  
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
 
                     @if(!empty($department))
                         <select  id="to_department"      name="to_department"
@@ -122,7 +165,11 @@
                             <option value="{{$item->content}}">{{$item->content}}</option>
                             @endforeach
                         </select>
+<<<<<<< HEAD
                     @else
+=======
+                    @else 
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                     <input type="text" id="to_department"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         name="to_department" />
@@ -166,7 +213,11 @@
                 <label for="condition" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Conditions
                 </label>
+<<<<<<< HEAD
                 <textarea id="condition" name="condition"
+=======
+                <textarea id="condition" name="condition" 
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
             </div>
             <div>
@@ -219,15 +270,24 @@
 
                     <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
                         <div class="hidden">
+<<<<<<< HEAD
 
                             <input type="text"  readonly
+=======
+   
+                            <input type="text" id="Reference" readonly
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 name="id_assets" value="{{ old('id', $asset->id ?? '') }}"  />
                                 <input type="text" id="Reference" readonly
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     name="varaint" value="{{ old('id', $asset->varaint ?? '') }}"  />
                         </div>
+<<<<<<< HEAD
 
+=======
+                        
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                         <div>
                             <label for="Reference"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference <span
@@ -691,11 +751,19 @@
                     <div id="qr_code">
                         <a target="_blank"
                             href="/admin/qr/code/print/assets={{ $asset->assets1 . $asset->assets2 }}">
+<<<<<<< HEAD
 
                             {!! QrCode::size(150)->generate($asset->assets1 . $asset->assets2) !!}
                         </a>
 
 
+=======
+                      
+                            {!! QrCode::size(150)->generate($asset->assets1 . $asset->assets2) !!}
+                        </a>
+            
+            
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                     </div>
                     <h1 class="mb-2 title_base dark:text-blue-100">Image </h1>
                     <input type="text" class="hidden" name="image_state" value="0" id="image_state">
@@ -822,7 +890,11 @@
 
         <div class="btn_float_right">
 
+<<<<<<< HEAD
             <button type="submit"
+=======
+            <button type="submit" 
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
                 class="text-white mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Submit
             </button>

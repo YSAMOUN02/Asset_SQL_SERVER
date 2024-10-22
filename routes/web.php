@@ -51,9 +51,15 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/admin/assets/change/log/{page}', [ChangeLogController::class, 'ChangeLog']);
+<<<<<<< HEAD
 
 
 
+=======
+        
+
+    
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
 
     Route::get('/quick/data/{page}', [QuickDataController::class, 'control_quick_data']);
 
@@ -80,6 +86,17 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/admin/movement/list/{page}', [MovementController::class, 'movement_list']);
 
+<<<<<<< HEAD
+=======
+    Route::get('/admin/transfer/add', [MovementController::class, 'add_transfer']);
+    
+    Route::get('/admin/transfer/add/assets_id={id}', [MovementController::class, 'add_transfer_detail']);
+
+    Route::post('/admin/movement/add/submit', [MovementController::class, 'add_transfer_submit']);
+
+    Route::get('/admin/movement/list/{page}', [MovementController::class, 'movement_list']);
+    
+>>>>>>> 7e8c0a5877d164739db0cb203f83f0f2a0f09149
 });
 
 
