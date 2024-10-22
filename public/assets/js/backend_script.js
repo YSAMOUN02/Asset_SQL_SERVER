@@ -2793,12 +2793,13 @@ async function raw_assets(no) {
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             ${item.description}
                         </td>
-                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                             <a href="/admin/assets/add/assets=${
                                 item.assets
-                            }/invoice_no=${item.fa ? item.fa : "NA"}"
+                            }/invoice_no=${item.fa ? item.fa.replace(/\//g, '-') : "NA"}"
                                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a>
                         </td>
+
                     </tr>
                 `
                 )

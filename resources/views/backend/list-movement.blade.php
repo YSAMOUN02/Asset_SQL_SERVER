@@ -371,7 +371,7 @@
                                     {{ $item->movement_no }}
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{-- {{ $item->assets->assets1 . $item->assets->assets2 }} --}}
+                      
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->reference }}
