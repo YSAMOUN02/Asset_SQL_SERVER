@@ -80,6 +80,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/admin/movement/list/{page}', [MovementController::class, 'movement_list']);
 
+    Route::get('/admin/movement/edit/id={id}/assets_id={assets_id}/varaint={assets_varaint}', [MovementController::class, 'update_movement_list']);
+
 });
 
 

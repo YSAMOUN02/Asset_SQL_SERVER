@@ -124,12 +124,18 @@ class MovementController extends Controller
         if($page != 0){
             $offset = ($page - 1) * $limit;
         }
+        // $movement = movement::select('id', 'field1', 'field2') // Replace 'field1', 'field2' with actual fields
+        // ->orderby('id', 'desc')
+        // ->with(['assets' => function($query) {
+        //     $query->select('id', 'fieldA', 'fieldB'); // Replace 'fieldA', 'fieldB' with actual asset fields
+        // }])
+        // ->get();
 
 
-        $movement = movement::orderby('id','desc')
-        ->with(['assets'])
-        ->where('status' , 0)
-        ;
+        $movement = movement::orderby('id','desc');
+        // ->with(['assets'])
+
+
         $movement->limit($limit);
         $movement->offset($offset);
         $data = $movement->get();
@@ -144,6 +150,17 @@ class MovementController extends Controller
         'total_page' => $total_page,
         'department' =>  $department
     ]);
+    }
+
+    public function update_movement_list($id,$assets_id,$assets_varaint){
+
+
+        $movement = movement::where('id',$id)->first();
+
+        $asset = StoredAssets::where('assets_id',$assets_id)->where('varaint',$assets_varaint)->first();
+
+        return view('backend.update-movement',['asset'=>$asset]);
+
     }
 }
 

@@ -371,7 +371,7 @@
                                     {{ $item->movement_no }}
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                      
+                                    {{$item->assets_no}}
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->reference }}
@@ -412,13 +412,21 @@
 
                                     {{-- BTN UPDATE  --}}
 
-                                    <a href="/admin/assets/edit/id={{ $item->assets_id }}">
+                                  @if ($item->status == 0)
+                                    <a href="/admin/movement/edit/id={{ $item->id }}/assets_id={{$item->assets_id }}/varaint={{$item->varaint}}">
                                         <button type="button"
                                             class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                         </button>
                                     </a>
-
+                                    @else
+                                    <a href="/admin/movement/edit/id={{ $item->id }}/assets_id={{$item->assets_id }}/varaint={{$item->varaint}}">
+                                        <button type="button"
+                                        class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                        <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
+                                    </button>
+                                    </a>
+                                  @endif
 
 
                                     @if (Auth::user()->Permission->assets_delete == 1)
