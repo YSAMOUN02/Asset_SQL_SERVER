@@ -653,7 +653,7 @@ class ApiHandlerController extends Controller
         $description = $request->description ?? "";
         $start = $request->start ?? "";
         $end = $request->end ?? "";
-        $state = $request->state ?? "NA";
+        // $state = $request->state ?? "NA";
         $type = $request->type ?? "NA";
         $value = $request->value ?? "NA";
         $id = $request->id ?? "NA";
@@ -708,19 +708,19 @@ class ApiHandlerController extends Controller
             $data->where('created_at', '<=', $endDate);
         }
 
+        $data->where("status", 0);
+        // if($state != "NA"){
+        //     if ($state == "All") {
+        //     } elseif ($state == 0) {
+        //         $data->where("status", 0);
+        //     } elseif ($state == 1) {
+        //         $data->where("status", 1);
+        //     } elseif ($state == 2) {
+        //         $data->where("status", 2);
+        //     }
 
-        if($state != "NA"){
-            if ($state == "All") {
-            } elseif ($state == 0) {
-                $data->where("status", 0);
-            } elseif ($state == 1) {
-                $data->where("status", 1);
-            } elseif ($state == 2) {
-                $data->where("status", 2);
-            }
 
-
-        }
+        // }
 
         if ($type != "NA" && $value != "NA") {
             $data->where($type, 'LIKE', '%' . $value . '%');

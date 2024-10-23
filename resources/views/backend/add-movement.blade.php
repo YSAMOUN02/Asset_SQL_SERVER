@@ -30,11 +30,29 @@
             <div>
                 <label for="reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference <span
                         class="text-rose-500">*</span></label>
+
+                @if (!empty($old_reference))
                 <input type="text" id="reference"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    name="reference" value="{{$old_reference}}" />
+                @else
+                    <input type="text" id="reference"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="reference"  />
+                @endif
             </div>
 
+            <div>
+                <label for="reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Previous Movement No<span
+                        class="text-rose-500">*</span></label>
+                    @if(!empty($old_movement))
+                    <input type="text" id="reference"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    name="reference" value="{{$old_movement}}" readonly />
+                    @endif
+
+
+            </div>
 
 
 
@@ -46,7 +64,38 @@
             <div class="grid gap-6 lg:grid-cols-1 md:grid-cols-1">
                 <span class="title_base text-lg dark:text-blue-100">Movement From</span>
 
+                <div>
+                    <label for="from_department"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">From Company</label>
 
+
+
+                        @if(!empty( $company ))
+                            <select id="from_company"  name="from_company"
+                                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                @if(!empty($old_company))
+                                    <option selected value="{{$old_company}}">{{$old_company}}</option>
+                                    @foreach ($company as $item)
+                                        @if ($item->content != $old_company)
+                                        <option value="{{$item->content}}">{{$item->content}}</option>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    @foreach ($company as $item)
+                                    @if ($item->content != $old_company)
+                                    <option value="{{$item->content}}">{{$item->content}}</option>
+                                    @endif
+                                    @endforeach
+                                @endif
+                                <option value=""></option>
+
+                            </select>
+                        @else
+                        <input type="text" id="from_department"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        name="from_department" />
+                        @endif
+                </div>
                 <div>
                     <label for="from_department"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">From Department</label>
@@ -56,10 +105,19 @@
                         @if(!empty($department))
                             <select id="from_department"  name="from_department"
                                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    @if(!empty($old_department))
+                                    <option selected value="{{$old_department}}">{{$old_department}}</option>
+                                    @foreach ($department as $item)
+                                        @if ($item->content != $old_department)
+                                        <option value="{{$item->content}}">{{$item->content}}</option>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    @foreach ($department as $item)
+                                    <option value="{{$item->content}}">{{$item->content}}</option>
+                                    @endforeach
+                                @endif
                                 <option value=""></option>
-                                @foreach ($department as $item)
-                                <option value="{{$item->content}}">{{$item->content}}</option>
-                                @endforeach
                             </select>
                         @else
                         <input type="text" id="from_department"
@@ -70,16 +128,32 @@
                 <div>
                     <label for="from_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">From
                         Name</label>
-                    <input type="text" id="from_name"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="from_name" />
+
+                        @if (!empty($old_location))
+                            <input type="text" id="from_name"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            name="from_name"  value="{{$old_user}}" />
+                        @else
+                            <input type="text" id="from_name"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            name="from_name" />
+                        @endif
+
                 </div>
                 <div>
                     <label for="from_location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current
                         Location <span class="text-rose-500">*</span></label>
-                    <input type="text" id="from_location"
+
+                    @if (!empty($old_location))
+                        <input type="text" id="from_location"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        name="from_location"  value="{{$old_location}}" />
+                    @else
+                        <input type="text" id="from_location"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         name="from_location"  />
+                    @endif
+
                 </div>
                 <div>
                     <label for="given_by" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Given
@@ -107,7 +181,26 @@
 
             <div class="grid gap-6 lg:grid-cols-1 md:grid-cols-1">
                 <span class="title_base text-lg dark:text-blue-100">Movement To</span>
+                <div>
+                    <label for="from_department"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To Company</label>
 
+
+
+                        @if(!empty( $company ))
+                            <select id="to_company"  name="to_company"
+                                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option value=""></option>
+                                @foreach ($company as $item)
+                                <option value="{{$item->content}}">{{$item->content}}</option>
+                                @endforeach
+                            </select>
+                        @else
+                        <input type="text" id="from_department"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        name="from_department" />
+                        @endif
+                </div>
                 <div>
                     <label for="to_department"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To Department</label>
@@ -221,7 +314,7 @@
 
                             <input type="text"  readonly
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                name="id_assets" value="{{ old('id', $asset->assets_id ?? '') }}"  />
+                                name="id_assets" value="{{ old('id',$asset->assets_id?? '') }}"  />
                                 <input type="text" id="Reference" readonly
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     name="varaint" value="{{ old('id', $asset->varaint ?? '') }}"  />

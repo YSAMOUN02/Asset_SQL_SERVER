@@ -67,7 +67,7 @@
 
 
 
-                    <div>
+                    {{-- <div>
                         <label for="state"
                             class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">State</label>
                         <select id="state" name="state"
@@ -75,11 +75,11 @@
                             <option value="All">All</option>
                             <option value="0">Active</option>
                             <option value="2">Sold</option>
-                            <option value="1">Deleted</option>
+
 
 
                         </select>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="max-w-full items-center flex  justify-between px-2 mt-1 lg:mt-2 py-1 lg:py-2 sm:grid sm:grid-cols-1">
                     <div class="flex main_page justify-between items-center" >

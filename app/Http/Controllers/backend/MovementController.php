@@ -23,7 +23,7 @@ class MovementController extends Controller
             $page = 1;
         }
         $data = StoredAssets::Orderby('assets_id', 'desc')->where('last_varaint', 1);
-        $data->where('status','<>',1);
+        $data->where('status',0);
 
 
         $limit = 150;
@@ -58,7 +58,8 @@ class MovementController extends Controller
 
     public function add_transfer_detail($id)
     {
-        // $old_data = Movement::where()
+
+
 
 
 
@@ -66,20 +67,52 @@ class MovementController extends Controller
             ->where('assets_id', $id)
             ->where('last_varaint', 1)
             ->first();
-
-
+        $old_reference = '';
+        $old_reference = $asset->document;
         $department = QuickData::where('type', "department")->select('id', 'content')->orderby('id', 'desc')->get();
         $company  = QuickData::where('type', "company")->select('id', 'content')->orderby('id', 'desc')->get();
 
 
+        $old_data_qty = Movement::where('assets_id',$id)->count();
+        $old_movement = 'N/A';
+
+        $old_user = '';
+        $old_company = '';
+        $old_department = '';
+        $old_location = '';
+        if($old_data_qty > 0){
+
+            $old_movement_data = Movement::where('assets_id',$id)->orderby('id','desc')->first();
+            $old_movement = $old_movement_data->movement_no;
+
+            $old_company =  $old_movement_data->to_company;
+            $old_user =  $old_movement_data->to_name;
+            $old_department = $old_movement_data->to_department;
+            $old_location = $old_movement_data->to_location;
+        }else{
+            $old_movement = 'N/A';
+            $old_reference = $asset->document;
+            $old_company = $asset->company;
+            $old_user = $asset->holder_name;
+            $old_department = $asset->department;
+            $old_location = $asset->location;
+
+
+        }
 
         return view("backend.add-movement", [
         'asset' => $asset,
         'department' => $department,
-        'company' => $company
-
+        'company' => $company,
+        'old_movement' => $old_movement,
+        'old_reference'=>$old_reference ,
+        'old_user' => $old_user,
+        'old_company' => $old_company,
+        'old_department' => $old_department,
+        'old_location'=> $old_location
         ]);
     }
+
     public function add_transfer_submit(request $request) {
 
         if(Auth::user()->permission->transfer_write == 1){
@@ -88,11 +121,13 @@ class MovementController extends Controller
                 $new_movement->movement_date =  $request->movement_date ? Carbon::parse( $request->movement_date)->format('Y-m-d H:i:s') : null;
                 $new_movement->reference =  $request->reference??'';
                 $new_movement->from_name = $request->from_name??'';
+                $new_movement->from_company = $request->from_company??'';
                 $new_movement->from_department =  $request->from_department??'';
                 $new_movement->from_location = $request->from_location??'';
                 $new_movement->given_by = $request->given_by??'';
                 $new_movement->from_remark = $request->from_remark??'';
                 $new_movement->to_name = $request->to_name??'';
+                $new_movement->to_company = $request->to_company??'';
                 $new_movement->to_department = $request->to_department??'';
                 $new_movement->to_location = $request->to_location??'';
                 $new_movement->received_by = $request->received_by??'';

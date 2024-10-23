@@ -18,11 +18,13 @@ return new class extends Migration
             $table->date('movement_date')->nullable();
             $table->string('reference')->nullable();
             $table->string('from_name')->nullable();
+            $table->string('from_company')->nullable();
             $table->string('from_department')->nullable();
             $table->string('from_location')->nullable();
             $table->string('given_by')->nullable();
             $table->string('from_remark')->nullable();
             $table->string('to_name')->nullable();
+            $table->string('to_company')->nullable();
             $table->string('to_department')->nullable();
             $table->string('to_location')->nullable();
             $table->string('received_by')->nullable();

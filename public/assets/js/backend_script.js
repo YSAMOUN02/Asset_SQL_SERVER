@@ -3847,7 +3847,7 @@ async function search_asset_for_movement(no) {
                                 <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
                                 style="  position: sticky; right: 0; ">
 
-                                    <a href="/admin/movement/add/assets_id=${ item.assets_id }"
+                                    <a href="/admin/movement/add/detail/id=${ item.assets_id }"
                                         class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Create Movement</a>
                                 </td>
                             </tr>

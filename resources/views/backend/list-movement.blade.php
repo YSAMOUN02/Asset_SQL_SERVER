@@ -286,11 +286,8 @@
 
                         </div>
                         <div class="flex fix_button">
-                            <button type="button" id="export_excel" onclick="export_group()"
-                                class="text-white  hidden bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                Export
-                            </button>
-                            <button type="button" onclick="search_asset(0)"
+
+                            <button type="button" onclick="search_asset(0)" id="search_button"
                                 class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                 <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                             </button>
@@ -473,5 +470,17 @@
 
 
         let sort_state = 0;
+
+
+
+        const button = document.querySelector('#search_button');
+
+        // id="search_button"
+        document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            button.click();
+        }
+        });
     </script>
 @endsection
