@@ -3866,3 +3866,4 @@ async function search_asset_for_movement(no) {
     }
     document.querySelector("#loading").style.display = "none";
 }
+

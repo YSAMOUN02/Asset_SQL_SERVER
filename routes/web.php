@@ -80,7 +80,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/admin/movement/list/{page}', [MovementController::class, 'movement_list']);
 
-    Route::get('/admin/movement/edit/id={id}/assets_id={assets_id}/varaint={assets_varaint}', [MovementController::class, 'update_movement_list']);
+    Route::get('/admin/movement/edit/id={id}/assets_id={assets_id}/varaint={assets_varaint}/page={page}', [MovementController::class, 'update_movement_detail']);
+
+    Route::get('/admin/movement/view/id={id}/assets_id={assets_id}/varaint={assets_varaint}/page={page}', [MovementController::class, 'view_movement_detail']);
+
+    Route::post('/admin/movement/admin/delete/submit', [MovementController::class, 'delete_movement_detail']);
 
 });
 

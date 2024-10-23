@@ -18,7 +18,7 @@ class MovementController extends Controller
 
     public function add_transfer($page)
     {
-
+        if(Auth::user()->permission->transfer_write == 1){
         if($page == "1"){
             $page = 1;
         }
@@ -51,6 +51,9 @@ class MovementController extends Controller
             'total_record' =>$count_post,
             'total_page' => $total_page
         ]);
+    }else{
+            return redirect('/')->with('fail','You do not have permission Movement Write.');
+        }
     }
 
     public function add_transfer_detail($id)
@@ -79,87 +82,146 @@ class MovementController extends Controller
     }
     public function add_transfer_submit(request $request) {
 
-        $new_movement = new movement();
-        $new_movement->movement_no =   $request->movement_no;
-        $new_movement->movement_date =  $request->movement_date ? Carbon::parse( $request->movement_date)->format('Y-m-d H:i:s') : null;
-        $new_movement->reference =  $request->reference??'';
-        $new_movement->from_name = $request->from_name??'';
-        $new_movement->from_department =  $request->from_department??'';
-        $new_movement->from_location = $request->from_location??'';
-        $new_movement->given_by = $request->given_by??'';
-        $new_movement->from_remark = $request->from_remark??'';
-        $new_movement->to_name = $request->to_name??'';
-        $new_movement->to_department = $request->to_department??'';
-        $new_movement->to_location = $request->to_location??'';
-        $new_movement->received_by = $request->received_by??'';
-        $new_movement->received_date = $request->received_date ? Carbon::parse($request->received_date)->format('Y-m-d H:i:s') : null;
-        $new_movement->condition = $request->condition??'';
-        $new_movement->purpose = $request->purpose??'';
-        $new_movement-> verify_by = $request->verify_by??'';
-        $new_movement->authorized_by = $request->authorized_by??'';
-        $new_movement->assets_id = $request->id_assets??"";
-        $new_movement->assets_no = $request->assets_no??"";
-        $new_movement->varaint = $request->varaint??0;
-        $new_movement->save();
+        if(Auth::user()->permission->transfer_write == 1){
+                $new_movement = new movement();
+                $new_movement->movement_no =   $request->movement_no;
+                $new_movement->movement_date =  $request->movement_date ? Carbon::parse( $request->movement_date)->format('Y-m-d H:i:s') : null;
+                $new_movement->reference =  $request->reference??'';
+                $new_movement->from_name = $request->from_name??'';
+                $new_movement->from_department =  $request->from_department??'';
+                $new_movement->from_location = $request->from_location??'';
+                $new_movement->given_by = $request->given_by??'';
+                $new_movement->from_remark = $request->from_remark??'';
+                $new_movement->to_name = $request->to_name??'';
+                $new_movement->to_department = $request->to_department??'';
+                $new_movement->to_location = $request->to_location??'';
+                $new_movement->received_by = $request->received_by??'';
+                $new_movement->received_date = $request->received_date ? Carbon::parse($request->received_date)->format('Y-m-d H:i:s') : null;
+                $new_movement->condition = $request->condition??'';
+                $new_movement->purpose = $request->purpose??'';
+                $new_movement-> verify_by = $request->verify_by??'';
+                $new_movement->authorized_by = $request->authorized_by??'';
+                $new_movement->assets_id = $request->id_assets??"";
+                $new_movement->assets_no = $request->assets_no??"";
+                $new_movement->varaint = $request->varaint??0;
+                $new_movement->save();
 
-        $this->Change_log( $new_movement->id, 0, "Insert", "Movement Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);
-        if ($new_movement) {
-            return redirect('/admin/movement/list/1')->with('success', 'Added 1 Asset Movement.');
-        } else {
-            return redirect('/admin/movement/list/1')->with('fail', 'Opp!. Something when wronge.');
+                $this->Change_log( $new_movement->id, 0, "Insert", "Movement Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);
+                if ($new_movement) {
+                    return redirect('/admin/movement/list/1')->with('success', 'Added 1 Asset Movement.');
+                } else {
+                    return redirect('/admin/movement/list/1')->with('fail', 'Opp!. Something when wronge.');
+                }   }
+        else{
+            return redirect('/')->with('fail','You do not have permission Movement Write.');
         }
     }
 
 
     public function movement_list($page){
-        if($page == "1"){
-            $page =1;
+
+
+
+        if(Auth::user()->permission->transfer_read == 1){
+            if($page == "1"){
+                $page =1;
+            }
+
+            $limit = 150;
+            $count_post = movement::count();
+
+            $total_page = ceil($count_post/$limit);
+            $offset = 0;
+            if($page != 0){
+                $offset = ($page - 1) * $limit;
+            }
+
+
+
+            $movement = movement::orderby('id','desc');
+            // ->with(['assets'])
+
+
+            $movement->limit($limit);
+            $movement->offset($offset);
+            $data = $movement->get();
+
+            $department = QuickData::where('type', "department")->select('id', 'content')->orderby('id', 'desc')->get();
+            return view('backend.list-movement',
+        [
+            'movement' => $data,
+            'page' => $page,
+            'total_record' =>$count_post,
+            'total_page' => $total_page,
+            'department' =>  $department
+        ]);
+        }else{
+            return redirect('/')->with('fail','You do not have permission Movement Read.');
         }
 
-        $limit = 150;
-        $count_post = movement::count();
 
-        $total_page = ceil($count_post/$limit);
-        $offset = 0;
-        if($page != 0){
-            $offset = ($page - 1) * $limit;
-        }
-        // $movement = movement::select('id', 'field1', 'field2') // Replace 'field1', 'field2' with actual fields
-        // ->orderby('id', 'desc')
-        // ->with(['assets' => function($query) {
-        //     $query->select('id', 'fieldA', 'fieldB'); // Replace 'fieldA', 'fieldB' with actual asset fields
-        // }])
-        // ->get();
-
-
-        $movement = movement::orderby('id','desc');
-        // ->with(['assets'])
-
-
-        $movement->limit($limit);
-        $movement->offset($offset);
-        $data = $movement->get();
-
-        // return $data;
-        $department = QuickData::where('type', "department")->select('id', 'content')->orderby('id', 'desc')->get();
-        return view('backend.list-movement',
-    [
-        'movement' => $data,
-        'page' => $page,
-        'total_record' =>$count_post,
-        'total_page' => $total_page,
-        'department' =>  $department
-    ]);
     }
 
-    public function update_movement_list($id,$assets_id,$assets_varaint){
+    public function update_movement_detail($id,$assets_id,$assets_varaint,$page){
+        if(Auth::user()->permission->transfer_update == 1){
 
+            $movement = movement::where('id',$id)->first();
 
-        $movement = movement::where('id',$id)->first();
+            $asset = StoredAssets::where('assets_id',$assets_id)->where('varaint',$assets_varaint)->first();
+            $update_able = 1;
+            return view('backend.update-movement',[
+                'asset'=>$asset,
+                'update_able' => $update_able,
+                'page' => $page
+            ]);
+        }else{
+            return redirect('/')->with('fail','You do not have permission Movement Update.');
+        }
+    }
 
-        $asset = StoredAssets::where('assets_id',$assets_id)->where('varaint',$assets_varaint)->first();
+    public function view_movement_detail($id,$assets_id,$assets_varaint,$page){
 
-        return view('backend.update-movement',['asset'=>$asset]);
+        if(Auth::user()->permission->transfer_read == 1){
+            $movement = movement::where('id',$id)->first();
+            $asset = StoredAssets::where('assets_id',$assets_id)->where('varaint',$assets_varaint)->first();
+            $update_able = 0;
+            return view('backend.update-movement',[
+                'asset'=>$asset,
+                'update_able' => $update_able,
+                'page' => $page
+            ]);
+        }else{
+            return redirect('/')->with('fail','You do not have permission Movement Read.');
+        }
+
+}
+    public function delete_movement_detail(request $request) {
+
+        if(Auth::user()->permission->transfer_delete == 1){
+
+            if(Auth::user()->role == 'admin'){
+                $deleted =  movement::where('id',$request->id)->delete();
+
+                if($deleted){
+                    return redirect('/admin/movement/list/1')->with('success','Deleted 1 Movement Record.');
+                }else{
+                    return redirect('/admin/movement/list/1')->with('fail','Opps!.Something Went wronge.');
+                }
+            }elseif(Auth::user()->role == 'staff'){
+                $deleted =  movement::where('id',$request->id)->first();
+                $deleted->status = 3;
+                $deleted->save();
+                if($deleted){
+                    return redirect('/admin/movement/list/1')->with('success','Deleted 1 Movement Record.');
+                }else{
+                    return redirect('/admin/movement/list/1')->with('fail','Opps!.Something Went wronge.');
+                }
+
+            }
+
+        }else{
+            return redirect('/admin/movement/list/1')->with('fail','You do not have permission to delete movement Record.');
+        }
 
     }
 }

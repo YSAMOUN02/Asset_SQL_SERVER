@@ -137,7 +137,7 @@
                     name="location" />
             </div>
             <div>
-              
+
                 <label for="department"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
                 <select id="department" name="department"
@@ -148,6 +148,7 @@
                             <option value="{{$item->content}}">{{$item->content}}</option>
                         @endforeach
                     @endif
+
                 </select>
             </div>
             <div>
@@ -160,6 +161,7 @@
                             <option value="{{$item->content}}">{{$item->content}}</option>
                         @endforeach
                     @endif
+
                 </select>
             </div>
             <div>

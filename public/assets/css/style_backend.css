@@ -20,10 +20,10 @@ body{
 }
 .search-bar{
   width: 70wh;
-  border-radius: 0 !important; 
+  border-radius: 0 !important;
   position: sticky;
   top: 0;
- 
+
   z-index: 49;
 
 }
@@ -46,7 +46,7 @@ body{
   top: 0px;
   z-index: 999;
 }
-#list_assets th:hover  ,#quick_tr_header:hover, #user_th{ 
+#list_assets th:hover  ,#quick_tr_header:hover, #user_th{
   cursor: pointer;
 }
 .table_respond{
@@ -83,7 +83,7 @@ body{
     background: rgb(228, 228, 228);
   }
   .label_user{
- 
+
     padding: 10px 50px 5px 10px;
 
   }
@@ -148,12 +148,12 @@ body{
   font-size: 25px;
 }
 #download_image{
-  display: none;  
+  display: none;
   position: absolute;
   top: 10px;
   right: 10px;
   z-index: 1;
-  font-size: 25px; 
+  font-size: 25px;
 }
 .image_box:hover  #delete_image{
   display: block;
@@ -236,7 +236,7 @@ body{
 
   width: 100%;
   height: 90%;
-  
+
 }
 .inner-data table thead{
   position: sticky;
@@ -332,7 +332,7 @@ z-index: 99;
   height: 500px;
   padding: 20px;
   border-radius: 10px;
-  position: fixed;    
+  position: fixed;
   font-weight: 800;
   top: 400px ;
   left: 50%;
@@ -361,11 +361,11 @@ z-index: 99;
     }100%{
       display: none;
     }
-  } 
+  }
    @keyframes fade_up{
     0%{
-       
-      
+
+
         opacity: 1;
     }
     100%{
@@ -406,7 +406,7 @@ z-index: 99;
   .table-data button{
     padding: 5px  10px!important;
   }
- 
+
   .fix_button{
     position: fixed;
     right: 20px;
@@ -424,7 +424,7 @@ z-index: 99;
     transform: translate(-50%,-50%);
     width: 98% !important;
     height: 80vh;
-  
+
     z-index: 9999;
     background-color: white;
     border:  1px solid black;
@@ -434,8 +434,8 @@ z-index: 99;
   .table_select span{
     font-size: 15px !important;
     font-weight: 400;
-  
-  
+
+
   }
 
 }

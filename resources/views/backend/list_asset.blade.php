@@ -438,8 +438,14 @@
                                 </td>
                                 <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
                                     style="  position: sticky; right: 0; ">
-
+                                    @if (Auth::user()->Permission->assets_read == 1 && Auth::user()->Permission->assets_update == 0)
+                                        <button type="button"
+                                            class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                            <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
+                                        </button>
+                                    @endif
                                     {{-- BTN UPDATE  --}}
+                                    @if (Auth::user()->Permission->assets_update == 1)
 
                                     <a href="/admin/assets/edit/id={{ $item->assets_id }}">
                                         <button type="button"
@@ -447,7 +453,7 @@
                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                         </button>
                                     </a>
-
+                                    @endif
 
 
                                     @if (Auth::user()->Permission->assets_delete == 1)
