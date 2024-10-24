@@ -9,6 +9,7 @@ use App\Models\QuickData;
 use App\Models\RawFixAssets;
 use App\Models\StoredAssets;
 use App\Models\StoredAssetsUser;
+use App\Models\movement;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -756,6 +757,79 @@ class ApiHandlerController extends Controller
         } else {
             return response()->json([]);
         }
+    }
+
+
+    public function search_movement_more(Request $request){
+
+
+        $id = $request->movement_id ??'NA';
+        $movement_no = $request->movement_no??'NA';
+        $assets = $request->assets??'NA';
+        $reference  = $request->reference??'NA';
+        $from_department = $request->from_department??'NA';
+        $to_department   = $request->to_department??'NA';
+        $start = $request->start_date??'NA';
+        $end = $request->end_date??'NA';
+        $other_search  = $request->other_search??'NA';
+        $other_value = $request->other_value??'NA';
+        $page = $request->page??1;
+
+        $data = movement::orderBy('id','desc');
+
+        if($id != 'NA'){
+            $data->where('id','LIKE','%'.$id.'%');
+        }
+        if($movement_no != 'NA'){
+            $data->where('movement_no','LIKE','%'.$movement_no.'%');
+        }
+        if($assets != 'NA'){
+            $data->where('assets_no','LIKE','%'.$assets.'%');
+        }
+        if($reference != 'NA'){
+            $data->where('reference','LIKE','%'.$reference.'%');
+        }
+        if($from_department != 'NA'){
+            $data->where('from_department','LIKE','%'.$from_department.'%');
+        }
+        if($to_department != 'NA'){
+            $data->where('to_department','LIKE','%'.$to_department.'%');
+        }
+
+
+       // Check if start and end are provided and not "NA"
+       if ($start != "NA" && $end != "NA") {
+        // Ensure both start and end are in the correct date format (e.g., 'Y-m-d H:i:s')
+        $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay(); // or use ->toDateTimeString() if needed
+        $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay(); // or use ->toDateTimeString()
+
+        // Query between the start and end dates
+        $data->whereBetween('created_at', [$startDate, $endDate]);
+
+        // Start date only provided
+        } elseif ($start != "NA" && $end == "NA") {
+            $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
+            $data->where('created_at', '>=', $startDate);
+
+            // End date only provided
+        } elseif ($start == "NA" && $end != "NA") {
+            $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
+            $data->where('created_at', '<=', $endDate);
+        }
+
+
+
+
+
+        $count = $data->count();
+        $datas = $data->get();
+
+        if( $count > 0){
+            return response()->json($datas);
+        }else{
+            return response()->json(["No found"]);
+        }
+
     }
 }
 

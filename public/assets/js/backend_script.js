@@ -3867,3 +3867,131 @@ async function search_asset_for_movement(no) {
     document.querySelector("#loading").style.display = "none";
 }
 
+async function search_movement(no){
+
+    no??1;
+
+    let id = document.querySelector("#id_movement");
+    let movement_no = document.querySelector("#movement_no");
+    let assets = document.querySelector("#assets");
+    let reference = document.querySelector("#reference");
+    let from_department = document.querySelector("#from_department");
+    let to_department = document.querySelector("#to_department");
+    let start_date = document.querySelector("#from_date");
+    let end_date = document.querySelector("#end_date");
+    let other_search_input = document.querySelector("#other_search");
+    let other_value = document.querySelector("#other_value")
+
+
+
+    // Initailize Variable
+    let id_val = 'NA';
+    let movement_no_val = 'NA';
+    let assets_val = 'NA';
+    let reference_val = 'NA';
+    let from_department_val = 'NA';
+    let to_department_val = 'NA';
+    let start_date_val = 'NA';
+    let end_date_val ='NA';
+    let other_search_val = 'NA';
+    let other_value_val = 'NA';
+
+    if(id){
+        if(id.value){
+            id_val = id.value;
+        }
+    }
+
+    if(movement_no){
+        if(movement_no.value){
+            movement_no_val = movement_no.value;
+        }
+    }
+    if(assets){
+        if(assets.value){
+            assets_val = assets.value;
+        }
+    }
+    if(reference){
+        if(reference.value){
+            reference_val = reference.value;
+        }
+    }
+    if(from_department){
+        if(from_department.value){
+            from_department_val = from_department.value;
+        }
+    }
+    if(to_department){
+        if(to_department.value){
+            to_department_val = to_department.value;
+        }
+    }
+
+    if(start_date){
+        if(start_date.value){
+            start_date_val = start_date.value;
+        }
+    }
+    if(end_date){
+        if(end_date.value){
+            end_date_val = end_date.value;
+        }
+    }
+    if(other_search == 1){
+        if(other_search_input){
+            if(other_search_input.value){
+                other_search_val = other_search_input.value;
+            }
+        }
+        if(other_value){
+            if(other_value.value){
+                other_value_val = other_value.value;
+            }
+        }
+    }
+
+    if (start_date_val && end_date_val && start_date_val != "NA" && end_date_val != "NA") {
+        if (start_date_val > end_date_val) {
+            alert(
+                "Start Date is greater than End Date.Please select correct date and Try again."
+            );
+            return;
+        }
+    }
+
+
+
+    let url = `/api/fect/search/movement/data`;
+
+    let data = await fetch(url, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            movement_id : id_val,
+            movement_no : movement_no_val,
+            assets : assets_val,
+            reference: reference_val,
+            from_department : from_department_val,
+            to_department : to_department_val,
+            start_date : start_date_val,
+            end_date : end_date_val,
+            other_search : other_search_val,
+            other_value : other_value_val,
+            page : no
+        }),
+        })
+        .then((res) => res.json())
+        .catch((error) => {
+            alert(error);
+        });
+
+        if(data){
+            console.log(data);
+        }
+
+
+}

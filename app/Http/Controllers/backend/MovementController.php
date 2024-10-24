@@ -61,7 +61,7 @@ class MovementController extends Controller
 
 
 
-
+        $new = 0;
 
         $asset = StoredAssets::with(['images', 'files'])
             ->where('assets_id', $id)
@@ -81,7 +81,7 @@ class MovementController extends Controller
         $old_department = '';
         $old_location = '';
         if($old_data_qty > 0){
-
+            $new = 1;
             $old_movement_data = Movement::where('assets_id',$id)->orderby('id','desc')->first();
             $old_movement = $old_movement_data->movement_no;
 
@@ -109,13 +109,21 @@ class MovementController extends Controller
         'old_user' => $old_user,
         'old_company' => $old_company,
         'old_department' => $old_department,
-        'old_location'=> $old_location
+        'old_location'=> $old_location,
+        'new' => $new
         ]);
     }
 
     public function add_transfer_submit(request $request) {
-
         if(Auth::user()->permission->transfer_write == 1){
+            // Check if already have movment
+            if($request->new == 1){
+                $old_movement = movement::where('assets_id',$request->id_assets)->orderby('id','desc')->first();
+                 if($old_movement){
+                    $old_movement->status = 1;
+                    $old_movement->save();
+                 }
+                }
                 $new_movement = new movement();
                 $new_movement->movement_no =   $request->movement_no;
                 $new_movement->movement_date =  $request->movement_date ? Carbon::parse( $request->movement_date)->format('Y-m-d H:i:s') : null;
@@ -146,7 +154,12 @@ class MovementController extends Controller
                     return redirect('/admin/movement/list/1')->with('success', 'Added 1 Asset Movement.');
                 } else {
                     return redirect('/admin/movement/list/1')->with('fail', 'Opp!. Something when wronge.');
-                }   }
+                }
+
+
+
+
+        }
         else{
             return redirect('/')->with('fail','You do not have permission Movement Write.');
         }

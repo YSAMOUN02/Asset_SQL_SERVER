@@ -81,18 +81,18 @@
                 @csrf
                 <div class="max-w-full min-h-full grid px-2 py-1 gap-1 lg:gap-2  grid-cols-3 lg:grid-cols-4 md:grid-cols-2">
                     <div>
-                        <label for="id_asset"
+                        <label for="id_movement"
                             class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">ID</label>
 
-                        <input type="number" id="id_asset" name="assets"
+                        <input type="number" id="id_movement" name="assets"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                     </div>
                     <div>
-                        <label for="fa" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Movement
+                        <label for="movement_no" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Movement
                             No</label>
 
-                        <input type="text" id="fa" name="fa"
+                        <input type="text" id="movement_no" name="movement_no"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                     </div>
@@ -106,20 +106,20 @@
                     </div>
 
                     <div>
-                        <label for="invoice" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Reference
+                        <label for="reference" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Reference
                         </label>
 
-                        <input type="text" id="invoice" name="invoice"
+                        <input type="text" id="reference" name="reference"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                     </div>
                     <div>
-                        <label for="description" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">From
+                        <label for="from_department" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">From
                             Department</label>
 
 
                         @if (!empty($department))
-                            <select id="description" name="description"
+                            <select id="from_department" name="from_department"
                                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value=""></option>
                                 @foreach ($department as $item)
@@ -127,17 +127,17 @@
                                 @endforeach
                             </select>
                         @else
-                            <input type="text"
+                            <input type="text" id="from_department" name="from_department"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                         @endif
                     </div>
                     <div>
-                        <label for="start_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">To
+                        <label for="to_department" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">To
                             Department</label>
 
 
                         @if (!empty($department))
-                            <select id="description" name="description"
+                            <select id="to_department" name="to_department"
                                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value=""></option>
                                 @foreach ($department as $item)
@@ -145,15 +145,15 @@
                                 @endforeach
                             </select>
                         @else
-                            <input type="text"
+                            <input type="text" id="to_department" name="to_department"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                         @endif
                     </div>
                     <div>
-                        <label for="end_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">From
+                        <label for="from_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">From
                             Date</label>
 
-                        <input type="date" id="end_date" name="end_date"
+                        <input type="date" id="from_date" name="from_date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                     </div>
@@ -177,41 +177,7 @@
                                 <option value="item">Item</option>
                                 <option value="initial_condition">Initail Condition</option>
                                 <option value="specification">Specification</option>
-                                <option value="item_description">Item Description</option>
-                                <option value="asset_group">Asset Group</option>
-                                <option value="remark_assets">Remark Assets</option>
 
-
-                                <option value="asset_holder">Assets Holder ID</option>
-                                <option value="holder_name">Holder Name</option>
-                                <option value="position">Position</option>
-                                <option value="location">Location</option>
-                                <option value="department">Department</option>
-                                <option value="company">Company</option>
-                                <option value="remark_holder">Remark Holder</option>
-
-
-                                <option value="grn">GRN</option>
-                                <option value="pr">PR</option>
-                                <option value="po">PO</option>
-                                <option value="dr">DR</option>
-                                <option value="dr_requested_by">DR Request by</option>
-                                <option value="remark_internal_doc">Remark Document</option>
-                                <option value="fa_class">Fix Asset Class</option>
-                                <option value="fa_subclass">Fix Asset Sub Class</option>
-                                <option value="depreciation">Depreciation</option>
-                                <option value="fa_type">Fix Asset Type</option>
-                                <option value="fa_location">Fix Assets Location</option>
-                                <option value="invoice_description">Invoice Description</option>
-
-
-                                <option value="vendor">Vendor</option>
-                                <option value="vendor_name">Vendor Name</option>
-                                <option value="address">Address</option>
-                                <option value="address2">Address 2</option>
-                                <option value="contact">Contact</option>
-                                <option value="phone">Phone </option>
-                                <option value="email">Email</option>
                             </select>
                             <input type="text" id="other_value"
                                 class= " w-32  bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block mx-2 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -287,7 +253,7 @@
                         </div>
                         <div class="flex fix_button">
 
-                            <button type="button" onclick="search_asset(0)" id="search_button"
+                            <button type="button" onclick="search_movement(1)" id="search_button"
                                 class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                 <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                             </button>
