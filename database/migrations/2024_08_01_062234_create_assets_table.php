@@ -76,6 +76,7 @@ return new class extends Migration
             // State  Asset
             $table->date('deleted_at')->nullable();
             $table->integer('status')->default(0); // Delete Status
+            $table->integer('total_movement')->default(0); // movement no
             $table->string('last_varaint')->default(1);
 
             $table->timestamps();

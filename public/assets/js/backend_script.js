@@ -894,6 +894,8 @@ function dynamic_sort(by, method, table) {
                     show_sort_staff_asset();
                 } else if (table == "users") {
                     show_sort_user();
+                }   else if(table == "movement"){
+                    show_sort_movement();
                 }
 
                 // Hide loading panel after sorting is done
@@ -904,6 +906,170 @@ function dynamic_sort(by, method, table) {
         }
     } else {
         alert("Data not valid.");
+    }
+}
+let global_page = 1;
+function show_sort_movement(){
+    let body_change = document.querySelector("#movement_body");
+    if (body_change) {
+        body_change.innerHTML = ``;
+
+        array.map((item) => {
+            let custom = ``;
+
+             custom += `<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+               `;
+
+            custom += `
+                         <td scope="row"
+                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                              ${item.id}
+                          </td>
+                            <td scope="row"
+                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                         ${
+                                                                item.created_at
+                                                                    ? new Date(
+                                                                            item.created_at
+                                                                        ).toLocaleDateString(
+                                                                            "en-US",
+                                                                            {
+                                                                                year: "numeric",
+                                                                                month: "short",
+                                                                                day: "numeric",
+                                                                            }
+                                                                        )
+                                                                    : ""
+                                                            }
+                          </td>
+                            <td scope="row"
+                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                              ${item.movement_no}
+                          </td>
+                            <td scope="row"
+                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                              ${item.assets_no}
+                          </td>
+                               <td scope="row"
+                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                              ${item.reference}
+                          </td>
+                               <td scope="row"
+                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                              ${item.from_department}
+                          </td>
+                               <td scope="row"
+                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                              ${item.to_department}
+                          </td>
+                              <td scope="row"
+                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                              ${item.from_name}
+                          </td>
+                              <td scope="row"
+                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                              ${item.to_name}
+                          </td>
+
+                      `;
+                                                            if(item.status == 1){
+                                                                custom += `
+                                                                       <td scope="row"
+                                                                         class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                                <span
+                                                                    class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                                                    <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                                                    Active
+                                                                </span>
+                                                                  </td>`;
+
+                                                            }else if(item.status == 3){
+                                                                custom+= `
+                                                                   <td scope="row"
+                                                                         class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                                      <span
+                                                                class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                                                <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                                                Deleted
+                                                                </span>
+                                                                 </td>
+                                                              `;
+                                                            }else if(item.status == 0){
+                                                                custom += `
+                                                                      <td scope="row"
+                                                                         class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                                <span
+                                                                class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                                                <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                                                Inactive
+                                                            </span>
+                                                                 </td>`;
+                                                            }
+                                                            custom+=`
+                                                            <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
+                                                            style="  position: sticky; right: 0; ">
+                                                             `;
+                                                            if(item.status == 1){
+                                                                if(auth.permission.transfer_update == 1 && auth.permission.transfer_read == 0){
+                                                                    custom += `<a
+                                                                    href="/admin/movement/edit/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}/page=${global_page}">
+                                                                    <button type="button"
+                                                                        class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                                            class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
+                                                                    </button>
+                                                                </a>`;
+                                                                }else if(auth.permission.transfer_update == 0 && auth.permission.transfer_read == 1){
+                                                                    custom+=`
+                                                                      <a
+                                                                    href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}/page=${global_page}">
+                                                                    <button type="button"
+                                                                        class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                                        <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
+                                                                    </button>
+                                                                    </a>
+                                                                `;
+                                                                }else if(auth.permission.transfer_update == 1 && auth.permission.transfer_read == 1){
+                                                                    custom += `
+                                                                    <a
+                                                                        href="/admin/movement/edit/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}/page=${global_page}">
+                                                                        <button type="button"
+                                                                            class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                                                class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
+                                                                        </button>
+                                                                        </a>
+                                                                    `;
+                                                                }
+                                                                if(auth.permission.transfer_delete == 1){
+                                                                custom += `
+                                                                    <button type="button" data-id="${item.id}"
+                                                                    id="btn_delete_asset${item.id}"
+                                                                    onclick="delete_value('btn_delete_asset'+${item.id},'delete_asset_admin','delete_value_asset')"
+                                                                    class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                                    <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+
+                                                                `;
+                                                                }
+                                                            }else{
+                                                                    custom += `<a
+                                                                href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}/page=${global_page}">
+                                                                <button type="button"
+                                                                    class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                                    <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
+                                                                </button>
+                                                                </a>
+                                                                <div style="width: 100%; height: 100%;"> </div>`;
+                                                            }
+
+
+
+                                                             custom +=  `
+                                                                    </td>
+                                                                </tr>
+                                                            `;
+            body_change.innerHTML += custom;
+        });
+    } else {
+        alert("Error No Table body.");
     }
 }
 function show_sort_user() {
@@ -2494,6 +2660,14 @@ function set_page_dynamic_quick() {
         }
     }
 }
+function set_page_dynamic_admin_movement() {
+    let select = document.querySelector("#select_page_dynamic_select_movement");
+    if (select) {
+        if (select.value != "") {
+            search_movement(parseInt(select.value));
+        }
+    }
+}
 function check_date() {
     // initailize
     let start_input = "NA";
@@ -3107,6 +3281,15 @@ function set_page_movement() {
     if (select_page) {
         if (select_page.value != "") {
             window.location.href = `/admin/movement/add/${select_page.value}`;
+        }
+    }
+}
+function set_page_movement_search() {
+    let select_page = document.querySelector("#select_page");
+
+    if (select_page) {
+        if (select_page.value != "") {
+            window.location.href = `/admin/movement/list/${select_page.value}`;
         }
     }
 }
@@ -3843,7 +4026,10 @@ async function search_asset_for_movement(no) {
                                     class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     ${ item.invoice_description }
                                 </td>
-
+                                <td scope="row"
+                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    ${ item.total_movement }
+                                </td>
                                 <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
                                 style="  position: sticky; right: 0; ">
 
@@ -3874,7 +4060,7 @@ async function search_movement(no){
     let id = document.querySelector("#id_movement");
     let movement_no = document.querySelector("#movement_no");
     let assets = document.querySelector("#assets");
-    let reference = document.querySelector("#reference");
+    let status = document.querySelector("#status");
     let from_department = document.querySelector("#from_department");
     let to_department = document.querySelector("#to_department");
     let start_date = document.querySelector("#from_date");
@@ -3888,7 +4074,7 @@ async function search_movement(no){
     let id_val = 'NA';
     let movement_no_val = 'NA';
     let assets_val = 'NA';
-    let reference_val = 'NA';
+    let status_val = 'NA';
     let from_department_val = 'NA';
     let to_department_val = 'NA';
     let start_date_val = 'NA';
@@ -3912,9 +4098,9 @@ async function search_movement(no){
             assets_val = assets.value;
         }
     }
-    if(reference){
-        if(reference.value){
-            reference_val = reference.value;
+    if(status){
+        if(status.value){
+            status_val = status.value;
         }
     }
     if(from_department){
@@ -3960,7 +4146,7 @@ async function search_movement(no){
         }
     }
 
-
+    document.querySelector("#loading").style.display = "block";
 
     let url = `/api/fect/search/movement/data`;
 
@@ -3974,7 +4160,7 @@ async function search_movement(no){
             movement_id : id_val,
             movement_no : movement_no_val,
             assets : assets_val,
-            reference: reference_val,
+            status: status_val,
             from_department : from_department_val,
             to_department : to_department_val,
             start_date : start_date_val,
@@ -3989,9 +4175,293 @@ async function search_movement(no){
             alert(error);
         });
 
-        if(data){
+        if (data) {
             console.log(data);
+            if(data.page){
+                global_page = data.page;
+            }
+            if (data.data) {
+                if (data.data.length > 0) {
+                    let pagination_search = document.querySelector(
+                        ".pagination_by_search"
+                    );
+                    if (pagination_search) {
+                        pagination_search.style.display = "block";
+
+                        if (data.page != 0) {
+                            let page = data.page;
+                            let totalPage = data.total_page;
+                            let totalRecord = data.total_record;
+
+                            // Start by building the entire HTML content in one go
+                            let paginationHtml = `
+
+                                    <ul class="flex items-center -space-x-px h-8 text-sm">
+
+                                    `;
+
+                            // Add the current page dynamically
+                            let left_val = page - 5;
+                            if (left_val < 1) {
+                                left_val = 1;
+                            }
+                            if (page != 1 && totalPage != 1) {
+                                paginationHtml += `
+                                        <li onclick="search_movement(${
+                                            page - 1
+                                        })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+
+
+                                                <i class="fa-solid fa-angle-left"></i>
+
+                                        </li>
+                                     `;
+                            }
+                            let right_val = page + 5;
+                            if (right_val > totalPage) {
+                                right_val = totalPage;
+                            }
+
+                            for (let i = left_val; i <= right_val; i++) {
+                                if (i != page) {
+                                    paginationHtml += `
+                                            <li onclick="search_movement(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                            >
+
+                                                     ${i}
+
+
+                                             </li>
+                                         `;
+                                } else if (i == page) {
+                                    paginationHtml += `
+                                              <li onclick="search_movement(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+
+                                                    ${i}
+
+                                            </li>
+                                         `;
+                                }
+                            }
+
+                            if (page != totalPage) {
+                                paginationHtml += `
+                                        <li  onclick="search_movement(${
+                                            page + 1
+                                        })" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+
+
+                                                <i class="fa-solid fa-chevron-right"></i>
+
+                                        </li>
+                        `;
+                            }
+
+                            paginationHtml += `
+                               <li class="mx-2" style="margin-left:10px;">
+                                        <a href="1" aria-current="page"
+                                            class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                            <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;"></i>
+                                        </a>
+                                    </li>
+                                    </ul>
+                            <select
+                                onchange="set_page_dynamic_admin_movement()"
+                                id="select_page_dynamic_select_movement"
+                                 class="flex  items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                 `;
+                            if (page != 1) {
+                                paginationHtml += `
+                                     <option value="${page}">${page}</option>
+                                     `;
+                            }
+
+                            for (let i = 1; i <= totalPage; i++) {
+                                paginationHtml += `
+                                     <option value="${i}">${i}</option>
+                                     `;
+                            }
+
+                            paginationHtml += `
+                                     </select>
+
+
+                                        <span class="font-bold flex justify-center items-center dark:text-slate-50">Found Page :${totalPage} Pages
+                                            &ensp;Total Assets: ${totalRecord} Records</span>
+
+
+                                     </div>
+                                     `;
+
+                            // Finally, assign the full HTML to the element
+                            pagination_search.innerHTML = paginationHtml;
+                        }
+                    }
+
+                    let body_change = document.querySelector("#movement_body");
+                    body_change.innerHTML = ``;
+
+                            data.data.map((item) => {
+                                    let custom = ``;
+                                    custom += `
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+
+                                                <td scope="row"
+                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    ${ item.id }
+                                                </td>
+                                                <td scope="row"
+                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+
+                                                                ${
+                                                                item.created_at
+                                                                    ? new Date(
+                                                                            item.created_at
+                                                                        ).toLocaleDateString(
+                                                                            "en-US",
+                                                                            {
+                                                                                year: "numeric",
+                                                                                month: "short",
+                                                                                day: "numeric",
+                                                                            }
+                                                                        )
+                                                                    : ""
+                                                            }
+
+                                                </td>
+                                                <td scope="row"
+                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    ${ item.movement_no }
+                                                </td>
+                                                <td   scope="row"
+                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    ${ item.assets_no ??''}
+                                                </td>
+                                                <td   scope="row"
+                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    ${ item.reference ??''}
+                                                </td>
+                                                <td scope="row"
+                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    ${ item.from_department??'' }
+                                                </td>
+
+                                                <td scope="row"
+                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                ${ item.to_department??'' }
+                                                </td>
+                                                 <td scope="row"
+                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                ${ item.from_location??'' }
+                                                </td>
+                                                           <td scope="row"
+                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                ${ item.to_location??'' }
+                                                </td>
+                                    `;
+                                    custom += `<td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">`;
+                                    if(item.status == 0){
+                                        custom += ` <span
+                                        class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                        <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                        Inactive
+                                    </span>`;
+
+                                    }else if(item.status == 1){
+                                        custom += `     <span
+                                        class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                        <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                        Active
+                                    </span>`;
+                                    }else if(item.status == 3){
+                                        custom+= `
+                                              <span
+                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                            Deleted
+                                        </span>
+
+                                    <span
+                                        `;
+                                    }
+                                    custom+= ` </td>`;
+                                   custom += `
+
+                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
+                                    style="  position: sticky; right: 0; ">
+                                     `;
+                                    if(item.status == 1){
+                                        if(auth.permission.transfer_update == 1 && auth.permission.transfer_read == 0){
+                                            custom += `<a
+                                            href="/admin/movement/edit/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}/page=${data.page}">
+                                            <button type="button"
+                                                class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                    class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
+                                            </button>
+                                        </a>`;
+                                        }else if(auth.permission.transfer_update == 0 && auth.permission.transfer_read == 1){
+                                            custom+=`
+                                              <a
+                                            href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}/page=${data.page}">
+                                            <button type="button"
+                                                class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
+                                            </button>
+                                            </a>
+                                        `;
+                                        }else if(auth.permission.transfer_update == 1 && auth.permission.transfer_read == 1){
+                                            custom += `
+                                            <a
+                                                href="/admin/movement/edit/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}/page=${data.page}">
+                                                <button type="button"
+                                                    class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                        class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
+                                                </button>
+                                                </a>
+                                            `;
+                                        }
+                                        if(auth.permission.transfer_delete == 1){
+                                        custom += `
+                                            <button type="button" data-id="${item.id}"
+                                            id="btn_delete_asset${item.id}"
+                                            onclick="delete_value('btn_delete_asset'+${item.id},'delete_asset_admin','delete_value_asset')"
+                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                            <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+
+                                        `;
+                                        }
+                                    }else{
+                                            custom += `<a
+                                        href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}/page=${data.page}">
+                                        <button type="button"
+                                            class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                            <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
+                                        </button>
+                                        </a>
+                                        <div style="width: 100%; height: 100%;"> </div>`;
+                                    }
+
+
+
+                                     custom +=  `
+                                            </td>
+                                        </tr>
+                                    `;
+                        body_change.innerHTML += custom;
+                    });
+                    array = data.data;
+                } else {
+                    alert("Data not Found.");
+                }
+            } else {
+                alert("Data not Found.");
+            }
+        } else {
+            alert("Problem on database connection.");
         }
+        document.querySelector("#loading").style.display = "none";
 
 
 }
+
+

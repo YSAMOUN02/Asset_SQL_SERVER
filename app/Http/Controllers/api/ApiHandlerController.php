@@ -761,12 +761,12 @@ class ApiHandlerController extends Controller
 
 
     public function search_movement_more(Request $request){
-
+        $limit = 150;
 
         $id = $request->movement_id ??'NA';
         $movement_no = $request->movement_no??'NA';
         $assets = $request->assets??'NA';
-        $reference  = $request->reference??'NA';
+        $status  = $request->status??'NA';
         $from_department = $request->from_department??'NA';
         $to_department   = $request->to_department??'NA';
         $start = $request->start_date??'NA';
@@ -786,8 +786,16 @@ class ApiHandlerController extends Controller
         if($assets != 'NA'){
             $data->where('assets_no','LIKE','%'.$assets.'%');
         }
-        if($reference != 'NA'){
-            $data->where('reference','LIKE','%'.$reference.'%');
+        if($status != 'NA'){
+            if($status != 'All'){
+                if($status == 'not3'){
+                    $data->where('status','<>',3);
+                }else{
+                    $data->where('status',$status);
+                }
+
+            }
+
         }
         if($from_department != 'NA'){
             $data->where('from_department','LIKE','%'.$from_department.'%');
@@ -817,15 +825,34 @@ class ApiHandlerController extends Controller
             $data->where('created_at', '<=', $endDate);
         }
 
+        if ($other_search != "NA" && $other_value  != "NA") {
+            $data->where($other_search, 'LIKE', '%' . $other_value . '%');
+        }
 
 
+        $offet = 0;
+        if($page != 0){
+            $offet = ($page - 1) * $limit;
+        }
 
 
         $count = $data->count();
+        $data->limit($limit);
+        $data->offset($offet);
         $datas = $data->get();
 
+
+        $total_pages = ceil($count/$limit);
+
+        // return response()->json($count);
+        $arr = new arr();
+        $arr->page = $page;
+        $arr->total_page = $total_pages;
+        $arr->total_record = $count;
+        $arr->data = $datas;
+
         if( $count > 0){
-            return response()->json($datas);
+            return response()->json($arr);
         }else{
             return response()->json(["No found"]);
         }

@@ -15,9 +15,9 @@
 
                 <label for="movement_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Movement
                     Date</label>
-                <input type="datetime-local" id="movement_date"
+                <input type="date" id="movement_date"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ today() }}" name="movement_date" />
+                     value="{{ old('movement_date', $movement->movement_date ?? '') }}" name="movement_date" />
 
             </div>
             <div>
@@ -25,14 +25,14 @@
                         class="text-rose-500">*</span></label>
                 <input type="text" id="movement_no"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="movement_no" required />
+                    value="{{ old('movement_no', $movement->movement_no ?? '') }}"  name="movement_no" required />
             </div>
             <div>
                 <label for="reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference <span
                         class="text-rose-500">*</span></label>
                 <input type="text" id="reference"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="reference"  />
+                    value="{{ old('reference', $movement->reference ?? '') }}"  name="reference"  />
             </div>
 
 
@@ -52,19 +52,25 @@
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">From Department</label>
 
 
+                        @if($movement->from_department)
+                        @if(!empty($department ))
 
-                        @if(!empty($department))
                             <select id="from_department"  name="from_department"
                                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value=""></option>
+                                <option value="{{$movement->from_department}}">{{$movement->from_department}}</option>
                                 @foreach ($department as $item)
+                                @if($movement->from_department != $item)
                                 <option value="{{$item->content}}">{{$item->content}}</option>
+                                @endif
                                 @endforeach
+
                             </select>
                         @else
+
                         <input type="text" id="from_department"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         name="from_department" />
+                        @endif
                         @endif
                 </div>
                 <div>
@@ -72,14 +78,14 @@
                         Name</label>
                     <input type="text" id="from_name"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="from_name" />
+                        value="{{ old('from_name', $movement->from_name?? '') }}"  name="from_name" />
                 </div>
                 <div>
                     <label for="from_location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current
                         Location <span class="text-rose-500">*</span></label>
                     <input type="text" id="from_location"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="from_location"  />
+                        value="{{ old('from_location', $movement->from_location?? '') }}"   name="from_location"  />
                 </div>
                 <div>
                     <label for="given_by" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Given
@@ -99,7 +105,7 @@
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark</label>
                     <input type="text" id="from_remark"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="from_remark" />
+                        value="{{ old('from_remark', $movement->from_remark?? '') }}"  name="from_remark" />
                 </div>
             </div>
 
@@ -112,19 +118,23 @@
                     <label for="to_department"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To Department</label>
 
+                    @if(!empty($movement->to_department))
+                        @if(!empty($department))
+                            <select  id="to_department"      name="to_department"
+                                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option value="{{$movement->to_department}}">{{$movement->to_department}}</option>
+                                @foreach ($department as $item)
+                                @if($movement->from_department != $item)
+                                <option value="{{$item->content}}">{{$item->content}}</option>
+                                @endif
+                                @endforeach
+                            </select>
+                        @endif
 
-                    @if(!empty($department))
-                        <select  id="to_department"      name="to_department"
-                            class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value=""></option>
-                            @foreach ($department as $item)
-                            <option value="{{$item->content}}">{{$item->content}}</option>
-                            @endforeach
-                        </select>
                     @else
                     <input type="text" id="to_department"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="to_department" />
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    name="to_department" />
                     @endif
                 </div>
                 <div>
@@ -132,28 +142,28 @@
                         Name</label>
                     <input type="text" id="to_name"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="to_name" />
+                        value="{{ old('to_name', $movement->to_name?? '') }}" name="to_name" />
                 </div>
                 <div>
                     <label for="to_location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New
                         Location</label>
                     <input type="text" id="to_location"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="to_location" />
+                        value="{{ old('to_location', $movement->to_location?? '') }}"  name="to_location" />
                 </div>
                 <div>
                     <label for="received_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Received
                         Date</label>
-                    <input type="datetime-local" id="received_date"
+                    <input  type="date"  id="received_date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value="{{ today() }}" name="received_date" />
+                        value="{{ old('received_date', $movement->received_date ?? '') }}" name="received_date" />
                 </div>
                 <div>
                     <label for="received_by" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Received
                         by</label>
                     <input type="text" id="received_by"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="received_by" />
+                        value="{{ old('received_by', $movement->received_by?? '') }}"    name="received_by" />
                 </div>
             </div>
 
@@ -166,13 +176,13 @@
                     Conditions
                 </label>
                 <textarea id="condition" name="condition"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{$movement->condition??''}}</textarea>
             </div>
             <div>
                 <label for="purpose" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Purpose
                 </label>
-                <textarea id="purpose" name="purpose" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
+                <textarea id="purpose" name="purpose" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{$movement->purpose??''}}</textarea>
             </div>
             <div>
                 <label for="verify_by" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -180,14 +190,14 @@
                 </label>
                 <input type="text" id="verify_by"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="verify_by" />
+                    value="{{ old('verify_by', $movement->verify_by?? '') }}"  name="verify_by"/>
             </div>
             <div>
                 <label for="authorized_by" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Authorized
                     by</label>
                 <input type="text" id="authorized_by"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="authorized_by" />
+                    value="{{ old('authorized_by', $movement->authorized_by?? '') }}"   name="authorized_by" />
             </div>
         </div>
 

@@ -18,6 +18,7 @@ class MovementController extends Controller
 
     public function add_transfer($page)
     {
+
         if(Auth::user()->permission->transfer_write == 1){
         if($page == "1"){
             $page = 1;
@@ -35,7 +36,7 @@ class MovementController extends Controller
         }
 
         $count_post = $data->count();
-        $data->select('document', 'assets1', 'assets2', 'created_at', 'assets_id', 'fa', 'invoice_no', 'item_description', 'invoice_description','status');
+        $data->select('document', 'assets1', 'assets2', 'created_at', 'assets_id', 'fa', 'invoice_no', 'item_description', 'invoice_description','status','total_movement');
         $data ->limit($limit);
         $data->offset($offset);
         $datas = $data->get();
@@ -82,13 +83,25 @@ class MovementController extends Controller
         $old_location = '';
         if($old_data_qty > 0){
             $new = 1;
-            $old_movement_data = Movement::where('assets_id',$id)->orderby('id','desc')->first();
-            $old_movement = $old_movement_data->movement_no;
+            $count_movement_ = Movement::where('assets_id',$id)->orderby('id','desc')->where('status','<>',3)->count();
 
-            $old_company =  $old_movement_data->to_company;
-            $old_user =  $old_movement_data->to_name;
-            $old_department = $old_movement_data->to_department;
-            $old_location = $old_movement_data->to_location;
+            if($count_movement_ > 0){
+                $old_movement_data = Movement::where('assets_id',$id)->orderby('id','desc')->where('status','<>',3)->first();
+                $old_movement = $old_movement_data->movement_no;
+                $old_company =  $old_movement_data->to_company;
+                $old_user =  $old_movement_data->to_name;
+                $old_department = $old_movement_data->to_department;
+                $old_location = $old_movement_data->to_location;
+            }else{
+            $old_movement = 'N/A';
+            $old_reference = $asset->document;
+            $old_company = $asset->company;
+            $old_user = $asset->holder_name;
+            $old_department = $asset->department;
+            $old_location = $asset->location;
+            }
+
+
         }else{
             $old_movement = 'N/A';
             $old_reference = $asset->document;
@@ -96,8 +109,6 @@ class MovementController extends Controller
             $old_user = $asset->holder_name;
             $old_department = $asset->department;
             $old_location = $asset->location;
-
-
         }
 
         return view("backend.add-movement", [
@@ -118,12 +129,19 @@ class MovementController extends Controller
         if(Auth::user()->permission->transfer_write == 1){
             // Check if already have movment
             if($request->new == 1){
-                $old_movement = movement::where('assets_id',$request->id_assets)->orderby('id','desc')->first();
+                $old_movement = movement::where('assets_id',$request->id_assets)->where('status','<>',3)->orderby('id','desc')->first();
                  if($old_movement){
-                    $old_movement->status = 1;
+                    $old_movement->status = 0;
                     $old_movement->save();
                  }
                 }
+                $aset =  StoredAssets::where('assets_id',$request->id_assets)->where('last_varaint',1)->first();
+                $aset->total_movement += 1;
+                $aset->save();
+                $asetUser =  StoredAssetsUser::where('id',$request->id_assets)->first();
+                $asetUser->total_movement += 1;
+                $asetUser->save();
+
                 $new_movement = new movement();
                 $new_movement->movement_no =   $request->movement_no;
                 $new_movement->movement_date =  $request->movement_date ? Carbon::parse( $request->movement_date)->format('Y-m-d H:i:s') : null;
@@ -192,9 +210,15 @@ class MovementController extends Controller
 
             $movement->limit($limit);
             $movement->offset($offset);
+
+            if(auth::user()->role == 'staff'){
+                $movement->where('status','<>',3);
+            }
             $data = $movement->get();
 
             $department = QuickData::where('type', "department")->select('id', 'content')->orderby('id', 'desc')->get();
+
+
             return view('backend.list-movement',
         [
             'movement' => $data,
@@ -217,7 +241,10 @@ class MovementController extends Controller
 
             $asset = StoredAssets::where('assets_id',$assets_id)->where('varaint',$assets_varaint)->first();
             $update_able = 1;
+            $department = QuickData::where('type', "department")->select('id', 'content')->orderby('id', 'desc')->get();
             return view('backend.update-movement',[
+                'department' => $department,
+                'movement' => $movement,
                 'asset'=>$asset,
                 'update_able' => $update_able,
                 'page' => $page
@@ -233,7 +260,11 @@ class MovementController extends Controller
             $movement = movement::where('id',$id)->first();
             $asset = StoredAssets::where('assets_id',$assets_id)->where('varaint',$assets_varaint)->first();
             $update_able = 0;
+
+            $department = QuickData::where('type', "department")->select('id', 'content')->orderby('id', 'desc')->get();
             return view('backend.update-movement',[
+                'department' => $department,
+                'movement' => $movement,
                 'asset'=>$asset,
                 'update_able' => $update_able,
                 'page' => $page
@@ -248,8 +279,14 @@ class MovementController extends Controller
         if(Auth::user()->permission->transfer_delete == 1){
 
             if(Auth::user()->role == 'admin'){
-                $deleted =  movement::where('id',$request->id)->delete();
+                $deleted =  movement::where('id',$request->id)->first();
 
+                if( $deleted){
+                   $old_movement =  movement::where('assets_id',$deleted->assets_id)->first();
+                   $old_movement->status = 1;
+                   $old_movement->save();
+                }
+                $deleted->delete();
                 if($deleted){
                     return redirect('/admin/movement/list/1')->with('success','Deleted 1 Movement Record.');
                 }else{
@@ -257,6 +294,13 @@ class MovementController extends Controller
                 }
             }elseif(Auth::user()->role == 'staff'){
                 $deleted =  movement::where('id',$request->id)->first();
+
+                if( $deleted){
+                    $old_movement =  movement::where('assets_id',$deleted->assets_id)->where('id','<>',$request->id)->where('status','<>',3)->orderby('id','desc')->first();
+                    $old_movement->status = 1;
+                    $old_movement->save();
+                 }
+
                 $deleted->status = 3;
                 $deleted->save();
                 if($deleted){

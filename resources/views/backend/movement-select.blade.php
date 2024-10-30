@@ -244,6 +244,9 @@
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                             Invoice Description
                         </th>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            Movement
+                        </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
                         style="  position: sticky; right: 0;">
                             Action
@@ -283,6 +286,7 @@
                                     class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $item->invoice_no }}
                                 </td>
+
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     @if ($item->status == 0)
                                         <span
@@ -313,7 +317,10 @@
                                     class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $item->invoice_description }}
                                 </td>
-
+                                <td scope="row"
+                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ $item->total_movement}}
+                                </td>
                                 <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
                                 style="  position: sticky; right: 0; ">
 

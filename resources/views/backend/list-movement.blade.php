@@ -105,14 +105,7 @@
 
                     </div>
 
-                    <div>
-                        <label for="reference" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Reference
-                        </label>
 
-                        <input type="text" id="reference" name="reference"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-
-                    </div>
                     <div>
                         <label for="from_department" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">From
                             Department</label>
@@ -165,6 +158,21 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                     </div>
+                    <div>
+                        <label for="from_department" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Status</label>
+
+                            <select id="status" name="status"
+                                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option value="All">All</option>
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                                @if (Auth::user()->role == 'admin')
+                                <option value="3">Deleted</option>
+                                <option value="not3">Not Deleted</option>
+                                @endif
+
+                            </select>
+                    </div>
                 </div>
                 <div
                     class="max-w-full items-center flex  justify-between px-2 mt-1 lg:mt-2 py-1 lg:py-2 sm:grid sm:grid-cols-1">
@@ -173,10 +181,21 @@
                             <select name="" onchange="otherSearch()" id="other_search"
                                 class= " w-36 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 lg:p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="">Other Search</option>
-                                <option value="document">Refference</option>
-                                <option value="item">Item</option>
-                                <option value="initial_condition">Initail Condition</option>
-                                <option value="specification">Specification</option>
+
+                                <option value="reference">Reference </option>
+                                <option value="from_name">From Name</option>
+                                <option value="from_company">From Company</option>
+                                <option value="from_location">From Location</option>
+                                <option value="given_by">Given by</option>
+                                <option value="from_remark">Remark</option>
+                                <option value="to_name">To Name</option>
+                                <option value="to_company">To Company</option>
+                                <option value="received_by">Received by</option>
+                                <option value="condition">Conditions</option>
+                                <option value="purpose">Purpose</option>
+                                <option value="verify_by">Verify By</option>
+                                <option value="authorized_by">Authorized by</option>
+                                <option value="assets_id">Assets ID</option>
 
                             </select>
                             <input type="text" id="other_value"
@@ -231,7 +250,7 @@
                                         </ul>
                                     </nav>
                                 @endif
-                                <select onchange="set_page()" id="select_page"
+                                <select onchange="set_page_movement_search()" id="select_page"
                                     class="flex  items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                     name="" id="">
                                     @if ($page != 1)
@@ -272,44 +291,44 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                            onclick="dynamic_sort('movement_id','int','movement')">
+                            onclick="dynamic_sort('id','int','movement')">
                             ID &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                            onclick="dynamic_sort('movement_id','int','movement')">
+                            onclick="dynamic_sort('created_at','date','movement')">
                             Date&ensp; <i class="fa-solid fa-sort"></i>
                         </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                            onclick="dynamic_sort('movement_id','int','movement')">
+                            onclick="dynamic_sort('movement_no','string','movement')">
                             Movement No &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                            onclick="dynamic_sort('movement_id','int','movement')">
+                            onclick="dynamic_sort('assets_no','string','movement')">
                             Assets &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
 
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                            onclick="dynamic_sort('movement_id','int','movement')">
+                            onclick="dynamic_sort('reference','string','movement')">
                             Reference &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                            onclick="dynamic_sort('movement_id','int','movement')">
+                            onclick="dynamic_sort('from_department','string','movement')">
                             From Department &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                            onclick="dynamic_sort('movement_id','int','movement')">
+                            onclick="dynamic_sort('to_department','string','movement')">
                             To Department &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                            onclick="dynamic_sort('movement_id','int','movement')">
+                            onclick="dynamic_sort('from_name','string','movement')">
                             Movement From &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                            onclick="dynamic_sort('movement_id','int','movement')">
+                            onclick="dynamic_sort('to_name','string','movement')">
                             Movement To &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                            onclick="dynamic_sort('','int','movement')">
+                            onclick="dynamic_sort('status','int','movement')">
                             Status &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
                         <th scope="col"
@@ -319,7 +338,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody id="assets_body">
+                <tbody id="movement_body">
                     @if (!empty($movement))
                         @foreach ($movement as $item)
                             <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -352,18 +371,26 @@
                                     {{ $item->to_name }}
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+
                                     @if ($item->status == 0)
-                                        <span
-                                            class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                            <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                            Active
-                                        </span>
-                                    @else
-                                        <span
+                                    <span
+                                    class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                    <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                    Inactive
+                                    </span>
+                                    @elseif($item->status == 3)
+                                       <span
                                             class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                                             <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                            Inactive
+                                            Deleted
                                         </span>
+                                        @elseif($item->status == 1)
+                                    <span
+                                    class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                    <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                    Active
+                                </span>
+
                                     @endif
 
                                 </td>
@@ -374,7 +401,8 @@
 
                                     {{-- BTN UPDATE  --}}
 
-                                    @if ($item->status == 0)
+                                    {{-- Active State  --}}
+                                    @if ($item->status == 1)
                                         @if (Auth::user()->permission->transfer_update == 1 && Auth::user()->permission->transfer_read == 0)
 
                                             <a
@@ -412,8 +440,29 @@
                                             <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
 
                                         @endif
-                                    @else
-                                    <div style="width: 100%; height: 100%;">-</div>
+
+                                    {{-- Inactive State  --}}
+                                    @elseif($item->status == 0)
+                                            <a
+                                                href="/admin/movement/view/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}/page={{$page}}">
+                                                <button type="button"
+                                                    class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                    <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
+                                                </button>
+                                            </a>
+                                        <div style="width: 100%; height: 100%;"> </div>
+
+                                    {{-- Deleted State  --}}
+                                    @elseif($item->status == 3)
+                                            <a
+                                            href="/admin/movement/view/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}/page={{$page}}">
+                                            <button type="button"
+                                                class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
+                                            </button>
+                                        </a>
+                                        <div style="width: 100%; height: 100%;"> </div>
+
                                     @endif
 
 

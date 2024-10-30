@@ -36,7 +36,7 @@ return new class extends Migration
             $table->string('assets_id');
             $table->string('assets_no');
             $table->string('varaint');
-            $table->integer('status')->default(0);
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

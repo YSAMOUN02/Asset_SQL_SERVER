@@ -72,6 +72,7 @@ return new class extends Migration
             $table->string('phone')->nullable(); // phone
             $table->string('email')->nullable(); // email
 
+            $table->integer('total_movement')->default(0); // movement no
             // State  Asset
             $table->integer('status')->default(0); // Delete Status
             $table->timestamps();
