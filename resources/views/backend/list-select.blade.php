@@ -257,6 +257,9 @@
                                     @php
 
                                         $modifiedString = str_replace('/', '-', $item->fa);
+                                        if( $modifiedString == ''){
+                                            $modifiedString = 'NA';
+                                        }
                                     @endphp
                                     {{-- {{$invoice}} --}}
                                     <a href="/admin/assets/add/assets={{ $item->assets }}/invoice_no={{ $modifiedString }}"

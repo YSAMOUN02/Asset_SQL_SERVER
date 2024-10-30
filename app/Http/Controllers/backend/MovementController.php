@@ -167,7 +167,7 @@ class MovementController extends Controller
                 $new_movement->varaint = $request->varaint??0;
                 $new_movement->save();
 
-                $this->Change_log( $new_movement->id, 0, "Insert", "Movement Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);
+                $this->Change_log( $new_movement->id,'', "Insert", "Movement Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);
                 if ($new_movement) {
                     return redirect('/admin/movement/list/1')->with('success', 'Added 1 Asset Movement.');
                 } else {
@@ -234,7 +234,7 @@ class MovementController extends Controller
 
     }
 
-    public function update_movement_detail($id,$assets_id,$assets_varaint,$page){
+    public function update_movement_detail($id,$assets_id,$assets_varaint){
         if(Auth::user()->permission->transfer_update == 1){
 
             $movement = movement::where('id',$id)->first();
@@ -246,15 +246,14 @@ class MovementController extends Controller
                 'department' => $department,
                 'movement' => $movement,
                 'asset'=>$asset,
-                'update_able' => $update_able,
-                'page' => $page
+                'update_able' => $update_able
             ]);
         }else{
             return redirect('/')->with('fail','You do not have permission Movement Update.');
         }
     }
 
-    public function view_movement_detail($id,$assets_id,$assets_varaint,$page){
+    public function view_movement_detail($id,$assets_id,$assets_varaint){
 
         if(Auth::user()->permission->transfer_read == 1){
             $movement = movement::where('id',$id)->first();
@@ -266,8 +265,7 @@ class MovementController extends Controller
                 'department' => $department,
                 'movement' => $movement,
                 'asset'=>$asset,
-                'update_able' => $update_able,
-                'page' => $page
+                'update_able' => $update_able
             ]);
         }else{
             return redirect('/')->with('fail','You do not have permission Movement Read.');
@@ -282,12 +280,17 @@ class MovementController extends Controller
                 $deleted =  movement::where('id',$request->id)->first();
 
                 if( $deleted){
-                   $old_movement =  movement::where('assets_id',$deleted->assets_id)->first();
+                   $old_movement =  movement::where('assets_id',$deleted->assets_id)->where('id','<>', $deleted->id)->orderby('id','desc')->first();
+
                    $old_movement->status = 1;
                    $old_movement->save();
+
                 }
+                $deleted_id = $deleted->id;
                 $deleted->delete();
                 if($deleted){
+
+                    $this->Change_log($deleted_id, '', "Delete Permanent", "Movement Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
                     return redirect('/admin/movement/list/1')->with('success','Deleted 1 Movement Record.');
                 }else{
                     return redirect('/admin/movement/list/1')->with('fail','Opps!.Something Went wronge.');
@@ -304,6 +307,9 @@ class MovementController extends Controller
                 $deleted->status = 3;
                 $deleted->save();
                 if($deleted){
+
+                    $this->Change_log($deleted_id, '', "Deleted", "Movement Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
+
                     return redirect('/admin/movement/list/1')->with('success','Deleted 1 Movement Record.');
                 }else{
                     return redirect('/admin/movement/list/1')->with('fail','Opps!.Something Went wronge.');
@@ -315,6 +321,48 @@ class MovementController extends Controller
             return redirect('/admin/movement/list/1')->with('fail','You do not have permission to delete movement Record.');
         }
 
+    }
+
+    public function update_movement_submit(request $request){
+
+
+        if(Auth::user()->permission->transfer_update == 1){
+        $movement = movement::where('id',$request->movement_id)->first();
+
+        $movement->movement_no = $request->movement_no;
+        $movement->movement_date = $request->movement_date;
+        $movement->reference = $request->reference;
+        $movement->from_name = $request->from_name;
+        $movement->from_company = $request->from_company;
+        $movement->from_department = $request->from_department;
+        $movement->from_location = $request->from_location;
+        $movement->given_by = $request->given_by;
+        $movement->from_remark = $request->from_remark;
+        $movement->to_name = $request->to_name;
+        $movement->to_company = $request->to_company;
+        $movement->to_department = $request->to_department;
+        $movement->to_location = $request->to_location;
+        $movement->received_by = $request->received_by;
+        $movement->received_date = $request->received_date;
+        $movement->condition = $request->condition;
+        $movement->purpose = $request->purpose;
+        $movement->verify_by = $request->verify_by;
+        $movement->updated_at = now(); // or $request->updated_at if coming from the request
+        $movement->authorized_by =$request->authorized_by;
+        $movement->save();
+
+
+        $this->Change_log($movement->id, '', "Update", "Movement Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
+
+        if($movement){
+            return redirect('/admin/movement/list/1')->with('success','Updated Movement.');
+        }else{
+            return redirect('/admin/movement/list/1')->with('fail','Operation fail.');
+        }
+
+        }else{
+            return redirect('/admin/movement/list/1')->with('fail','You do not have permission to Update movement Record.');
+        }
     }
 }
 

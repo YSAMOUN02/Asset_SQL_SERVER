@@ -165,11 +165,12 @@ class UserController extends Controller
         if ($request->id == $auth) {
             return redirect('/admin/user/list')->with('fail', 'You can not delete your user. change to another user to delete your user');
         }
-        $user = User::find($request->id)->delete();
 
+        $user = User::where('id',$request->id)->first();
         $this->Change_log($user->id, "", "Delete", "User Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
+        $user->delete();
         if ($user) {
-            return redirect('/admin/user/list')->with('success', 'status 1 user.');
+            return redirect('/admin/user/list')->with('success', 'Deleted User.');
         } else {
             return redirect('/admin/user/list')->with('fail', 'Opp. Operation fail.');
         }

@@ -908,7 +908,7 @@ function dynamic_sort(by, method, table) {
         alert("Data not valid.");
     }
 }
-let global_page = 1;
+
 function show_sort_movement(){
     let body_change = document.querySelector("#movement_body");
     if (body_change) {
@@ -1012,7 +1012,7 @@ function show_sort_movement(){
                                                             if(item.status == 1){
                                                                 if(auth.permission.transfer_update == 1 && auth.permission.transfer_read == 0){
                                                                     custom += `<a
-                                                                    href="/admin/movement/edit/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}/page=${global_page}">
+                                                                    href="/admin/movement/edit/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}">
                                                                     <button type="button"
                                                                         class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                                             class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
@@ -1021,7 +1021,7 @@ function show_sort_movement(){
                                                                 }else if(auth.permission.transfer_update == 0 && auth.permission.transfer_read == 1){
                                                                     custom+=`
                                                                       <a
-                                                                    href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}/page=${global_page}">
+                                                                    href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}">
                                                                     <button type="button"
                                                                         class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                                         <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
@@ -1031,7 +1031,7 @@ function show_sort_movement(){
                                                                 }else if(auth.permission.transfer_update == 1 && auth.permission.transfer_read == 1){
                                                                     custom += `
                                                                     <a
-                                                                        href="/admin/movement/edit/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}/page=${global_page}">
+                                                                        href="/admin/movement/edit/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}">
                                                                         <button type="button"
                                                                             class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
@@ -1051,7 +1051,7 @@ function show_sort_movement(){
                                                                 }
                                                             }else{
                                                                     custom += `<a
-                                                                href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}/page=${global_page}">
+                                                                href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}">
                                                                 <button type="button"
                                                                     class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                                     <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
@@ -1406,9 +1406,10 @@ function show_sort_asset() {
     let body_change = document.querySelector("#assets_body");
     body_change.innerHTML = ``;
     array.map((item) => {
-        body_change.innerHTML += `
+        let custom = ``;
+        custom += `
 
-     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
                                 <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                     <input onchange="printable()" data-id="${
@@ -1497,40 +1498,48 @@ function show_sort_asset() {
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                          ${item.description || ""}
                                     </td>
-                                  <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  dark:bg-slate-900"
+                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  dark:bg-slate-900"
                                     style="position: sticky; right: 0; background-color: white;">
-                                    ${
-                                        auth?.permission?.assets_write == 1
-                                            ? `
-                                                <a href="/admin/assets/edit/id=${item.assets_id}">
-                                                    <button type="button"
-                                                        class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                            class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-                                                    </button>
-                                                 </a>
-                                            `
-                                            : // If auth.permission.assets_write is 1
-                                              `` // If not, show nothing
+                                    `;
+                                    if(auth?.permission?.assets_read == 1 && auth?.permission?.assets_update == 0){
+
+                                                 custom+=`
+                                                 <a href="/admin/assets/view/id=${item.assets_id}">
+                                                 <button type="button"
+                                                class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
+                                                </button>
+                                                </a>`;
+                                    }else if(auth?.permission?.assets_read == 0 && auth?.permission?.assets_update == 1){
+                                        custom+= ` <a href="/admin/assets/edit/id=${item.assets_id}">
+                                        <button type="button"
+                                            class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
+                                        </button>
+                                     </a>`;
+                                    }else if(auth?.permission?.assets_read == 1 && auth?.permission?.assets_update == 1){
+                                        custom+= ` <a href="/admin/assets/edit/id=${item.assets_id}">
+                                        <button type="button"
+                                            class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
+                                        </button>
+                                     </a>`;
+
                                     }
-                                    ${
-                                        auth?.permission?.assets_delete == 1
-                                            ? `
-                                                 <button type="button" data-id="${item.assets_id}"
-                                                    id="btn_delete_asset${item.assets_id}"
-                                                    onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')"
-                                                    class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                                    <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
-                                            `
-                                            : // If auth.permission.assets_write is 1
-                                              `` // If not, show nothing
+                                    if(auth?.permission?.assets_delete == 1){
+                                        custom+= `
+                                        <button type="button" data-id="${item.assets_id}"
+                                        id="btn_delete_asset${item.assets_id}"
+                                        onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')"
+                                        class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                        <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+                                        `;
                                     }
 
+                                    custom+= `</td></tr>`;
 
-                                </td>
 
-
-                                </tr>
-  `;
+                                    body_change.innerHTML+= custom;
     });
 }
 function show_sort_raw_asset() {
@@ -1946,7 +1955,9 @@ async function search_asset(no) {
         });
 
     if (data) {
+
         if (data.data) {
+
             if (data.data.length > 0) {
                 let pagination_search = document.querySelector(
                     ".pagination_by_search"
@@ -2067,9 +2078,10 @@ async function search_asset(no) {
                 let body_change = document.querySelector("#assets_body");
                 body_change.innerHTML = ``;
                 data.data.map((item) => {
-                    body_change.innerHTML += `
+                    let custom = ``;
+                    custom += `
 
-                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
                                             <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                 <input onchange="printable()" data-id="${
@@ -2086,14 +2098,11 @@ async function search_asset(no) {
                                                    item.created_at
                                                        ? new Date(
                                                              item.created_at
-                                                         ).toLocaleDateString(
-                                                             "en-US",
-                                                             {
-                                                                 year: "numeric",
-                                                                 month: "short",
-                                                                 day: "numeric",
-                                                             }
-                                                         )
+                                                         ).toLocaleDateString("en-US", {
+                                                             year: "numeric",
+                                                             month: "short",
+                                                             day: "numeric",
+                                                         })
                                                        : ""
                                                }
 
@@ -2104,8 +2113,7 @@ async function search_asset(no) {
 
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                          ${
-                                                             item.assets1 +
-                                                                 item.assets2 ||
+                                                             item.assets1 + item.assets2 ||
                                                              ""
                                                          }
                                                 </td>
@@ -2147,10 +2155,7 @@ async function search_asset(no) {
                                                   ${item.fa_subclass || ""}
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                       ${
-                                                           item.depreciation ||
-                                                           ""
-                                                       }
+                                                       ${item.depreciation || ""}
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                    ${item.dr || ""}
@@ -2165,42 +2170,48 @@ async function search_asset(no) {
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                      ${item.description || ""}
                                                 </td>
-                                              <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  dark:bg-slate-900"
+                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  dark:bg-slate-900"
                                                 style="position: sticky; right: 0; background-color: white;">
-                                                ${
-                                                    auth?.permission
-                                                        ?.assets_write == 1
-                                                        ? `
-                                                            <a href="/admin/assets/edit/id=${item.assets_id}">
-                                                                <button type="button"
-                                                                    class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                                        class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-                                                                </button>
-                                                             </a>
-                                                        `
-                                                        : // If auth.permission.assets_write is 1
-                                                          `` // If not, show nothing
+                                                `;
+                                                if(auth?.permission?.assets_read == 1 && auth?.permission?.assets_update == 0){
+
+                                                             custom+=`
+                                                             <a href="/admin/assets/view/id=${item.assets_id}">
+                                                             <button type="button"
+                                                            class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                            <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
+                                                            </button>
+                                                            </a>`;
+                                                }else if(auth?.permission?.assets_read == 0 && auth?.permission?.assets_update == 1){
+                                                    custom+= ` <a href="/admin/assets/edit/id=${item.assets_id}">
+                                                    <button type="button"
+                                                        class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                            class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
+                                                    </button>
+                                                 </a>`;
+                                                }else if(auth?.permission?.assets_read == 1 && auth?.permission?.assets_update == 1){
+                                                    custom+= ` <a href="/admin/assets/edit/id=${item.assets_id}">
+                                                    <button type="button"
+                                                        class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                            class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
+                                                    </button>
+                                                 </a>`;
+
                                                 }
-                                                ${
-                                                    auth?.permission
-                                                        ?.assets_delete == 1
-                                                        ? `
-                                                             <button type="button" data-id="${item.assets_id}"
-                                                                id="btn_delete_asset${item.assets_id}"
-                                                                onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')"
-                                                                class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                                                <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
-                                                        `
-                                                        : // If auth.permission.assets_write is 1
-                                                          `` // If not, show nothing
+                                                if(auth?.permission?.assets_delete == 1){
+                                                    custom+= `
+                                                    <button type="button" data-id="${item.assets_id}"
+                                                    id="btn_delete_asset${item.assets_id}"
+                                                    onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')"
+                                                    class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                    <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+                                                    `;
                                                 }
 
+                                                custom+= `</td></tr>`;
 
-                                            </td>
 
-
-                                            </tr>
-              `;
+                                                body_change.innerHTML+= custom;
                 });
                 array = data.data;
             } else {
@@ -4176,9 +4187,9 @@ async function search_movement(no){
         });
 
         if (data) {
-            console.log(data);
+            // console.log(data);
             if(data.page){
-                global_page = data.page;
+
             }
             if (data.data) {
                 if (data.data.length > 0) {
@@ -4393,7 +4404,7 @@ async function search_movement(no){
                                     if(item.status == 1){
                                         if(auth.permission.transfer_update == 1 && auth.permission.transfer_read == 0){
                                             custom += `<a
-                                            href="/admin/movement/edit/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}/page=${data.page}">
+                                            href="/admin/movement/edit/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}">
                                             <button type="button"
                                                 class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                     class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
@@ -4402,7 +4413,7 @@ async function search_movement(no){
                                         }else if(auth.permission.transfer_update == 0 && auth.permission.transfer_read == 1){
                                             custom+=`
                                               <a
-                                            href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}/page=${data.page}">
+                                            href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}">
                                             <button type="button"
                                                 class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                 <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
@@ -4412,7 +4423,7 @@ async function search_movement(no){
                                         }else if(auth.permission.transfer_update == 1 && auth.permission.transfer_read == 1){
                                             custom += `
                                             <a
-                                                href="/admin/movement/edit/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}/page=${data.page}">
+                                                href="/admin/movement/edit/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}">
                                                 <button type="button"
                                                     class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                         class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
@@ -4432,7 +4443,7 @@ async function search_movement(no){
                                         }
                                     }else{
                                             custom += `<a
-                                        href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}/page=${data.page}">
+                                        href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}">
                                         <button type="button"
                                             class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>

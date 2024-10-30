@@ -168,14 +168,16 @@
         @endif
         @if (!empty($array_qr))
             @foreach ($array_qr as $item)
-                @if ($item->assets1 . $item->assets2 == '')
-                    <div onclick="remove_QR('#qr_{{ $item->id }}')" id="qr_{{ $item->id }}" class="box_qr flex">
-                        Asset Code Null,<br> Can't generate. Click to Remove
-                    </div>
-                @else
-                    <div onclick="remove_QR('#qr_{{ $item->id }}')" id="qr_{{ $item->id }}" class="box_qr flex">
-                        {!! QrCode::size(150)->generate($item->assets1 . $item->assets2) !!} &ensp; <span>{{ $item->assets1 . $item->assets2 }}</span>
-                    </div>
+                @if(!empty($item->assets1) ||!empty($item->assets2 )  )
+                    @if ($item->assets1 == '' ||  $item->assets2 == '')
+                        <div onclick="remove_QR('#qr_{{ $item->id }}')" id="qr_{{ $item->id }}" class="box_qr flex">
+                            Asset Code Null,<br> Can't generate. Click to Remove
+                        </div>
+                    @else
+                        <div onclick="remove_QR('#qr_{{ $item->id }}')" id="qr_{{ $item->id }}" class="box_qr flex">
+                            {!! QrCode::size(150)->generate($item->assets1 . $item->assets2) !!} &ensp; <span>{{ $item->assets1 . $item->assets2 }}</span>
+                        </div>
+                    @endif
                 @endif
             @endforeach
 
@@ -354,6 +356,7 @@
                 <tbody>
                     @if (!empty($array_qr))
                         @foreach ($array_qr as $item)
+                            @if(!empty($item))
                             <tr id="td" class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
 
@@ -418,6 +421,7 @@
                                 </td>
 
                             </tr>
+                            @endif
                         @endforeach
                     @endif
                 </tbody>

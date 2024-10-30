@@ -406,7 +406,7 @@
                                         @if (Auth::user()->permission->transfer_update == 1 && Auth::user()->permission->transfer_read == 0)
 
                                             <a
-                                                href="/admin/movement/edit/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}/page={{$page}}">
+                                                href="/admin/movement/edit/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}">
                                                 <button type="button"
                                                     class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                         class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
@@ -415,7 +415,7 @@
 
                                         @elseif (Auth::user()->permission->transfer_update == 0  && Auth::user()->permission->transfer_read == 1 )
                                             <a
-                                            href="/admin/movement/view/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}/page={{$page}}">
+                                            href="/admin/movement/view/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}">
                                             <button type="button"
                                                 class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                 <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
@@ -423,7 +423,7 @@
                                         </a>
                                         @elseif (Auth::user()->permission->transfer_update == 1  && Auth::user()->permission->transfer_read == 1)
                                                 <a
-                                                href="/admin/movement/edit/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}/page={{$page}}">
+                                                href="/admin/movement/edit/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}">
                                                 <button type="button"
                                                     class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                         class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
@@ -444,7 +444,7 @@
                                     {{-- Inactive State  --}}
                                     @elseif($item->status == 0)
                                             <a
-                                                href="/admin/movement/view/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}/page={{$page}}">
+                                                href="/admin/movement/view/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}">
                                                 <button type="button"
                                                     class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                     <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
@@ -455,7 +455,7 @@
                                     {{-- Deleted State  --}}
                                     @elseif($item->status == 3)
                                             <a
-                                            href="/admin/movement/view/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}/page={{$page}}">
+                                            href="/admin/movement/view/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}">
                                             <button type="button"
                                                 class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                 <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>

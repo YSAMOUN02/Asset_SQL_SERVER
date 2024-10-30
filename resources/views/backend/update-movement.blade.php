@@ -7,7 +7,7 @@
         </div>
 
     </div>
-    <form class="p-2 lg:p-10 py-2 lg:py-15 dark:bg-gray-900" enctype="multipart/form-data" action="/admin/movement/add/detail/submit" method="POST">
+    <form class="p-2 lg:p-10 py-2 lg:py-15 dark:bg-gray-900" enctype="multipart/form-data" action="/admin/movement/admin/update/submit" method="POST">
         @csrf
         <h1 class="title_base dark:text-blue-100">Movement Info</h1>
         <div class="grid grid-cols-2 gap-6 mb-6 md:grid-cols-2">
@@ -45,7 +45,11 @@
 
             <div class="grid gap-6 lg:grid-cols-1 md:grid-cols-1">
                 <span class="title_base text-lg dark:text-blue-100">Movement From</span>
-
+                <div class="hidden">
+                    <input type="text" id="movement_id"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    name="movement_id" value="{{ old('movement_id', $movement->id?? '') }}" />
+                </div>
 
                 <div>
                     <label for="from_department"
@@ -53,24 +57,30 @@
 
 
                         @if($movement->from_department)
-                        @if(!empty($department ))
 
-                            <select id="from_department"  name="from_department"
-                                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value="{{$movement->from_department}}">{{$movement->from_department}}</option>
-                                @foreach ($department as $item)
-                                @if($movement->from_department != $item)
-                                <option value="{{$item->content}}">{{$item->content}}</option>
-                                @endif
-                                @endforeach
+                            @if(!empty($department ))
 
-                            </select>
+                                <select id="from_department"  name="from_department"
+                                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option value="{{$movement->from_department}}">{{$movement->from_department}}</option>
+                                    @foreach ($department as $item)
+                                    @if($movement->from_department != $item)
+                                    <option value="{{$item->content}}">{{$item->content}}</option>
+                                    @endif
+                                    @endforeach
+
+                                </select>
+                            @else
+
+                            <input type="text" id="from_department"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            name="from_department" />
+                            @endif
                         @else
 
-                        <input type="text" id="from_department"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        name="from_department" />
-                        @endif
+                            <input type="text" id="from_department"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            name="from_department" />
                         @endif
                 </div>
                 <div>
@@ -827,24 +837,19 @@
             </div>
         </div>
 
-
+        @if($update_able == 1)
         <div class="btn_float_right">
-            <a href="/admin/movement/list/{{$page}}">
-                <button type="button"
-                class="text-white mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                Back
-                </button>
-               </a>
-            @if($update_able == 1)
+
+
             <button type="submit"
                 class="text-white mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Submit
             </button>
 
 
-            @endif
+
 
         </div>
-
+        @endif
     </form>
 @endsection

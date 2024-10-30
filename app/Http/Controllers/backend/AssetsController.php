@@ -163,206 +163,7 @@ class AssetsController extends Controller
 
 
     }
-    // public function assets_add_by_search(Request $request)
-    // {
 
-
-    //     //   "end_date": null,
-    //     $query = null;
-    //     $query = RawFixAssets::orderBy("assets_date", "desc");
-    //     // return "case 1";
-    //     if (!empty($request->assets)) {
-    //         $query->where('assets', 'like', strtoupper('%' . $request->assets) . '%');
-    //     }
-    //     if (!empty($request->fa)) {
-    //         $query->where('fa', 'like', strtoupper('%' . $request->fa) . '%');
-    //     }
-    //     if (!empty($request->invoice)) {
-    //         $query->where('invoice_no', 'like', strtoupper('%' . $request->invoice) . '%');
-    //     }
-    //     if (!empty($request->description)) {
-    //         $query->where('description', 'like', strtoupper('%' . $request->description) . '%');
-    //     }
-    //     if (!empty($request->state)) {
-    //         if ($request->state != "All") {
-    //             $query->where('state', $request->state);
-    //         }
-    //     }
-
-    //     if ($request->start_date != "" && $request->end_date == "") {
-
-    //         $query->whereBetween('assets_date', '<=', $request->end_date);
-    //     } elseif ($request->start_date == "" && $request->end_date != "") {
-
-    //         $query->whereBetween('assets_date', '>=', $request->start_date);
-    //     } elseif ($request->start_date != "" && $request->end_date != "") {
-
-    //         $query->whereBetween('assets_date', [$request->start_date, $request->end_date]);
-    //     } elseif ($request->start_date == "" && $request->end_date == "") {
-    //     }
-    //     $query->select(
-    //         'assets',
-    //         'invoice_no',
-    //         'description',
-    //         'fa_subclass',
-    //         'fa_class_code',
-    //         'fa',
-    //         'state',
-    //         DB::raw("FORMAT(posting_date, 'yyyy-MM-dd') as assets_date")
-    //     );
-    //     $data = $query->get();
-
-
-
-    //     $count = COUNT($data);
-
-    //     if ($count == 0) {
-    //         return "case 2";
-    //         $query = RawFixAssets::orderBy("assets_date", "desc");
-
-    //         if (!empty($request->assets)) {
-    //             $query->where('assets', 'like', '%' . $request->assets . '%');
-    //         }
-    //         if (!empty($request->fa)) {
-    //             $query->where('fa', 'like', '%' . $request->fa . '%');
-    //         }
-    //         if (!empty($request->invoice)) {
-    //             $query->where('invoice_no', 'like', '%' . $request->invoice . '%');
-    //         }
-    //         if (!empty($request->description)) {
-    //             $query->where('description', 'like', '%' . $request->description . '%');
-    //         }
-    //         if (!empty($request->state)) {
-    //             if ($request->state != "All") {
-    //                 $query->where('state', $request->state);
-    //             }
-    //         }
-    //         if ($request->start_date != "" && $request->end_date == "") {
-
-    //             $query->whereBetween('assets_date', '<=', $request->end_date);
-    //         } elseif ($request->start_date == "" && $request->end_date != "") {
-
-    //             $query->whereBetween('assets_date', '>=', $request->start_date);
-    //         } elseif ($request->start_date != "" && $request->end_date != "") {
-
-    //             $query->whereBetween('assets_date', [$request->start_date, $request->end_date]);
-    //         } elseif ($request->start_date == "" && $request->end_date == "") {
-    //         }
-
-    //         $query->select(
-    //             'assets',
-    //             'invoice_no',
-    //             'description',
-    //             'fa_subclass',
-    //             'fa_class_code',
-    //             'fa',
-    //             'state',
-    //             DB::raw("FORMAT(posting_date, 'yyyy-MM-dd') as assets_date")
-    //         );
-    //         $data = $query->get();
-    //     }
-
-    //     $search = array(
-    //         "assets" => $request->assets,
-    //         "fa" => $request->fa,
-    //         "invoice" => $request->invoice,
-    //         "description" => $request->description,
-    //         "state"  => $request->state,
-    //         'start_date' => $request->start_date,
-    //         'end_date' => $request->end_date
-    //     );
-
-
-    //     return view('backend.list-select', [
-    //         'data' => $data,
-
-    //         'search' => $search
-    //     ]);
-    // }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    // public function list_asset_search(Request $request)
-    // {
-
-
-    //     $query = null;
-    //     $query = StoredAssets::orderBy("issue_date", "desc");
-
-    //     if (!empty($request->assets)) {
-    //         $query->where('assets', 'like', strtoupper('%' . $request->assets) . '%');
-    //     }
-    //     if (!empty($request->fa)) {
-    //         $query->where('fa', 'like', strtoupper('%' . $request->fa) . '%');
-    //     }
-    //     if (!empty($request->fa)) {
-    //         $query->where('invoice_no', 'like', strtoupper('%' . $request->invoice) . '%');
-    //     }
-
-    //     if (!empty($request->description)) {
-    //         $query->where('description', 'like', strtoupper('%' . $request->description) . '%');
-    //     }
-    //     if (!empty($request->state)) {
-    //         if ($request->state != "All") {
-    //             $query->where('state', $request->state);
-    //         }
-    //     }
-    //     $query->whereBetween('issue_date', [$request->start_date, $request->end_date]);
-    //     $query->select(
-    //         '*',
-
-    //         DB::raw("FORMAT(issue_date, 'yyyy-MM-dd') as assets_date")
-    //     );
-    //     $asset = $query->get();
-
-
-
-    //     $count = COUNT($asset);
-
-    //     if ($count == 0) {
-    //         $query = StoredAssets::orderBy("issue_date", "desc");
-
-    //         if (!empty($request->assets)) {
-    //             $query->where('assets', 'like', '%' . $request->assets . '%');
-    //         }
-    //         if (!empty($request->fa)) {
-    //             $query->where('fa', 'like', '%' . $request->fa . '%');
-    //         }
-    //         if (!empty($request->fa)) {
-    //             $query->where('invoice_no', 'like', '%' . $request->invoice . '%');
-    //         }
-
-    //         if (!empty($request->description)) {
-    //             $query->where('description', 'like', '%' . $request->description . '%');
-    //         }
-    //         if (!empty($request->state)) {
-    //             if ($request->state != "All") {
-    //                 $query->where('state', $request->state);
-    //             }
-    //         }
-
-    //         $query->select(
-    //             '*',
-
-    //             DB::raw("FORMAT(issue_date, 'yyyy-MM-dd') as assets_date")
-    //         );
-    //         $asset = $query->get();
-    //     }
-    //     // return $request->state;
-    //     $search = array(
-    //         "assets" => $request->assets,
-    //         "fa" => $request->fa,
-    //         "invoice" => $request->invoice,
-    //         "description" => $request->description,
-    //         "state"  => $request->state,
-    //         'start_date' => $request->start_date,
-    //         'end_date' => $request->end_date
-    //     );
-
-    //     return view('backend.list-assets', [
-    //         'asset' => $asset,
-    //         'search' => $search
-    //     ]);
-    // }
     public function assets_add_submit(Request $request)
     {
         if(Auth::user()->permission->assets_write == 1){
@@ -552,6 +353,7 @@ class AssetsController extends Controller
     public function update_asset($id)
     {
         if(Auth::user()->permission->assets_update == 1){
+            $update_able = 1;
                 $asset = StoredAssets::with(['images', 'files'])
                 ->where('assets_id', $id)
                 ->Orderby('varaint', 'asc')
@@ -579,10 +381,18 @@ class AssetsController extends Controller
             if (Auth::user()->role == "admin") {
 
                 // return $asset;
-                return view('backend.update-assets-by-variant', ['asset' => $asset, 'total_varaint' => $count, 'current_varaint' => $current_varaint, 'department' => $department, 'company' => $company, 'qr_code' => $qr_code]);
+                return view('backend.update-assets-by-variant', [
+                    'asset' => $asset,
+                    'total_varaint' => $count,
+                    'current_varaint' => $current_varaint,
+                    'department' => $department,
+                    'company' => $company,
+                    'qr_code' => $qr_code,
+                    'update_able'=>$update_able
+                ]);
             } elseif (Auth::user()->role == "staff") {
 
-                return view('backend.update-assets', ['asset' => $asset[$count], 'department' => $department, 'company' => $company, 'qr_code' => $qr_code]);
+                return view('backend.update-assets', ['asset' => $asset[$count], 'department' => $department, 'company' => $company, 'qr_code' => $qr_code ,'update_able'=>$update_able]);
             } else {
                 return view('backend.dashboard')->with('fail', "You do not have permission on this function.");
             }
@@ -826,13 +636,15 @@ class AssetsController extends Controller
             }
         }
     }
+
+
     public function staff_delete_submit(request $request)
     {
 
         if(Auth::user()->permission->assets_delete == 1){
             $asset = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->first();
             $asset->status = 1;
-            $asset->status_at = Carbon::parse(today())->format('Y-m-d H:i:s');
+            $asset->deleted_at = Carbon::parse(today())->format('Y-m-d H:i:s');
 
             $asset->save();
 
@@ -885,7 +697,7 @@ class AssetsController extends Controller
     public function view_varaint_asset($var, $id)
     {
         if(Auth::user()->permission->assets_read == 1){
-
+            $update_able = 1;
             $asset = StoredAssets::with(['images', 'files'])
             ->where('assets_id', $id)
             ->Orderby('varaint', 'asc')
@@ -902,7 +714,7 @@ class AssetsController extends Controller
             }
 
 
-            return view('backend.update-assets-by-variant', ['asset' => $asset, 'total_varaint' => $count, 'current_varaint' => $current_varaint, 'qr_code' => $qr_code]);
+            return view('backend.update-assets-by-variant', ['asset' => $asset, 'total_varaint' => $count, 'current_varaint' => $current_varaint, 'qr_code' => $qr_code,'update_able' => $update_able]);
         }else{
                 return redirect('/')->with('fail','You do not have permission Assets Read.');
       }
@@ -1183,14 +995,35 @@ class AssetsController extends Controller
 
         $count = count($id);
         $array_qr = [];
+
         if ($count > 0) {
             foreach ($id as $item) {
+
                 $object = StoredAssetsUser::where('id', $item)->first();
-                array_push($array_qr, $object);
+                if($object != null){
+                    array_push($array_qr, $object);
+                }
             }
         }
+        $count_array_qr = count($array_qr);
 
+        if($count_array_qr != 0){
+            // return $array_qr;
+            return view('backend.print-qr', ['array_qr' => $array_qr]);
+        }else{
+            if ($count > 0) {
+                foreach ($id as $item) {
+
+                    $object = StoredAssets::where('assets_id', $item)->where('last_varaint',1)->first();
+                    if($object != null){
+                        array_push($array_qr, $object);
+                    }
+
+                }
+        }
         return view('backend.print-qr', ['array_qr' => $array_qr]);
+        }
+
     }
 
     public function multi_export(request $request)
@@ -1367,4 +1200,64 @@ class AssetsController extends Controller
         }
     }
 
+
+
+
+    public function view_asset($id){
+        if(Auth::user()->permission->assets_read == 1){
+            $asset = StoredAssets::with(['images', 'files'])
+            ->where('assets_id', $id)
+            ->Orderby('varaint', 'asc')
+            ->get();
+        $count = count($asset);
+        $count -= 1;
+        $current_varaint = $count;
+        $qr_code = "No QR Code Generated";
+
+
+
+        if ($asset[$count]->assets1 . $asset[$count]->assets2 != "") {
+            $qr_code = QrCode::size(300)->format('svg')->generate($asset[$count]->assets1 . $asset[$count]->assets2);
+        }
+        // Save the SVG to temporary storage
+        $svgContent = $qr_code;
+        if ($svgContent) {
+            Storage::disk('public')->put('qrcodes/my-qrcode.svg', $svgContent);
+        }
+
+        $update_able = 0;
+
+        $department = QuickData::where('type', 'department')->select('content')->orderby('id', 'desc')->get();
+        $company = QuickData::where('type', 'company')->select('content')->orderby('id', 'desc')->get();
+        // return $count;
+        if (Auth::user()->role == "admin") {
+
+            // return $asset;
+            return view('backend.update-assets-by-variant', [
+                'asset' => $asset,
+                 'total_varaint' => $count,
+                 'current_varaint' => $current_varaint,
+                 'department' => $department,
+                 'company' => $company,
+                 'qr_code' => $qr_code,
+                 'update_able' =>  $update_able
+
+                ]);
+        } elseif (Auth::user()->role == "staff") {
+
+            return view('backend.update-assets', [
+                'asset' => $asset[$count],
+                'department' => $department,
+                 'company' => $company,
+                  'qr_code' => $qr_code,
+                  'update_able' =>  $update_able
+
+                ]);
+        } else {
+            return view('backend.dashboard')->with('fail', "You do not have permission on this function.");
+        }
+        }else{
+                return redirect('/')->with('fail','You do not have permission Assets Update.');
+  }
+    }
 }
