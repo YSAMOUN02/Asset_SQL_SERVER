@@ -2050,10 +2050,6 @@ input:checked + .toggle-bg {
   padding: 0.25rem;
 }
 
-.p-10 {
-  padding: 2.5rem;
-}
-
 .p-2 {
   padding: 0.5rem;
 }
@@ -2750,13 +2746,13 @@ input:checked + .toggle-bg {
   border-color: rgb(64 64 64 / var(--tw-border-opacity));
 }
 
-.dark\:border-transparent:is(.dark *) {
-  border-color: transparent;
+.dark\:border-rose-600:is(.dark *) {
+  --tw-border-opacity: 1;
+  border-color: rgb(225 29 72 / var(--tw-border-opacity));
 }
 
-.dark\:border-r-red-500:is(.dark *) {
-  --tw-border-opacity: 1;
-  border-right-color: rgb(240 82 82 / var(--tw-border-opacity));
+.dark\:border-transparent:is(.dark *) {
+  border-color: transparent;
 }
 
 .dark\:bg-black:is(.dark *) {
@@ -3347,6 +3343,11 @@ input:checked + .toggle-bg {
   .lg\:py-4 {
     padding-top: 1rem;
     padding-bottom: 1rem;
+  }
+
+  .lg\:py-5 {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
   }
 
   .lg\:pb-10 {
