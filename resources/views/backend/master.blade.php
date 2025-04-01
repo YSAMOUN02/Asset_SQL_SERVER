@@ -140,9 +140,10 @@
                             <span class="sr-only">Toggle sidebar</span>
                         </button>
                         <a href="/" class="flex items-center justify-between mr-4">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR73_4f1_nNP2pC7eLjpmYsDGvJJJXfQ2btLg&s"
+                            <img src="/static_img/images.png"
                                 class="mr-3 h-8" alt="Flowbite Logo" />
-                            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">PPM ASSET
+                            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+                                PPM ASSET
                                 MIS</span>
                         </a>
 
@@ -165,7 +166,7 @@
 
         @if(!empty(Auth::user()))
         <aside
-            class=" aside fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+            class="  fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
             aria-label="Sidenav" id="drawer-navigation">
             <div  class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
                 <form action="#" method="GET" class="md:hidden mb-2">
@@ -200,9 +201,7 @@
                                 <i class="fa-solid fa-chevron-down"></i>
                             </button>
                             <ul id="dropdown-pages" class="hidden py-2 space-y-2">
-                                @php
-                                    $state_asset = 0;
-                                @endphp
+
                                 @if (Auth::user()->Permission->assets_write == 1)
                                     <li>
                                         <a href="/admin/assets/add/1"
@@ -210,10 +209,17 @@
                                             Assets</a>
                                     </li>
 
-                                    @php
-                                        $state_asset = 1;
-                                    @endphp
+
                                 @endif
+                                @if (Auth::user()->Permission->assets_write == 1)
+                                <li>
+                                    <a href="/admin/assets/add/assets=NEW/invoice_no=NEW"
+                                        class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">New
+                                        Assets</a>
+                                </li>
+
+
+                            @endif
                                 @if (Auth::user()->Permission->assets_read == 1)
                                     <li>
                                         <a href="/admin/assets/list/1"
@@ -221,18 +227,9 @@
                                             Assets</a>
                                     </li>
 
-                                    @php
-                                        $state_asset = 1;
-                                    @endphp
                                 @endif
 
-                                @if ($state_asset == 0)
-                                    <li>
-                                        <span
-                                            class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">No
-                                            Permission</span>
-                                    </li>
-                                @endif
+
                             </ul>
                         </li>
                     @endif
@@ -324,7 +321,7 @@
 
                     </li>
 
-                    <li>
+                    {{-- <li>
                         <a onclick="{alert('Upcoming Update....')}">
                             <button type="button"
                                 class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
@@ -334,7 +331,7 @@
                             </button>
                         </a>
 
-                    </li>
+                    </li> --}}
 
                     @endif
                     @if(Auth::user()->role=="admin")

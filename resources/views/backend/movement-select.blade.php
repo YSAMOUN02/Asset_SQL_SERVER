@@ -64,22 +64,18 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                     </div>
+                    <div>
+                                     <select name="status" id="status" >
+                                        <option value="ALL">All</option>
+                                        <option value="0">Active</option>
+                                        <option value="2">Sold</option>
+                                        <option value="1">Deleted</option>
+                                     </select>
+
+                    </div>
 
 
 
-                    {{-- <div>
-                        <label for="state"
-                            class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">State</label>
-                        <select id="state" name="state"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="All">All</option>
-                            <option value="0">Active</option>
-                            <option value="2">Sold</option>
-
-
-
-                        </select>
-                    </div> --}}
                 </div>
                 <div class="max-w-full items-center flex  justify-between px-2 mt-1 lg:mt-2 py-1 lg:py-2 sm:grid sm:grid-cols-1">
                     <div class="flex main_page justify-between items-center" >
@@ -298,7 +294,7 @@
                                         <span
                                             class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                                             <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                            status
+                                            Deleted
                                         </span>
                                     @elseif($item->status == 2)
                                         <span

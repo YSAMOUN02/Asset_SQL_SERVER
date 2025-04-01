@@ -169,7 +169,7 @@
         @if (!empty($array_qr))
             @foreach ($array_qr as $item)
                 @if(!empty($item->assets1) ||!empty($item->assets2 )  )
-                    @if ($item->assets1 == '' ||  $item->assets2 == '')
+                    @if ($item->assets1 == '')
                         <div onclick="remove_QR('#qr_{{ $item->id }}')" id="qr_{{ $item->id }}" class="box_qr flex">
                             Asset Code Null,<br> Can't generate. Click to Remove
                         </div>
@@ -375,7 +375,7 @@
                                 </td>
 
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->assets1 . $item->assets2 }}
+                                    {{ $item->assets1 . $item->assets2??'' }}
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->fa }}
@@ -541,10 +541,12 @@
 </body>
 
 <script src="{{ URL('/assets/js/print_qr.js') }}"></script>
+{{-- @if (!empty($array_qr))
 <script>
-    if ($array_qr != null) {
-        let array = @json($array_qr);
-    }
-</script>
 
+        let array = @json($array_qr);
+
+
+</script>
+@endif --}}
 </html>

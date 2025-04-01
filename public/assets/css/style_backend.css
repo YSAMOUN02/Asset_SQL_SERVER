@@ -314,6 +314,7 @@ body{
   backdrop-filter: blur(10px);
   background-color: black;
   color: white;
+
 }
 #loading h1{
   margin: 0 10px;
@@ -355,6 +356,7 @@ z-index: 99;
 #dep_user,#reference_update, #span_reference{
   display: none;
 }
+
   @keyframes fade_out{
     0%{
       display: block;

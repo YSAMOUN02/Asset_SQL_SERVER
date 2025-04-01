@@ -42,6 +42,25 @@
                     required />
             </div>
             <div>
+                <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User
+                    Role</label>
+                <select name="role"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    name="" id="">
+                    @if(!empty($user->role))
+                    <option value="{{$user->role}}">{{$user->role}}</option>
+                        @if ($user->role == 'admin')
+                        <option value="staff">staff</option>
+                        @else
+
+                        <option value="admin">admin</option>
+                        @endif
+                    @endif
+
+
+                </select>
+            </div>
+            <div>
                 <label for="login" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User
                     Login</label>
                 <input type="text" value="{{ $user->name }}" id="first_name" name="login_name"
@@ -98,10 +117,13 @@
                 </div>
         </div>
     </div>
+        @if ($edit_able == 1)
         <div class="btn_float_right">
-        <button type="submit"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-        </div>
+            <button type="submit"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+            </div>
+        @endif
+
 
         <div class="toast_position">
             <!-- Toast -->

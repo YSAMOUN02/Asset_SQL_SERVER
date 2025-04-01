@@ -10,12 +10,15 @@ use App\Models\RawFixAssets;
 use App\Models\StoredAssets;
 use App\Models\StoredAssetsUser;
 use App\Models\movement;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Mail_data;
 use Exception;
 
 class ApiHandlerController extends Controller
@@ -45,7 +48,26 @@ class ApiHandlerController extends Controller
                 'user' => $user,
             ]);
         }
+        elseif(Auth::attempt(['name' => $name_email , 'temp_password' => $password],$remember)){
+            $user = Auth::user();
+            $token = $user->createToken('MyAppToken')->plainTextToken;
 
+            return response()->json([
+                'success' => 'Login Success.',
+                'token' => $token,
+                'user' => $user,
+            ]);
+        }
+        elseif(Auth::attempt(['email' => $name_email , 'temp_password' => $password],$remember)){
+            $user = Auth::user();
+            $token = $user->createToken('MyAppToken')->plainTextToken;
+
+            return response()->json([
+                'success' => 'Login Success.',
+                'token' => $token,
+                'user' => $user,
+            ]);
+        }
         return response()->json(['error' => 'Invalid credentials'], 401);
     }
 
@@ -508,7 +530,7 @@ class ApiHandlerController extends Controller
                 $changeLog->where('section','LIKE', '%'.$section.'%');
             }
             if($change_by != 'NA'){
-                $changeLog->where('change_by','LIKE', '%'.$change_by.'%');
+                $changeLog->where('change_by',$change_by);
             }
 
           // Check if start and end are provided and not "NA"
@@ -710,18 +732,7 @@ class ApiHandlerController extends Controller
         }
 
         $data->where("status", 0);
-        // if($state != "NA"){
-        //     if ($state == "All") {
-        //     } elseif ($state == 0) {
-        //         $data->where("status", 0);
-        //     } elseif ($state == 1) {
-        //         $data->where("status", 1);
-        //     } elseif ($state == 2) {
-        //         $data->where("status", 2);
-        //     }
 
-
-        // }
 
         if ($type != "NA" && $value != "NA") {
             $data->where($type, 'LIKE', '%' . $value . '%');
@@ -775,6 +786,7 @@ class ApiHandlerController extends Controller
         $other_value = $request->other_value??'NA';
         $page = $request->page??1;
 
+
         $data = movement::orderBy('id','desc');
 
         if($id != 'NA'){
@@ -786,17 +798,7 @@ class ApiHandlerController extends Controller
         if($assets != 'NA'){
             $data->where('assets_no','LIKE','%'.$assets.'%');
         }
-        if($status != 'NA'){
-            if($status != 'All'){
-                if($status == 'not3'){
-                    $data->where('status','<>',3);
-                }else{
-                    $data->where('status',$status);
-                }
 
-            }
-
-        }
         if($from_department != 'NA'){
             $data->where('from_department','LIKE','%'.$from_department.'%');
         }
@@ -829,7 +831,17 @@ class ApiHandlerController extends Controller
             $data->where($other_search, 'LIKE', '%' . $other_value . '%');
         }
 
+        if($status != 'NA'){
+            if($status != 'All'){
+                if($status == 'not3'){
+                    $data->where('status','<>',3);
+                }else{
+                    $data->where('status',$status);
+                }
 
+            }
+
+        }
         $offet = 0;
         if($page != 0){
             $offet = ($page - 1) * $limit;
@@ -856,6 +868,48 @@ class ApiHandlerController extends Controller
         }else{
             return response()->json(["No found"]);
         }
+
+    }
+    public function check_name_for_reset_password(Request $request){
+        $name_email = $request->name_email;
+
+        $count = 0;
+        $user = User::where('name',$name_email)->first();
+
+
+        if(empty($user)){
+            $user = User::where('email',$name_email)->first();
+        }
+
+
+        if(empty($user)){
+            return response()->json(["Invalid Name or Email."], 200 );
+        }else{
+
+            $temp_password = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 6);
+            $user->temp_password =  Hash::make($temp_password);
+            $user->temp_password_expires_at = Carbon::now()->addMinutes(15); // Password expires in 15 minutes
+            $user->save();
+
+
+
+
+            $fullname = $user->fname.' '.$user->lname;
+
+                 $mailData = [
+                    'fullName' => $fullname,
+                    'company' => $user->company,
+                    'department' => $user->department,
+                    'email' => $user->email,
+                    'temp_password' => $temp_password,
+                    'phone' => $user->phone,
+
+                ];
+                // return response()->json(, 200);
+                Mail::to($user->email)->send(new Mail_data($mailData));
+            return response()->json("Code has sent to email:  ".$user->email.'  Check your Inbox to recieve Code.' , 200);
+        }
+
 
     }
 }

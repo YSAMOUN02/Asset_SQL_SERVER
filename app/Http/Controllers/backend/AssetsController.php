@@ -31,60 +31,58 @@ class AssetsController extends Controller
     }
     public function list_assets($page)
     {
-        if (Auth::user()->permission->assets_read == 1) {
-            if (Auth::user()->role == "admin") {
-                $limit = 150;
-                $count_post = StoredAssets::where("last_varaint", 1)->count();
-                // return  $count_post ;
-                $total_page = ceil($count_post/$limit);
-                $offset = 0;
-                if($page != 0){
-                    $offset = ($page - 1) * $limit;
-                }
+        $limit = 250;
+        if(Auth::user()->permission->assets_read == 1 && Auth::user()->role == 'admin'){
 
-                $asset =  StoredAssets::orderBy('assets_id', 'desc')
-                    ->limit($limit)
-                    ->offset($offset)
-                    ->where("last_varaint", 1)
-                    ->get();
-
-
-                return view('backend.list_asset', [
-                    'asset' => $asset,
-                    'total_page' => $total_page,
-                    'page' => $page,
-                    'total_assets' =>$count_post,
-                    'total_page' => $total_page
-                ]);
-            } elseif (Auth::user()->role == "staff") {
-                $limit = 150;
-                $count_post = StoredAssets::where("last_varaint", 1)->count();
-                // return  $count_post ;
-                $total_page = ceil($count_post/$limit);
-                $offset = 0;
-                if($page != 0){
-                    $offset = ($page - 1) * $limit;
-                }
-
-                $asset =  StoredAssetsUser::orderBy('id', 'desc')
-                    ->limit($limit)
-                    ->offset($offset)
-                    ->where('status','<>', 1)
-                    ->get();
-                // return $asset;
-                return view('backend.list_asset_staff', [
-                    'asset' => $asset,
-                    'total_page' => $total_page,
-                    'page' => $page,
-                    'total_assets' =>$count_post,
-                    'total_page' => $total_page
-                ]);
-            } else {
-                return redirect("/")->with("fail", "You do not have User role in system.");
+            $count_post = StoredAssets::where("last_varaint", 1)->count();
+            $total_page = ceil($count_post/$limit);
+            $offset = 0;
+            if($page != 0){
+                $offset = ($page - 1) * $limit;
             }
-        } else {
-            return redirect("/")->with("fail", "You do not have permission Assets Read.");
+
+            $asset =  StoredAssets::orderBy('id', 'desc')
+                ->limit($limit)
+                ->offset($offset)
+                ->where("last_varaint", 1)
+
+                ->get();
+
+            return view('backend.list_asset', [
+                'asset' => $asset,
+                'total_page' => $total_page,
+                'page' => $page,
+                'total_assets' =>$count_post,
+                'total_page' => $total_page
+            ]);
+
+
+        }elseif(Auth::user()->permission->assets_read == 1 && Auth::user()->role == 'staff'){
+
+            $count_post = StoredAssets::where("last_varaint", 1)->count();
+            $total_page = ceil($count_post/$limit);
+            $offset = 0;
+            if($page != 0){
+                $offset = ($page - 1) * $limit;
+            }
+
+            $asset =  StoredAssets::orderBy('assets_id', 'desc')
+                ->limit($limit)
+                ->offset($offset)
+                ->where("last_varaint", 1)
+                ->where('status','<>',1)
+                ->get();
+
+            return view('backend.list_asset', [
+                'asset' => $asset,
+                'total_page' => $total_page,
+                'page' => $page,
+                'total_assets' =>$count_post,
+                'total_page' => $total_page
+            ]);
         }
+
+
     }
 
     public function list_select($page)
@@ -355,10 +353,12 @@ class AssetsController extends Controller
         if(Auth::user()->permission->assets_update == 1){
             $update_able = 1;
                 $asset = StoredAssets::with(['images', 'files'])
-                ->where('assets_id', $id)
+                ->where('id', $id)
                 ->Orderby('varaint', 'asc')
                 ->get();
             $count = count($asset);
+
+            // return $asset;
             $count -= 1;
             $current_varaint = $count;
             $qr_code = "No QR Code Generated";
@@ -375,8 +375,14 @@ class AssetsController extends Controller
 
 
 
-            $department = QuickData::where('type', 'department')->select('content')->orderby('id', 'desc')->get();
-            $company = QuickData::where('type', 'company')->select('content')->orderby('id', 'desc')->get();
+            $department = QuickData::where('type', 'Department')
+            ->select('content')
+            ->orderby('id', 'desc')
+            ->get();
+            $company = QuickData::where('type', 'company')
+            ->select('content')
+            ->orderby('id', 'desc')
+            ->get();
             // return $count;
             if (Auth::user()->role == "admin") {
 
@@ -392,7 +398,15 @@ class AssetsController extends Controller
                 ]);
             } elseif (Auth::user()->role == "staff") {
 
-                return view('backend.update-assets', ['asset' => $asset[$count], 'department' => $department, 'company' => $company, 'qr_code' => $qr_code ,'update_able'=>$update_able]);
+                return view('backend.update-assets-by-variant', [
+                    'asset' => $asset,
+                    'total_varaint' => $count,
+                    'current_varaint' => $current_varaint,
+                    'department' => $department,
+                    'company' => $company,
+                    'qr_code' => $qr_code ,
+                    'update_able'=>$update_able
+                ]);
             } else {
                 return view('backend.dashboard')->with('fail', "You do not have permission on this function.");
             }
@@ -638,34 +652,7 @@ class AssetsController extends Controller
     }
 
 
-    public function staff_delete_submit(request $request)
-    {
 
-        if(Auth::user()->permission->assets_delete == 1){
-            $asset = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->first();
-            $asset->status = 1;
-            $asset->deleted_at = Carbon::parse(today())->format('Y-m-d H:i:s');
-
-            $asset->save();
-
-            $asset_delete = StoredAssetsUser::where('id', $request->id)->first();
-            $asset_delete->status = 1;
-            $asset_delete->save();
-
-
-
-            $this->Change_log($asset->assets_id, $asset->varaint, "Delete", "Asset Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
-
-            if ($asset_delete) {
-                return redirect("/admin/assets/list/1")->with('success', "Delete Record Success.");
-            } else {
-                return redirect("/admin/assets/list/1")->with('fail', "Opps. Somthing went wronge.");
-            }
-        }else{
-                return redirect('/')->with('fail','You do not have permission Assets Delete.');
-      }
-
-    }
     public function update_existing_to_new_varaint($request, $id, $varaint)
     {
         if ($request->state_stored_file > 0) {
@@ -723,22 +710,46 @@ class AssetsController extends Controller
 
     public function delete_admin_asset(request $request)
     {
-        if(Auth::user()->permission->assets_delete == 1 && Auth::user()->role == 'admin')  {
-            $assets_id = $request->id;
 
-            // Remove file and Image from server permanent
-            $this->initailize_record($assets_id);
-            File::where('asset_id', $assets_id)->delete();
-            Image::where('asset_id', $assets_id)->delete();
-            StoredAssets::where('assets_id', $assets_id)->delete();
-            StoredAssetsUser::where('id', $assets_id)->delete();
+        // if(Auth::user()->permission->assets_delete == 1 && Auth::user()->role == 'admin')  {
+        //     $assets_id = $request->id;
 
-            $this->Change_log($assets_id, "All Varaint", "Delete Permanent", "Asset Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
-            return redirect("/admin/assets/list/1");
-        }else{
-                return redirect('/')->with('fail','You do not have permission Asset Delete Role: Admin.');
-      }
+        //     // Remove file and Image from server permanent
+        //     $this->initailize_record($assets_id);
+        //     File::where('asset_id', $assets_id)->delete();
+        //     Image::where('asset_id', $assets_id)->delete();
+        //     StoredAssets::where('assets_id', $assets_id)->delete();
+        //     StoredAssetsUser::where('id', $assets_id)->delete();
 
+        //     $this->Change_log($assets_id, "All Varaint", "Delete Permanent", "Asset Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
+        //     return redirect("/admin/assets/list/1");
+
+
+        // }elseif(Auth::user()->permission->assets_delete == 1 && Auth::user()->role == 'staff'){
+            // $asset = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->first();
+            // $asset->status = 1;
+
+
+            // $asset->save();
+
+            $asset_delete = StoredAssets::where('id', $request->id) ->where("last_varaint", 1)->first();
+            $asset_delete->status = 1;
+            $asset_delete->deleted_at = Carbon::parse(today())->format('Y-m-d H:i:s');
+            $deleted = $asset_delete->save();
+
+
+
+            $this->Change_log($asset_delete->assets_id, $asset_delete->varaint, "Delete", "Asset Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
+
+            if ($deleted) {
+                return redirect("/admin/assets/list/1")->with('success', "Delete Record Success.");
+            } else {
+                return redirect("/admin/assets/list/1")->with('fail', "Opps. Somthing went wronge.");
+            }
+        // }
+    //     else{
+    //             return redirect('/')->with('fail','You do not have permission Asset Delete Role: Admin.');
+    //   }
     }
 
     public function initailize_record($id)
@@ -999,29 +1010,36 @@ class AssetsController extends Controller
         if ($count > 0) {
             foreach ($id as $item) {
 
-                $object = StoredAssetsUser::where('id', $item)->first();
+                $object = StoredAssets::where('id', $item)->first();
                 if($object != null){
+
                     array_push($array_qr, $object);
                 }
             }
         }
         $count_array_qr = count($array_qr);
 
-        if($count_array_qr != 0){
-            // return $array_qr;
-            return view('backend.print-qr', ['array_qr' => $array_qr]);
-        }else{
-            if ($count > 0) {
-                foreach ($id as $item) {
 
-                    $object = StoredAssets::where('assets_id', $item)->where('last_varaint',1)->first();
-                    if($object != null){
-                        array_push($array_qr, $object);
-                    }
+        // if($count_array_qr != 0){
+        //     // return $array_qr;
+        //     return view('backend.print-qr', ['array_qr' => $array_qr]);
+        // }else{
+        //     if ($count > 0) {
+        //         foreach ($id as $item) {
 
-                }
-        }
+        //             $object = StoredAssets::where('id', $item)->where('last_varaint',1)->first();
+        //             if($object != null){
+        //                 array_push($array_qr, $object);
+        //             }
+
+        //         }
+        // }
+     if($count_array_qr != 0){
+
         return view('backend.print-qr', ['array_qr' => $array_qr]);
+        }
+        else{
+            return redirect('/admin/assets/list/1')->with('fail', 'Opps. Somthing went wronge.');
         }
 
     }

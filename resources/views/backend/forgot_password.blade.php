@@ -32,7 +32,9 @@
             transform: translate(-50%, -50%);
             animation: fade_up 10s forwards;
         }
-
+        #code_submit{
+            display: none;
+        }
         @keyframes fade_up {
             0% {
 
@@ -127,7 +129,7 @@
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                     <h1
                         class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                        Sign in to your account
+                        Forgot Password
                     </h1>
                     <form class="space-y-4 md:space-y-6" action="/login/submit" method="POST" id="form_login" onsubmit="event.preventDefault(); submit_with_api();">
                         @csrf
@@ -137,32 +139,27 @@
                                 Email</label>
                             <input type="text" name="name_email" id="name_email"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="name@company.com" required="">
+                                required="">
                         </div>
-                        <div>
+                        <div id="code_submit">
                             <label for="password"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                            <input type="password" name="password" id="password" placeholder="••••••••"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Code</label>
+                            <input type="text" name="password" id="password"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required="">
                         </div>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-start">
-                                <div class="flex items-center h-5">
-                                    <input id="remember" aria-describedby="remember" name="remember" type="checkbox"
-                                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800">
-                                </div>
-                                <div class="ml-3 text-sm">
-                                    <label for="remember" class="text-gray-500 dark:text-gray-300">Remember me</label>
-                                </div>
-                            </div>
-                            <a href="/forgot/password"
-                                class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot
-                                password?</a>
+                        <div>
+                            <button type="button" id="btn_send_code" onclick="find_name_email()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" >
+                                Send Code </button>
                         </div>
+
+
+                        <a href="/forgot/password"
+                        class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
+                        Sign in?</a>
+
                         <button type="submit" id="button_submit"
-                            class="w-full text-white  hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign
-                            in</button>
+                            class="w-full text-white  hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Login </button>
 
                     </form>
                 </div>
@@ -172,8 +169,38 @@
 
 </body>
 
-{{-- <script src="{{ URL('/assets/js/backend_script.js') }}"></script> --}}
 <script>
+    async function find_name_email() {
+        try {
+
+
+        const response = await fetch('/api/check/name', {
+                method: 'POST',
+                headers: {
+            'Content-Type': 'application/json'
+        },
+            body: JSON.stringify({
+                name_email: document.getElementById('name_email').value,
+            }),
+        });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert(data);
+                document.getElementById("code_submit").style.display = 'block';
+                document.getElementById("btn_send_code").textContent = 'Send Again?'
+
+            } else {
+                alert("Invalid Email or Name.");
+            }
+            } catch (error) {
+            alert("Problem connection to database.");
+                console.log(error);
+        }
+    }
+
+
     async function submit_with_api() {
         try {
 
@@ -199,10 +226,7 @@
                     document.getElementById('form_login').submit();
 
             } else {
-                // let tost = document.getElementById('toast');
-                // let label =  tost.querySelector('#hs-toast-warning-example-label');
-                // label.innerHTML = `Invalid Credentail.`
-                // tost.style.display = 'block';
+
 
                 alert("Invalid Credentail.");
                 // console.error('Login API failed:', data.message || 'Unknown error');

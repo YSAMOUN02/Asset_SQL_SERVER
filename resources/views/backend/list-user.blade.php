@@ -129,7 +129,7 @@
                                     {{ $item->email }}
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    Admin
+                                    {{ $item->role }}
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     @if ($item->status == 0)
@@ -159,10 +159,12 @@
                                     @if (
                                         (Auth::user()->Permission->user_write == 0 && Auth::user()->Permission->user_update == 0) ||
                                             (Auth::user()->Permission->user_write == 1 && Auth::user()->Permission->user_update == 0))
+                                    <a href="/admin/user/view/id={{$item->id}}">
                                         <button type="button"
                                             class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
                                         </button>
+                                    </a>
                                     @endif
                                     @if (Auth::user()->Permission->user_delete == 1)
                                         <button type="button" data-id="{{ $item->id }}"
@@ -192,7 +194,7 @@
                                     {{ $item->email }}
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    Admin
+                                    {{ $item->role }}
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     @if ($item->status == 0)
@@ -223,10 +225,13 @@
                                     @if (
                                         (Auth::user()->Permission->user_write == 0 && Auth::user()->Permission->user_update == 0) ||
                                             (Auth::user()->Permission->user_delete == 1 && Auth::user()->Permission->user_update == 0))
-                                        <button type="button"
+
+                                        <a href="/admin/user/view/id={{$item->id}}">
+                                            <button type="button"
                                             class="scale-50 lg:scale-100  text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
                                         </button>
+                                        </a>
                                     @endif
                                     @if (Auth::user()->Permission->user_delete == 1)
                                         <button type="button" data-id="{{ $item->id }}"

@@ -17,11 +17,15 @@ class StoredAssets extends Model
     {
            return $this->hasMany(Image::class, 'asset_id', 'assets_id');
 
-                  
+
     }
     public function files()
     {
         return $this->hasMany(File::class, 'asset_id', 'assets_id');
-              
+
     }
+
+    public function movements(){
+        return $this->hasMany(service_categories::class,'assets_id','id');
+      }
 }

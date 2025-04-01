@@ -166,10 +166,7 @@
                                 <option value="All">All</option>
                                 <option value="1">Active</option>
                                 <option value="0">Inactive</option>
-                                @if (Auth::user()->role == 'admin')
-                                <option value="3">Deleted</option>
-                                <option value="not3">Not Deleted</option>
-                                @endif
+                     
 
                             </select>
                     </div>

@@ -14,7 +14,7 @@
                     <h3 class="text-xl font-medium text-gray-900 dark:text-white">
                         Edit Data
                     </h3>
-                
+
                 </div>
                 <!-- Modal body -->
                 <div class="p-4 md:p-5 space-y-4">
@@ -22,7 +22,7 @@
                         @csrf
                         <span
                         class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">Content</span>
-                 
+
                                 <input type="text" id="id_update"
                                     class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     name="id" required />
@@ -32,25 +32,15 @@
                                 <br>
                                 <span
                                     class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">Type </span>
-                                        <select id="type_update" name="type" onchange="change_department()"
+                                        <select id="type_update" name="type"
                                             class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                             <option value=""></option>
                                             <option value="Department">Department</option>
                                             <option value="Company">Company</option>
-                                            <option value="Employee">Employee</option>
+
                                         </select>
                                 <br>
-                                <span id="span_reference"
-                                class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">References</span>
-                                
-                                <select name="reference_update" id="reference_update" 
-                                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value=""></option>
-                                @if(!empty($department))
-                                    @foreach($department as $item)
-                                        <option value="{{$item->content}}">{{$item->content}}</option>
-                                    @endforeach
-                                @endif
+
                             </select>
                 </div>
                 <!-- Modal footer -->
@@ -131,17 +121,17 @@
                 <div>
                     <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type <span
                             class="text-rose-500">*</span></label>
-                    <select id="type" name="type" required onchange="change_type()"
+                    <select id="type" name="type" required
                         class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value=""></option>
                         <option value="Department">Department</option>
                         <option value="Company">Company</option>
-                        <option value="Employee">Employee</option>
+
                     </select>
                     <div id="dep_user">
                         <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee Department <span
                                 class="text-rose-500">*</span></label>
-                                <select id="type" name="department_employee" 
+                                <select id="type" name="department_employee"
                                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value=""></option>
                                 @if(!empty($department))
@@ -153,7 +143,7 @@
                     </div>
                 </div>
                 <div class="flex items-center">
-                    <select id="type_search" 
+                    <select id="type_search"
                         class= "w-28 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="id">ID</option>
                         <option value="content">Content</option>
@@ -166,11 +156,11 @@
                         <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                     </button>
                 </div>
-              
+
                 @if (!empty($total_page))
                     @if($total_page > 1)
                     <div class="flex pagination_by_search">
-                
+
                         @php
                             $left_limit = max(1, $page - 5); // Set the left boundary, but not below 1
                             $right_limit = min($total_page, $page + 5); // Set the right boundary, but not above the total pages
@@ -216,7 +206,7 @@
 
                             </ul>
                         </nav>
-          
+
                     <select onchange="set_page_quick_data()" id="select_page"
                         class="flex mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                         name="" id="">
@@ -264,9 +254,7 @@
                             <th scope="col"  class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('type','string','quick')">
                                 Type&ensp; <i class="fa-solid fa-sort"></i>
                             </th>
-                            <th scope="col"  class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('reference','string','quick')">
-                                Reference&ensp; <i class="fa-solid fa-sort"></i>
-                            </th>
+
                             <th scope="col" class="last_th px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 text-gray-900 whitespace-nowrap dark:text-white"
                                 style="position: sticky; right: 0;  z-index:1;">
                                 Action
@@ -289,17 +277,13 @@
                                         class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->type }}
                                     </td>
-                                    <td scope="row"
-                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-             
-                                        {{ $item->reference }}
-                                </td>
+
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   text-gray-900 whitespace-nowrap dark:text-white"
                                     style="  position: sticky; right: 0;">
 
 
-                                  
-                                        <button type="button" 
+
+                                        <button type="button"
                                             onclick="update_quick_data({{ $item }})"
                                             class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>

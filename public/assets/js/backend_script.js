@@ -137,7 +137,7 @@ function onchnage_imgae(event, boxNo) {
         state_box--;
         document.querySelector("#image_state").value = state_box;
         alert(
-            "File is Unknown! , FIle allow is  PDF , PPTX, DOCX , ZIP , RAR."
+            "File is Unknown! , FIle allow is  JPG  JPEG  GIF PNG"
         );
     }
 }
@@ -851,6 +851,7 @@ function dynamic_sort(by, method, table) {
                 // Sorting by string
                 else if (method == "string") {
                     if (sort_state == 0) {
+
                         array.sort((a, b) => a[by].localeCompare(b[by])); // Ascending
                         sort_state = 1;
                     } else {
@@ -1326,10 +1327,6 @@ function show_sort_quick_data() {
                                  ${item.type??''}
                         </td>
                                  <td scope="row"
-                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                 ${item.reference??''}
-                        </td>
-                                 <td scope="row"
                                         class=" px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
 
 
@@ -1413,13 +1410,13 @@ function show_sort_asset() {
 
                                 <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                     <input onchange="printable()" data-id="${
-                                        item.assets_id || ""
+                                        item.id || ""
                                     }" id="green-checkbox"
                                         type="checkbox" value=""
                                         class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                        ${item.assets_id || ""}
+                                        ${item.id || ""}
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                    ${
@@ -1440,10 +1437,7 @@ function show_sort_asset() {
                                     </td>
 
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                             ${
-                                                 item.assets1 + item.assets2 ||
-                                                 ""
-                                             }
+                                            ${item.assets1 || ""}${item.assets2 || ""}
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                 ${item.fa || ""}
@@ -1504,21 +1498,21 @@ function show_sort_asset() {
                                     if(auth?.permission?.assets_read == 1 && auth?.permission?.assets_update == 0){
 
                                                  custom+=`
-                                                 <a href="/admin/assets/view/id=${item.assets_id}">
+                                                 <a href="/admin/assets/view/id=${item.id}">
                                                  <button type="button"
                                                 class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                 <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
                                                 </button>
                                                 </a>`;
                                     }else if(auth?.permission?.assets_read == 0 && auth?.permission?.assets_update == 1){
-                                        custom+= ` <a href="/admin/assets/edit/id=${item.assets_id}">
+                                        custom+= ` <a href="/admin/assets/edit/id=${item.id}">
                                         <button type="button"
                                             class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                         </button>
                                      </a>`;
                                     }else if(auth?.permission?.assets_read == 1 && auth?.permission?.assets_update == 1){
-                                        custom+= ` <a href="/admin/assets/edit/id=${item.assets_id}">
+                                        custom+= ` <a href="/admin/assets/edit/id=${item.id}">
                                         <button type="button"
                                             class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
@@ -1528,9 +1522,9 @@ function show_sort_asset() {
                                     }
                                     if(auth?.permission?.assets_delete == 1){
                                         custom+= `
-                                        <button type="button" data-id="${item.assets_id}"
-                                        id="btn_delete_asset${item.assets_id}"
-                                        onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')"
+                                        <button type="button" data-id="${item.id}"
+                                        id="btn_delete_asset${item.id}"
+                                        onclick="delete_value('btn_delete_asset'+${item.id},'delete_asset_admin','delete_value_asset')"
                                         class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                         <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
                                         `;
@@ -1740,7 +1734,7 @@ function printable() {
         }
     });
 
-    // console.log(data);
+    // console.log(k);
 
     if (k != length) {
         print.style.display = "none";
@@ -1755,14 +1749,17 @@ function print_group() {
     let li_print = document.querySelectorAll(".print_val");
     let li_print_array = Array.from(li_print);
     let id_for_print = [];
+    console.log(li_print_array);
     li_print_array.map((data) => {
         let input = data.querySelector("input");
         if (input.checked == true) {
             let val = input.getAttribute("data-id");
+            console.log(val);
             id_for_print.push(val);
         }
     });
 
+    console.log(id_for_print);
     if (id_for_print.length > 0) {
         let id_input = document.querySelector("#id_printer");
         id_input.value = id_for_print;
@@ -2085,13 +2082,13 @@ async function search_asset(no) {
 
                                             <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                 <input onchange="printable()" data-id="${
-                                                    item.assets_id || ""
+                                                    item.id || ""
                                                 }" id="green-checkbox"
                                                     type="checkbox" value=""
                                                     class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                    ${item.assets_id || ""}
+                                                    ${item.id || ""}
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                ${
@@ -2112,10 +2109,7 @@ async function search_asset(no) {
                                                 </td>
 
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                         ${
-                                                             item.assets1 + item.assets2 ||
-                                                             ""
-                                                         }
+                                                ${item.assets1 || ""}${item.assets2 || ""}
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                             ${item.fa || ""}
@@ -2176,21 +2170,21 @@ async function search_asset(no) {
                                                 if(auth?.permission?.assets_read == 1 && auth?.permission?.assets_update == 0){
 
                                                              custom+=`
-                                                             <a href="/admin/assets/view/id=${item.assets_id}">
+                                                             <a href="/admin/assets/view/id=${item.id}">
                                                              <button type="button"
                                                             class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                             <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
                                                             </button>
                                                             </a>`;
                                                 }else if(auth?.permission?.assets_read == 0 && auth?.permission?.assets_update == 1){
-                                                    custom+= ` <a href="/admin/assets/edit/id=${item.assets_id}">
+                                                    custom+= ` <a href="/admin/assets/edit/id=${item.id}">
                                                     <button type="button"
                                                         class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                             class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                                     </button>
                                                  </a>`;
                                                 }else if(auth?.permission?.assets_read == 1 && auth?.permission?.assets_update == 1){
-                                                    custom+= ` <a href="/admin/assets/edit/id=${item.assets_id}">
+                                                    custom+= ` <a href="/admin/assets/edit/id=${item.id}">
                                                     <button type="button"
                                                         class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                             class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
@@ -2200,9 +2194,9 @@ async function search_asset(no) {
                                                 }
                                                 if(auth?.permission?.assets_delete == 1){
                                                     custom+= `
-                                                    <button type="button" data-id="${item.assets_id}"
-                                                    id="btn_delete_asset${item.assets_id}"
-                                                    onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')"
+                                                    <button type="button" data-id="${item.id}"
+                                                    id="btn_delete_asset${item.id}"
+                                                    onclick="delete_value('btn_delete_asset'+${item.id},'delete_asset_admin','delete_value_asset')"
                                                     class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                     <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
                                                     `;
@@ -3098,6 +3092,7 @@ async function search_change_log(no) {
         });
 
     if (data) {
+
         if (data.data) {
             document.querySelector("#loading").style.display = "none";
             if (data.data.length > 0) {
@@ -3668,57 +3663,6 @@ async function search_mobile(asset) {
         panel_list.style.display = "block";
     }
 }
-function change_type(){
-    let select_type = document.querySelector("#type");
-    let user_department = document.querySelector("#dep_user");
-    if(select_type){
-        if(select_type.value == 'Employee'){
-
-                user_department.style.display = 'block';
-
-        }else{
-
-            user_department.style.display = 'none';
-
-    }
-    }
-}
-
-
-function change_department(){
-    // Select value
-    let reference = document.querySelector("#reference_update");
-
-    // Span Text
-    let span_reference = document.querySelector("#span_reference");
-
-    let type =  document.querySelector("#type_update");
-
-    if(type){
-        if(type.value){
-            if(type.value == 'Employee'){
-                span_reference.style.display = 'block';
-                reference.style.display = 'block';
-            }else{
-                span_reference.style.display = 'none';
-                reference.style.display = 'none';
-            }
-        }
-    }
-
-
-
-
-
-}
-
-
-
-
-
-
-
-
 
 async function search_asset_for_movement(no) {
     let fa = document.querySelector("#fa");
@@ -3731,7 +3675,9 @@ async function search_asset_for_movement(no) {
     let id_asset = document.querySelector("#id_asset");
     let other = document.querySelector("#other_search");
     let value = document.querySelector("#other_value");
+    let status = document.querySelector("#status");
 
+    let status_val = "NA";
     let id_val = "NA";
     let fa_val = "NA";
     let asset_val = "NA";
@@ -3744,6 +3690,9 @@ async function search_asset_for_movement(no) {
     let value_val = "NA";
 
     let page = 1;
+    if(status){
+        status_val = status.value;
+    }
     if (no) {
         page = no;
     }
@@ -3826,7 +3775,8 @@ async function search_asset_for_movement(no) {
             start: start_val,
             description: description_val,
             page: page,
-            role:auth.role
+            role:auth.role,
+            status: status_val
         }),
     })
         .then((res) => res.json())

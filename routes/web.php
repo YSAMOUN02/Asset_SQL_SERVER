@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/login', [AdminController::class, 'login'])->name('login');
+
+Route::get('/forgot/password', [AdminController::class, 'forgot_password']);
 Route::post('/login/submit', [AdminController::class, 'login_submit']);
 Route::middleware(['auth'])->group(function () {
 
@@ -21,6 +23,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [AdminController::class, 'logout']);
 
 
+    // Asset 
     Route::get('/admin/assets/add/{page}', [AssetsController::class, 'list_select']);
 
     Route::get('/admin/assets/list/{page}', [AssetsController::class, 'list_assets']); // for added assets
@@ -37,7 +40,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/assets/edit/id={id}', [AssetsController::class, 'update_asset']);
 
     Route::get('/admin/assets/view/id={id}', [AssetsController::class, 'view_asset']);
-    // /admin/movement/view/id={id}/assets_id={assets_id}/varaint={assets_varaint}/page={page}
+
 
     Route::post('/admin/assets/admin/delete/submit', [AssetsController::class, 'delete_admin_asset']);
 
@@ -96,7 +99,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::get('/admin/user/add', [UserController::class, 'add_user']);
-
+Route::get('/admin/user/view/id={id}', [UserController::class, 'view_user']);
 
 
 

@@ -24,6 +24,8 @@ return new class extends Migration
             $table->smallInteger('status')->default(1);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('temp_password')->nullable();
+            $table->timestamp('temp_password_expires_at')->nullable(); // Expiration timestamp
             $table->rememberToken();
             $table->timestamps();
         });

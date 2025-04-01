@@ -8,6 +8,8 @@ use App\Models\QuickData;
 use App\Models\StoredAssets;
 use App\Models\StoredAssetsUser;
 use App\Models\User;
+
+
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +26,13 @@ class MovementController extends Controller
             $page = 1;
         }
         $data = StoredAssets::Orderby('assets_id', 'desc')->where('last_varaint', 1);
-        $data->where('status',0);
+
+        if(Auth::user()->role == 'admin'){
+            // $data->where('status',0);
+        }elseif(Auth::user()->role == 'staff'){
+            $data->where('status','<>',1);
+        }
+
 
 
         $limit = 150;

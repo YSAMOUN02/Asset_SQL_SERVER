@@ -35,9 +35,13 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/search/mobile', [ApiHandlerController::class, 'mobile_search']);
 
+
+
 });
 
 Route::post('/login/submit', [ApiHandlerController::class, 'login_submit']);
 
+Route::post('/check/name', [ApiHandlerController::class, 'check_name_for_reset_password']);
+Route::post('/temp/login', [ApiHandlerController::class, 'temp_login_submit']);
 
 

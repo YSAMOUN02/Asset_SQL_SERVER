@@ -12,13 +12,25 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('assets', function (Blueprint $table) {
+
+            // New Field
+            // $table->string('old_code')->nullable();
+            // $table->string('uom')->nullable();
+            // $table->string('status_qty')->nullable();
+            // $table->string('quantity')->nullable();
+            // $table->string('amount')->nullable();
+
+
+
             $table->id();
+
+
             // Asset Info
-            $table->bigInteger('assets_id');
+            $table->bigInteger('assets_id')->nullable();
             $table->string('varaint')->default(0);
             $table->string('document')->nullable(); // ref
-            $table->string('assets1'); // asset_code1
-            $table->string('assets2'); // asset_code2
+            $table->string('assets1')->nullable(); // asset_code1
+            $table->string('assets2')->nullable(); // asset_code2
             $table->string('fa_no')->nullable(); // fa_no
             $table->string('item')->nullable(); // item
             $table->date('issue_date')->nullable(); // issue_date
@@ -63,7 +75,9 @@ return new class extends Migration
             $table->string('vat')->nullable(); // vat
             $table->longText('description')->nullable(); // description
             $table->longText('invoice_description')->nullable(); // invoice_description
-
+            $table->string('quantity')->nullable();
+            $table->string('amount')->nullable();
+            $table->string('company_buy')->nullable(); // vendor
             // Vendor
             $table->string('vendor')->nullable(); // vendor
             $table->string('vendor_name')->nullable(); // vendor_name
@@ -78,6 +92,12 @@ return new class extends Migration
             $table->integer('status')->default(0); // Delete Status
             $table->integer('total_movement')->default(0); // movement no
             $table->string('last_varaint')->default(1);
+
+
+            // Additional Input
+            $table->string('old_code')->nullable();
+            $table->string('uom')->nullable();
+            $table->string('status_qty')->nullable();
 
             $table->timestamps();
         });

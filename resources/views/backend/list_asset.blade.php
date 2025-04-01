@@ -146,7 +146,9 @@
                             <option value="All">All</option>
                             <option value="0">Active</option>
                             <option value="2">Sold</option>
+                            @if (Auth::user()->role == 'admin')
                             <option value="1">Deleted</option>
+                            @endif
 
 
                         </select>
@@ -205,7 +207,7 @@
                         <div class="flex main_page items-center">
                                 <div class="pagination_by_search defualt main_page items-center flex gap-2">
                                     @if (!empty($total_page))
-                                        @php
+                                       @php
                                             $left_limit = max(1, $page - 5); // Set the left boundary, but not below 1
                                             $right_limit = min($total_page, $page + 5); // Set the right boundary, but not above the total pages
                                         @endphp
@@ -367,13 +369,12 @@
                             <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
                                 <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    <input onchange="printable()" data-id="{{ $item->assets_id }}" id="green-checkbox"
-                                        type="checkbox" value=""
+                                    <input onchange="printable()" data-id="{{$item->id}}" id="green-checkbox" type="checkbox" value=""
                                         class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
 
-                                    {{ $item->assets_id }}
+                                    {{ $item->id }}
 
 
                                 </td>
@@ -386,7 +387,7 @@
                                 </td>
 
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->assets1 . $item->assets2 }}
+                                    {{ $item->assets1 . $item->assets2??'' }}
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->fa }}
@@ -438,8 +439,9 @@
                                 </td>
                                 <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
                                     style="  position: sticky; right: 0; ">
+
                                     @if (Auth::user()->Permission->assets_read == 1 && Auth::user()->Permission->assets_update == 0)
-                                    <a href="/admin/assets/view/id={{$item->assets_id }}">
+                                    <a href="/admin/assets/view/id={{$item->id }}">
                                         <button type="button"
                                             class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
@@ -449,7 +451,7 @@
                                     {{-- BTN UPDATE  --}}
                                     @if (Auth::user()->Permission->assets_update == 1)
 
-                                    <a href="/admin/assets/edit/id={{ $item->assets_id }}">
+                                    <a href="/admin/assets/edit/id={{ $item->id }}">
                                         <button type="button"
                                             class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
@@ -457,16 +459,30 @@
                                     </a>
                                     @endif
 
+                                    @if (Auth::user()->role == 'admin')
+                                            @if (Auth::user()->Permission->assets_delete == 1)
+                                            {{-- BTN Delete  --}}
 
-                                    @if (Auth::user()->Permission->assets_delete == 1)
+                                            <button type="button" data-id="{{ $item->id }}"
+                                                id="btn_delete_asset{{ $item->id }}"
+                                                onclick="delete_value('btn_delete_asset'+{{ $item->id }},'delete_asset_admin','delete_value_asset')"
+                                                class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                <i class="fa-solid fa-trash" style="color: #ffffff;"></i>
+                                            </button>
+                                        @endif
+                                    @elseif(Auth::user()->role == 'staff')
+                                        @if (Auth::user()->Permission->assets_delete == 1)
                                         {{-- BTN Delete  --}}
 
-                                        <button type="button" data-id="{{ $item->assets_id }}"
-                                            id="btn_delete_asset{{ $item->assets_id }}"
-                                            onclick="delete_value('btn_delete_asset'+{{ $item->assets_id }},'delete_asset_admin','delete_value_asset')"
+                                        <button type="button" data-id="{{ $item->id }}"
+                                            id="btn_delete_asset{{ $item->id }}"
+                                            onclick="delete_value('btn_delete_asset'+{{ $item->id }},'delete_asset_admin','delete_value_asset')"
                                             class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                            <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+                                            <i class="fa-solid fa-trash" style="color: #ffffff;"></i>
+                                        </button>
                                     @endif
+                                    @endif
+
                                 </td>
                             </tr>
                         @endforeach
@@ -498,7 +514,7 @@
         let sort_state = 0;
 
 
-        const button = document.querySelector('#search_button');
+        const button = document.querySelector('#search_item');
 
         // id="search_button"
         document.addEventListener('keydown', function(event) {

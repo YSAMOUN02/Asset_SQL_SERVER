@@ -157,19 +157,24 @@
                     name="asset_group" value="{{ old('asset_group', $asset[$current_varaint]->asset_group ?? '') }}" />
             </div>
             <div>
+                
                 <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
-                <select id="status" name="status" disabled
-                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <select id="status" name="status"
+                    class=" changed block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
 
 
                     @if ($asset[$current_varaint]->status == 2)
                         <option value="2">Sold</option>
+                        @if(Auth::user()->role == 'admin')
                         <option value="1">Deleted</option>
+                        @endif
                         <option value="0">Active</option>
                     @elseif($asset[$current_varaint]->delected == 0)
                         <option value="0">Active</option>
+                        @if(Auth::user()->role == 'admin')
                         <option value="1">Deleted</option>
+                        @endif
                         <option value="2">Sold</option>
                     @endif
 
@@ -713,6 +718,7 @@
                     </button>
                 </div>
             @else
+                @if (Auth::user()->role == 'admin')
                 <div class="btn_float_right">
 
                     <button type="button" onclick="change_form_attribute()"
@@ -721,6 +727,7 @@
                     </button>
 
                 </div>
+                @endif
             @endif
 
             @endif
