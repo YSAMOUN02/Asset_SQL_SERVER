@@ -22,7 +22,8 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Worksheet\Table\TableStyle;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate; // For proper column conversion
 class AssetsController extends Controller
 {
     public function assetes_add()
@@ -41,7 +42,7 @@ class AssetsController extends Controller
                 $offset = ($page - 1) * $limit;
             }
 
-            $asset =  StoredAssets::orderBy('id', 'desc')
+            $asset =  StoredAssets::orderBy('assets_id', 'desc')
                 ->limit($limit)
                 ->offset($offset)
                 ->where("last_varaint", 1)
@@ -165,73 +166,14 @@ class AssetsController extends Controller
     public function assets_add_submit(Request $request)
     {
         if(Auth::user()->permission->assets_write == 1){
-            $asset_user = new StoredAssetsUser();
 
-            // Asset Info
-            $asset_user->document = $request->document ?? "";
-            $asset_user->assets1 = $request->asset_code1 ?? "";
-            $asset_user->assets2 = $request->asset_code2 ?? "";
-            $asset_user->fa_no = $request->fa_no ?? "";
-            $asset_user->item = $request->item ?? "";
-            $asset_user->issue_date = $request->issue_date ? Carbon::parse($request->issue_date)->format('Y-m-d H:i:s') : null;
-            $asset_user->initial_condition = $request->intail_condition ?? "";
-            $asset_user->specification = $request->specification ?? "";
-            $asset_user->item_description = $request->item_description ?? "";
-            $asset_user->asset_group = $request->asset_group ?? "";
-            $asset_user->remark_assets = $request->remark_assets ?? "";
-
-            // Asset Holder
-            $asset_user->asset_holder = $request->asset_holder ?? "";
-            $asset_user->holder_name = $request->holder_name ?? "";
-            $asset_user->position = $request->position ?? "";
-            $asset_user->location = $request->location ?? ""; // Assuming this is 'location'
-            $asset_user->department = $request->department ?? "";
-            $asset_user->company = $request->company ?? "";
-            $asset_user->remark_holder = $request->remark_holder ?? "";
-
-            // Internal Document
-            $asset_user->grn = $request->grn ?? "";
-            $asset_user->po = $request->po ?? "";
-            $asset_user->pr = $request->pr ?? "";
-            $asset_user->dr = $request->dr ?? "";
-            $asset_user->dr_requested_by = $request->dr_requested_by ?? "";
-            $asset_user->dr_date = $request->dr_date ? Carbon::parse($request->dr_date)->format('Y-m-d H:i:s') : null;
-            $asset_user->remark_internal_doc = $request->remark_internal_doc ?? "";
-
-            // ERP Invoice
-            $asset_user->asset_code_account = $request->asset_code_account ?? "";
-            $asset_user->invoice_date = $request->invoice_posting_date ? Carbon::parse($request->invoice_posting_date)->format('Y-m-d H:i:s') : null;
-            $asset_user->invoice_no = $request->invoice ?? "";
-            $asset_user->fa = $request->fa ?? "";
-            $asset_user->fa_class = $request->fa_class ?? "";
-            $asset_user->fa_subclass = $request->fa_subclass ?? "";
-            $asset_user->depreciation = $request->depreciation_book_code ?? "";
-            $asset_user->fa_type = $request->fa_type ?? "";
-            $asset_user->fa_location = $request->fa_location ?? "";
-            $asset_user->cost = $request->cost ?? 0;
-            $asset_user->currency = $request->currency ?? "";
-            $asset_user->vat = $request->vat ?? "";
-            $asset_user->description = $request->description ?? "";
-            $asset_user->invoice_description = $request->invoice_description ?? "";
-
-            // Vendor
-            $asset_user->vendor = $request->vendor ?? "";
-            $asset_user->vendor_name = $request->vendor_name ?? "";
-            $asset_user->address = $request->address ?? "";
-            $asset_user->address2 = $request->address2 ?? "";
-            $asset_user->contact = $request->contact ?? "";
-            $asset_user->phone = $request->phone ?? "";
-            $asset_user->email = $request->email ?? "";
-
-            // Save the data
-            $asset_user->save();
 
 
             // return $asset_user->id;
             $asset = new StoredAssets();
 
             // Asset Info
-            $asset->assets_id = $asset_user->id;
+            $asset->assets_id = $asset->id;
             $asset->document = $request->document ?? "";
             $asset->assets1 = $request->asset_code1 ?? "";
             $asset->assets2 = $request->asset_code2 ?? "";
@@ -321,12 +263,12 @@ class AssetsController extends Controller
                         $thumbnail = $this->upload_image($file);
 
                         $image = new Image();
-                        $image->asset_id = $asset_user->id;
+                        $image->asset_id =$asset->id;
                         $image->varaint = 0;
                         $image->image = $thumbnail;
                         $image->save();  // Don't forget to save the image
                         $image = new ImageUser();
-                        $image->asset_id = $asset_user->id;
+                        $image->asset_id = $asset->id;
                         $image->image = $thumbnail;
                         $image->save();  // Don't forget to save the image
                         // return 1;
@@ -353,7 +295,7 @@ class AssetsController extends Controller
         if(Auth::user()->permission->assets_update == 1){
             $update_able = 1;
                 $asset = StoredAssets::with(['images', 'files'])
-                ->where('id', $id)
+                ->where('assets_id', $id)
                 ->Orderby('varaint', 'asc')
                 ->get();
             $count = count($asset);
@@ -383,8 +325,8 @@ class AssetsController extends Controller
             ->select('content')
             ->orderby('id', 'desc')
             ->get();
-            // return $count;
-            if (Auth::user()->role == "admin") {
+            // return $asset;
+
 
                 // return $asset;
                 return view('backend.update-assets-by-variant', [
@@ -396,20 +338,8 @@ class AssetsController extends Controller
                     'qr_code' => $qr_code,
                     'update_able'=>$update_able
                 ]);
-            } elseif (Auth::user()->role == "staff") {
 
-                return view('backend.update-assets-by-variant', [
-                    'asset' => $asset,
-                    'total_varaint' => $count,
-                    'current_varaint' => $current_varaint,
-                    'department' => $department,
-                    'company' => $company,
-                    'qr_code' => $qr_code ,
-                    'update_able'=>$update_able
-                ]);
-            } else {
-                return view('backend.dashboard')->with('fail', "You do not have permission on this function.");
-            }
+
             }else{
                     return redirect('/')->with('fail','You do not have permission Assets Update.');
       }
@@ -419,84 +349,27 @@ class AssetsController extends Controller
     {
 
         if(Auth::user()->permission->assets_update == 1){
-            $asset_user = StoredAssetsUser::where('id', $request->id)->first();
-
-            // Asset Info
-            $asset_user->document = $request->document ?? "";
-            $asset_user->assets1 = $request->asset_code1 ?? "";
-            $asset_user->assets2 = $request->asset_code2 ?? "";
-            $asset_user->fa_no = $request->fa_no ?? "";
-            $asset_user->item = $request->item ?? "";
-            $asset_user->issue_date = $request->issue_date ? Carbon::parse($request->issue_date)->format('Y-m-d H:i:s') : null;
-            $asset_user->initial_condition = $request->intail_condition ?? "";
-            $asset_user->specification = $request->specification ?? "";
-            $asset_user->item_description = $request->item_description ?? "";
-            $asset_user->asset_group = $request->asset_group ?? "";
-            $asset_user->remark_assets = $request->remark_assets ?? "";
-
-            // Asset Holder
-            $asset_user->asset_holder = $request->asset_holder ?? "";
-            $asset_user->holder_name = $request->holder_name ?? "";
-            $asset_user->position = $request->position ?? "";
-            $asset_user->location = $request->location ?? ""; // Assuming this is 'location'
-            $asset_user->department = $request->department ?? "";
-            $asset_user->company = $request->company ?? "";
-            $asset_user->remark_holder = $request->remark_holder ?? "";
-
-            // Internal Document
-            $asset_user->grn = $request->grn ?? "";
-            $asset_user->po = $request->po ?? "";
-            $asset_user->pr = $request->pr ?? "";
-            $asset_user->dr = $request->dr ?? "";
-            $asset_user->dr_requested_by = $request->dr_requested_by ?? "";
-            $asset_user->dr_date = $request->dr_date ? Carbon::parse($request->dr_date)->format('Y-m-d H:i:s') : null;
-            $asset_user->remark_internal_doc = $request->remark_internal_doc ?? "";
-
-            // ERP Invoice
-            $asset_user->asset_code_account = $request->asset_code_account ?? "";
-            $asset_user->invoice_date = $request->invoice_posting_date ? Carbon::parse($request->invoice_posting_date)->format('Y-m-d H:i:s') : null;
-            $asset_user->invoice_no = $request->invoice ?? "";
-            $asset_user->fa = $request->fa ?? "";
-            $asset_user->fa_class = $request->fa_class ?? "";
-            $asset_user->fa_subclass = $request->fa_subclass ?? "";
-            $asset_user->depreciation = $request->depreciation_book_code ?? "";
-            $asset_user->fa_type = $request->fa_type ?? "";
-            $asset_user->fa_location = $request->fa_location ?? "";
-            $asset_user->cost = $request->cost ?? "";
-            $asset_user->currency = $request->currency ?? "";
-            $asset_user->vat = $request->vat ?? "";
-            $asset_user->description = $request->description ?? "";
-            $asset_user->invoice_description = $request->invoice_description ?? "";
-
-            // Vendor
-            $asset_user->vendor = $request->vendor ?? "";
-            $asset_user->vendor_name = $request->vendor_name ?? "";
-            $asset_user->address = $request->address ?? "";
-            $asset_user->address2 = $request->address2 ?? "";
-            $asset_user->contact = $request->contact ?? "";
-            $asset_user->phone = $request->phone ?? "";
-            $asset_user->email = $request->email ?? "";
-            $asset_user->status = $request->status ?? 0;
-
-            // Save the data
-            $asset_user->save();
 
 
-            $last_varaint = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->select("varaint")->first();
+            $last_varaint = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->select("varaint","assets_id")->first();
+
+            // return $last_varaint;
             if (!empty($last_varaint)) {
 
                 // Update Current Varaint to 0
-                $modify_last = StoredAssets::where("assets_id", $asset_user->id)->where("last_varaint", 1)->first();
+                $modify_last = StoredAssets::where("assets_id", $last_varaint->assets_id)
+                ->where("last_varaint", 1)->first();
                 $modify_last->last_varaint = 0;
                 $modify_last->save();
 
 
-                $var = $last_varaint->varaint += 1;
+                $var = (int)$last_varaint->varaint += 1;
+                // return $var;
                 // Admin Side
                 $asset = new StoredAssets();
 
                 // Asset Info
-                $asset->assets_id = $asset_user->id;
+                $asset->assets_id = $last_varaint->assets_id;
                 $asset->varaint = $var;
                 $asset->document = $request->document ?? "";
                 $asset->assets1 = $request->asset_code1 ?? "";
@@ -555,12 +428,12 @@ class AssetsController extends Controller
                 $asset->email = $request->email ?? "";
                 $asset->status = $request->status ?? 0;
                 // Save the data
-                $asset->save();
+                $stored = $asset->save();
             }
-            // Remove Existed File
+            // Remove Existed File  just update Text not Remove file
             $this->remove_existed_file($request);
 
-            // Add New FIle
+            // Add New FIle  if  new file uploaded by user
             if ($request->file_state > 0) {
                 for ($i = 1; $i <= $request->file_state; $i++) {  // Start from 1
                     $fileKey = 'file_doc' . $i;  // Dynamic file input key
@@ -581,36 +454,34 @@ class AssetsController extends Controller
                     }
                 }
             }
-            // Add New Image
+            // Add New Image new  Image uploaded by user
             if ($request->image_state > 0) {
+
                 for ($i = 1; $i <= $request->image_state; $i++) {  // Start from 1
                     $imageKey = 'image' . $i;  // Dynamic image input key
                     if ($request->hasFile($imageKey)) {
                         $file = $request->file($imageKey);
-                        $thumbnail = $this->upload_image($file);
+                        $thumbnail = $this->upload_image($file,$request->asset_code1.$request->asset_code2??"",$var,$i);
 
                         $image = new Image();
-                        $image->asset_id = $asset_user->id;
+                        $image->asset_id = $last_varaint->assets_id;
                         $image->varaint = $var;
+
                         $image->image = $thumbnail;
                         $image->save();  // Don't forget to save the image
-                        $image = new ImageUser();
-                        $image->asset_id = $asset_user->id;
-                        $image->image = $thumbnail;
-                        $image->save();  // Don't forget to save the image
-                        // return 1;
+
                     }
                 }
             }
 
 
-            $this->update_existing_to_new_varaint($request, $asset_user->id, $var);
-            $this->Change_log($asset_user->id, $last_varaint->varaint, "Update From", "Asset Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);
-            $this->Change_log($asset_user->id, $last_varaint->varaint + 1, "Update To", "Asset Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);
-            if ($asset_user) {
-                return redirect('/admin/assets/list/1')->with('success', 'Update Asset Record Success.');
+            $this->update_existing_to_new_varaint($request,$last_varaint->assets_id, $var);
+            $this->Change_log($last_varaint->assets_id, $last_varaint->varaint, "Update From", "Asset Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);
+            $this->Change_log($last_varaint->assets_id, $last_varaint->varaint + 1, "Update To", "Asset Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);
+            if ($stored) {
+                return redirect()->back()->with('success', 'Update Asset Record Success.');
             } else {
-                return redirect('/admin/assets/list/1')->with('fail', 'Opp!. Something when wronge.');
+                return redirect()->back()->with('fail', 'Opp!. Something when wronge.');
             }
         }else{
                 return redirect('/')->with('fail','You do not have permission Assets Update.');
@@ -708,31 +579,14 @@ class AssetsController extends Controller
 
     }
 
+
+    // Not Delete but Just Change Status
     public function delete_admin_asset(request $request)
     {
 
-        // if(Auth::user()->permission->assets_delete == 1 && Auth::user()->role == 'admin')  {
-        //     $assets_id = $request->id;
+        if(Auth::user()->permission->assets_delete == 1){
 
-        //     // Remove file and Image from server permanent
-        //     $this->initailize_record($assets_id);
-        //     File::where('asset_id', $assets_id)->delete();
-        //     Image::where('asset_id', $assets_id)->delete();
-        //     StoredAssets::where('assets_id', $assets_id)->delete();
-        //     StoredAssetsUser::where('id', $assets_id)->delete();
-
-        //     $this->Change_log($assets_id, "All Varaint", "Delete Permanent", "Asset Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
-        //     return redirect("/admin/assets/list/1");
-
-
-        // }elseif(Auth::user()->permission->assets_delete == 1 && Auth::user()->role == 'staff'){
-            // $asset = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->first();
-            // $asset->status = 1;
-
-
-            // $asset->save();
-
-            $asset_delete = StoredAssets::where('id', $request->id) ->where("last_varaint", 1)->first();
+            $asset_delete = StoredAssets::where('assets_id', $request->id) ->where("last_varaint", 1)->first();
             $asset_delete->status = 1;
             $asset_delete->deleted_at = Carbon::parse(today())->format('Y-m-d H:i:s');
             $deleted = $asset_delete->save();
@@ -741,15 +595,14 @@ class AssetsController extends Controller
 
             $this->Change_log($asset_delete->assets_id, $asset_delete->varaint, "Delete", "Asset Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
 
-            if ($deleted) {
-                return redirect("/admin/assets/list/1")->with('success', "Delete Record Success.");
-            } else {
-                return redirect("/admin/assets/list/1")->with('fail', "Opps. Somthing went wronge.");
-            }
-        // }
-    //     else{
-    //             return redirect('/')->with('fail','You do not have permission Asset Delete Role: Admin.');
-    //   }
+                    if ($deleted) {
+                        return redirect("/admin/assets/list/1")->with('success', "Delete Record Success.");
+                    } else {
+                        return redirect("/admin/assets/list/1")->with('fail', "Opps. Somthing went wronge.");
+                    }
+        } else {
+            return redirect()->back()->with('fail', 'You do not have permission to delete this asset.');
+        }
     }
 
     public function initailize_record($id)
@@ -786,7 +639,8 @@ class AssetsController extends Controller
     public function restore(request $request)
     {
         if(Auth::user()->permission->assets_update == 1 && Auth::user()->role == 'admin'){
-                     // Update Existing Last Varaint
+
+            // Update Existing Last Varaint
         $last_varaint = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->select("varaint", "assets_id")->first();
         if (!empty($last_varaint)) {
 
@@ -798,7 +652,7 @@ class AssetsController extends Controller
 
             // Create New Record as Last Varaint
             $asset = new StoredAssets();
-            $asset->assets_id = $request->id;
+            $asset->assets_id = $modify_last->assets_id;
             $asset->varaint = $var;
             $asset->document = $request->document ?? "";
             $asset->assets1 = $request->asset_code1 ?? "";
@@ -857,70 +711,6 @@ class AssetsController extends Controller
             $asset->save();
 
 
-
-
-
-
-
-
-            // Update Disbled Assets at user to Enable and update some Restore data
-            $asset_user =  StoredAssetsUser::where('id', $last_varaint->assets_id)->first();
-            $asset_user->status = 0;
-            $asset_user->document = $request->document ?? "";
-            $asset_user->assets1 = $request->asset_code1 ?? "";
-            $asset_user->assets2 = $request->asset_code2 ?? "";
-            $asset_user->fa_no = $request->fa_no ?? "";
-            $asset_user->item = $request->item ?? "";
-            $asset_user->issue_date = $request->issue_date ? Carbon::parse($request->issue_date)->format('Y-m-d H:i:s') : null;
-            $asset_user->initial_condition = $request->intail_condition ?? "";
-            $asset_user->specification = $request->specification ?? "";
-            $asset_user->item_description = $request->item_description ?? "";
-            $asset_user->asset_group = $request->asset_group ?? "";
-            $asset_user->remark_assets = $request->remark_assets ?? "";
-
-            // Asset Holder
-            $asset_user->asset_holder = $request->asset_holder ?? "";
-            $asset_user->holder_name = $request->holder_name ?? "";
-            $asset_user->position = $request->position ?? "";
-            $asset_user->location = $request->location ?? "";
-            $asset_user->department = $request->department ?? "";
-            $asset_user->company = $request->company ?? "";
-            $asset_user->remark_holder = $request->remark_holder ?? "";
-
-            // Internal Document
-            $asset_user->grn = $request->grn ?? "";
-            $asset_user->po = $request->po ?? "";
-            $asset_user->pr = $request->pr ?? "";
-            $asset_user->dr = $request->dr ?? "";
-            $asset_user->dr_requested_by = $request->dr_requested_by ?? "";
-            $asset_user->dr_date = $request->dr_date ? Carbon::parse($request->dr_date)->format('Y-m-d H:i:s') : null;
-            $asset_user->remark_internal_doc = $request->remark_internal_doc ?? "";
-
-            // ERP Invoice
-            $asset_user->asset_code_account = $request->asset_code_account ?? "";
-            $asset_user->invoice_date = $request->invoice_posting_date ? Carbon::parse($request->invoice_posting_date)->format('Y-m-d H:i:s') : null;
-            $asset_user->invoice_no = $request->invoice ?? "";
-            $asset_user->fa = $request->fa ?? "";
-            $asset_user->fa_class = $request->fa_class ?? "";
-            $asset_user->fa_subclass = $request->fa_subclass ?? "";
-            $asset_user->depreciation = $request->depreciation_book_code ?? "";
-            $asset_user->fa_type = $request->fa_type ?? "";
-            $asset_user->fa_location = $request->fa_location ?? "";
-            $asset_user->cost = $request->cost ?? "";
-            $asset_user->currency = $request->currency ?? "";
-            $asset_user->vat = $request->vat ?? "";
-            $asset_user->description = $request->description ?? "";
-            $asset_user->invoice_description = $request->invoice_description ?? "";
-
-            // Vendor
-            $asset_user->vendor = $request->vendor ?? "";
-            $asset_user->vendor_name = $request->vendor_name ?? "";
-            $asset_user->address = $request->address ?? "";
-            $asset_user->address2 = $request->address2 ?? "";
-            $asset_user->contact = $request->contact ?? "";
-            $asset_user->phone = $request->phone ?? "";
-            $asset_user->email = $request->email ?? "";
-            $asset_user->save();
         } else {
             return redirect('/admin/assets/list/1')->with('fail', 'Record Not Found.');
         }
@@ -1046,12 +836,16 @@ class AssetsController extends Controller
 
     public function multi_export(request $request)
     {
+
         if(Auth::user()->permission->assets_read == 1){
             $ids = explode(',', $request->id_export);
             sort($ids);
             $data = [];
             foreach ($ids as $id) {
-                $assets =  StoredAssetsUser::where('id', $id)->first();
+                $assets =  StoredAssets::where('assetS_id', $id)->where("last_varaint", 1)
+                ->with(['images'])
+
+                ->first();
                 if ($assets) {
                     Array_push($data, $assets);
                 }
@@ -1109,7 +903,9 @@ class AssetsController extends Controller
                 'AR1' => 'Address 2',
                 'AS1' => 'Contact',
                 'AT1' => 'Phone',
-                'AU1' => 'E-Mail'
+                'AU1' => 'E-Mail',
+                'AV1' => 'path',
+                'AW1' => 'Image',
             ];
             // return $data;
             // Set headers in Excel
@@ -1123,7 +919,7 @@ class AssetsController extends Controller
 
                 // Assets Info
                 $sheet->setCellValue('A' . $row, $assets->id);  // ID in column A
-                $sheet->setCellValue('B' . $row, $assets->assets1 . ' ' . $assets->assets2);  // Combine assets1 and assets2 in column B
+                $sheet->setCellValue('B' . $row, $assets->assets1. $assets->assets2??'');  // Combine assets1 and assets2 in column B
                 $sheet->setCellValue('C' . $row, $assets->document);  // Document in column C
                 $sheet->setCellValue('D' . $row, $assets->fa_no);  // Fix Assets No in column D
                 $sheet->setCellValue('E' . $row, $assets->item);  // Item in column E
@@ -1180,6 +976,49 @@ class AssetsController extends Controller
                 $sheet->setCellValue('AS' . $row, $assets->contact);
                 $sheet->setCellValue('AT' . $row, $assets->phone);
                 $sheet->setCellValue('AU' . $row, $assets->email); // Adjust column for email if necessary
+                // Image
+                // Assuming you want to display the image path or URL in the Excel file
+
+                $total_image = count($assets->images);
+                $colIndex = Coordinate::columnIndexFromString('AW');
+                foreach ($assets->images as $item) {
+                    $colLetter = Coordinate::stringFromColumnIndex($colIndex);
+                    $imagePath = public_path("storage/uploads/image/" . $item->image);
+
+                    if (file_exists($imagePath)) {
+                        // Set cell dimensions
+                        $cellWidth = 200;  // Cell width (adjust as needed)
+                        $cellHeight = 150; // Cell height (adjust as needed)
+                        $sheet->getColumnDimension($colLetter)->setWidth($cellWidth / 5.5); // Convert px to Excel width
+                        $sheet->getRowDimension($row)->setRowHeight($cellHeight);
+
+                        // Get original image dimensions
+                        [$originalWidth, $originalHeight] = getimagesize($imagePath);
+
+                        // Calculate the best scale factor to fit the image inside the cell while maintaining aspect ratio
+                        $scale = min($cellWidth / $originalWidth, $cellHeight / $originalHeight);
+
+                        // Apply new dimensions
+                        $newWidth = $originalWidth * $scale;
+                        $newHeight = $originalHeight * $scale;
+
+                        $drawing = new Drawing();
+                        $drawing->setPath($imagePath);
+                        $drawing->setResizeProportional(true); // Ensure proportional scaling
+                        $drawing->setWidth($newWidth);
+                        $drawing->setHeight($newHeight);
+                        $drawing->setCoordinates("{$colLetter}{$row}");
+                        $drawing->setWorksheet($sheet);
+
+                        // Center the image inside the cell
+                        $drawing->setOffsetX(($cellWidth - $newWidth) / 2);
+                        $drawing->setOffsetY(($cellHeight - $newHeight) / 2);
+
+                        $colIndex++; // Move to the next column
+                    } else {
+                        \Log::error("Image not found: " . $imagePath);
+                    }
+                }
 
 
 
@@ -1191,6 +1030,8 @@ class AssetsController extends Controller
             // Auto-fit columns from A to AU
             for ($col = 'A'; $col !== 'AV'; $col++) { // 'AV' is exclusive, so it will go up to 'AU'
                 $sheet->getColumnDimension($col)->setAutoSize(true);
+
+
             }
 
 

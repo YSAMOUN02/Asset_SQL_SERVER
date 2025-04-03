@@ -121,7 +121,8 @@
 
                     </div>
                     <div>
-                        <label for="start_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Start</label>
+                        <label for="start_date"
+                            class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Start</label>
 
                         <input type="date" id="start_date" name="start_date" name="end_date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -147,15 +148,16 @@
                             <option value="0">Active</option>
                             <option value="2">Sold</option>
                             @if (Auth::user()->role == 'admin')
-                            <option value="1">Deleted</option>
+                                <option value="1">Deleted</option>
                             @endif
 
 
                         </select>
                     </div>
                 </div>
-                <div class="max-w-full items-center flex  justify-between px-2 mt-1 lg:mt-2 py-1 lg:py-2 sm:grid sm:grid-cols-1">
-                    <div class="flex main_page justify-between items-center" >
+                <div
+                    class="max-w-full items-center flex  justify-between px-2 mt-1 lg:mt-2 py-1 lg:py-2 sm:grid sm:grid-cols-1">
+                    <div class="flex main_page justify-between items-center">
                         <div class="flex">
                             <select name="" onchange="otherSearch()" id="other_search"
                                 class= " w-36 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 lg:p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -205,71 +207,72 @@
                                 class= " w-32  bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block mx-2 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                         <div class="flex main_page items-center">
-                                <div class="pagination_by_search defualt main_page items-center flex gap-2">
-                                    @if (!empty($total_page))
-                                       @php
-                                            $left_limit = max(1, $page - 5); // Set the left boundary, but not below 1
-                                            $right_limit = min($total_page, $page + 5); // Set the right boundary, but not above the total pages
-                                        @endphp
-                                        <nav aria-label="Page navigation example">
-                                            <ul class="flex items-center -space-x-px h-8 text-sm">
+                            <div class="pagination_by_search defualt main_page items-center flex gap-2">
+                                @if (!empty($total_page))
+                                    @php
+                                        $left_limit = max(1, $page - 5); // Set the left boundary, but not below 1
+                                        $right_limit = min($total_page, $page + 5); // Set the right boundary, but not above the total pages
+                                    @endphp
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="flex items-center -space-x-px h-8 text-sm">
 
-                                                {{-- Previous Button --}}
-                                                @if ($page != 1)
+                                            {{-- Previous Button --}}
+                                            @if ($page != 1)
+                                                <li>
+                                                    <a href="{{ $page - 1 }}"
+                                                        class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                                        <i class="fa-solid fa-angle-left"></i>
+                                                    </a>
+                                                </li>
+                                            @endif
+
+                                            {{-- Page Numbers in Ascending Order --}}
+                                            @for ($i = $left_limit; $i <= $right_limit; $i++)
+                                                {{-- Loop from left to right in ascending order --}}
+                                                @if ($i == $page)
                                                     <li>
-                                                        <a href="{{ $page - 1 }}"
-                                                            class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                                            <i class="fa-solid fa-angle-left"></i>
-                                                        </a>
+                                                        <a href="{{ $i }}" aria-current="page"
+                                                            class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ $i }}</a>
+                                                    </li>
+                                                @else
+                                                    <li>
+                                                        <a href="{{ $i }}"
+                                                            class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ $i }}</a>
                                                     </li>
                                                 @endif
+                                            @endfor
 
-                                                {{-- Page Numbers in Ascending Order --}}
-                                                @for ($i = $left_limit; $i <= $right_limit; $i++)
-                                                    {{-- Loop from left to right in ascending order --}}
-                                                    @if ($i == $page)
-                                                        <li>
-                                                            <a href="{{ $i }}" aria-current="page"
-                                                                class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ $i }}</a>
-                                                        </li>
-                                                    @else
-                                                        <li>
-                                                            <a href="{{ $i }}"
-                                                                class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ $i }}</a>
-                                                        </li>
-                                                    @endif
-                                                @endfor
+                                            {{-- Next Button --}}
+                                            @if ($page != $total_page)
+                                                <li>
+                                                    <a href="{{ $page + 1 }}"
+                                                        class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                                        <i class="fa-solid fa-chevron-right"></i>
+                                                    </a>
+                                                </li>
+                                            @endif
 
-                                                {{-- Next Button --}}
-                                                @if ($page != $total_page)
-                                                    <li>
-                                                        <a href="{{ $page + 1 }}"
-                                                            class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                                            <i class="fa-solid fa-chevron-right"></i>
-                                                        </a>
-                                                    </li>
-                                                @endif
-
-                                            </ul>
-                                        </nav>
+                                        </ul>
+                                    </nav>
+                                @endif
+                                <select onchange="set_page()" id="select_page"
+                                    class="flex  items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                    name="" id="">
+                                    @if ($page != 1)
+                                        <option value="{{ $page }}">{{ $page }}</option>
+                                    @else
+                                        <option value="">More</option>
                                     @endif
-                                    <select onchange="set_page()" id="select_page"
-                                        class="flex  items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                        name="" id="">
-                                        @if ($page != 1)
-                                            <option value="{{ $page }}">{{ $page }}</option>
-                                        @else
-                                            <option value="">More</option>
-                                        @endif
-                                        {{-- Page Numbers in Ascending Order --}}
-                                        @for ($i = 1; $i <= $total_page; $i++)
-                                            <option value="{{ $i }}">{{ $i }}</option>
-                                        @endfor
+                                    {{-- Page Numbers in Ascending Order --}}
+                                    @for ($i = 1; $i <= $total_page; $i++)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
 
-                                    </select>
-                                    <span class="font-bold flex justify-center items-center dark:text-slate-50">Page :{{ $total_page }} Pages
-                                        &ensp;Total Assets: {{ $total_assets }} Records</span>
-                                </div>
+                                </select>
+                                <span class="font-bold flex justify-center items-center dark:text-slate-50">Page
+                                    :{{ $total_page }} Pages
+                                    &ensp;Total Assets: {{ $total_assets }} Records</span>
+                            </div>
 
                         </div>
                         <div class="flex fix_button">
@@ -309,55 +312,89 @@
                                 class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
 
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('assets_id','int','assets')">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                            onclick="dynamic_sort('assets_id','int','assets')">
                             ID &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('created_at','date','assets')">
-                            Create Date&ensp; <i class="fa-solid fa-sort"></i>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                            onclick="dynamic_sort('issue_date','date','assets')">
+                            Issue Date&ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('document','string','assets')">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                            onclick="dynamic_sort('document','string','assets')">
                             Refference&ensp; <i class="fa-solid fa-sort"></i>
                         </th>
 
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('assets1','string','assets')">
+                        <th scope="col"
+                            class="table_float_left_th px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-white dark:bg-gray-700 dark:border-gray-700"
+                            onclick="dynamic_sort('assets1','string','assets')">
                             Asset Code&ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('fa','string','assets')">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                            onclick="dynamic_sort('item','string','assets')">
+                            Item&ensp; <i class="fa-solid fa-sort"></i>
+                        </th>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                            onclick="dynamic_sort('specification','string','assets')">
+                            Specification&ensp; <i class="fa-solid fa-sort"></i>
+                        </th>
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                            onclick="dynamic_sort('initial_condition','string','assets')">
+                            Initial Condition&ensp; <i class="fa-solid fa-sort"></i>
+                        </th>
+
+
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                            onclick="dynamic_sort('fa','string','assets')">
                             Fix Asset No&ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('fa_type','string','assets')">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                            onclick="dynamic_sort('fa_type','string','assets')">
                             Fix Asset Type&ensp; <i class="fa-solid fa-sort"></i>
                         </th>
 
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('status','string','assets')">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                            onclick="dynamic_sort('status','string','assets')">
 
                             Status &ensp; <i class="fa-solid fa-sort"></i>
                         </th>
 
 
 
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('fa_class','string','assets')">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                            onclick="dynamic_sort('fa_class','string','assets')">
                             Fix Asset class&ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('fa_subclass','string','assets')">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                            onclick="dynamic_sort('fa_subclass','string','assets')">
                             Fix Asset Subclass&ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('depreciation','string','assets')">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                            onclick="dynamic_sort('depreciation','string','assets')">
                             Deoreciation Code&ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('dr','string','assets')">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                            onclick="dynamic_sort('dr','string','assets')">
                             DR&ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('pr','string','assets')">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                            onclick="dynamic_sort('pr','string','assets')">
                             PR&ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('invoice_no','string','assets')">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                            onclick="dynamic_sort('invoice_no','string','assets')">
                             Invoice No&ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2" onclick="dynamic_sort('description','string','assets')">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                            onclick="dynamic_sort('description','string','assets')">
                             Description&ensp; <i class="fa-solid fa-sort"></i>
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
+                        onclick="dynamic_sort('created_at','date','assets')">
+                        Created Date&ensp; <i class="fa-solid fa-sort"></i>
+                    </th>
+                        <th scope="col"
+                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
                             style="  position: sticky; right: 0;">
                             Action
                         </th>
@@ -369,25 +406,35 @@
                             <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
                                 <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    <input onchange="printable()" data-id="{{$item->id}}" id="green-checkbox" type="checkbox" value=""
+                                    <input onchange="printable()" data-id="{{ $item->assets_id }}" id="green-checkbox"
+                                        type="checkbox" value=""
                                         class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
 
-                                    {{ $item->id }}
+                                    {{ $item->assets_id }}
 
 
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
+                                    {{ \Carbon\Carbon::parse($item->issue_date)->format('M d Y') }}
 
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->document }}
                                 </td>
 
+                                <td class="table_float_left_td  px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   bg-white dark:bg-gray-700 dark:border-gray-700">
+                                    {{ $item->assets1 . $item->assets2 ?? '' }}
+                                </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    {{ $item->assets1 . $item->assets2??'' }}
+                                    {{ $item->item }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->specification }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->initial_condition }}
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->fa }}
@@ -437,52 +484,38 @@
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     {{ $item->description }}
                                 </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
+
+                                </td>
                                 <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
                                     style="  position: sticky; right: 0; ">
 
                                     @if (Auth::user()->Permission->assets_read == 1 && Auth::user()->Permission->assets_update == 0)
-                                    <a href="/admin/assets/view/id={{$item->id }}">
-                                        <button type="button"
-                                            class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                            <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
-                                        </button>
-                                    </a>
+                                        <a href="/admin/assets/view/id={{ $item->id }}">
+                                            <button type="button"
+                                                class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
+                                            </button>
+                                        </a>
                                     @endif
                                     {{-- BTN UPDATE  --}}
                                     @if (Auth::user()->Permission->assets_update == 1)
-
-                                    <a href="/admin/assets/edit/id={{ $item->id }}">
-                                        <button type="button"
-                                            class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-                                        </button>
-                                    </a>
-                                    @endif
-
-                                    @if (Auth::user()->role == 'admin')
-                                            @if (Auth::user()->Permission->assets_delete == 1)
-                                            {{-- BTN Delete  --}}
-
-                                            <button type="button" data-id="{{ $item->id }}"
-                                                id="btn_delete_asset{{ $item->id }}"
-                                                onclick="delete_value('btn_delete_asset'+{{ $item->id }},'delete_asset_admin','delete_value_asset')"
-                                                class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                                <i class="fa-solid fa-trash" style="color: #ffffff;"></i>
+                                        <a href="/admin/assets/edit/id={{ $item->assets_id }}">
+                                            <button type="button"
+                                                class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                    class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                             </button>
-                                        @endif
-                                    @elseif(Auth::user()->role == 'staff')
-                                        @if (Auth::user()->Permission->assets_delete == 1)
-                                        {{-- BTN Delete  --}}
-
-                                        <button type="button" data-id="{{ $item->id }}"
-                                            id="btn_delete_asset{{ $item->id }}"
-                                            onclick="delete_value('btn_delete_asset'+{{ $item->id }},'delete_asset_admin','delete_value_asset')"
+                                        </a>
+                                    @endif
+                                    @if (Auth::user()->Permission->assets_delete == 1)
+                                        <button type="button" data-id="{{ $item->assets_id }}"
+                                            id="btn_delete_asset{{ $item->assets_id }}"
+                                            onclick="delete_value('btn_delete_asset'+{{ $item->assets_id }},'delete_asset_admin','delete_value_asset')"
                                             class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid fa-trash" style="color: #ffffff;"></i>
                                         </button>
                                     @endif
-                                    @endif
-
                                 </td>
                             </tr>
                         @endforeach
@@ -518,10 +551,10 @@
 
         // id="search_button"
         document.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            button.click();
-        }
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                button.click();
+            }
         });
     </script>
 @endsection

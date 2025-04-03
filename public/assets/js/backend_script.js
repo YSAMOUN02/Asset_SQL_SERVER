@@ -1420,9 +1420,9 @@ function show_sort_asset() {
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                    ${
-                                       item.created_at
+                                       item.issue_date
                                            ? new Date(
-                                                 item.created_at
+                                                 item.issue_date
                                              ).toLocaleDateString("en-US", {
                                                  year: "numeric",
                                                  month: "short",
@@ -1438,6 +1438,17 @@ function show_sort_asset() {
 
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                             ${item.assets1 || ""}${item.assets2 || ""}
+                                    </td>
+
+                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                            ${item.item||""}
+                                    </td>
+                                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                            ${item.specification||""}
+                                    </td>
+                                        </td>
+                                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                            ${item.initial_condition||""}
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                 ${item.fa || ""}
@@ -1492,6 +1503,20 @@ function show_sort_asset() {
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                          ${item.description || ""}
                                     </td>
+                                       <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                              ${
+                                                   item.created_at
+                                                       ? new Date(
+                                                             item.created_at
+                                                         ).toLocaleDateString("en-US", {
+                                                             year: "numeric",
+                                                             month: "short",
+                                                             day: "numeric",
+                                                         })
+                                                       : ""
+                                               }
+                                    </td>
+
                                      <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  dark:bg-slate-900"
                                     style="position: sticky; right: 0; background-color: white;">
                                     `;
@@ -1952,7 +1977,7 @@ async function search_asset(no) {
         });
 
     if (data) {
-
+        console.log(data);
         if (data.data) {
 
             if (data.data.length > 0) {
@@ -2082,19 +2107,19 @@ async function search_asset(no) {
 
                                             <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                 <input onchange="printable()" data-id="${
-                                                    item.id || ""
+                                                    item.assets_id || ""
                                                 }" id="green-checkbox"
                                                     type="checkbox" value=""
                                                     class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                    ${item.id || ""}
+                                                    ${item.assets_id || ""}
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                ${
-                                                   item.created_at
+                                                   item.issue_date
                                                        ? new Date(
-                                                             item.created_at
+                                                             item.issue_date
                                                          ).toLocaleDateString("en-US", {
                                                              year: "numeric",
                                                              month: "short",
@@ -2111,6 +2136,16 @@ async function search_asset(no) {
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                 ${item.assets1 || ""}${item.assets2 || ""}
                                                 </td>
+                                                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                            ${item.item||""}
+                                    </td>
+                                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                            ${item.specification||""}
+                                    </td>
+                                        </td>
+                                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                            ${item.initial_condition||""}
+                                    </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                             ${item.fa || ""}
                                                 </td>
@@ -2164,27 +2199,41 @@ async function search_asset(no) {
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                      ${item.description || ""}
                                                 </td>
+                                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                               ${
+                                                   item.created_at
+                                                       ? new Date(
+                                                             item.created_at
+                                                         ).toLocaleDateString("en-US", {
+                                                             year: "numeric",
+                                                             month: "short",
+                                                             day: "numeric",
+                                                         })
+                                                       : ""
+                                               }
+
+                                                </td>
                                                  <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  dark:bg-slate-900"
                                                 style="position: sticky; right: 0; background-color: white;">
                                                 `;
                                                 if(auth?.permission?.assets_read == 1 && auth?.permission?.assets_update == 0){
 
                                                              custom+=`
-                                                             <a href="/admin/assets/view/id=${item.id}">
+                                                             <a href="/admin/assets/view/id=${item.assets_id}">
                                                              <button type="button"
                                                             class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                             <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
                                                             </button>
                                                             </a>`;
                                                 }else if(auth?.permission?.assets_read == 0 && auth?.permission?.assets_update == 1){
-                                                    custom+= ` <a href="/admin/assets/edit/id=${item.id}">
+                                                    custom+= ` <a href="/admin/assets/edit/id=${item.assets_id}">
                                                     <button type="button"
                                                         class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                             class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                                     </button>
                                                  </a>`;
                                                 }else if(auth?.permission?.assets_read == 1 && auth?.permission?.assets_update == 1){
-                                                    custom+= ` <a href="/admin/assets/edit/id=${item.id}">
+                                                    custom+= ` <a href="/admin/assets/edit/id=${item.assets_id}">
                                                     <button type="button"
                                                         class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                             class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
@@ -2194,9 +2243,9 @@ async function search_asset(no) {
                                                 }
                                                 if(auth?.permission?.assets_delete == 1){
                                                     custom+= `
-                                                    <button type="button" data-id="${item.id}"
-                                                    id="btn_delete_asset${item.id}"
-                                                    onclick="delete_value('btn_delete_asset'+${item.id},'delete_asset_admin','delete_value_asset')"
+                                                    <button type="button" data-id="${item.assets_id}"
+                                                    id="btn_delete_asset${item.assets_id}"
+                                                    onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')"
                                                     class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                     <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
                                                     `;

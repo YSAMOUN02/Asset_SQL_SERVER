@@ -157,7 +157,7 @@
                     name="asset_group" value="{{ old('asset_group', $asset[$current_varaint]->asset_group ?? '') }}" />
             </div>
             <div>
-                
+
                 <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
                 <select id="status" name="status"
                     class=" changed block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -166,14 +166,14 @@
 
                     @if ($asset[$current_varaint]->status == 2)
                         <option value="2">Sold</option>
-                        @if(Auth::user()->role == 'admin')
-                        <option value="1">Deleted</option>
+                        @if (Auth::user()->role == 'admin')
+                            <option value="1">Deleted</option>
                         @endif
                         <option value="0">Active</option>
                     @elseif($asset[$current_varaint]->delected == 0)
                         <option value="0">Active</option>
-                        @if(Auth::user()->role == 'admin')
-                        <option value="1">Deleted</option>
+                        @if (Auth::user()->role == 'admin')
+                            <option value="1">Deleted</option>
                         @endif
                         <option value="2">Sold</option>
                     @endif
@@ -233,7 +233,7 @@
                         <option value="{{ $asset[$current_varaint]->department }}">
                             {{ $asset[$current_varaint]->department }}</option>
                     @else
-                    <option value=""></option>
+                        <option value=""></option>
                     @endif
                     @if (!empty($department))
                         @foreach ($department as $item)
@@ -253,9 +253,8 @@
                     @if (!empty($asset[$current_varaint]->company))
                         <option value="{{ $asset[$current_varaint]->company }}">{{ $asset[$current_varaint]->company }}
                         </option>
-                        @else
+                    @else
                         <option value=""></option>
-
                     @endif
                     @if (!empty($company))
                         @foreach ($company as $item)
@@ -576,15 +575,22 @@
                     @endphp
 
                     @foreach ($asset[$current_varaint]->images as $item)
+                        @php
+
+                            $year = date('Y');
+                            $month = date('m');
+                            // $path= "/storage/uploads/image/".$item->image;
+                        @endphp
+
                         @if ($item->varaint == $current_varaint)
                             <div class="image_box" id="image_box_varaint{{ $item->id }}">
-                                <img src="/uploads/image/{{ $item->image }}"
-                                    onclick="maximize_minimize({{ $item->id }})" alt="Item">
+                                <img src="/storage/uploads/image/{{ $item->image }}"
+                                    onclick="maximize_minimize({{ $item->id }})" alt="test">
                                 <button type="button" onclick="remove_image_from_stored_varaint({{ $item->id }})"
                                     id="delete_image"><i class="fa-solid fa-trash" style="color: #ff0000;"></i></button>
 
-                                <a download="{{ $item->image }}" href="/uploads/image/{{ $item->image }}"><button
-                                        type="button" id="download_image"><i class="fa-regular fa-circle-down"
+                                <a download="{{ $item->image }}" href=""><button type="button"
+                                        id="download_image"><i class="fa-regular fa-circle-down"
                                             style="color: #71bd00;"></i></button></a>
                                 <input type="text" value="{{ $item->image }}"
                                     name="image_stored{{ $image_no }}" class="hidden">
@@ -698,10 +704,10 @@
         </div>
 
         </div>
-        @if($update_able != 0)
-            @if ($total_varaint == $current_varaint && ($asset[$current_varaint]->status == 0 || $asset[$current_varaint]->status == 2))
-
-
+        @if ($update_able != 0)
+            @if (
+                $total_varaint == $current_varaint &&
+                    ($asset[$current_varaint]->status == 0 || $asset[$current_varaint]->status == 2))
                 <div class="btn_float_right">
 
                     <button type="button" onclick="append_img()"
@@ -719,17 +725,17 @@
                 </div>
             @else
                 @if (Auth::user()->role == 'admin')
-                <div class="btn_float_right">
+                    <div class="btn_float_right">
 
-                    <button type="button" onclick="change_form_attribute()"
-                        class="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                        Restore <i class="fa-solid fa-download"></i>
-                    </button>
+                        <button type="button" onclick="change_form_attribute()"
+                            class="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                            Restore <i class="fa-solid fa-download"></i>
+                        </button>
 
-                </div>
+                    </div>
                 @endif
             @endif
 
-            @endif
+        @endif
     </form>
 @endsection
