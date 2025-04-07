@@ -91,12 +91,12 @@
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset Code <span
                         class="text-rose-500">*</span></label>
                 <div class="flex w-full">
-                    <input type="text" id="Asset_Code" name="asset_code1" readonly
+                    <input type="text" id="asset_Code1" name="asset_code1" readonly
                         class="percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value="{{ old('asset_code1', $asset[$current_varaint]->assets1 ?? '') }}" />
 
                     <input type="text" name="asset_code2"
-                        value="{{ old('asset_code1', $asset[$current_varaint]->assets2 ?? '') }}"
+                        value="{{ old('asset_code2', $asset[$current_varaint]->assets2 ?? '') }}"
                         class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 </div>
             </div>
@@ -347,7 +347,7 @@
             <div>
                 <label for="invoice_posting_date"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Invoice Posting Date</label>
-                <input type="date" id="invoice_posting_date" name="invoice_posting_date" readonly
+                <input type="datetime-local" id="invoice_posting_date" name="invoice_posting_date" readonly
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     value="{{ old('invoice_posting_date', $asset[$current_varaint]->invoice_date ?? '') }}" />
             </div>
@@ -576,16 +576,18 @@
 
                     @foreach ($asset[$current_varaint]->images as $item)
                         @php
-
-                            $year = date('Y');
-                            $month = date('m');
+                            $date = explode('-', $item->created_at);
+                            $year = $date[0];
+                            $month = $date[1];
                             // $path= "/storage/uploads/image/".$item->image;
                         @endphp
 
                         @if ($item->varaint == $current_varaint)
                             <div class="image_box" id="image_box_varaint{{ $item->id }}">
-                                <img src="/storage/uploads/image/{{ $item->image }}"
-                                    onclick="maximize_minimize({{ $item->id }})" alt="test">
+                                <img id="image_box_varaint_img{{ $item->id }}"
+                                    src="/storage/uploads/image/{{ $year }}/{{ $month }}/{{ $item->image }}"
+                                    onclick="maximize_minimize('image_box_varaint_img{{ $item->id }}',1)"
+                                    alt="test">
                                 <button type="button" onclick="remove_image_from_stored_varaint({{ $item->id }})"
                                     id="delete_image"><i class="fa-solid fa-trash" style="color: #ff0000;"></i></button>
 
@@ -709,7 +711,10 @@
                 $total_varaint == $current_varaint &&
                     ($asset[$current_varaint]->status == 0 || $asset[$current_varaint]->status == 2))
                 <div class="btn_float_right">
-
+                    <button type="button" onclick="search_assets()"
+                        class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Search
+                        Invoice
+                    </button>
                     <button type="button" onclick="append_img()"
                         class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                         <i class="fa-solid fa-image" style="color: #ffffff;"></i>

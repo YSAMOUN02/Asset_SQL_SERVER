@@ -165,15 +165,16 @@ class AssetsController extends Controller
 
     public function assets_add_submit(Request $request)
     {
+        // return 1;
         if(Auth::user()->permission->assets_write == 1){
-
+            $asset_lastest  = StoredAssets::orderBy('assets_id', 'desc')->first();
 
 
             // return $asset_user->id;
             $asset = new StoredAssets();
 
             // Asset Info
-            $asset->assets_id = $asset->id;
+            $asset->assets_id = $asset_lastest->assets_id + 1;
             $asset->document = $request->document ?? "";
             $asset->assets1 = $request->asset_code1 ?? "";
             $asset->assets2 = $request->asset_code2 ?? "";
@@ -243,12 +244,12 @@ class AssetsController extends Controller
                         $fileName = $this->upload_file($file);
 
                         $file = new File();
-                        $file->asset_id = $asset_user->id;
+                        $file->asset_id =$asset_lastest->assets_id + 1;
                         $file->varaint = 0;
                         $file->file = $fileName;
                         $file->save();
                         $file = new FileUser();
-                        $file->asset_id = $asset_user->id;
+                        $file->asset_id = $asset->id;
                         $file->file = $fileName;
                         $file->save();
                     }
@@ -260,23 +261,20 @@ class AssetsController extends Controller
                     $imageKey = 'image' . $i;  // Dynamic image input key
                     if ($request->hasFile($imageKey)) {
                         $file = $request->file($imageKey);
-                        $thumbnail = $this->upload_image($file);
-
+                        $thumbnail = $this->upload_image($file,$asset->asset_code1.$asset->asset_code2??"",0,$i);
                         $image = new Image();
-                        $image->asset_id =$asset->id;
+                        $image->asset_id =$asset_lastest->assets_id + 1;
                         $image->varaint = 0;
                         $image->image = $thumbnail;
                         $image->save();  // Don't forget to save the image
-                        $image = new ImageUser();
-                        $image->asset_id = $asset->id;
-                        $image->image = $thumbnail;
-                        $image->save();  // Don't forget to save the image
-                        // return 1;
+
+
                     }
                 }
             }
+            // public function Change_log($id,$varaint,$change,$section,$change_by,$user_id){
 
-            $this->Change_log($asset_user->id, 0, "Insert", "Asset Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);
+            $this->Change_log($asset_lastest->assets_id + 1, 0, "Insert", "Asset Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);
 
             if ($asset) {
                 return redirect('/admin/assets/list/1')->with('success', 'Added 1 Asset Record.');
@@ -982,42 +980,52 @@ class AssetsController extends Controller
                 $total_image = count($assets->images);
                 $colIndex = Coordinate::columnIndexFromString('AW');
                 foreach ($assets->images as $item) {
-                    $colLetter = Coordinate::stringFromColumnIndex($colIndex);
-                    $imagePath = public_path("storage/uploads/image/" . $item->image);
+                    if($assets->varaint == $item->varaint){
+                        $colLetter = Coordinate::stringFromColumnIndex($colIndex);
 
-                    if (file_exists($imagePath)) {
-                        // Set cell dimensions
-                        $cellWidth = 200;  // Cell width (adjust as needed)
-                        $cellHeight = 150; // Cell height (adjust as needed)
-                        $sheet->getColumnDimension($colLetter)->setWidth($cellWidth / 5.5); // Convert px to Excel width
-                        $sheet->getRowDimension($row)->setRowHeight($cellHeight);
+                        $date = explode('-', $item->created_at);
+                        $year = $date[0];
+                        $month = $date[1];
+                        // $path= "/storage/uploads/image/".$item->image;
 
-                        // Get original image dimensions
-                        [$originalWidth, $originalHeight] = getimagesize($imagePath);
+                        $imagePath = public_path("storage/uploads/image/$year/$month/" . $item->image);
 
-                        // Calculate the best scale factor to fit the image inside the cell while maintaining aspect ratio
-                        $scale = min($cellWidth / $originalWidth, $cellHeight / $originalHeight);
+                        if (file_exists($imagePath)) {
+                            // Set cell dimensions
+                            $cellWidth = 200;  // Cell width (adjust as needed)
+                            $cellHeight = 150; // Cell height (adjust as needed)
+                            $sheet->getColumnDimension($colLetter)->setWidth($cellWidth / 5.5); // Convert px to Excel width
+                            $sheet->getRowDimension($row)->setRowHeight($cellHeight);
 
-                        // Apply new dimensions
-                        $newWidth = $originalWidth * $scale;
-                        $newHeight = $originalHeight * $scale;
+                            // Get original image dimensions
+                            [$originalWidth, $originalHeight] = getimagesize($imagePath);
 
-                        $drawing = new Drawing();
-                        $drawing->setPath($imagePath);
-                        $drawing->setResizeProportional(true); // Ensure proportional scaling
-                        $drawing->setWidth($newWidth);
-                        $drawing->setHeight($newHeight);
-                        $drawing->setCoordinates("{$colLetter}{$row}");
-                        $drawing->setWorksheet($sheet);
+                            // Calculate the best scale factor to fit the image inside the cell while maintaining aspect ratio
+                            $scale = min($cellWidth / $originalWidth, $cellHeight / $originalHeight);
 
-                        // Center the image inside the cell
-                        $drawing->setOffsetX(($cellWidth - $newWidth) / 2);
-                        $drawing->setOffsetY(($cellHeight - $newHeight) / 2);
+                            // Apply new dimensions
+                            $newWidth = $originalWidth * $scale;
+                            $newHeight = $originalHeight * $scale;
 
-                        $colIndex++; // Move to the next column
-                    } else {
-                        \Log::error("Image not found: " . $imagePath);
+                            $drawing = new Drawing();
+                            $drawing->setPath($imagePath);
+                            $drawing->setResizeProportional(true); // Ensure proportional scaling
+                            $drawing->setWidth($newWidth);
+                            $drawing->setHeight($newHeight);
+                            $drawing->setCoordinates("{$colLetter}{$row}");
+                            $drawing->setWorksheet($sheet);
+
+                            // Center the image inside the cell
+                            $drawing->setOffsetX(($cellWidth - $newWidth) / 2);
+                            $drawing->setOffsetY(($cellHeight - $newHeight) / 2);
+
+                            $colIndex++; // Move to the next column
+                        } else {
+                            \Log::error("Image not found: " . $imagePath);
+                        }
+
                     }
+
                 }
 
 

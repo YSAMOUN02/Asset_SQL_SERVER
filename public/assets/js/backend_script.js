@@ -79,7 +79,7 @@ function append_img() {
     newElement.className = "image_box image_box" + state_box;
     newElement.id = "image_box" + state_box;
     newElement.innerHTML = `
-                                <img id="${box}" onclick="maximize_minimize(${state_box})"  src="/uploads/image/{{ $item->image }}"
+                                <img id="${box}" onclick="maximize_minimize(${state_box},0)"  src="/uploads/image/{{ $item->image }}"
 
                                     alt="Item">
 
@@ -142,7 +142,9 @@ function onchnage_imgae(event, boxNo) {
     }
 }
 
-function maximize_minimize(id) {
+function maximize_minimize(id,state) {
+
+    if(state == 0){
     var url = document.querySelector("#box" + id).src;
     // Create a new window or tab
     var newWindow = window.open("", "_blank");
@@ -151,6 +153,31 @@ function maximize_minimize(id) {
         `<html><head><title>Full Screen Image</title></head><body style="margin:0;"><img src="${url}" style="width:100vw; height:100vh; object-fit:contain;"></body></html>`
     );
     newWindow.document.close(); // Close the document to render the content
+    }else if(state == 1){
+
+        var imgElement = document.querySelector("#"+id);
+
+        if (imgElement) {
+            var url = imgElement.src; // Get the image URL
+
+            // Open a new tab and display the image in full screen
+            var newWindow = window.open("", "_blank");
+            newWindow.document.write(`
+                <html>
+                <head>
+
+                <title>Full Screen Image</title>
+                </head>
+                <body style="margin:0; background-color: black;">
+                    <img src="${url}" style="width:100vw; height:100vh; object-fit:contain;">
+                </body>
+                </html>
+            `);
+            newWindow.document.close(); // Ensure the content is fully loaded
+        } else {
+            console.error("Image not found! Check the ID:", id);
+        }
+    }
 }
 
 function remove_image(id) {

@@ -84,7 +84,7 @@ return new class extends Migration
             $table->string('address')->nullable(); // address
             $table->string('address2')->nullable(); // address2
             $table->string('contact')->nullable(); // contact
-            $table->string('phone')->nullable(); // phone
+            $table->string('phone')->nullable(); // phone 
             $table->string('email')->nullable(); // email
 
             // State  Asset
