@@ -166,7 +166,7 @@
                                 <option value="All">All</option>
                                 <option value="1">Active</option>
                                 <option value="0">Inactive</option>
-                     
+
 
                             </select>
                     </div>
@@ -405,7 +405,7 @@
                                             <a
                                                 href="/admin/movement/edit/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}">
                                                 <button type="button"
-                                                    class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                    class="text-white  scale-50 lg:scale-100  update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                         class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                                 </button>
                                             </a>
@@ -414,7 +414,7 @@
                                             <a
                                             href="/admin/movement/view/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}">
                                             <button type="button"
-                                                class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                class="text-white scale-50 lg:scale-100 update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                 <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
                                             </button>
                                         </a>
@@ -422,7 +422,7 @@
                                                 <a
                                                 href="/admin/movement/edit/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}">
                                                 <button type="button"
-                                                    class="text-white bg-gradient-to-r scale-50 lg:scale-100  from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                    class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                         class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                                 </button>
                                             </a>
@@ -433,7 +433,7 @@
                                         <button type="button" data-id="{{ $item->id }}"
                                             id="btn_delete_asset{{ $item->id }}"
                                             onclick="delete_value('btn_delete_asset'+{{ $item->id }},'delete_asset_admin','delete_value_asset')"
-                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                            class="scale-50 lg:scale-100 text-white delete_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
 
                                         @endif
@@ -443,7 +443,7 @@
                                             <a
                                                 href="/admin/movement/view/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}">
                                                 <button type="button"
-                                                    class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                    class="text-white scale-50 lg:scale-100 update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                     <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
                                                 </button>
                                             </a>
@@ -454,7 +454,7 @@
                                             <a
                                             href="/admin/movement/view/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}">
                                             <button type="button"
-                                                class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                class="text-white scale-50 lg:scale-100 update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                 <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
                                             </button>
                                         </a>

@@ -66,7 +66,7 @@ body{
   position: sticky;
   top: 0;
 
-  z-index: 49;
+
 
 }
 /* Table list Select  */
@@ -86,7 +86,7 @@ body{
 #list_assets thead{
   position: sticky;
   top: 0px;
-  z-index: 999;
+
 }
 #list_assets th:hover  ,#quick_tr_header:hover, #user_th{
   cursor: pointer;
@@ -99,6 +99,7 @@ body{
     font-size: 25px !important;
     margin-bottom: 15px;
     font-weight: bold !important;
+
   }
   .select-btn{
 
@@ -414,7 +415,15 @@ z-index: 99;
     height: 100%;
 
 }
-
+.zindex99{
+    z-index: 9999999;
+}
+.update_btn{
+    background-color: blue !important;
+}
+.delete_btn{
+    background-color: rgb(255, 0, 0) !important;
+}
   @keyframes fade_out{
     0%{
       display: block;
@@ -435,6 +444,11 @@ z-index: 99;
     }
 }
 @media  (max-width: 430px) {
+    body {
+        transform: scale(0.8);
+        transform-origin: top left;
+        width: 125%; /* Compensate for the scaling shrink */
+    }
   .main_page{
     flex-direction: column;
     gap: 8px;

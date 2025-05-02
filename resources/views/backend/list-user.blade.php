@@ -152,7 +152,7 @@
                                     @if (Auth::user()->Permission->user_update == 1)
                                         <a href="/admin/user/update/id={{ $item->id }}">
                                             <button type="button"
-                                                class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                class="scale-50 lg:scale-100 text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                     class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
                                         </a>
                                     @endif
@@ -161,7 +161,7 @@
                                             (Auth::user()->Permission->user_write == 1 && Auth::user()->Permission->user_update == 0))
                                     <a href="/admin/user/view/id={{$item->id}}">
                                         <button type="button"
-                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                            class="scale-50 lg:scale-100 text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
                                         </button>
                                     </a>
@@ -170,7 +170,7 @@
                                         <button type="button" data-id="{{ $item->id }}"
                                             onclick="delete_value('btn_delete'+{{ $item->id }},'delete_user','delete_value')"
                                             id="btn_delete{{ $item->id }}"
-                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                            class="scale-50 lg:scale-100 text-white delete_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-trash" style="color: #ffffff;"></i>
 
                                         </button>
@@ -217,7 +217,7 @@
                                     @if (Auth::user()->Permission->user_update == 1)
                                         <a href="/admin/user/update/id={{ $item->id }}">
                                             <button type="button"
-                                                class="scale-50 lg:scale-100  text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                class="scale-50 lg:scale-100  text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                     class="fa-solid fa-pen-to-square"
                                                     style="color: #ffffff;"></i></button>
                                         </a>
@@ -228,7 +228,7 @@
 
                                         <a href="/admin/user/view/id={{$item->id}}">
                                             <button type="button"
-                                            class="scale-50 lg:scale-100  text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                            class="scale-50 lg:scale-100  text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
                                         </button>
                                         </a>
@@ -237,7 +237,7 @@
                                         <button type="button" data-id="{{ $item->id }}"
                                             onclick="delete_value('btn_delete'+{{ $item->id }},'delete_user','delete_value')"
                                             id="btn_delete{{ $item->id }}"
-                                            class="scale-50 lg:scale-100  text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                            class="scale-50 lg:scale-100  text-white delete_btn focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-trash" style="color: #ffffff;"></i>
 
                                         </button>

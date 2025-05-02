@@ -6,7 +6,7 @@
     <!-- Small Modal -->
     <div id="small-modal" tabindex="-1"
         class="fixed  hidden w-80 p-4 overflow-x-hidden overflow-y-auto  h-[calc(100%-1rem)]  max-h-full">
-        <div class="relative w-full max-w-md max-h-full">
+        <div class="relative w-full max-w-md max-h-full ">
             <!-- Modal content -->
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 <!-- Modal header -->
@@ -17,7 +17,7 @@
 
                 </div>
                 <!-- Modal body -->
-                <div class="p-4 md:p-5 space-y-4">
+                <div class="p-4 md:p-5 space-y-4 ">
                     <form action="/admin/quick/data/update/submit" method="post">
                         @csrf
                         <span
@@ -105,10 +105,10 @@
 
 
 
-    <div class="container-height   shadow-md sm:rounded-lg dark:bg-gray-800">
-        <form class="p-4 py-4 dark:bg-gray-900" action="/quick/data/add" method="POST">
+    <div class="container-height   shadow-md sm:rounded-lg dark:bg-gray-800 ">
+        <form class="p-4 py-4 bg-white  dark:bg-gray-900" action="/quick/data/add" method="POST">
             @csrf
-            <h1 class="title_base dark:text-blue-100">Quick Data</h1>
+            <h1 class="title_base text-black  dark:text-blue-100">Quick Data</h1>
             <div class="grid gap-2  grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
                 <div>
                     <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Content <span
@@ -152,7 +152,7 @@
                     <input placeholder="Search.." type="text" id="content_search"
                         class= "w-44 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <button type="button" onclick="search_quick_data({{ $page }})"
-                        class="mx-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+                        class="mx-2 text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
                         <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                     </button>
                 </div>
@@ -285,7 +285,7 @@
 
                                         <button type="button"
                                             onclick="update_quick_data({{ $item }})"
-                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                            class="scale-50 lg:scale-100 text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                         </button>
                                         <!-- Modal toggle -->
@@ -294,7 +294,7 @@
                                         <button type="button" data-id="{{ $item->id }}"
                                             id="btn_delete{{ $item->id }}"
                                             onclick="delete_value('btn_delete'+{{ $item->id }},'delete_data','delete_data_value')"
-                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                            class="scale-50 lg:scale-100 text-white delete_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
                                     </td>
                                 </tr>

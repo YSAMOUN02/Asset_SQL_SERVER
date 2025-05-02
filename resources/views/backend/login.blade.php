@@ -209,8 +209,9 @@
 
             }
         } catch (error) {
-            alert("Problem connection to database.");
             console.log(error);
+            alert("Problem connection to database.");
+
         }
     }
 </script>

@@ -1051,7 +1051,7 @@ function show_sort_movement(){
                                                                       <a
                                                                     href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}">
                                                                     <button type="button"
-                                                                        class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                                        class="text-white scale-50 lg:scale-100 update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                                         <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
                                                                     </button>
                                                                     </a>
@@ -1081,7 +1081,7 @@ function show_sort_movement(){
                                                                     custom += `<a
                                                                 href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}">
                                                                 <button type="button"
-                                                                    class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                                    class="text-white scale-50 lg:scale-100 update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                                     <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
                                                                 </button>
                                                                 </a>
@@ -1168,7 +1168,7 @@ function show_sort_user() {
             ) {
                 custom += `
                                    <button type="button"
-                                      class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                      class="scale-50 lg:scale-100 text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                       <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
                                   </button>
       `;
@@ -1293,7 +1293,7 @@ function show_sort_staff_asset() {
                                         (auth?.permission?.assets_read == 1) &
                                         (auth?.permission?.assets_update == 0)
                                             ? `   <button type="button"
-                                            class="text-white bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                            class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
                                         </button>
                                         `
@@ -1552,7 +1552,7 @@ function show_sort_asset() {
                                                  custom+=`
                                                  <a href="/admin/assets/view/id=${item.id}">
                                                  <button type="button"
-                                                class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                class="text-white scale-50 lg:scale-100 update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                 <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
                                                 </button>
                                                 </a>`;
@@ -2248,7 +2248,7 @@ async function search_asset(no) {
                                                              custom+=`
                                                              <a href="/admin/assets/view/id=${item.assets_id}">
                                                              <button type="button"
-                                                            class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                            class="text-white scale-50 lg:scale-100 update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                             <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
                                                             </button>
                                                             </a>`;
@@ -3639,6 +3639,7 @@ async function search_mobile(asset) {
     let input_assets = document.querySelector("#sidebar-search");
     let panel_list = document.querySelector("#show_list");
 
+
     let val = "NA";
     if (input_assets) {
         if (input_assets.value != "") {
@@ -3672,12 +3673,12 @@ async function search_mobile(asset) {
         });
 
     if (data) {
-        console.log(data);
-        console.log(data.data);
+
         if (data.data) {
             if (data.data.length != 0) {
                 panel_list.innerHTML = ``;
                 let custom = `
+                <button onclick="close_search()">Close</button>
                       <table id="list_assets"
                             class="table_respond max-w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -3703,7 +3704,8 @@ async function search_mobile(asset) {
                     custom += `
                         <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                                <button>View</button>
+                                                <a href="/admin/assets/edit/id=${item.id}"> <button>View</button></a>
+
                                              </td>
                                              <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                                 ${item.assets1 + item.assets2}
@@ -3730,7 +3732,9 @@ async function search_mobile(asset) {
             }
         } else {
             panel_list.innerHTML = ``;
-            panel_list.innerHTML = `<h1>No Data Found.</h1>`;
+            panel_list.innerHTML = `
+                     <button onclick="close_search()">Close</button>
+            <h1>No Data Found.</h1>`;
             panel_list.style.display = "block";
         }
     } else {
@@ -3738,8 +3742,13 @@ async function search_mobile(asset) {
         panel_list.innerHTML = `<h1>Problem Data rendering</h1>`;
         panel_list.style.display = "block";
     }
-}
 
+
+}
+function close_search(){
+    let panel_list = document.querySelector("#show_list");
+    panel_list.style.display = "none";
+}
 async function search_asset_for_movement(no) {
     let fa = document.querySelector("#fa");
     let asset_input = document.querySelector("#assets");
@@ -4441,7 +4450,7 @@ async function search_movement(no){
                                               <a
                                             href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}">
                                             <button type="button"
-                                                class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                class="text-white scale-50 lg:scale-100 update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                 <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
                                             </button>
                                             </a>
@@ -4471,7 +4480,7 @@ async function search_movement(no){
                                             custom += `<a
                                         href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}">
                                         <button type="button"
-                                            class="text-white scale-50 lg:scale-100 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                            class="text-white scale-50 lg:scale-100 update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
                                         </button>
                                         </a>

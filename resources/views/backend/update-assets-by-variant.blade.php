@@ -2,7 +2,7 @@
 @section('content')
     <div class="border-b bg-white dark:bg-slate-900 dark:text-white border-gray-200 dark:border-gray-700">
         <ul
-            class="flex  overflow-x-auto whitespace-nowrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-200">
+            class="flex  overflow-x-auto whitespace-nowrap -mb-px text-sm font-medium text-center text-gray-500   dark:text-gray-200">
             @php
                 $i = $total_varaint;
             @endphp
@@ -71,10 +71,10 @@
 
 
 
-    <form class="p-5 dark:bg-gray-900" id="form-submit" enctype="multipart/form-data" action="/admin/assets/update/submit"
+    <form class="p-5 dark:bg-gray-900 bg-white"  id="form-submit" enctype="multipart/form-data" action="/admin/assets/update/submit"
         method="POST">
         @csrf
-        <h1 class="title_base dark:text-blue-100">Asset Info</h1>
+        <h1 class="title_base text-black dark:text-blue-100">Asset Info</h1>
 
         <div class="grid gap-6 mb-6 md:grid-cols-2 mt-5">
             <div>
@@ -193,7 +193,7 @@
 
 
 
-        <h1 class="mb-2 title_base dark:text-blue-100">Asset Holder Info</h1>
+        <h1 class="mb-2 title_base text-black dark:text-blue-100">Asset Holder Info</h1>
         <div class="grid gap-6 mb-6 md:grid-cols-2">
             <div>
                 <label for="asset_holder" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
@@ -277,7 +277,7 @@
             </div>
         </div>
 
-        <h1 class="mb-2 title_base dark:text-blue-100">Internal Document</h1>
+        <h1 class="mb-2 title_base text-black dark:text-blue-100">Internal Document</h1>
         <div class="grid gap-6 mb-6 md:grid-cols-2">
             <div>
                 <label for="grn" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">GRN No</label>
@@ -332,7 +332,7 @@
             </div>
         </div>
 
-        <h1 class="mb-2 title_base dark:text-blue-100">ERP Invoice</h1>
+        <h1 class="mb-2 title_base text-black dark:text-blue-100">ERP Invoice</h1>
         <div class="grid gap-6 mb-6 md:grid-cols-2">
             <!-- Asset Code (Account) -->
             <div class="flex flex-col w-full">
@@ -452,7 +452,7 @@
         </div>
 
 
-        <h1 class="mb-2 title_base dark:text-blue-100">Vendor Info</h1>
+        <h1 class="mb-2 title_base text-black dark:text-blue-100">Vendor Info</h1>
         <div class="grid gap-6 mb-6 md:grid-cols-2">
 
             <div>
@@ -553,7 +553,7 @@
                 </div>
             </div>
         </div>
-        <h1 class="mb-2 title_base dark:text-blue-100">QR Code </h1>
+        <h1 class="mb-2 title_base text-black dark:text-blue-100">QR Code </h1>
         <div id="qr_code">
             <a target="_blank"
                 href="/admin/qr/code/print/assets={{ $asset[$current_varaint]->assets1 . $asset[$current_varaint]->assets2 }}">
@@ -562,7 +562,7 @@
 
 
         </div>
-        <h1 class="mb-2 title_base mt-4 dark:text-blue-100">Image </h1>
+        <h1 class="mb-2 title_base text-black mt-4 dark:text-blue-100">Image </h1>
         <input type="text" class="hidden" name="image_state" value="0" id="image_state">
         <input type="text" class="hidden" name="file_state" value="0" id="file_state">
         <div id="image_show" class="grid gap-6 mb-6 grid-cols-1 lg:grid-cols-4 md:grid-cols-4">
@@ -609,7 +609,7 @@
                 @endif
             @endif
         </div>
-        <h1 class="mb-2 title_base dark:text-blue-100">Other FIle</h1>
+        <h1 class="mb-2 title_base text-black dark:text-blue-100">Other FIle</h1>
         <div id="container_file" class="grid justify-start gap-6 mb-6 grid-cols-1 lg:grid-cols-1 md:grid-cols-1">
 
             @if (!empty($asset[$current_varaint]->files))
@@ -712,15 +712,15 @@
                     ($asset[$current_varaint]->status == 0 || $asset[$current_varaint]->status == 2))
                 <div class="btn_float_right">
                     <button type="button" onclick="search_assets()"
-                        class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Search
+                        class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Search
                         Invoice
                     </button>
                     <button type="button" onclick="append_img()"
-                        class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                        class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                         <i class="fa-solid fa-image" style="color: #ffffff;"></i>
                     </button>
                     <button type="button" onclick=" append_file()"
-                        class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                        class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                         <i class="fa-solid fa-file"></i>
                     </button>
                     <button type="submit"

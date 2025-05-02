@@ -10,10 +10,10 @@
 
 
 
-    <form class=" p-4 py-1  lg:p-10 lg:py-10 md:p-2 md:py-2 dark:bg-gray-900" enctype="multipart/form-data" action="/admin/assets/add/submit"
+    <form class=" p-4 py-1  lg:p-10 lg:py-10 md:p-2  md:py-2 bg-white dark:bg-gray-900 de"  enctype="multipart/form-data" action="/admin/assets/add/submit"
         method="POST">
         @csrf
-        <h1 class="title_base dark:text-blue-100">Asset Info</h1>
+        <h1 class="title_base text-black dark:text-blue-100">Asset Info</h1>
         <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2 lg:grid-cols-2 md:grid-cols-2">
             <div>
                 <label for="Reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference <span
@@ -106,7 +106,7 @@
         </div>
 
 
-        <h1 class="mb-2 title_base dark:text-blue-100">Asset Holder Info</h1>
+        <h1 class="mb-2 title_base text-black dark:text-blue-100">Asset Holder Info</h1>
         <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
             <div>
                 <label for="Asset_Holder" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
@@ -172,7 +172,7 @@
                     name="remark_holder" />
             </div>
         </div>
-        <h1 class="mb-2 title_base dark:text-blue-100">Internal Document</h1>
+        <h1 class="mb-2 title_base text-black dark:text-blue-100">Internal Document</h1>
         <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
             <div>
                 <label for="grn" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">GRN No</label>
@@ -228,7 +228,7 @@
             </div>
 
         </div>
-        <h1 class="mb-2 title_base dark:text-blue-100">ERP Invoice</h1>
+        <h1 class="mb-2 title_base text-black dark:text-blue-100">ERP Invoice</h1>
         <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
             <div class="flex flex-col w-full">
                 <label for="no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
@@ -436,7 +436,7 @@
                 </div>
             </div>
         </div>
-        <h1 class="mb-2 title_base dark:text-blue-100">Vendor Info</h1>
+        <h1 class="mb-2 title_base text-black dark:text-blue-100">Vendor Info</h1>
         <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
 
             <div>
@@ -547,7 +547,7 @@
                 </div>
             </div>
         </div>
-        <h1 class="mb-2 title_base dark:text-blue-100">Image </h1>
+        <h1 class="mb-2 title_base text-black dark:text-blue-100">Image </h1>
         <input type="text" class="hidden" name="image_state" value="0" id="image_state">
         <input type="text" class="hidden" name="file_state" value="0" id="file_state">
         <div id="image_show" class="grid gap-6 mb-6 grid-cols-1 lg:grid-cols-4 md:grid-cols-4">
@@ -573,15 +573,15 @@
 
         <div class="btn_float_right">
             <button type="button" onclick="search_assets()"
-                class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Search
+                class="text-white update_btn hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Search
                 Invoice
             </button>
             <button type="button" onclick="append_img()"
-                class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                 <i class="fa-solid fa-image" style="color: #ffffff;"></i>
             </button>
             <button type="button" onclick=" append_file()"
-                class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                 <i class="fa-solid fa-file"></i>
             </button>
             <button type="submit"

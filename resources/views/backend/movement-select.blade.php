@@ -65,7 +65,9 @@
 
                     </div>
                     <div>
-                                     <select name="status" id="status" >
+                        <label for="end_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">
+                            Status</label>
+                                     <select name="status" id="status"     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <option value="ALL">All</option>
                                         <option value="0">Active</option>
                                         <option value="2">Sold</option>
@@ -197,7 +199,7 @@
                         </div>
                         <div class="flex fix_button">
                             <button type="button" onclick="search_asset_for_movement(0)" id="search_button"
-                                class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                            class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">>
                                 <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                             </button>
                         </div>

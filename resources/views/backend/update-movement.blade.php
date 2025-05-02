@@ -7,9 +7,9 @@
         </div>
 
     </div>
-    <form class="p-2 lg:p-10 py-2 lg:py-15 dark:bg-gray-900" enctype="multipart/form-data" action="/admin/movement/admin/update/submit" method="POST">
+    <form class="p-2 lg:p-10 py-2 lg:py-15 bg-white dark:bg-gray-900" enctype="multipart/form-data" action="/admin/movement/admin/update/submit" method="POST">
         @csrf
-        <h1 class="title_base dark:text-blue-100">Movement Info</h1>
+        <h1 class="title_base text-black dark:text-blue-100">Movement Info</h1>
         <div class="grid grid-cols-2 gap-6 mb-6 md:grid-cols-2">
             <div>
 
@@ -44,7 +44,7 @@
 
 
             <div class="grid gap-6 lg:grid-cols-1 md:grid-cols-1">
-                <span class="title_base text-lg dark:text-blue-100">Movement From</span>
+                <span class="title_base text-black text-lg dark:text-blue-100">Movement From</span>
                 <div class="hidden">
                     <input type="text" id="movement_id"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -122,7 +122,7 @@
 
 
             <div class="grid gap-6 lg:grid-cols-1 md:grid-cols-1">
-                <span class="title_base text-lg dark:text-blue-100">Movement To</span>
+                <span class="title_base text-black text-lg dark:text-blue-100">Movement To</span>
 
                 <div>
                     <label for="to_department"
@@ -179,7 +179,7 @@
 
 
         </div>
-        <h1 class="title_base dark:text-blue-100">Other Information</h1>
+        <h1 class="title_base text-black dark:text-blue-100">Other Information</h1>
         <div class="grid gap-6 lg:grid-cols-3 md:grid-cols-3">
             <div>
                 <label for="condition" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -225,7 +225,7 @@
                     class="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
                     data-accordion-target="#accordion-flush-body-3" aria-expanded="false"
                     aria-controls="accordion-flush-body-3">
-                    <h1 class="title_base dark:text-blue-100">Assets Info</h1>
+                    <h1 class="title_base text-black dark:text-blue-100">Assets Info</h1>
                     <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -339,7 +339,7 @@
                     </div>
 
 
-                    <h1 class="mb-2 title_base dark:text-blue-100">Asset Holder Info</h1>
+                    <h1 class="mb-2 title_base text-black dark:text-blue-100">Asset Holder Info</h1>
                     <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
                         <div>
                             <label for="asset_holder"
@@ -400,7 +400,7 @@
                         </div>
                     </div>
 
-                    <h1 class="mb-2 title_base dark:text-blue-100">Internal Document</h1>
+                    <h1 class="mb-2 title_base text-black dark:text-blue-100">Internal Document</h1>
                     <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
                         <div>
                             <label for="grn" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">GRN
@@ -461,7 +461,7 @@
                         </div>
                     </div>
 
-                    <h1 class="mb-2 title_base dark:text-blue-100">ERP Invoice</h1>
+                    <h1 class="mb-2 title_base text-black dark:text-blue-100">ERP Invoice</h1>
                     <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
                         <!-- Asset Code (Account) -->
                         <div class="flex flex-col w-full">
@@ -591,7 +591,7 @@
                     </div>
 
 
-                    <h1 class="mb-2 title_base dark:text-blue-100">Vendor Info</h1>
+                    <h1 class="mb-2 title_base text-black dark:text-blue-100">Vendor Info</h1>
                     <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
 
                         <div>
@@ -705,7 +705,7 @@
                             </div>
                         </div>
                     </div>
-                    <h1 class="mb-2 title_base dark:text-blue-100">QR Code  </h1>
+                    <h1 class="mb-2 title_base text-black dark:text-blue-100">QR Code  </h1>
                     <div id="qr_code">
                         <a target="_blank"
                             href="/admin/qr/code/print/assets={{ $asset->assets1 . $asset->assets2 }}">
@@ -715,7 +715,7 @@
 
 
                     </div>
-                    <h1 class="mb-2 title_base dark:text-blue-100">Image </h1>
+                    <h1 class="mb-2 title_base text-black dark:text-blue-100">Image </h1>
                     <input type="text" class="hidden" name="image_state" value="0" id="image_state">
                     <input type="text" class="hidden" name="file_state" value="0" id="file_state">
                     <div id="image_show" class="grid gap-6 mb-6 grid-cols-1 lg:grid-cols-4 md:grid-cols-4">
@@ -752,7 +752,7 @@
                             @endif
                         @endif
                     </div>
-                    <h1 class="mb-2 title_base dark:text-blue-100">Other FIle</h1>
+                    <h1 class="mb-2 title_base text-black dark:text-blue-100">Other FIle</h1>
                     <div id="container_file"
                         class="grid justify-start gap-6 mb-6 grid-cols-1 lg:grid-cols-1 md:grid-cols-1">
 
