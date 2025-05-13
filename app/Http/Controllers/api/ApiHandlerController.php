@@ -96,22 +96,31 @@ class ApiHandlerController extends Controller
         $state = $request->state_val??'NA';
         $page = $request->page??0;
 
+
+
+
         $sql = RawFixAssets::orderBy("assets_date", "desc");
 
-        if ($assets != "NA") {
-            $sql->where("assets", "like", "%" . $assets . "%");
+        if (strtolower($assets) !== "na") {
+            $sql->whereRaw("LOWER(assets) LIKE ?", ['%' . strtolower($assets) . '%']);
         }
-        if ($fa != "NA") {
 
-            $sql->where("fa", "like", "%" . $fa . "%");
+        if (strtolower($fa) !== "na") {
+            $sql->whereRaw("LOWER(fa) LIKE ?", ['%' . strtolower($fa) . '%']);
         }
-        if ($invoice != "NA") {
 
-            $sql->where("invoice_no", "like", "%" .  $invoice . "%");
+        if (strtolower($invoice) !== "na") {
+            $sql->whereRaw("LOWER(invoice_no) LIKE ?", ['%' . strtolower($invoice) . '%']);
         }
-        if ($description != "NA") {
-            $sql->where("description", "like", "%".$description."%");
+
+        if (strtolower($description) !== "na") {
+            $sql->whereRaw("LOWER(description) LIKE ?", ['%' . strtolower($description) . '%']);
+
         }
+
+
+
+
         if ($state != "NA") {
             if ($state == "All") {
 

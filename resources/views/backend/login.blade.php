@@ -210,7 +210,7 @@
             }
         } catch (error) {
             console.log(error);
-            alert("Problem connection to database.");
+            alert("Invalid Credentail.");
 
         }
     }

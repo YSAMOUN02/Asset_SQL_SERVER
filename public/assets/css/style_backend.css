@@ -424,6 +424,9 @@ z-index: 99;
 .delete_btn{
     background-color: rgb(255, 0, 0) !important;
 }
+.update_view{
+    background-color: rgb(0, 87, 26) !important;
+}
   @keyframes fade_out{
     0%{
       display: block;

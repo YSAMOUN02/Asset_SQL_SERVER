@@ -1,9 +1,11 @@
 @extends('backend.master')
 @section('content')
     <script>
+        // Initialize Array for Chart Data
         var boxData = [];
     </script>
     @php
+        // Chart 1
         // Fetch data as an array of key-value pairs where key is value and value is count
         $data = \App\Models\StoredAssets::selectRaw('company, COUNT(*) as count')
             // where('box_id', $box->id)
@@ -18,6 +20,7 @@
         // Get the count of the data array
         $count_arr = $data->count();
 
+        // Chart 2
         // Fetch data as an array of key-value pairs where key is value and value is count
         $data_department = \App\Models\StoredAssets::selectRaw('department, COUNT(*) as count')
             // where('box_id', $box->id)
@@ -32,6 +35,7 @@
         // Get the count of the data array
         $count_arr_department = $data->count();
 
+        // Chart 3
         // Convert the collection to an array
         $data_by_year = \App\Models\StoredAssets::selectRaw('YEAR(issue_date) as year, COUNT(*) as count')
             ->groupByRaw('YEAR(issue_date)')
@@ -43,12 +47,12 @@
     @endphp
     {{-- // id: @json($box->id), --}}
 
+
+    {{-- Push Data to Array for Chart Display  --}}
     <script>
         var data = @json($data);
         var count_arr = @json($count_arr);
-
-
-        // For Multi Chart Box
+        // Chart 1 Data
         boxData.push({
 
             id: 1,
@@ -56,18 +60,18 @@
             count_arr: @json($count_arr),
             type_chart: 'donut'
         });
-        // For Multi Chart Box
+        // Chart 2 Data
         boxData.push({
             id: 2,
             data: @json($data_department),
             count_arr: @json($count_arr_department),
             type_chart: 'donut'
         });
-        // For Multi Chart Box
+
 
         var data_by_year = @json($data_by_year);
         var count_arr2 = @json($count_arr_year);
-
+        // Chart 3 Data
         boxData.push({
 
             id: 3,
@@ -76,26 +80,19 @@
             type_chart: 'label'
         });
     </script>
+    {{-- Grid Layout --}}
+    <div class="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 justify-start bg-white dark:bg-black h-full w-full">
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 justify-start bg-white h-full w-full">
-
-
+        {{-- Dynamic Chart --}}
         <div><div class="py-6" id="donut-chart1"></div></div>
-
-        <div><div class="py-6" id="donut-chart2"></div></div>
+        {{-- <div><div class="py-6" id="donut-chart2"></div></div> --}}
         <div><div id="donut-chart3" class="px-2.5"></div></div>
 
     </div>
 
-
-
-
-
-
-
-
-
+    {{-- Chart Source  --}}
     <script src="{{ URL('assets/JS/apexcharts.min.js') }}"></script>
+    {{-- Chart Data  --}}
     <script>
 
         boxData.map((item, index) => {

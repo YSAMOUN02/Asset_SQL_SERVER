@@ -494,7 +494,7 @@
                                     @if (Auth::user()->Permission->assets_read == 1 && Auth::user()->Permission->assets_update == 0)
                                         <a href="/admin/assets/view/id={{ $item->id }}">
                                             <button type="button"
-                                                class=" text-white scale-50 lg:scale-100  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                class=" text-white scale-50 lg:scale-100  update_view font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                 <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
                                             </button>
                                         </a>

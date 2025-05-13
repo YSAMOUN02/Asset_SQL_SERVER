@@ -1552,21 +1552,21 @@ function show_sort_asset() {
                                                  custom+=`
                                                  <a href="/admin/assets/view/id=${item.id}">
                                                  <button type="button"
-                                                class="text-white scale-50 lg:scale-100 update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                class="text-white scale-50 lg:scale-100  update_view font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                 <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
                                                 </button>
                                                 </a>`;
                                     }else if(auth?.permission?.assets_read == 0 && auth?.permission?.assets_update == 1){
                                         custom+= ` <a href="/admin/assets/edit/id=${item.id}">
                                         <button type="button"
-                                            class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                            class="text-white scale-50 lg:scale-100  update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                         </button>
                                      </a>`;
                                     }else if(auth?.permission?.assets_read == 1 && auth?.permission?.assets_update == 1){
                                         custom+= ` <a href="/admin/assets/edit/id=${item.id}">
                                         <button type="button"
-                                            class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                            class="text-white scale-50 lg:scale-100  update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                 class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                         </button>
                                      </a>`;
@@ -1577,7 +1577,7 @@ function show_sort_asset() {
                                         <button type="button" data-id="${item.id}"
                                         id="btn_delete_asset${item.id}"
                                         onclick="delete_value('btn_delete_asset'+${item.id},'delete_asset_admin','delete_value_asset')"
-                                        class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                        class="scale-50 lg:scale-100 text-white delete_btn hover:bg-gradient-to-br focus:ring-4  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                         <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
                                         `;
                                     }
@@ -2248,21 +2248,21 @@ async function search_asset(no) {
                                                              custom+=`
                                                              <a href="/admin/assets/view/id=${item.assets_id}">
                                                              <button type="button"
-                                                            class="text-white scale-50 lg:scale-100 update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                            class="text-white scale-50 lg:scale-100  update_view font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                             <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
                                                             </button>
                                                             </a>`;
                                                 }else if(auth?.permission?.assets_read == 0 && auth?.permission?.assets_update == 1){
                                                     custom+= ` <a href="/admin/assets/edit/id=${item.assets_id}">
                                                     <button type="button"
-                                                        class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                        class=" text-white scale-50 lg:scale-100  update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                             class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                                     </button>
                                                  </a>`;
                                                 }else if(auth?.permission?.assets_read == 1 && auth?.permission?.assets_update == 1){
                                                     custom+= ` <a href="/admin/assets/edit/id=${item.assets_id}">
                                                     <button type="button"
-                                                        class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                                                        class=" text-white scale-50 lg:scale-100  update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                                                             class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                                     </button>
                                                  </a>`;
@@ -2273,7 +2273,7 @@ async function search_asset(no) {
                                                     <button type="button" data-id="${item.assets_id}"
                                                     id="btn_delete_asset${item.assets_id}"
                                                     onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')"
-                                                    class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                                    class="scale-50 lg:scale-100 text-white delete_btn hover:bg-gradient-to-br focus:ring-4  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                                     <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
                                                     `;
                                                 }
