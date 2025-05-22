@@ -86,7 +86,7 @@ body{
 #list_assets thead{
   position: sticky;
   top: 0px;
-
+    z-index: 99;
 }
 #list_assets th:hover  ,#quick_tr_header:hover, #user_th{
   cursor: pointer;
@@ -139,7 +139,29 @@ body{
     animation: fade_out 20s forwards;
     display: none;
   }
+#toast_green {
+  position: absolute;
 
+   display: none;
+  top: 40px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  visibility: visible;
+  animation: fadeOut2 4s forwards;
+  z-index: 9999;
+}
+#toast_red{
+  position: absolute;
+ display: none;
+  top: 40px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  visibility: visible;
+  animation: fadeOut2 4s forwards;
+  z-index: 9999;
+}
 #dropdownSearch::-webkit-scrollbar{
   display: none;
 }
@@ -166,8 +188,6 @@ body{
   transform: translate(-50%,-50%);
   animation: fade_up 10s forwards;
   z-index: 9999;
-
-
 }
 
 .btn_float_right{
@@ -281,26 +301,8 @@ body{
   height: 90%;
 
 }
-.inner-data table thead{
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-.inner-data table tr{
-  white-space: nowrap;
-}
-.inner-data table th:last-child{
-  background-color: rgb(199, 199, 199);
-  position: sticky;
-  right: 0;
-  z-index: 999;
-}
-.inner-data table td:last-child{
-  background-color: rgb(201, 201, 201);
-  position: sticky;
-  right: 0;
-  z-index: 1 ;
-}
+
+
 .align_right{
   padding: 5px 10px;
   display: flex;
@@ -405,18 +407,17 @@ z-index: 99;
     top: 0;
     width: 100%;
     height: 100%;
-    z-index: 9999;
+    z-index: 999;
 }
 .table_float_left_td{
     position: sticky;
     left: 0;
-    top: 0;
     width: 100%;
     height: 100%;
-
+    z-index: 0;
 }
 .zindex99{
-    z-index: 9999999;
+    z-index: 99999 !important;
 }
 .update_btn{
     background-color: blue !important;
@@ -427,8 +428,40 @@ z-index: 99;
 .update_view{
     background-color: rgb(0, 87, 26) !important;
 }
+.btn_option{
+    position: absolute;
+    z-index:47;
+    background-color: red;
+}
+#assets_body td:last-child {
+    position: sticky;
+    right: 0;
+
+}
+.option{
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    position: relative;
+}
+#assets_body td:last-child  ul {
+    background-color: rgb(255, 255, 255) !important;
+    border: 1px solid rgba(0, 0, 0, 0.187) !important;
+    position: absolute;
+    bottom: 0%;
+    left: -10%;
+    z-index: 9999999999 !important;
+}
+#assets_body tr:first-child  ul {
+    background-color: rgb(255, 255, 255) !important;
+    border: 1px solid rgba(0, 0, 0, 0.187) !important;
+    position: absolute;
+    top: 100%;
+    left: -10%;
+    z-index: 9999999999 !important;
+}
   @keyframes fade_out{
-    0%{
+    0%{ 
       display: block;
     }100%{
       display: none;
@@ -445,6 +478,34 @@ z-index: 99;
 
 
     }
+
+
+
+}
+@keyframes fadeOut2 {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes display_none{
+    0%{
+
+
+        display: block;
+    }
+    100%{
+        display: none;
+
+
+    }
+
+
+
 }
 @media  (max-width: 430px) {
     body {

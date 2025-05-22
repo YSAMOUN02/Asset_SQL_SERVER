@@ -146,9 +146,7 @@ class MovementController extends Controller
                 $aset =  StoredAssets::where('assets_id',$request->id_assets)->where('last_varaint',1)->first();
                 $aset->total_movement += 1;
                 $aset->save();
-                $asetUser =  StoredAssetsUser::where('id',$request->id_assets)->first();
-                $asetUser->total_movement += 1;
-                $asetUser->save();
+             
 
                 $new_movement = new movement();
                 $new_movement->movement_no =   $request->movement_no;

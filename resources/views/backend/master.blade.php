@@ -232,31 +232,17 @@
                     @endif
                     @if (Auth::user()->Permission->transfer_write == 1 || Auth::user()->Permission->transfer_read == 1)
                         <li>
+                            <a href="/admin/movement/list/1">
                             <button type="button"
                                 class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                aria-controls="dropdown-pages-user" data-collapse-toggle="dropdown-pages-transfer">
+                              >
                                 <i class="fa-solid fa-shuffle"></i>
-                                <span class="flex-1 ml-3 text-left whitespace-nowrap">Movement</span>
-                                <i class="fa-solid fa-chevron-down"></i>
+                                <span class="flex-1 ml-3 text-left whitespace-nowrap">List
+                                            Movement</span>
+
                             </button>
-                            <ul id="dropdown-pages-transfer" class="hidden py-2 space-y-2">
+                            </a>
 
-                                @if (Auth::user()->Permission->transfer_write == 1)
-                                    <li>
-
-                                        <a href="/admin/movement/add/1"
-                                            class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Create
-                                            Movement</a>
-                                    </li>
-                                @endif
-                                @if (Auth::user()->Permission->transfer_read == 1)
-                                    <li>
-                                        <a href="/admin/movement/list/1"
-                                            class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">List
-                                            Movement</a>
-                                    </li>
-                                @endif
-                            </ul>
                         </li>
                     @endif
                     @if (Auth::user()->Permission->user_write == 1 || Auth::user()->Permission->user_read == 1)
@@ -414,12 +400,53 @@
         </div>
     </div>
 </div>
+
+<div id="toast_green"
+            class="max-w-xs bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-neutral-800 dark:border-neutral-700"
+            role="alert" tabindex="-1" aria-labelledby="hs-toast-warning-example-label">
+            <div class="flex p-4">
+                <div class="shrink-0">
+                    <svg class="shrink-0 size-4 fill-lime-600 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="16"
+                        height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z">
+                        </path>
+                    </svg>
+                </div>
+                <div class="ms-3">
+                    <p id="hs-toast-warning-example-label" class="text-sm text-gray-700 dark:text-neutral-400">
+                        Success
+                    </p>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div id="toast_red"
+            class="max-w-xs bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-neutral-800 dark:border-neutral-700"
+            role="alert" tabindex="-1" aria-labelledby="hs-toast-warning-example-label">
+            <div class="flex p-4">
+                <div class="shrink-0">
+                    <svg class="shrink-0 size-4 fill-rose-600 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="16"
+                        height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z">
+                        </path>
+                    </svg>
+                </div>
+                <div class="ms-3">
+                    <p id="hs-toast-warning-example-label" class="text-sm text-gray-700 dark:text-neutral-400">
+                       Error
+                    </p>
+                </div>
+            </div>
+        </div>
+        </div>
     </main>
 
 
     <script src="{{ URL('/assets/js/backend_script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/fusioncharts@3.12.2/fusioncharts.js" charset="utf-8"></script> --}}
+   
 
     <script>
         // When the window is loading, show the loading graphic
@@ -431,7 +458,8 @@
     };
     let auth = @json(Auth::user());
 
-
+    let toast_green = document.getElementById('toast_green');
+        let toast_red = document.getElementById('toast_red');
 </script>
 
 </body>

@@ -1463,7 +1463,7 @@ function show_sort_asset() {
                                           ${item.document || ""}
                                     </td>
 
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                    <td class="table_float_left_td  px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   bg-white dark:bg-gray-700 dark:border-gray-700">
                                             ${item.assets1 || ""}${item.assets2 || ""}
                                     </td>
 
@@ -1544,49 +1544,84 @@ function show_sort_asset() {
                                                }
                                     </td>
 
-                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  dark:bg-slate-900"
-                                    style="position: sticky; right: 0; background-color: white;">
+                                    <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
+                                      <div class="option">
+                                        <button id="dropdownMenuIconHorizontalButton${item.id}"
+                                            data-dropdown-toggle="dropdownDotsHorizontal${item.id}"
+                                            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                            type="button">
+                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                fill="currentColor" viewBox="0 0 16 3">
+                                                <path
+                                                    d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                                            </svg>
+                                        </button>
+
+                                        <!-- Dropdown menu -->
+                                        <div id="dropdownDotsHorizontal${item.id}"
+                                            class=" hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
+
+                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                aria-labelledby="dropdownMenuIconHorizontalButton${item.id}">
+
+
                                     `;
-                                    if(auth?.permission?.assets_read == 1 && auth?.permission?.assets_update == 0){
+
+                               if(auth?.permission?.transfer_write == 1){
 
                                                  custom+=`
-                                                 <a href="/admin/assets/view/id=${item.id}">
-                                                 <button type="button"
-                                                class="text-white scale-50 lg:scale-100  update_view font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                                <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
-                                                </button>
-                                                </a>`;
-                                    }else if(auth?.permission?.assets_read == 0 && auth?.permission?.assets_update == 1){
-                                        custom+= ` <a href="/admin/assets/edit/id=${item.id}">
-                                        <button type="button"
-                                            class="text-white scale-50 lg:scale-100  update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-                                        </button>
-                                     </a>`;
-                                    }else if(auth?.permission?.assets_read == 1 && auth?.permission?.assets_update == 1){
-                                        custom+= ` <a href="/admin/assets/edit/id=${item.id}">
-                                        <button type="button"
-                                            class="text-white scale-50 lg:scale-100  update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-                                        </button>
-                                     </a>`;
+                                               <li>
+                                                    <a href="/admin/movement/add/detail/id= ${item.assets_id}"
+                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Movement</a>
+                                                    </li>
+
+
+                                                `;
 
                                     }
-                                    if(auth?.permission?.assets_delete == 1){
+                                     if(auth?.permission?.assets_read == 1){
+                                        if(auth?.permission?.assets_update == 0){
+                                            custom+= `
+                                                    <li>
+                                                        <a href="/admin/assets/view/id=${item.assets_id}"
+                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Detail</a>
+                                                    </li>
+                                        `;
+                                        }else{
+                                            custom+= `
+                                            <li>
+                                                        <a href="/admin/assets/edit/id=${item.assets_id}"
+                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Update</a>
+                                            </li>
+                                            `;
+                                        }
+
+
+                                    }
+                                     if(auth?.permission?.assets_delete == 1){
                                         custom+= `
-                                        <button type="button" data-id="${item.id}"
-                                        id="btn_delete_asset${item.id}"
-                                        onclick="delete_value('btn_delete_asset'+${item.id},'delete_asset_admin','delete_value_asset')"
-                                        class="scale-50 lg:scale-100 text-white delete_btn hover:bg-gradient-to-br focus:ring-4  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                        <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
+                                        <li
+                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                    data-id="${item.assets_id}"  id="btn_delete_asset${item.assets_id}"  onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')">
+                                        Delete
+                                        </li>
                                         `;
                                     }
 
-                                    custom+= `</td></tr>`;
+                                    custom+= `
+                                          </ul>
+
+                                        </div>
+                                    </div>
+
+                                    </td></tr>`;
 
 
                                     body_change.innerHTML+= custom;
+
     });
+      initFlowbite();
+
 }
 function show_sort_raw_asset() {
     let body_change = document.querySelector("#table_raw_body");
@@ -2018,7 +2053,7 @@ async function search_asset(no) {
                         let page = data.page;
                         let totalPage = data.total_page;
                         let totalRecord = data.total_record;
-                        console.log(data);
+
                         // Start by building the entire HTML content in one go
                         let paginationHtml = `
 
@@ -2239,59 +2274,102 @@ async function search_asset(no) {
                                                        : ""
                                                }
 
-                                                </td>
-                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  dark:bg-slate-900"
-                                                style="position: sticky; right: 0; background-color: white;">
+
+                                                <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
+                                                <div class="option">
+                                                    <button id="dropdownMenuIconHorizontalButton${item.id}"
+                                                        data-dropdown-toggle="dropdownDotsHorizontal${item.id}"
+                                                        class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                                        type="button">
+                                                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                            fill="currentColor" viewBox="0 0 16 3">
+                                                            <path
+                                                                d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                                                        </svg>
+                                                    </button>
+
+                                                    <!-- Dropdown menu -->
+                                                    <div id="dropdownDotsHorizontal${item.id}"
+                                                        class=" hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
+
+                                                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                            aria-labelledby="dropdownMenuIconHorizontalButton${item.id}">
                                                 `;
-                                                if(auth?.permission?.assets_read == 1 && auth?.permission?.assets_update == 0){
+                                                if(auth?.permission?.transfer_write == 1){
 
-                                                             custom+=`
-                                                             <a href="/admin/assets/view/id=${item.assets_id}">
-                                                             <button type="button"
-                                                            class="text-white scale-50 lg:scale-100  update_view font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                                            <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
-                                                            </button>
-                                                            </a>`;
-                                                }else if(auth?.permission?.assets_read == 0 && auth?.permission?.assets_update == 1){
-                                                    custom+= ` <a href="/admin/assets/edit/id=${item.assets_id}">
-                                                    <button type="button"
-                                                        class=" text-white scale-50 lg:scale-100  update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                            class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-                                                    </button>
-                                                 </a>`;
-                                                }else if(auth?.permission?.assets_read == 1 && auth?.permission?.assets_update == 1){
-                                                    custom+= ` <a href="/admin/assets/edit/id=${item.assets_id}">
-                                                    <button type="button"
-                                                        class=" text-white scale-50 lg:scale-100  update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                            class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-                                                    </button>
-                                                 </a>`;
+                                                 custom+=`
+                                               <li>
+                                                    <a href="/admin/movement/add/detail/id= ${item.assets_id}"
+                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Movement</a>
+                                                    </li>
+
+
+                                                `;
 
                                                 }
+                                                if(auth?.permission?.assets_read == 1){
+                                                    if(auth?.permission?.assets_update == 0){
+                                                        custom+= `
+                                                        <li>
+                                                        <a href="/admin/assets/view/id=${item.assets_id}"
+                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Detail</a>
+                                                        </li>
+                                                        `;
+                                                    }else{
+                                                     custom+= `
+                                                        <li>
+                                                            <a href="/admin/assets/edit/id=${item.assets_id}"
+                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Update</a>
+                                                        </li>
+                                                        `;
+                                                    }
+                                                }
+
                                                 if(auth?.permission?.assets_delete == 1){
-                                                    custom+= `
-                                                    <button type="button" data-id="${item.assets_id}"
-                                                    id="btn_delete_asset${item.assets_id}"
-                                                    onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')"
-                                                    class="scale-50 lg:scale-100 text-white delete_btn hover:bg-gradient-to-br focus:ring-4  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                                    <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
-                                                    `;
+                                                     custom+= `
+                                                        <li
+                                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                                    data-id="${item.assets_id}"  id="btn_delete_asset${item.assets_id}"  onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')">
+                                                            Delete
+                                                        </li>
+                                                        `;
                                                 }
 
-                                                custom+= `</td></tr>`;
+
+                                                custom+= `
+                                                    </ul>
+
+                                                    </div>
+                                                </div>
+                                                `;
 
 
                                                 body_change.innerHTML+= custom;
                 });
+                    initFlowbite();
                 array = data.data;
             } else {
-                alert("Data not Found.");
+
+                    toast_red.querySelector("p").innerHTML = "Data not Found.";
+                    toast_red.style.display = "block";
+                    toast_red.style.animation = 'none'; // reset animation
+                    toast_red.offsetHeight; // trigger reflow to restart animation
+                    toast_red.style.animation = 'fadeOut2 4s forwards'; // start animation
             }
         } else {
-            alert("Data not Found.");
+                    toast_red.querySelector("p").innerHTML = "Data not Found.";
+                          toast_red.style.display = "block";
+                    toast_red.style.animation = 'none'; // reset animation
+                    toast_red.offsetHeight; // trigger reflow to restart animation
+                    toast_red.style.animation = 'fadeOut2 4s forwards'; // start animation
         }
     } else {
-        alert("Problem on database connection.");
+                        toast_red.querySelector("p").innerHTML = "Problem on database connection.";
+                              toast_red.style.display = "block";
+                        toast_red.style.animation = 'none'; // reset animation
+                        toast_red.offsetHeight; // trigger reflow to restart animation
+                        toast_red.style.animation = 'fadeOut2 4s forwards'; // start animation
+
     }
     document.querySelector("#loading").style.display = "none";
 }

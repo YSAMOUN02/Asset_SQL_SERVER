@@ -121,8 +121,8 @@
 
                     </div>
                     <div>
-                        <label for="start_date"
-                            class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Start</label>
+                        <label for="start_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Start
+                            (issue Date)</label>
 
                         <input type="date" id="start_date" name="start_date" name="end_date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -130,7 +130,7 @@
                     </div>
                     <div>
                         <label for="end_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">To
-                            date</label>
+                            date (issue Date)</label>
 
                         <input type="date" id="end_date" name="end_date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -288,7 +288,7 @@
 
 
 
-                            <button type="button" onclick="search_asset(0)" id="search_button"
+                            <button type="button" onclick="search_asset(0)" id="search_item"
                                 class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                 <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                             </button>
@@ -390,9 +390,9 @@
                             Description&ensp; <i class="fa-solid fa-sort"></i>
                         </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                        onclick="dynamic_sort('created_at','date','assets')">
-                        Created Date&ensp; <i class="fa-solid fa-sort"></i>
-                    </th>
+                            onclick="dynamic_sort('created_at','date','assets')">
+                            Created Date&ensp; <i class="fa-solid fa-sort"></i>
+                        </th>
                         <th scope="col"
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
                             style="  position: sticky; right: 0;">
@@ -424,7 +424,8 @@
                                     {{ $item->document }}
                                 </td>
 
-                                <td class="table_float_left_td  px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   bg-white dark:bg-gray-700 dark:border-gray-700">
+                                <td
+                                    class="table_float_left_td  px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   bg-white dark:bg-gray-700 dark:border-gray-700">
                                     {{ $item->assets1 . $item->assets2 ?? '' }}
                                 </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
@@ -488,34 +489,58 @@
                                     {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
 
                                 </td>
-                                <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
-                                    style="  position: sticky; right: 0; ">
+                                <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
 
-                                    @if (Auth::user()->Permission->assets_read == 1 && Auth::user()->Permission->assets_update == 0)
-                                        <a href="/admin/assets/view/id={{ $item->id }}">
-                                            <button type="button"
-                                                class=" text-white scale-50 lg:scale-100  update_view font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                                <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
-                                            </button>
-                                        </a>
-                                    @endif
-                                    {{-- BTN UPDATE  --}}
-                                    @if (Auth::user()->Permission->assets_update == 1)
-                                        <a href="/admin/assets/edit/id={{ $item->assets_id }}">
-                                            <button type="button"
-                                                class=" text-white scale-50 lg:scale-100  update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                    class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-                                            </button>
-                                        </a>
-                                    @endif
-                                    @if (Auth::user()->Permission->assets_delete == 1)
-                                        <button type="button" data-id="{{ $item->assets_id }}"
-                                            id="btn_delete_asset{{ $item->assets_id }}"
-                                            onclick="delete_value('btn_delete_asset'+{{ $item->assets_id }},'delete_asset_admin','delete_value_asset')"
-                                            class="scale-50 lg:scale-100 text-white delete_btn hover:bg-gradient-to-br focus:ring-4  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                            <i class="fa-solid fa-trash" style="color: #ffffff;"></i>
+                                    <div class="option">
+                                        <button id="dropdownMenuIconHorizontalButton{{ $item->id }}"
+                                            data-dropdown-toggle="dropdownDotsHorizontal{{ $item->id }}"
+                                            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                            type="button">
+                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                fill="currentColor" viewBox="0 0 16 3">
+                                                <path
+                                                    d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                                            </svg>
                                         </button>
-                                    @endif
+
+                                        <!-- Dropdown menu -->
+                                        <div id="dropdownDotsHorizontal{{ $item->id }}"
+                                            class=" hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
+
+                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                aria-labelledby="dropdownMenuIconHorizontalButton{{ $item->id }}">
+                                                @if (Auth::user()->Permission->transfer_write == 1)
+                                                    <li>
+                                                        <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
+                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Movement</a>
+                                                    </li>
+                                                @endif
+                                                @if (Auth::user()->Permission->assets_read == 1 && Auth::user()->Permission->assets_update == 0)
+                                                    <li>
+                                                        <a href="/admin/assets/view/id={{ $item->assets_id }}"
+                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Detail</a>
+                                                    </li>
+                                                @endif
+                                                @if (Auth::user()->Permission->assets_update == 1)
+                                                    <li>
+                                                        <a href="/admin/assets/edit/id={{ $item->assets_id }}"
+                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Update</a>
+                                                    </li>
+                                                @endif
+                                                @if (Auth::user()->Permission->assets_delete == 1)
+                                                    <li
+                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                    data-id="{{ $item->assets_id }}"  id="btn_delete_asset{{ $item->assets_id }}"  onclick="delete_value('btn_delete_asset'+{{ $item->assets_id }},'delete_asset_admin','delete_value_asset')">
+
+                                                        Delete
+
+                                                    </li>
+                                                @endif
+                                            </ul>
+
+                                        </div>
+                                    </div>
+
                                 </td>
                             </tr>
                         @endforeach
