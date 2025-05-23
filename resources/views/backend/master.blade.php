@@ -203,10 +203,8 @@
                                     <li>
                                         <a href="/admin/assets/add/1"
                                             class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Create
-                                            Assets</a>
+                                            with Invoice</a>
                                     </li>
-
-
                                 @endif
                                 @if (Auth::user()->Permission->assets_write == 1)
                                 <li>
@@ -446,7 +444,7 @@
 
     <script src="{{ URL('/assets/js/backend_script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
-   
+
 
     <script>
         // When the window is loading, show the loading graphic

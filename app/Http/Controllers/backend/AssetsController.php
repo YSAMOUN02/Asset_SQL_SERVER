@@ -441,14 +441,11 @@ class AssetsController extends Controller
                         $fileName = $this->upload_file($file);
 
                         $file = new File();
-                        $file->asset_id = $asset_user->id;
+                        $file->asset_id = $asset->assets_id;
                         $file->varaint = $var;
                         $file->file = $fileName;
                         $file->save();
-                        $file = new FileUser();
-                        $file->asset_id = $asset_user->id;
-                        $file->file = $fileName;
-                        $file->save();
+
                     }
                 }
             }
