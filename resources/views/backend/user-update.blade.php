@@ -61,9 +61,9 @@
                 </select>
             </div>
             <div>
-                <label for="login" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User
+                <label for="user_login" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User
                     Login</label>
-                <input type="text" value="{{ $user->name }}" id="first_name" name="login_name"
+                <input type="text" value="{{ $user->name }}" id="user_login" name="login_name"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required />
             </div>
@@ -74,9 +74,9 @@
                     required />
             </div>
             <div>
-                <label for="company"
+                <label for="department"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                <input type="text" id="company" value="{{ $user->department }}" name="department"
+                <input type="text" id="department" value="{{ $user->department }}" name="department"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
             </div>
             <div>
@@ -125,7 +125,7 @@
         @endif
 
 
-        <div class="toast_position">
+        <div class="toast_position hidden">
             <!-- Toast -->
             <div class="max-w-xs bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-neutral-800 dark:border-neutral-700"
                 role="alert" tabindex="-1" aria-labelledby="hs-toast-warning-example-label">
@@ -219,7 +219,7 @@
                 </ul>
             </div>
             <div>
-                <label class="label_user ml-5 bg-white dark:bg-gray-700 dark:text-gray-300" for="assets_read,">Assets
+              <label class="label_user ml-5 bg-white dark:bg-gray-700 text-gray-900 rounded dark:text-gray-300">Assets
                     Section</label>
                 <ul class="h-56 px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
                     aria-labelledby="dropdownSearchButton">
@@ -288,7 +288,7 @@
 
 
             <div>
-                <label class="label_user ml-5 bg-white dark:bg-gray-700 dark:text-gray-300" for="">Movement
+               <label class="label_user ml-5 bg-white dark:bg-gray-700 text-gray-900 rounded dark:text-gray-300">Movement
                     Section</label>
                 <ul class="h-56 px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
                     aria-labelledby="dropdownSearchButton">
@@ -351,7 +351,7 @@
                 </ul>
             </div>
             <div>
-                <label class="label_user ml-5 bg-white dark:bg-gray-700 dark:text-gray-300" for=""> Quick Data
+                <label class="label_user ml-5 bg-white dark:bg-gray-700 text-gray-900 rounded dark:text-gray-300">Quick Data
                     Section</label>
                 <ul class="h-56 px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
                     aria-labelledby="dropdownSearchButton">

@@ -8,9 +8,13 @@ use App\Models\Fix_assets;
 use App\Models\QuickData;
 use App\Models\RawFixAssets;
 use App\Models\StoredAssets;
-use App\Models\StoredAssetsUser;
+use App\Models\Limit;
 use App\Models\movement;
 use App\Models\User;
+
+use App\Models\Company;
+use App\Models\Location;
+use App\Models\Department;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -187,40 +191,6 @@ class ApiHandlerController extends Controller
     }
 
 
-
-
-    public function fa_location()
-    {
-        $data = StoredAssetsUser::select("fa_type")->distinct()->get();
-
-        $arr = [];
-        foreach ($data as $item) {
-            $count = StoredAssetsUser::where("fa_type", $item->fa_type)->count();
-
-            if ($count) {
-                // Push both the type and its count into the array
-                array_push($arr, ['label' => $item->fa_type, 'value' => $count]);
-            }
-        }
-        // Return the array as a JSON response
-        return response()->json($arr);
-    }
-
-
-    public function assets_status()
-    {
-        $data = StoredAssetsUser::select(
-            DB::raw("LEFT(DATENAME(MONTH, created_at), 3) AS label"),
-            DB::raw("COUNT(id) AS value")
-        )
-            ->groupBy(DB::raw("MONTH(created_at)"), DB::raw("LEFT(DATENAME(MONTH, created_at), 3)"))
-            ->orderBy(DB::raw("MONTH(created_at)"))
-            ->whereYear('created_at', today()->year)
-            ->get();
-
-        return response()->json($data);
-    }
-
     public function search_list_asset(request $request)
     {
         $fa = $request->fa ?? "";
@@ -369,7 +339,8 @@ class ApiHandlerController extends Controller
         }
 
 
-        $limit = 150;
+        $viewpoint = Limit::first();
+        $limit = $viewpoint->limit??50;
 
         $offet = 0;
         if($page != 0){
@@ -392,121 +363,16 @@ class ApiHandlerController extends Controller
 
 
         if ($count > 0) {
-            return response()->json($arr );
+            return response()->json($arr )
+              ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+              ->header('Pragma', 'no-cache');
         } else {
             return response()->json([]);
         }
     }
 
 
-    // public function search_list_asset_more_staff(request $request)
-    // {
 
-
-
-
-    //     $fa = $request->fa ?? "";
-    //     $invoice = $request->invoice ?? "";
-    //     $assets = $request->asset ?? "";
-    //     $description = $request->description ?? "";
-    //     $start = $request->start ?? "";
-    //     $end = $request->end ?? "";
-    //     $state = $request->state ?? "NA";
-    //     $type = $request->type ?? "NA";
-    //     $value = $request->value ?? "NA";
-    //     $id = $request->id ?? "NA";
-    //     $page =$request->page??1;
-
-    //     // return response()->json([$fa,$invoice,$assets]);
-
-    //     $data =  StoredAssetsUser::orderBy('id', 'desc')
-    //         ->where("status",'<>', 1);
-
-    //     if ($id != "NA") {
-    //         $data->where("id", 'LIKE', "%".$id."%");
-    //     }
-    //     if ($assets != "NA") {
-    //         $data->where(DB::raw("CONCAT(assets1, assets2)"), 'LIKE', "%".$assets."%");
-    //     }
-    //     if ($fa != "NA") {
-    //         $data->where("fa", 'LIKE',"%".$fa."%");
-    //     }
-    //     if ($invoice != "NA") {
-    //         $data->where("invoice_no", 'LIKE',"%".$invoice."%");
-    //     }
-    //     if ($description != "NA") {
-    //         $data->where("description", 'LIKE',"%".$description."%");
-    //     }
-
-
-
-    //     // Check if start and end are provided and not "NA"
-    //     if ($start != "NA" && $end != "NA") {
-    //         // Ensure both start and end are in the correct date format (e.g., 'Y-m-d H:i:s')
-    //         $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay(); // or use ->toDateTimeString() if needed
-    //         $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay(); // or use ->toDateTimeString()
-
-    //         // Query between the start and end dates
-    //         $data->whereBetween('created_at', [$startDate, $endDate]);
-
-    //         // Start date only provided
-    //     } elseif ($start != "NA" && $end == "NA") {
-    //         $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
-    //         $data->where('created_at', '>=', $startDate);
-
-    //         // End date only provided
-    //     } elseif ($start == "NA" && $end != "NA") {
-    //         $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
-    //         $data->where('created_at', '<=', $endDate);
-    //     }
-
-
-    //     if($state != "NA"){
-    //         if ($state == "All") {
-    //         } elseif ($state == 0) {
-    //             $data->where("status", 0);
-    //         } elseif ($state == 1) {
-    //             $data->where("status", 1);
-    //         } elseif ($state == 2) {
-    //             $data->where("status", 2);
-    //         }
-
-
-    //     }
-
-    //     if ($type != "NA" && $value != "NA") {
-    //         $data->where($type, 'LIKE', '%' . $value . '%');
-    //     }
-
-
-    //     $limit = 150;
-
-    //     $offet = 0;
-    //     if($page != 0){
-    //         $offet = ($page - 1) * $limit;
-    //     }
-    //     $count = $data->count();
-
-    //     $data->limit($limit);
-    //     $data->offset($offet);
-    //     $asset_data = $data->get();
-
-    //     $total_pages = ceil($count/$limit);
-
-    //     // return response()->json($count);
-    //     $arr = new arr();
-    //     $arr->page = $page;
-    //     $arr->total_page = $total_pages;
-    //     $arr->total_record = $count;
-    //     $arr->data = $asset_data;
-
-
-    //     if ($count > 0) {
-    //         return response()->json($arr );
-    //     } else {
-    //         return response()->json([]);
-    //     }
-    // }
     public function seach_changeLog(Request $request)
     {
 
@@ -565,7 +431,8 @@ class ApiHandlerController extends Controller
             $count = count($data);
 
 
-            $limit = 150;
+            $viewpoint = Limit::first();
+            $limit = $viewpoint->limit??50;
 
             $total_pages = ceil($count/$limit);
             $offet = 0;
@@ -607,7 +474,9 @@ class ApiHandlerController extends Controller
         }
         $count_post =  $data->count();
 
-        $limit = 150;
+        $viewpoint = Limit::first();
+        $limit = $viewpoint->limit??50;
+
         $total_pages = ceil($count_post/$limit);
         $offet = 0;
         if($page != 0){
@@ -746,7 +615,8 @@ class ApiHandlerController extends Controller
         }
 
 
-        $limit = 150;
+         $viewpoint = Limit::first();
+        $limit = $viewpoint->limit??50;
 
         $offet = 0;
         if($page != 0){
@@ -779,7 +649,8 @@ class ApiHandlerController extends Controller
 
 
     public function search_movement_more(Request $request){
-        $limit = 150;
+         $viewpoint = Limit::first();
+        $limit = $viewpoint->limit??50;
 
         $id = $request->movement_id ??'NA';
         $movement_no = $request->movement_no??'NA';
@@ -919,6 +790,84 @@ class ApiHandlerController extends Controller
 
 
     }
+
+     public function Change_viewpoint(Request $request){
+        $limit = $request->limit??50;
+        $viewpoint = Limit::first();
+        if(empty($viewpoint)){
+            $viewpoint = new Limit();
+        }
+        $viewpoint->limit = $limit;
+        $viewpoint->save();
+
+
+         return response()->json(["Success."], 200 );
+     }
+
+
+
+
+     public function add_department(request $request){
+        $company_id = $request->company_id??'NA';
+        $department_name = $request->name??'NA';
+        if($company_id != 'NA' && $department_name != 'NA'){
+            $company = Company::where('id',$company_id)->first();
+            if($company){
+                $department = new Department();
+                $department->name = $department_name;
+                $department->company_id = $company_id;
+                $department->save();
+
+
+
+
+
+                if($department){
+                    $all_department = Department::where('company_id',$company_id)
+                    ->orderby('name', 'asc')
+                    ->get();
+
+
+                    return response()->json($all_department, 200);
+                }else{
+                    return response()->json(["error" => "Failed to add department."], 500);
+                }
+            }else{
+                return response()->json(["error" => "Company not found."], 404);
+            }
+        }
+     }
+
+     public function delete_department(request $request){
+        $department_id = $request->department_id??'NA';
+        if($department_id != 'NA'){
+            $department = Department::where('id',$department_id)->first();
+            $company_id = $department->company_id??'NA';
+
+                if($department){
+                    $department->delete();
+                }else{
+                    return response()->json(["error" => "Department not found."], 404);
+                }
+
+                // Get all departments after deletion
+
+            if($department){
+                    $all_department = Department::where('company_id',$company_id)
+                    ->orderby('name', 'asc')
+                    ->get();
+                    $datas = new quick_data();
+                    $datas->id = $company_id;
+                    $datas->data = $all_department;
+
+                    return response()->json($datas, 200);
+                }else{
+                    return response()->json(["error" => "Failed to add department."], 500);
+                }
+        }else{
+            return response()->json(["error" => "Invalid department ID."], 400);
+        }
+     }
 }
 
 
@@ -929,3 +878,11 @@ class arr {
     public $data;
 
 }
+
+
+class quick_data {
+    public $id;
+    public $data;
+
+}
+

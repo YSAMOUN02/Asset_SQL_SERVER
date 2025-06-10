@@ -148,35 +148,51 @@
 
                                 </td>
 
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 whitespace-nowrap ">
-                                    @if (Auth::user()->Permission->user_update == 1)
-                                        <a href="/admin/user/update/id={{ $item->id }}">
-                                            <button type="button"
-                                                class="scale-50 lg:scale-100 text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                    class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></button>
-                                        </a>
-                                    @endif
-                                    @if (
-                                        (Auth::user()->Permission->user_write == 0 && Auth::user()->Permission->user_update == 0) ||
-                                            (Auth::user()->Permission->user_write == 1 && Auth::user()->Permission->user_update == 0))
-                                    <a href="/admin/user/view/id={{$item->id}}">
-                                        <button type="button"
-                                            class="scale-50 lg:scale-100 text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                            <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
+                                 <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
+
+                                    <div class="option">
+                                        <button id="dropdownMenuIconHorizontalButton{{ $item->id }}"
+                                            data-dropdown-toggle="dropdownDotsHorizontal{{ $item->id }}"
+                                            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                            type="button">
+                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                fill="currentColor" viewBox="0 0 16 3">
+                                                <path
+                                                    d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                                            </svg>
                                         </button>
-                                    </a>
-                                    @endif
-                                    @if (Auth::user()->Permission->user_delete == 1)
-                                        <button type="button" data-id="{{ $item->id }}"
-                                            onclick="delete_value('btn_delete'+{{ $item->id }},'delete_user','delete_value')"
-                                            id="btn_delete{{ $item->id }}"
-                                            class="scale-50 lg:scale-100 text-white delete_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                class="fa-solid fa-trash" style="color: #ffffff;"></i>
 
-                                        </button>
-                                    @endif
+                                        <!-- Dropdown menu -->
+                                        <div id="dropdownDotsHorizontal{{ $item->id }}"
+                                            class="option_dark hidden  bg-white border-b dark:bg-gray-800 dark:border-gray-700   rounded-lg shadow-sm w-44 ">
 
+                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                                                    @if (Auth::user()->Permission->user_update == 1)
+                                                        <li>
+                                                            <a href="/admin/user/update/id={{$item->id}}"
+                                                                class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Update</a>
+                                                        </li>
+                                                    @endif
+                                                      @if (Auth::user()->Permission->user_read == 1 && Auth::user()->Permission->user_update == 0)
+                                                        <li>
+                                                            <a href="/admin/user/view/id={{$item->id}}"
+                                                                class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">View</a>
+                                                        </li>
+                                                    @endif
+                                                    @if (Auth::user()->Permission->user_delete == 1)
+                                                        <li
+                                                         type="button" data-id="{{ $item->id }}"
+                                                        onclick="delete_value('btn_delete'+{{ $item->id }},'delete_user','delete_value')"
+                                                        id="btn_delete{{ $item->id }}"
+                                                        >
 
+                                                                <div class="cursor block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Delete</div>
+
+                                                        </li>
+                                                    @endif
+
+                                            </ul>
+                                        </div>
                                 </td>
 
                             </tr>
@@ -212,40 +228,52 @@
                                     @endif
 
                                 </td>
+                                <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
 
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                    @if (Auth::user()->Permission->user_update == 1)
-                                        <a href="/admin/user/update/id={{ $item->id }}">
-                                            <button type="button"
-                                                class="scale-50 lg:scale-100  text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                    class="fa-solid fa-pen-to-square"
-                                                    style="color: #ffffff;"></i></button>
-                                        </a>
-                                    @endif
-                                    @if (
-                                        (Auth::user()->Permission->user_write == 0 && Auth::user()->Permission->user_update == 0) ||
-                                            (Auth::user()->Permission->user_delete == 1 && Auth::user()->Permission->user_update == 0))
-
-                                        <a href="/admin/user/view/id={{$item->id}}">
-                                            <button type="button"
-                                            class="scale-50 lg:scale-100  text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                            <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
+                                    <div class="option">
+                                        <button id="dropdownMenuIconHorizontalButton{{ $item->id }}"
+                                            data-dropdown-toggle="dropdownDotsHorizontal{{ $item->id }}"
+                                            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                            type="button">
+                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                fill="currentColor" viewBox="0 0 16 3">
+                                                <path
+                                                    d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                                            </svg>
                                         </button>
-                                        </a>
-                                    @endif
-                                    @if (Auth::user()->Permission->user_delete == 1)
-                                        <button type="button" data-id="{{ $item->id }}"
-                                            onclick="delete_value('btn_delete'+{{ $item->id }},'delete_user','delete_value')"
-                                            id="btn_delete{{ $item->id }}"
-                                            class="scale-50 lg:scale-100  text-white delete_btn focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                class="fa-solid fa-trash" style="color: #ffffff;"></i>
 
-                                        </button>
-                                    @endif
+                                        <!-- Dropdown menu -->
+                                        <div id="dropdownDotsHorizontal{{ $item->id }}"
+                                            class="option_dark hidden  bg-white border-b dark:bg-gray-800 dark:border-gray-700   rounded-lg shadow-sm w-44 ">
 
+                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                                                    @if (Auth::user()->Permission->user_update == 1)
+                                                        <li>
+                                                            <a href="/admin/user/update/id={{$item->id}}"
+                                                                class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Update</a>
+                                                        </li>
+                                                    @endif
+                                                      @if (Auth::user()->Permission->user_read == 1 && Auth::user()->Permission->user_update == 0)
+                                                        <li>
+                                                            <a href="/admin/user/view/id={{$item->id}}"
+                                                                class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">View</a>
+                                                        </li>
+                                                    @endif
+                                              @if (Auth::user()->Permission->user_delete == 1)
+                                                        <li
+                                                         type="button" data-id="{{ $item->id }}"
+                                                        onclick="delete_value('btn_delete'+{{ $item->id }},'delete_user','delete_value')"
+                                                        id="btn_delete{{ $item->id }}"
+                                                        >
 
+                                                                <div class="cursor block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Delete</div>
+
+                                                        </li>
+                                                    @endif
+
+                                            </ul>
+                                        </div>
                                 </td>
-
                             </tr>
                         @endif
                     @endforeach

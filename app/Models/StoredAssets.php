@@ -26,6 +26,6 @@ class StoredAssets extends Model
     }
 
     public function movements(){
-        return $this->hasMany(service_categories::class,'assets_id','id');
+        return $this->hasMany(movement::class,'assets_id','assets_id');
       }
 }

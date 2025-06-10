@@ -89,7 +89,8 @@
 
                     </div>
                     <div>
-                        <label for="movement_no" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Movement
+                        <label for="movement_no"
+                            class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Movement
                             No</label>
 
                         <input type="text" id="movement_no" name="movement_no"
@@ -107,7 +108,8 @@
 
 
                     <div>
-                        <label for="from_department" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">From
+                        <label for="from_department"
+                            class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">From
                             Department</label>
 
 
@@ -159,16 +161,17 @@
 
                     </div>
                     <div>
-                        <label for="from_department" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Status</label>
+                        <label for="from_department"
+                            class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Status</label>
 
-                            <select id="status" name="status"
-                                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value="All">All</option>
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
+                        <select id="status" name="status"
+                            class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="All">All</option>
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
 
 
-                            </select>
+                        </select>
                     </div>
                 </div>
                 <div
@@ -270,7 +273,7 @@
                         <div class="flex fix_button">
 
                             <button type="button" onclick="search_movement(1)" id="search_button"
-                                class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                 <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                             </button>
                         </div>
@@ -370,100 +373,71 @@
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
 
                                     @if ($item->status == 0)
-                                    <span
-                                    class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                    <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                    Inactive
-                                    </span>
+                                        <span
+                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                            Inactive
+                                        </span>
                                     @elseif($item->status == 3)
-                                       <span
+                                        <span
                                             class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                                             <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
                                             Deleted
                                         </span>
-                                        @elseif($item->status == 1)
-                                    <span
-                                    class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                    <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                    Active
-                                </span>
-
+                                    @elseif($item->status == 1)
+                                        <span
+                                            class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                            <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                            Active
+                                        </span>
                                     @endif
 
                                 </td>
 
+                                <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
 
-                                <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white flex justify-between"
-                                    style="  position: sticky; right: 0;  ">
+                                    <div class="option">
+                                        <button id="dropdownMenuIconHorizontalButton{{ $item->id }}"
+                                            data-dropdown-toggle="dropdownDotsHorizontal{{ $item->id }}"
+                                            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                            type="button">
+                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                fill="currentColor" viewBox="0 0 16 3">
+                                                <path
+                                                    d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                                            </svg>
+                                        </button>
 
-                                    {{-- BTN UPDATE  --}}
+                                        <!-- Dropdown menu -->
+                                        <div id="dropdownDotsHorizontal{{ $item->id }}"
+                                            class="option_dark hidden  bg-white border-b dark:bg-gray-800 dark:border-gray-700   rounded-lg shadow-sm w-44 ">
 
-                                    {{-- Active State  --}}
-                                    @if ($item->status == 1)
-                                        @if (Auth::user()->permission->transfer_update == 1 && Auth::user()->permission->transfer_read == 0)
+                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                                                @if ($item->status == 1)
+                                                    @if (Auth::user()->permission->transfer_update == 1 )
+                                                        <li>
+                                                            <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
+                                                                class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Update</a>
+                                                        </li>
+                                                    @endif
+                                                    @if (Auth::user()->Permission->transfer_delete == 1)
+                                                        <li
+                                                        type="button" data-id="{{ $item->id }}"
+                                                        id="btn_delete_asset{{ $item->id }}"
+                                                        onclick="delete_value('btn_delete_asset'+{{ $item->id }},'delete_asset_admin','delete_value_asset')">
 
-                                            <a
-                                                href="/admin/movement/edit/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}">
-                                                <button type="button"
-                                                    class="text-white  scale-50 lg:scale-100  update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                        class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-                                                </button>
-                                            </a>
+                                                                <div class="cursor block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Delete</div>
 
-                                        @elseif (Auth::user()->permission->transfer_update == 0  && Auth::user()->permission->transfer_read == 1 )
-                                            <a
-                                            href="/admin/movement/view/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}">
-                                            <button type="button"
-                                                class="text-white scale-50 lg:scale-100 update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                                <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
-                                            </button>
-                                        </a>
-                                        @elseif (Auth::user()->permission->transfer_update == 1  && Auth::user()->permission->transfer_read == 1)
-                                                <a
-                                                href="/admin/movement/edit/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}">
-                                                <button type="button"
-                                                    class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                        class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-                                                </button>
-                                            </a>
-
-                                        @endif
-                                        @if (Auth::user()->Permission->transfer_delete == 1)
-                                        {{-- BTN Delete  --}}
-                                        <button type="button" data-id="{{ $item->id }}"
-                                            id="btn_delete_asset{{ $item->id }}"
-                                            onclick="delete_value('btn_delete_asset'+{{ $item->id }},'delete_asset_admin','delete_value_asset')"
-                                            class="scale-50 lg:scale-100 text-white delete_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                            <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
-
-                                        @endif
-
-                                    {{-- Inactive State  --}}
-                                    @elseif($item->status == 0)
-                                            <a
-                                                href="/admin/movement/view/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}">
-                                                <button type="button"
-                                                    class="text-white scale-50 lg:scale-100 update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                                    <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
-                                                </button>
-                                            </a>
-                                        <div style="width: 100%; height: 100%;"> </div>
-
-                                    {{-- Deleted State  --}}
-                                    @elseif($item->status == 3)
-                                            <a
-                                            href="/admin/movement/view/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}">
-                                            <button type="button"
-                                                class="text-white scale-50 lg:scale-100 update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                                <i class="fa-solid  fa-eye" style="color: #ffffff;"></i>
-                                            </button>
-                                        </a>
-                                        <div style="width: 100%; height: 100%;"> </div>
-
-                                    @endif
-
-
-
+                                                        </li>
+                                                    @endif
+                                                @elseif($item->status == 0)
+                                                        <li>
+                                                            <a href="/admin/movement/view/id={{ $item->id }}/assets_id={{ $item->assets_id }}/varaint={{ $item->varaint }}"
+                                                                class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">View</a>
+                                                        </li>
+                                                @endif
+                                            </ul>
+                                        </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -489,10 +463,10 @@
 
         // id="search_button"
         document.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            button.click();
-        }
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                button.click();
+            }
         });
     </script>
 @endsection

@@ -12,6 +12,7 @@ use App\Models\RawFixAssets;
 use App\Models\StoredAssets;
 use App\Models\StoredAssetsUser;
 use App\Models\QuickData;
+use App\Models\Limit;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -32,7 +33,9 @@ class AssetsController extends Controller
     }
     public function list_assets($page)
     {
-        $limit = 250;
+        $viewpoint = Limit::first();
+        $limit = $viewpoint->limit??50;
+
         if(Auth::user()->permission->assets_read == 1 && Auth::user()->role == 'admin'){
 
             $count_post = StoredAssets::where("last_varaint", 1)->count();
@@ -54,7 +57,8 @@ class AssetsController extends Controller
                 'total_page' => $total_page,
                 'page' => $page,
                 'total_assets' =>$count_post,
-                'total_page' => $total_page
+                'total_page' => $total_page,
+                'limit' =>  $limit
             ]);
 
 

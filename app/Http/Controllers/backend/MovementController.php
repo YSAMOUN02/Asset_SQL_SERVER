@@ -146,7 +146,7 @@ class MovementController extends Controller
                 $aset =  StoredAssets::where('assets_id',$request->id_assets)->where('last_varaint',1)->first();
                 $aset->total_movement += 1;
                 $aset->save();
-             
+
 
                 $new_movement = new movement();
                 $new_movement->movement_no =   $request->movement_no;
@@ -370,6 +370,18 @@ class MovementController extends Controller
             return redirect('/admin/movement/list/1')->with('fail','You do not have permission to Update movement Record.');
         }
     }
+
+    public function movement_timeline($id){
+
+        $asset = StoredAssets::where('assets_id',$id)
+        ->with('movements')
+        ->where('last_varaint', 1)
+        ->get();
+    return $asset;
 }
+}
+
+
+
 
 // $this->Change_log($asset_user->id, 0, "Insert", "Asset Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);

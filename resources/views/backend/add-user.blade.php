@@ -101,7 +101,7 @@
         <button type="button" onclick="form_submit()"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
         </div>
-        
+
 
         <div class="toast_position">
             <!-- Toast -->
@@ -178,7 +178,7 @@
                 </ul>
             </div>
             <div>
-                <label class="label_user ml-5 bg-white dark:bg-gray-700 dark:text-gray-300" for="assets_read,">Assets
+                <label class="label_user ml-5 bg-white dark:bg-gray-700 text-gray-900 rounded dark:text-gray-300">Assets
                     Section</label>
                 <ul class="h-56 px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
                     aria-labelledby="dropdownSearchButton">
@@ -225,7 +225,7 @@
 
 
            <div>
-            <label class="label_user ml-5 bg-white dark:bg-gray-700 dark:text-gray-300" for="">Movement
+          <label class="label_user ml-5 bg-white dark:bg-gray-700 text-gray-900 rounded dark:text-gray-300">Movement
                 Section</label>
             <ul class="h-56 px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
                 aria-labelledby="dropdownSearchButton">
@@ -272,7 +272,7 @@
 
            <div>
 
-                <label class="label_user ml-5 bg-white dark:bg-gray-700 dark:text-gray-300" for="">QuickData
+                <label class="label_user ml-5 bg-white dark:bg-gray-700 text-gray-900 rounded dark:text-gray-300">QuickData
              </label>
             <ul class="h-56 px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
                 aria-labelledby="dropdownSearchButton">

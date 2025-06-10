@@ -3,54 +3,49 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\QuickData;
+
+use App\Models\Company;
+use App\Models\Location;
+use App\Models\Department;
+use App\Models\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class QuickDataController extends Controller
 {
-    public function control_quick_data($page){
+    public function control_quick_data($page)
+    {
+        $viewpoint = Limit::first();
+        $limit = $viewpoint->limit ?? 50;
 
+        $count_post = Company::count();
+        $total_page = ceil($count_post / $limit);
 
-        $limit = 150;
-        // $count_post = QuickData::count();
-        $count_post = 150;
+        $offset = ($page != 0) ? ($page - 1) * $limit : 0;
 
-        $total_page = ceil($count_post/$limit);
-        $offset = 0;
-        if($page != 0){
-            $offset = ($page - 1) * $limit;
-        }
+        // Apply limit and offset before get()
+$datas = Company::with('departments')
 
-        $data = QuickData::orderby('id','desc');
-        $count_post = $data->count();
-        $data->limit($limit);
-        $data->offset($offset);
-        $datas= $data->get();
+    ->offset($offset)
+    ->limit($limit)
+    ->get();
 
-        $department = QuickData::where('type', "department")->select('id', 'content')->orderby('id', 'desc')->get();
-
-        return view('backend.add-quick-data',[
-            'data'=>$datas,
-            'page'=>$page,
+            // return $datas;
+        return view('backend.add-quick-data', [
+            'data' => $datas,
+            'page' => $page,
             'total_page' => $total_page,
-            'total_record' =>$count_post,
-            'department' =>$department
+            'total_record' => $count_post,
+            // 'department' => $department
         ]);
     }
 
     public function add_submit_quick_data(Request $request){
 
 
-            $data = New QuickData();
-            $data->content = $request->content;
-            if($request->type == 'Employee'){
-                $data->type = $request->type;
-                $data->reference = $request->department_employee;
-            }else{
-                $data->type = $request->type;
-            }
-            $data->created_by = Auth::user()->name;
+            $data = New Company();
+            $data->name = $request->content;
             $data->save();
             if($data){
 

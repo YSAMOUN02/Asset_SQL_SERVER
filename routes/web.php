@@ -95,13 +95,16 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/admin/movement/admin/delete/submit', [MovementController::class, 'delete_movement_detail']);
 
+    Route::get('/admin/movement/timeline/id={id}', [MovementController::class, 'movement_timeline']);
 
     Route::post('/admin/movement/admin/update/submit', [MovementController::class, 'update_movement_submit']);
 
     Route::get('/admin/user/add', [UserController::class, 'add_user']);
-    Route::get('/admin/user/view/id={id}', [UserController::class, 'view_user']);
+  
 
     Route::get('/admin/user/update/id={id}', [UserController::class, 'update_user']);
+
+    Route::get('/admin/user/view/id={id}', [UserController::class, 'view_user']);
     Route::POST('/admin/user/add/submit', [UserController::class, 'add_submit']);
     Route::get('/admin/user/list', [UserController::class, 'list_user']);
     Route::post('/admin/user/delete/submit', [UserController::class, 'delete_user']);

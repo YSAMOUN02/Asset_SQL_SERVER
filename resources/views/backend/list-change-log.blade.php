@@ -155,7 +155,7 @@
                         </select>
                         <span class="font-bold flex justify-left items-center text-gray-900 dark:text-white">Page
                             :{{ $total_page }} Pages
-                            &ensp;Total Assets: {{ $total_record }} Records</span>
+                            &ensp;Total Changes: {{ $total_record }} Records</span>
 
 
 
@@ -165,6 +165,20 @@
                         class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
                             class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                     </button>
+
+                            <select name="" id="change_limit" onchange="chang_viewpoint(0,'changelog')" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                @if ($limit)
+                                    <!-- Selected/current limit option at the top -->
+                                    <option value="{{ $limit }}" selected>{{ $limit }} Row</option>
+
+                                    <!-- Other options excluding the current limit -->
+                                    @foreach ([25, 50, 75, 100, 125, 150, 175, 200, 300, 500] as $option)
+                                        @if ($limit != $option)
+                                            <option value="{{ $option }}">{{ $option }} Row</option>
+                                        @endif
+                                    @endforeach
+                                @endif
+                            </select>
                     </div>
                 </div>
 

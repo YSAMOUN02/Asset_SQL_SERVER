@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\ChangeLog;
+use App\Models\Limit;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,8 @@ class ChangeLogController extends Controller
     public function ChangeLog($page)
     {
 
-
-
-        $limit = 150;
+        $viewpoint = Limit::first();
+        $limit = $viewpoint->limit??50;
         $count_post = ChangeLog::count();
         // return  $count_post ;
         $total_page = ceil($count_post/$limit);
@@ -45,7 +45,8 @@ class ChangeLogController extends Controller
             'total_page' => $total_page,
             'total_record' => $count_post,
             'page' => $page,
-            'section' => $section
+            'section' => $section,
+            'limit' => $limit
         ]);
     }
 
