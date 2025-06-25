@@ -1039,11 +1039,7 @@ function show_sort_movement(){
                                             data-dropdown-toggle="dropdownDotsHorizontal${item.id}"
                                             class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white                       						focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                                             type="button">
-                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                fill="currentColor" viewBox="0 0 16 3">
-                                                <path
-                                                    d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-                                            </svg>
+                                           <i class="fa-solid fa-gear"></i>
                                         </button>
 
                                         <div id="dropdownDotsHorizontal${item.id}"
@@ -1161,11 +1157,7 @@ function show_sort_user() {
                                             data-dropdown-toggle="dropdownDotsHorizontal${item.id}"
                                             class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                                             type="button">
-                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                fill="currentColor" viewBox="0 0 16 3">
-                                                <path
-                                                    d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-                                            </svg>
+                                        <i class="fa-solid fa-gear"></i>
                                         </button>
 
                                         <!-- Dropdown menu -->
@@ -1580,11 +1572,7 @@ function show_sort_asset() {
                                             data-dropdown-toggle="dropdownDotsHorizontal${item.id}"
                                             class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                                             type="button">
-                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                fill="currentColor" viewBox="0 0 16 3">
-                                                <path
-                                                    d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-                                            </svg>
+                                        <i class="fa-solid fa-gear"></i>
                                         </button>
 
                                         <!-- Dropdown menu -->
@@ -2334,11 +2322,7 @@ async function search_asset(no) {
                                                         data-dropdown-toggle="dropdownDotsHorizontal${item.id}"
                                                         class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                                                         type="button">
-                                                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                            fill="currentColor" viewBox="0 0 16 3">
-                                                            <path
-                                                                d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-                                                        </svg>
+                                                   <i class="fa-solid fa-gear"></i>
                                                     </button>
 
                                                     <!-- Dropdown menu -->
@@ -4590,11 +4574,7 @@ async function search_movement(no){
                                             data-dropdown-toggle="dropdownDotsHorizontal${item.id}"
                                             class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white                       						focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                                             type="button">
-                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                fill="currentColor" viewBox="0 0 16 3">
-                                                <path
-                                                    d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-                                            </svg>
+                                           <i class="fa-solid fa-gear"></i>
                                         </button>
 
                                         <div id="dropdownDotsHorizontal${item.id}"
@@ -4816,7 +4796,7 @@ async function delete_department(id) {
     if (data) {
         insertRowAfter('department_row'+data.id, data.data[0]);
 
-        
+
         console.log(data);
 
 
