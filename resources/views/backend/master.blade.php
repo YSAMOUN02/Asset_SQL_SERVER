@@ -413,7 +413,7 @@
     </main>
 
     <!-- Flowbite JS -->
-    <script src="https://unpkg.com/flowbite@1.6.5/dist/flowbite.min.js"></script>
+    {{-- <script src="https://unpkg.com/flowbite@1.6.5/dist/flowbite.min.js"></script> --}}
 
     <!-- Your custom chart/backend JS -->
     <script src="{{ URL('/assets/js/backend_script.js') }}"></script>
