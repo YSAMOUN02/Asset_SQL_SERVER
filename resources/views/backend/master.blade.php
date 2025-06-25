@@ -11,7 +11,7 @@
 
     <!-- Tailwind CSS (Vite) -->
     {{-- @vite('resources/css/app.css') --}}
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     {{-- FONT AWSOME  --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -413,8 +413,8 @@
     </main>
 
     <!-- Flowbite JS -->
-    {{-- <script src="https://unpkg.com/flowbite@1.6.5/dist/flowbite.min.js"></script> --}}
 
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     <!-- Your custom chart/backend JS -->
     <script src="{{ URL('/assets/js/backend_script.js') }}"></script>
 
