@@ -10,8 +10,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Tailwind CSS (Vite) -->
-    @vite('resources/css/app.css')
-
+    {{-- @vite('resources/css/app.css') --}}
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     {{-- FONT AWSOME  --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
