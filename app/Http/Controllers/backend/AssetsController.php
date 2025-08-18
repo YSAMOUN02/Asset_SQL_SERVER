@@ -10,7 +10,7 @@ use App\Models\Image;
 use App\Models\ImageUser;
 use App\Models\RawFixAssets;
 use App\Models\StoredAssets;
-use App\Models\StoredAssetsUser;
+use App\Models\movement;
 use App\Models\QuickData;
 use App\Models\Limit;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -27,32 +27,33 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate; // For proper column conversion
 class AssetsController extends Controller
 {
+    // Turn to Asset Add View
     public function assetes_add()
     {
         return view('backend.add-assets');
     }
-    public function list_assets($page)
+    public function list_transaction($page)
     {
         $viewpoint = Limit::first();
         $limit = $viewpoint->limit??50;
 
-        if(Auth::user()->permission->assets_read == 1 && Auth::user()->role == 'admin'){
+        // if(Auth::user()->permission->assets_read == 1 && Auth::user()->role == 'admin'){
 
-            $count_post = StoredAssets::where("last_varaint", 1)->count();
+            $count_post = movement::where("last_varaint", 1)->count();
             $total_page = ceil($count_post/$limit);
             $offset = 0;
             if($page != 0){
                 $offset = ($page - 1) * $limit;
             }
 
-            $asset =  StoredAssets::orderBy('assets_id', 'desc')
+            $asset =  movement::orderBy('assets_id', 'desc')
                 ->limit($limit)
                 ->offset($offset)
                 ->where("last_varaint", 1)
 
                 ->get();
 
-            return view('backend.list_asset', [
+            return view('backend.transaction', [
                 'asset' => $asset,
                 'total_page' => $total_page,
                 'page' => $page,
@@ -62,7 +63,42 @@ class AssetsController extends Controller
             ]);
 
 
-        }elseif(Auth::user()->permission->assets_read == 1 && Auth::user()->role == 'staff'){
+        // }elseif(Auth::user()->permission->assets_read == 1 && Auth::user()->role == 'staff'){
+
+        //     $count_post = movement::where("last_varaint", 1)->count();
+        //     $total_page = ceil($count_post/$limit);
+        //     $offset = 0;
+        //     if($page != 0){
+        //         $offset = ($page - 1) * $limit;
+        //     }
+
+        //     $asset =  movement::orderBy('assets_id', 'desc')
+        //         ->limit($limit)
+        //         ->offset($offset)
+        //         ->where("last_varaint", 1)
+        //         ->where('status','<>',1)
+        //         ->get();
+
+        //     return view('backend.transaction', [
+        //         'asset' => $asset,
+        //         'total_page' => $total_page,
+        //         'page' => $page,
+        //         'total_assets' =>$count_post,
+        //         'total_page' => $total_page
+        //     ]);
+        // }
+
+
+    }
+
+
+
+    public function list_assets($page)
+    {
+        $viewpoint = Limit::first();
+        $limit = $viewpoint->limit??50;
+
+        // if(Auth::user()->permission->assets_read == 1 && Auth::user()->role == 'admin'){
 
             $count_post = StoredAssets::where("last_varaint", 1)->count();
             $total_page = ceil($count_post/$limit);
@@ -75,21 +111,23 @@ class AssetsController extends Controller
                 ->limit($limit)
                 ->offset($offset)
                 ->where("last_varaint", 1)
-                ->where('status','<>',1)
+
                 ->get();
 
-            return view('backend.list_asset', [
+            return view('backend.assets_list', [
                 'asset' => $asset,
                 'total_page' => $total_page,
                 'page' => $page,
                 'total_assets' =>$count_post,
-                'total_page' => $total_page
+                'total_page' => $total_page,
+                'limit' =>  $limit
             ]);
-        }
-
 
     }
 
+
+
+    // Select Raw
     public function list_select($page)
     {
 
@@ -135,6 +173,13 @@ class AssetsController extends Controller
 
     }
 
+
+
+
+
+
+
+    // Add New Asset Via Selet on List Invoice
     public function assets_add($assets, $invoice)
     {
 
@@ -184,7 +229,7 @@ class AssetsController extends Controller
             $asset->assets2 = $request->asset_code2 ?? "";
             $asset->fa_no = $request->fa_no ?? "";
             $asset->item = $request->item ?? "";
-            $asset->issue_date = $request->issue_date ? Carbon::parse($request->issue_date)->format('Y-m-d H:i:s') : null;
+            $asset->transaction_date = $request->transaction_date ? Carbon::parse($request->transaction_date)->format('Y-m-d H:i:s') : null;
             $asset->initial_condition = $request->intail_condition ?? "";
             $asset->specification = $request->specification ?? "";
             $asset->item_description = $request->item_description ?? "";
@@ -379,7 +424,7 @@ class AssetsController extends Controller
 
                 $asset->fa_no = $request->fa_no ?? "";
                 $asset->item = $request->item ?? "";
-                $asset->issue_date = $request->issue_date ? Carbon::parse($request->issue_date)->format('Y-m-d H:i:s') : null;
+                $asset->transaction_date = $request->transaction_date ? Carbon::parse($request->transaction_date)->format('Y-m-d H:i:s') : null;
                 $asset->initial_condition = $request->intail_condition ?? "";
                 $asset->specification = $request->specification ?? "";
                 $asset->item_description = $request->item_description ?? "";
@@ -658,7 +703,7 @@ class AssetsController extends Controller
             $asset->assets2 = $request->asset_code2 ?? "";
             $asset->fa_no = $request->fa_no ?? "";
             $asset->item = $request->item ?? "";
-            $asset->issue_date = $request->issue_date ? Carbon::parse($request->issue_date)->format('Y-m-d H:i:s') : null;
+            $asset->transaction_date = $request->transaction_date ? Carbon::parse($request->transaction_date)->format('Y-m-d H:i:s') : null;
             $asset->initial_condition = $request->intail_condition ?? "";
             $asset->specification = $request->specification ?? "";
             $asset->item_description = $request->item_description ?? "";
@@ -922,7 +967,7 @@ class AssetsController extends Controller
                 $sheet->setCellValue('C' . $row, $assets->document);  // Document in column C
                 $sheet->setCellValue('D' . $row, $assets->fa_no);  // Fix Assets No in column D
                 $sheet->setCellValue('E' . $row, $assets->item);  // Item in column E
-                $sheet->setCellValue('F' . $row, $assets->issue_date);  // Issue Date in column F
+                $sheet->setCellValue('F' . $row, $assets->transaction_date);  // Issue Date in column F
                 $sheet->setCellValue('G' . $row, $assets->initial_condition);  // Initial Condition in column G
                 $sheet->setCellValue('H' . $row, $assets->specification);  // Specifications in column H
                 $sheet->setCellValue('I' . $row, $assets->item_description);  // Item Description in column I

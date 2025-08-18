@@ -14,7 +14,7 @@
             </div>
             <div class="ms-3 text-sm font-normal">
                 <span class="mb-1 text-sm font-semibold text-gray-900 dark:text-white">Are you sure ?</span>
-                <div class="mb-2 text-sm font-normal">This Record will be delete Permanent.</div>
+                <div class="mb-2 text-sm font-normal">This Record will be delete this Record?.</div>
                 <form action="/admin/assets/admin/delete/submit" method="POST">
                     @csrf
                     <input type="text" name="id" id="delete_value_asset" class="hidden">
@@ -97,6 +97,14 @@
 
                     </div>
                     <div>
+                        <label for="fa" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Old
+                            Code</label>
+
+                        <input type="text" id="fa" name="fa"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+
+                    </div>
+                    <div>
                         <label for="fa" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">FIX
                             Asset</label>
 
@@ -145,10 +153,10 @@
                         <select id="state" name="state"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="All">All</option>
-                            <option value="0">Active</option>
-                            <option value="2">Sold</option>
+                            <option value="1">Active</option>
+                            <option value="0">Sold</option>
                             @if (Auth::user()->role == 'admin')
-                                <option value="1">Deleted</option>
+                                <option value="3">Deleted</option>
                             @endif
 
 
@@ -255,7 +263,7 @@
                                         </ul>
                                     </nav>
                                 @endif
-                                <select onchange="set_page()" id="select_page"
+                                <select onchange="set_page_dynamic()" id="select_page"
                                     class="flex  items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                     name="" id="">
                                     @if ($page != 1)
@@ -293,13 +301,14 @@
                                 <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                             </button>
 
-                            <select name="" id="change_limit" onchange="chang_viewpoint(0,'assets')" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <select name="" id="change_limit" onchange="chang_viewpoint(0,'assets')"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 @if ($limit)
                                     <!-- Selected/current limit option at the top -->
                                     <option value="{{ $limit }}" selected>{{ $limit }} Row</option>
 
                                     <!-- Other options excluding the current limit -->
-                                    @foreach ([25, 50, 75, 100, 125, 150, 175, 200, 300, 500] as $option)
+                                    @foreach ([25, 50, 75, 100, 125, 150, 175, 200, 250] as $option)
                                         @if ($limit != $option)
                                             <option value="{{ $option }}">{{ $option }} Row</option>
                                         @endif
@@ -328,90 +337,71 @@
                                     class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
 
                             </th>
-                             <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                >
-                               No &ensp;
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                No &ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('assets_id','int','assets')">
-                                ID &ensp; <i class="fa-solid fa-sort"></i>
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                ID &ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('issue_date','date','assets')">
-                                Issue Date&ensp; <i class="fa-solid fa-sort"></i>
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Transaction Date&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('document','string','assets')">
-                                Refference&ensp; <i class="fa-solid fa-sort"></i>
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Refference&ensp;
                             </th>
 
                             <th scope="col"
-                                class="table_float_left_th px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-white dark:bg-gray-700 dark:border-gray-700"
-                                onclick="dynamic_sort('assets1','string','assets')">
-                                Asset Code&ensp; <i class="fa-solid fa-sort"></i>
+                                class="table_float_left_th px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-white dark:bg-gray-700 dark:border-gray-700">
+                                Asset Code&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('item','string','assets')">
-                                Item&ensp; <i class="fa-solid fa-sort"></i>
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Item&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('specification','string','assets')">
-                                Specification&ensp; <i class="fa-solid fa-sort"></i>
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Specification&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('initial_condition','string','assets')">
-                                Initial Condition&ensp; <i class="fa-solid fa-sort"></i>
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Initial Condition&ensp;
                             </th>
 
 
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('fa','string','assets')">
-                                Fix Asset No&ensp; <i class="fa-solid fa-sort"></i>
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Fix Asset No&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('fa_type','string','assets')">
-                                Fix Asset Type&ensp; <i class="fa-solid fa-sort"></i>
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Fix Asset Type&ensp;
                             </th>
 
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('status','string','assets')">
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
 
-                                Status &ensp; <i class="fa-solid fa-sort"></i>
+                                Status &ensp;
                             </th>
 
 
 
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('fa_class','string','assets')">
-                                Fix Asset class&ensp; <i class="fa-solid fa-sort"></i>
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Fix Asset class&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('fa_subclass','string','assets')">
-                                Fix Asset Subclass&ensp; <i class="fa-solid fa-sort"></i>
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Fix Asset Subclass&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('depreciation','string','assets')">
-                                Deoreciation Code&ensp; <i class="fa-solid fa-sort"></i>
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Deoreciation Code&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('dr','string','assets')">
-                                DR&ensp; <i class="fa-solid fa-sort"></i>
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                DR&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('pr','string','assets')">
-                                PR&ensp; <i class="fa-solid fa-sort"></i>
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                PR&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('invoice_no','string','assets')">
-                                Invoice No&ensp; <i class="fa-solid fa-sort"></i>
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Invoice No&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('description','string','assets')">
-                                Description&ensp; <i class="fa-solid fa-sort"></i>
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Description&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('created_at','date','assets')">
-                                Created Date&ensp; <i class="fa-solid fa-sort"></i>
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Issue Date&ensp;
                             </th>
                             <th scope="col"
                                 class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
@@ -435,10 +425,10 @@
                                             class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{$no}}
+                                        {{ $no }}
 
                                         @php
-                                            $no ++;
+                                            $no++;
                                         @endphp
 
                                     </td>
@@ -449,7 +439,7 @@
 
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ \Carbon\Carbon::parse($item->issue_date)->format('M d Y') }}
+                                        {{ \Carbon\Carbon::parse($item->transaction_date)->format('M d Y') }}
 
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
@@ -478,15 +468,15 @@
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                         @if ($item->status == 0)
                                             <span
-                                                class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                                <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                                Active
+                                                class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                                <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                                Inactive
                                             </span>
                                         @elseif($item->status == 1)
                                             <span
-                                                class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                                <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                                Deleted
+                                                class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                                <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                                Active
                                             </span>
                                         @elseif($item->status == 2)
                                             <span
@@ -522,38 +512,31 @@
 
                                     </td>
                                     <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
-
                                         <div class="option">
-                                            <button id="dropdownMenuIconHorizontalButton{{ $item->id }}"
-                                                data-dropdown-toggle="dropdownDotsHorizontal{{ $item->id }}"
+                                            <button id="dropdownMenuIconHorizontalButton_view2_{{ $item->id }}"
+                                                data-dropdown-toggle="dropdownDotsHorizontal_view2_{{ $item->id }}"
                                                 class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                                                 type="button">
-                                               <i class="fa-solid fa-gear"></i>
+                                                <i class="fa-solid fa-gear"></i>
                                             </button>
 
                                             <!-- Dropdown menu -->
-                                            <div id="dropdownDotsHorizontal{{ $item->id }}"
-                                                class="option_dark hidden  bg-white border-b dark:bg-gray-800 dark:border-gray-700   rounded-lg shadow-sm w-44 ">
+                                            <div id="dropdownDotsHorizontal_view2_{{ $item->id }}"
+                                                class="option_dark hidden bg-white border-b dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-sm w-44">
 
                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                                    aria-labelledby="dropdownMenuIconHorizontalButton{{ $item->id }}">
+                                                    aria-labelledby="dropdownMenuIconHorizontalButton_view2_{{ $item->id }}">
                                                     @if (Auth::user()->Permission->transfer_write == 1)
                                                         <li>
                                                             <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
                                                                 class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Movement</a>
                                                         </li>
                                                     @endif
-                                                    @if (Auth::user()->Permission->transfer_read == 1)
-                                                        <li>
-                                                            <a href="/admin/movement/timeline/id={{ $item->assets_id }}"
-                                                                class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Move
-                                                                List</a>
-                                                        </li>
-                                                    @endif
-                                                    @if (Auth::user()->Permission->assets_read == 1 && Auth::user()->Permission->assets_update == 0)
+
+                                                    @if (Auth::user()->Permission->assets_read == 1)
                                                         <li>
                                                             <a href="/admin/assets/view/id={{ $item->assets_id }}"
-                                                                class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Detail</a>
+                                                                class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">View</a>
                                                         </li>
                                                     @endif
                                                     @if (Auth::user()->Permission->assets_update == 1)
@@ -567,17 +550,14 @@
                                                             data-id="{{ $item->assets_id }}"
                                                             id="btn_delete_asset{{ $item->assets_id }}"
                                                             onclick="delete_value('btn_delete_asset'+{{ $item->assets_id }},'delete_asset_admin','delete_value_asset')">
-
                                                             Delete
-
                                                         </li>
                                                     @endif
                                                 </ul>
-
                                             </div>
                                         </div>
-
                                     </td>
+
                                 </tr>
                             @endforeach
                         @endif

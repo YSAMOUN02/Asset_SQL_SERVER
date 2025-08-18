@@ -155,7 +155,7 @@
         }
     </style>
 
-    <title>Assets MIS Print QR Code</title>
+    <title>Assets System (Printing)</title>
 
 </head>
 

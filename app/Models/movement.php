@@ -8,12 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 class movement extends Model
 {
     use HasFactory;
-    protected $table = 'movement';
+  protected $table = 'assets_transaction';
 
-    public function assets()
+
+
+    public function images()
     {
-        return $this->belongsTo(StoredAssets::class, 'assets_id');
+           return $this->hasMany(Image::class, 'asset_id', 'assets_id');
+
+
     }
+    public function files()
+    {
+        return $this->hasMany(File::class, 'asset_id', 'assets_id');
+
+    }
+
+    public function movements(){
+        return $this->hasMany(movement::class,'assets_id','assets_id');
+      }
 
 
 }

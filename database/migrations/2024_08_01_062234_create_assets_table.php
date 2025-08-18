@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('assets2')->nullable(); // asset_code2
             $table->string('fa_no')->nullable(); // fa_no
             $table->string('item')->nullable(); // item
-            $table->date('issue_date')->nullable(); // issue_date
+            $table->date('transaction_date')->nullable(); // transaction_date
             $table->string('initial_condition')->nullable(); // initial_condition
             $table->string('specification')->nullable(); // specification
             $table->string('item_description')->nullable(); // item_description
@@ -84,7 +84,7 @@ return new class extends Migration
             $table->string('address')->nullable(); // address
             $table->string('address2')->nullable(); // address2
             $table->string('contact')->nullable(); // contact
-            $table->string('phone')->nullable(); // phone 
+            $table->string('phone')->nullable(); // phone
             $table->string('email')->nullable(); // email
 
             // State  Asset

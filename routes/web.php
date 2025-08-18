@@ -26,12 +26,15 @@ Route::middleware(['auth'])->group(function () {
     // Asset
     Route::get('/admin/assets/add/{page}', [AssetsController::class, 'list_select']);
 
-    Route::get('/admin/assets/list/{page}', [AssetsController::class, 'list_assets']); // for added assets
+
+
+    Route::get('/admin/assets/transaction/{page}', [AssetsController::class, 'list_transaction']);
+
+    Route::get('/admin/assets/{page}', [AssetsController::class, 'list_assets']);
 
 
 
-
-    Route::post('/admin/assets/list/search', [AssetsController::class, 'list_asset_search']); // for added assets
+    Route::post('/admin/assets/list/search', [AssetsController::class, 'list_asset_search']);
 
     Route::get('/admin/assets/add/assets={assets}/invoice_no={invoice}', [AssetsController::class, 'assets_add']);
 
@@ -40,7 +43,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/assets/add/search', [AssetsController::class, 'assets_add_by_search']);
 
 
-    Route::get('/admin/assets/edit/id={id}', [AssetsController::class, 'update_asset']);
+    Route::get('/admin/assets/edit/id={id}/assets={assets}', [AssetsController::class, 'update_asset']);
 
     Route::get('/admin/assets/view/id={id}', [AssetsController::class, 'view_asset']);
 
@@ -100,7 +103,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/movement/admin/update/submit', [MovementController::class, 'update_movement_submit']);
 
     Route::get('/admin/user/add', [UserController::class, 'add_user']);
-  
+
 
     Route::get('/admin/user/update/id={id}', [UserController::class, 'update_user']);
 

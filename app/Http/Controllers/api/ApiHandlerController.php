@@ -11,10 +11,6 @@ use App\Models\StoredAssets;
 use App\Models\Limit;
 use App\Models\movement;
 use App\Models\User;
-
-use App\Models\Company;
-use App\Models\Location;
-use App\Models\Department;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -191,76 +187,7 @@ class ApiHandlerController extends Controller
     }
 
 
-    public function search_list_asset(request $request)
-    {
-        $fa = $request->fa ?? "";
-        $modifiedString_fa = str_replace('-', '/', $fa);
 
-        $invoice = $request->invoice ?? "";
-        $modifiedString_invoice  = str_replace('-', '/', $invoice);
-
-        $assets = $request->asset ?? "";
-        $modifiedString_assets = str_replace('/', '-', $assets);
-
-
-        $description = $request->description ?? "";
-
-        $modifiedString_decs = str_replace('-', '/', $description);
-        $start = $request->start ?? "";
-
-        $end = $request->end ?? "";
-        $state = $request->state ?? "";
-
-        $id = $request->id;
-
-        $data =  StoredAssets::orderBy('assets_id', 'desc')
-            ->where("last_varaint", 1);
-
-        if ($id != "NA") {
-            $data->where("assets_id", 'LIKE', "%".$id."%");
-        }
-        if ($assets != "NA") {
-            $data->where(DB::raw("CONCAT(assets1, assets2)"), 'LIKE', "%" . $modifiedString_assets . "%");
-        }
-        if ($fa != "NA") {
-            $data->where("fa", 'LIKE', "%" . $modifiedString_fa . "%");
-        }
-        if ($invoice != "NA") {
-            $data->where("invoice_no", 'LIKE', "%" . $modifiedString_invoice . "%");
-        }
-        if ($description != "NA") {
-            $data->where("description", 'LIKE', "%" . $modifiedString_decs . "%");
-        }
-
-        // $sql->whereBetween('posting_date', [$start, $end]);
-        // Two date
-        if ($start != "NA" && $end != "NA") {
-            $data->whereBetween("created_at", [$start, $end]);
-
-            // Start Only
-        } elseif ($start != "NA" && $end == "NA") {
-            $data->where("created_at", '>=', $start);
-            // End Only
-        } elseif ($start == "NA" && $end != "NA") {
-            $data->where("created_at", '<=', $end);
-        }
-
-        if ($state == "All") {
-        } elseif ($state == 0) {
-            $data->where("status", 0);
-        } elseif ($state == 1) {
-            $data->where("status", 1);
-        } elseif ($state == 2) {
-            $data->where("status", 2);
-        }
-
-        $asset_data = $data->get();
-
-        // $asset_data = [$id];
-        return response()->json($asset_data);
-
-        // return response()->json($test);
-    }
 
     public function search_list_asset_more(request $request)
     {
@@ -278,7 +205,7 @@ class ApiHandlerController extends Controller
         $page =$request->page??1;
 
 
-        $data =  StoredAssets::orderBy('assets_id', 'desc')
+        $data =  movement::orderBy('transaction_date', 'desc')
             ->where("last_varaint", 1);
 
         if ($id != "NA") {
@@ -305,19 +232,19 @@ class ApiHandlerController extends Controller
             $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay(); // or use ->toDateTimeString()
 
 
-            $data->whereBetween('issue_date', [$startDate, $endDate]);
+            $data->whereBetween('transaction_date', [$startDate, $endDate]);
 
             // Start date only provided
         } elseif ($start != "NA" && $end == "NA") {
 
             $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
-            $data->where('issue_date', '>=', $startDate);
+            $data->where('transaction_date', '>=', $startDate);
 
             // End date only provided
         } elseif ($start == "NA" && $end != "NA") {
 
             $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
-            $data->where('issue_date', '<=', $endDate);
+            $data->where('transaction_date', '<=', $endDate);
         }
 
 
@@ -371,7 +298,114 @@ class ApiHandlerController extends Controller
         }
     }
 
+    public function search_list_movement_more(request $request)
+    {
 
+        $fa = $request->fa ?? "";
+        $invoice = $request->invoice ?? "";
+        $assets = $request->asset ?? "";
+        $description = $request->description ?? "";
+        $start = $request->start ?? "";
+        $end = $request->end ?? "";
+        $state = $request->state ?? "NA";
+        $type = $request->type ?? "NA";
+        $value = $request->value ?? "NA";
+        $id = $request->id ?? "NA";
+        $page =$request->page??1;
+
+
+        $data =  movement::orderBy('assets_id', 'desc')
+            ->where("last_varaint", 1);
+
+        if ($id != "NA") {
+            $data->where("assets_id", 'LIKE', "%".$id."%");
+        }
+        if ($assets != "NA") {
+            $data->where(DB::raw("CONCAT(assets1, assets2)"), 'LIKE', "%".$assets."%");
+        }
+        if ($fa != "NA") {
+            $data->where("fa", 'LIKE',"%".$fa."%");
+        }
+        if ($invoice != "NA") {
+            $data->where("invoice_no", 'LIKE',"%".$invoice."%");
+        }
+        if ($description != "NA") {
+            $data->where("description", 'LIKE',"%".$description."%");
+        }
+
+        // Check if start and end are provided and not "NA"
+
+        if ($start != "NA" && $end != "NA") {
+            // Ensure both start and end are in the correct date format (e.g., 'Y-m-d H:i:s')
+            $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay(); // or use ->toDateTimeString() if needed
+            $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay(); // or use ->toDateTimeString()
+
+
+            $data->whereBetween('transaction_date', [$startDate, $endDate]);
+
+            // Start date only provided
+        } elseif ($start != "NA" && $end == "NA") {
+
+            $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
+            $data->where('transaction_date', '>=', $startDate);
+
+            // End date only provided
+        } elseif ($start == "NA" && $end != "NA") {
+
+            $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
+            $data->where('transaction_date', '<=', $endDate);
+        }
+
+
+        if($state != "NA"){
+            if ($state == "All") {
+            } elseif ($state == 0) {
+                $data->where("status", 0);
+            } elseif ($state == 1) {
+                $data->where("status", 1);
+            } elseif ($state == 2) {
+                $data->where("status", 2);
+            }
+
+
+        }
+
+        if ($type != "NA" && $value != "NA") {
+            $data->where($type, 'LIKE', '%' . $value . '%');
+        }
+
+
+        $viewpoint = Limit::first();
+        $limit = $viewpoint->limit??50;
+
+        $offet = 0;
+        if($page != 0){
+            $offet = ($page - 1) * $limit;
+        }
+        $count = $data->count();
+
+        $data->limit($limit);
+        $data->offset($offet);
+        $asset_data = $data->get();
+
+        $total_pages = ceil($count/$limit);
+
+        // return response()->json($count);
+        $arr = new arr();
+        $arr->page = $page;
+        $arr->total_page = $total_pages;
+        $arr->total_record = $count;
+        $arr->data = $asset_data;
+
+
+        if ($count > 0) {
+            return response()->json($arr )
+              ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+              ->header('Pragma', 'no-cache');
+        } else {
+            return response()->json([]);
+        }
+    }
 
     public function seach_changeLog(Request $request)
     {
@@ -541,213 +575,9 @@ class ApiHandlerController extends Controller
         return response()->json([]);
     }
 
-    public function search_list_movement_more(Request $request){
 
 
 
-
-        $fa = $request->fa ?? "";
-        $invoice = $request->invoice ?? "";
-        $assets = $request->asset ?? "";
-        $description = $request->description ?? "";
-        $start = $request->start ?? "";
-        $end = $request->end ?? "";
-        // $state = $request->state ?? "NA";
-        $type = $request->type ?? "NA";
-        $value = $request->value ?? "NA";
-        $id = $request->id ?? "NA";
-        $page =$request->page??1;
-        $role = $request->role??'NA';
-
-
-
-
-        $data =  StoredAssets::orderBy('assets_id', 'desc')
-            ->where("last_varaint", 1);
-        if($role != 'NA'){
-            if($role == 'staff'){
-                $data->where('status', '<>', 1);
-            }
-        }
-        if ($id != "NA") {
-            $data->where("assets_id", 'LIKE', "%".$id."%");
-        }
-        if ($assets != "NA") {
-            $data->where(DB::raw("CONCAT(assets1, assets2)"), 'LIKE', "%".$assets."%");
-        }
-        if ($fa != "NA") {
-            $data->where("fa", 'LIKE',"%".$fa."%");
-        }
-        if ($invoice != "NA") {
-            $data->where("invoice_no", 'LIKE',"%".$invoice."%");
-        }
-        if ($description != "NA") {
-            $data->where("description", 'LIKE',"%".$description."%");
-        }
-
-
-
-        // Check if start and end are provided and not "NA"
-        if ($start != "NA" && $end != "NA") {
-            // Ensure both start and end are in the correct date format (e.g., 'Y-m-d H:i:s')
-            $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay(); // or use ->toDateTimeString() if needed
-            $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay(); // or use ->toDateTimeString()
-
-            // Query between the start and end dates
-            $data->whereBetween('created_at', [$startDate, $endDate]);
-
-            // Start date only provided
-        } elseif ($start != "NA" && $end == "NA") {
-            $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
-            $data->where('created_at', '>=', $startDate);
-
-            // End date only provided
-        } elseif ($start == "NA" && $end != "NA") {
-            $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
-            $data->where('created_at', '<=', $endDate);
-        }
-
-        $data->where("status", 0);
-
-
-        if ($type != "NA" && $value != "NA") {
-            $data->where($type, 'LIKE', '%' . $value . '%');
-        }
-
-
-         $viewpoint = Limit::first();
-        $limit = $viewpoint->limit??50;
-
-        $offet = 0;
-        if($page != 0){
-            $offet = ($page - 1) * $limit;
-        }
-        $data->where('status','<>',1);
-        $count = $data->count();
-
-        $data->limit($limit);
-        $data->offset($offet);
-
-        $asset_data = $data->get();
-
-        $total_pages = ceil($count/$limit);
-
-        // return response()->json($count);
-        $arr = new arr();
-        $arr->page = $page;
-        $arr->total_page = $total_pages;
-        $arr->total_record = $count;
-        $arr->data = $asset_data;
-
-
-        if ($count > 0) {
-            return response()->json($arr );
-        } else {
-            return response()->json([]);
-        }
-    }
-
-
-    public function search_movement_more(Request $request){
-         $viewpoint = Limit::first();
-        $limit = $viewpoint->limit??50;
-
-        $id = $request->movement_id ??'NA';
-        $movement_no = $request->movement_no??'NA';
-        $assets = $request->assets??'NA';
-        $status  = $request->status??'NA';
-        $from_department = $request->from_department??'NA';
-        $to_department   = $request->to_department??'NA';
-        $start = $request->start_date??'NA';
-        $end = $request->end_date??'NA';
-        $other_search  = $request->other_search??'NA';
-        $other_value = $request->other_value??'NA';
-        $page = $request->page??1;
-
-
-        $data = movement::orderBy('id','desc');
-
-        if($id != 'NA'){
-            $data->where('id','LIKE','%'.$id.'%');
-        }
-        if($movement_no != 'NA'){
-            $data->where('movement_no','LIKE','%'.$movement_no.'%');
-        }
-        if($assets != 'NA'){
-            $data->where('assets_no','LIKE','%'.$assets.'%');
-        }
-
-        if($from_department != 'NA'){
-            $data->where('from_department','LIKE','%'.$from_department.'%');
-        }
-        if($to_department != 'NA'){
-            $data->where('to_department','LIKE','%'.$to_department.'%');
-        }
-
-
-       // Check if start and end are provided and not "NA"
-       if ($start != "NA" && $end != "NA") {
-        // Ensure both start and end are in the correct date format (e.g., 'Y-m-d H:i:s')
-        $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay(); // or use ->toDateTimeString() if needed
-        $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay(); // or use ->toDateTimeString()
-
-        // Query between the start and end dates
-        $data->whereBetween('created_at', [$startDate, $endDate]);
-
-        // Start date only provided
-        } elseif ($start != "NA" && $end == "NA") {
-            $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
-            $data->where('created_at', '>=', $startDate);
-
-            // End date only provided
-        } elseif ($start == "NA" && $end != "NA") {
-            $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
-            $data->where('created_at', '<=', $endDate);
-        }
-
-        if ($other_search != "NA" && $other_value  != "NA") {
-            $data->where($other_search, 'LIKE', '%' . $other_value . '%');
-        }
-
-        if($status != 'NA'){
-            if($status != 'All'){
-                if($status == 'not3'){
-                    $data->where('status','<>',3);
-                }else{
-                    $data->where('status',$status);
-                }
-
-            }
-
-        }
-        $offet = 0;
-        if($page != 0){
-            $offet = ($page - 1) * $limit;
-        }
-
-
-        $count = $data->count();
-        $data->limit($limit);
-        $data->offset($offet);
-        $datas = $data->get();
-
-
-        $total_pages = ceil($count/$limit);
-
-        // return response()->json($count);
-        $arr = new arr();
-        $arr->page = $page;
-        $arr->total_page = $total_pages;
-        $arr->total_record = $count;
-        $arr->data = $datas;
-
-        if( $count > 0){
-            return response()->json($arr);
-        }else{
-            return response()->json(["No found"]);
-        }
-
-    }
     public function check_name_for_reset_password(Request $request){
         $name_email = $request->name_email;
 
@@ -807,67 +637,6 @@ class ApiHandlerController extends Controller
 
 
 
-     public function add_department(request $request){
-        $company_id = $request->company_id??'NA';
-        $department_name = $request->name??'NA';
-        if($company_id != 'NA' && $department_name != 'NA'){
-            $company = Company::where('id',$company_id)->first();
-            if($company){
-                $department = new Department();
-                $department->name = $department_name;
-                $department->company_id = $company_id;
-                $department->save();
-
-
-
-
-
-                if($department){
-                    $all_department = Department::where('company_id',$company_id)
-                    ->orderby('name', 'asc')
-                    ->get();
-
-
-                    return response()->json($all_department, 200);
-                }else{
-                    return response()->json(["error" => "Failed to add department."], 500);
-                }
-            }else{
-                return response()->json(["error" => "Company not found."], 404);
-            }
-        }
-     }
-
-     public function delete_department(request $request){
-        $department_id = $request->department_id??'NA';
-        if($department_id != 'NA'){
-            $department = Department::where('id',$department_id)->first();
-            $company_id = $department->company_id??'NA';
-
-                if($department){
-                    $department->delete();
-                }else{
-                    return response()->json(["error" => "Department not found."], 404);
-                }
-
-                // Get all departments after deletion
-
-            if($department){
-                    $all_department = Department::where('company_id',$company_id)
-                    ->orderby('name', 'asc')
-                    ->get();
-                    $datas = new quick_data();
-                    $datas->id = $company_id;
-                    $datas->data = $all_department;
-
-                    return response()->json($datas, 200);
-                }else{
-                    return response()->json(["error" => "Failed to add department."], 500);
-                }
-        }else{
-            return response()->json(["error" => "Invalid department ID."], 400);
-        }
-     }
 }
 
 

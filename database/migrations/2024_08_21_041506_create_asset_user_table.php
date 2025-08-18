@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('assets2'); // asset_code2
             $table->string('fa_no')->nullable(); // fa_no
             $table->string('item')->nullable(); // item
-            $table->date('issue_date')->nullable(); // issue_date
+            $table->date('transaction_date')->nullable(); // transaction_date
             $table->string('initial_condition')->nullable(); // initial_condition
             $table->string('specification')->nullable(); // specification
             $table->string('item_description')->nullable(); // item_description

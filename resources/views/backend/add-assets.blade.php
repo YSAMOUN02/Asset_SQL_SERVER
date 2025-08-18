@@ -1,5 +1,8 @@
 @extends('backend.master')
 @section('content')
+    <link rel="stylesheet" href="{{ asset('assets/css/flatpickr.min.css') }}">
+    <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
+
     <div class="table_select">
         <div class="select_id_assets">
 
@@ -10,8 +13,8 @@
 
 
 
-    <form class=" p-4 py-1  lg:p-10 lg:py-10 md:p-2  md:py-2 bg-white dark:bg-gray-900 de"  enctype="multipart/form-data" action="/admin/assets/add/submit"
-        method="POST">
+    <form class=" p-4 py-1  lg:p-10 lg:py-10 md:p-2  md:py-2 bg-white dark:bg-gray-900 de" enctype="multipart/form-data"
+        action="/admin/assets/add/submit" method="POST">
         @csrf
         <h1 class="title_base text-black dark:text-blue-100">Asset Info</h1>
         <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2 lg:grid-cols-2 md:grid-cols-2">
@@ -29,12 +32,12 @@
                     Code <span class="text-rose-500">*</span></label>
                 <div class="flex w-full">
                     @if (!empty($asset->assets))
-                        <input type="text" id="asset_Code1" name="asset_code1"
-                            class="percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        <input type="text" id="asset_Code1" name="asset_code1"  readonly
+                            class="p-2.5 percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value="{{ $asset->assets }}" />
                     @else
                         <input type="text" id="asset_Code1" name="asset_code1"
-                            class="percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                            class="p-2.5 percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     @endif
 
                     <input type="text" name="asset_code2" value=""
@@ -56,11 +59,14 @@
                     name="item" />
             </div>
             <div>
-                <label for="Issue_Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Issue
+                <label for="transaction_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Issue
                     Date</label>
-                <input type="datetime-local" id="Issue_Date"
+                <input type="text" id="transaction_date" name="transaction_date" value="{{ today() }}"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+{{--
+                <input type="datetime-local" id="transaction_date"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ today() }}" name="issue_date" />
+                    value="{{ today() }}" name="transaction_date" /> --}}
             </div>
             <div>
                 <label for="Initial_Conditions" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Initial
@@ -143,9 +149,9 @@
                 <select id="department" name="department"
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value=""></option>
-                    @if(!empty($department))
+                    @if (!empty($department))
                         @foreach ($department as $item)
-                            <option value="{{$item->content}}">{{$item->content}}</option>
+                            <option value="{{ $item->content }}">{{ $item->content }}</option>
                         @endforeach
                     @endif
 
@@ -156,9 +162,9 @@
                 <select id="company" name="company"
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value=""></option>
-                    @if(!empty($company))
+                    @if (!empty($company))
                         @foreach ($company as $item)
-                            <option value="{{$item->content}}">{{$item->content}}</option>
+                            <option value="{{ $item->content }}">{{ $item->content }}</option>
                         @endforeach
                     @endif
 
@@ -236,12 +242,12 @@
 
                 @if (!empty($asset->assets))
                     <input type="text" id="asset_code_account" name="asset_code_account" readonly
-                        class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value="{{ $asset->assets }}" />
                 @else
                     <input type="text" id="asset_code_account" name="asset_code_account" readonly
                         name="asset_code_account"
-                        class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value="" />
                 @endif
             </div>
@@ -590,4 +596,17 @@
             </button>
         </div>
     </form>
+
+
+    <script>
+        latpickr("#transaction_date", {
+            dateFormat: "d-M-Y",
+
+        });
+
+        // flatpickr("#dob", {
+        //     dateFormat: "d-M-Y",
+        //     defaultDate: "01-Jan-2000"
+        // });
+    </script>
 @endsection

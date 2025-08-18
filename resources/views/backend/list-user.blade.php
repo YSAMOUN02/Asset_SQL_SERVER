@@ -90,19 +90,19 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr id="user_th">
                     <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white" onclick="dynamic_sort('id','int','users')">
-                        ID &ensp; <i class="fa-solid fa-sort"></i>
+                        ID &ensp;
                     </th>
                     <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white" onclick="dynamic_sort('name','string','users')">
-                        User Name &ensp; <i class="fa-solid fa-sort"></i>
+                        User Name &ensp;
                     </th>
                     <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white" onclick="dynamic_sort('email','string','users')">
-                        Email &ensp; <i class="fa-solid fa-sort"></i>
+                        Email &ensp;
                     </th>
                     <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white" onclick="dynamic_sort('role','string','users')">
-                        Role &ensp; <i class="fa-solid fa-sort"></i>
+                        Role &ensp;
                     </th>
                     <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white" onclick="dynamic_sort('status','int','users')">
-                        Status &ensp; <i class="fa-solid fa-sort"></i>
+                        Status &ensp;
                     </th>
 
                     <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">

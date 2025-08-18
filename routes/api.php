@@ -17,7 +17,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/fect/asset/data', [ApiHandlerController::class, 'search_list_asset_more']);
 
-    Route::post('/fect/asset/staff/data', [ApiHandlerController::class, 'search_list_asset_more_staff']);
+    Route::post('/fect/movement/data', [ApiHandlerController::class, 'search_list_movement_more']);
 
     Route::post('/fect/movement/data', [ApiHandlerController::class, 'search_list_movement_more']);
 

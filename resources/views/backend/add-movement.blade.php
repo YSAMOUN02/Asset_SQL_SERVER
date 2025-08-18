@@ -366,12 +366,12 @@
                         </div>
 
                         <div>
-                            <label for="Issue_Date"
+                            <label for="transaction_date"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Issue
                                 Date</label>
-                            <input type="date" id="Issue_Date" readonly
+                            <input type="date" id="transaction_date" readonly
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                value="{{ old('issue_date', $asset->issue_date, today()) }}" name="issue_date" />
+                                value="{{ old('transaction_date', $asset->transaction_date, today()) }}" name="transaction_date" />
                         </div>
 
                         <div>

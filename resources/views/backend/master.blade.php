@@ -25,7 +25,7 @@
     <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/16925/16925957.png" type="image/x-icon">
 
 
-    <title>Assets MIS</title>
+    <title>Assets System</title>
 </head>
 
 <body>
@@ -150,8 +150,7 @@
                             <img src="/static_img/images.png" class="mr-3 h-8" alt="Flowbite Logo" />
                             <span
                                 class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white text-black">
-                                PPM ASSET
-                                MIS</span>
+                                Assets System</span>
                         </a>
 
                     </div>
@@ -212,27 +211,24 @@
                                 </button>
                                 <ul id="dropdown-pages" class="hidden py-2 space-y-2">
 
-                                    @if (Auth::user()->Permission->assets_write == 1)
+
                                         <li>
                                             <a href="/admin/assets/add/1"
                                                 class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Create
                                                 with Invoice</a>
                                         </li>
-                                    @endif
-                                    @if (Auth::user()->Permission->assets_write == 1)
+
                                         <li>
                                             <a href="/admin/assets/add/assets=NEW/invoice_no=NEW"
                                                 class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Create
                                                 without Invoice</a>
                                         </li>
-                                    @endif
-                                    @if (Auth::user()->Permission->assets_read == 1)
+
                                         <li>
-                                            <a href="/admin/assets/list/1"
-                                                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">List
-                                                Assets</a>
+                                            <a href="/admin/assets/1"
+                                                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Manage Assets</a>
                                         </li>
-                                    @endif
+
 
 
                                 </ul>
@@ -240,12 +236,11 @@
                         @endif
                         @if (Auth::user()->Permission->transfer_write == 1 || Auth::user()->Permission->transfer_read == 1)
                             <li>
-                                <a href="/admin/movement/list/1">
+                                <a href="/admin/assets/transaction/1">
                                     <button type="button"
                                         class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                                         <i class="fa-solid fa-shuffle"></i>
-                                        <span class="flex-1 ml-3 text-left whitespace-nowrap">List
-                                            Movement</span>
+                                        <span class="flex-1 ml-3 text-left whitespace-nowrap">Asset History</span>
 
                                     </button>
                                 </a>
@@ -304,7 +299,7 @@
                                         class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
 
                                         <i class="fa-solid fa-book"></i>
-                                        <span class="flex-1 ml-3 text-left whitespace-nowrap">Quick Data</span>
+                                        <span class="flex-1 ml-3 text-left whitespace-nowrap">Data Setup</span>
 
                                     </button>
                                 </a>
@@ -330,7 +325,7 @@
                                         class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
 
                                         <i class="fa-solid fa-clock-rotate-left"></i>
-                                        <span class="flex-1 ml-3 text-left whitespace-nowrap"> Change History</span>
+                                        <span class="flex-1 ml-3 text-left whitespace-nowrap">Audit trail</span>
 
                                     </button>
                                 </a>

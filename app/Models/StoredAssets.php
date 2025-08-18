@@ -9,7 +9,7 @@ class StoredAssets extends Model
 {
     use HasFactory;
 
-    protected $table = 'assets';
+    protected $table = 'dbo.Assets_unique';
 
 
 

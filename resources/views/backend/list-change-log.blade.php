@@ -196,26 +196,26 @@
                 <tr>
 
                     <th scope="col" class="px-6 py-3" onclick="dynamic_sort('id','int','changelog')">
-                        Entry &ensp; <i class="fa-solid fa-sort"></i>
+                        Entry &ensp;
                     </th>
                     <th scope="col" class="px-6 py-3" onclick="dynamic_sort('key','int','changelog')">
-                        Key ID &ensp;<i class="fa-solid fa-sort"></i>
+                        Key ID &ensp;
                     </th>
                     <th scope="col" class="px-6 py-3" onclick="dynamic_sort('varaint','int','changelog')">
-                        Varaint &ensp; <i class="fa-solid fa-sort"></i>
+                        Varaint &ensp;
                     </th>
                     <th scope="col" class="px-6 py-3" onclick="dynamic_sort('change','string','changelog')">
-                        Change Detail &ensp; <i class="fa-solid fa-sort"></i>
+                        Change Detail &ensp;
                     </th>
                     <th scope="col" class="px-6 py-3" onclick="dynamic_sort('section','string','changelog')">
-                        Section &ensp; <i class="fa-solid fa-sort"></i>
+                        Section &ensp;
                     </th>
                     <th scope="col" class="px-6 py-3" onclick="dynamic_sort('change_by','string','changelog')">
-                        Change By &ensp; <i class="fa-solid fa-sort"></i>
+                        Change By &ensp;
                     </th>
 
                     <th scope="col" class="px-6 py-3" onclick="dynamic_sort('created_at','date','changelog')">
-                        Date &ensp; <i class="fa-solid fa-sort"></i>
+                        Date &ensp;
                     </th>
                     {{-- <th scope="col" class="px-6 py-3"
                         style="  position: sticky; right: 0;   background-color: rgb(230, 230, 230);">

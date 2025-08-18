@@ -136,26 +136,22 @@ function onchnage_imgae(event, boxNo) {
         document.querySelector("#image_box" + boxNo).remove();
         state_box--;
         document.querySelector("#image_state").value = state_box;
-        alert(
-            "File is Unknown! , FIle allow is  JPG  JPEG  GIF PNG"
-        );
+        alert("File is Unknown! , FIle allow is  JPG  JPEG  GIF PNG");
     }
 }
 
-function maximize_minimize(id,state) {
-
-    if(state == 0){
-    var url = document.querySelector("#box" + id).src;
-    // Create a new window or tab
-    var newWindow = window.open("", "_blank");
-    // Add the image to the new window and style it for full screen
-    newWindow.document.write(
-        `<html><head><title>Full Screen Image</title></head><body style="margin:0;"><img src="${url}" style="width:100vw; height:100vh; object-fit:contain;"></body></html>`
-    );
-    newWindow.document.close(); // Close the document to render the content
-    }else if(state == 1){
-
-        var imgElement = document.querySelector("#"+id);
+function maximize_minimize(id, state) {
+    if (state == 0) {
+        var url = document.querySelector("#box" + id).src;
+        // Create a new window or tab
+        var newWindow = window.open("", "_blank");
+        // Add the image to the new window and style it for full screen
+        newWindow.document.write(
+            `<html><head><title>Full Screen Image</title></head><body style="margin:0;"><img src="${url}" style="width:100vw; height:100vh; object-fit:contain;"></body></html>`
+        );
+        newWindow.document.close(); // Close the document to render the content
+    } else if (state == 1) {
+        var imgElement = document.querySelector("#" + id);
 
         if (imgElement) {
             var url = imgElement.src; // Get the image URL
@@ -878,7 +874,6 @@ function dynamic_sort(by, method, table) {
                 // Sorting by string
                 else if (method == "string") {
                     if (sort_state == 0) {
-
                         array.sort((a, b) => a[by].localeCompare(b[by])); // Ascending
                         sort_state = 1;
                     } else {
@@ -922,8 +917,6 @@ function dynamic_sort(by, method, table) {
                     show_sort_staff_asset();
                 } else if (table == "users") {
                     show_sort_user();
-                }   else if(table == "movement"){
-                    show_sort_movement();
                 }
 
                 // Hide loading panel after sorting is done
@@ -937,171 +930,6 @@ function dynamic_sort(by, method, table) {
     }
 }
 
-function show_sort_movement(){
-    let body_change = document.querySelector("#movement_body");
-    if (body_change) {
-        body_change.innerHTML = ``;
-
-        array.map((item) => {
-            let custom = ``;
-
-             custom += `<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-               `;
-
-            custom += `
-                         <td scope="row"
-                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              ${item.id}
-                          </td>
-                            <td scope="row"
-                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                         ${
-                                                                item.created_at
-                                                                    ? new Date(
-                                                                            item.created_at
-                                                                        ).toLocaleDateString(
-                                                                            "en-US",
-                                                                            {
-                                                                                year: "numeric",
-                                                                                month: "short",
-                                                                                day: "numeric",
-                                                                            }
-                                                                        )
-                                                                    : ""
-                                                            }
-                          </td>
-                            <td scope="row"
-                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              ${item.movement_no}
-                          </td>
-                            <td scope="row"
-                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              ${item.assets_no}
-                          </td>
-                               <td scope="row"
-                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              ${item.reference}
-                          </td>
-                               <td scope="row"
-                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              ${item.from_department}
-                          </td>
-                               <td scope="row"
-                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              ${item.to_department}
-                          </td>
-                              <td scope="row"
-                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              ${item.from_name}
-                          </td>
-                              <td scope="row"
-                              class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              ${item.to_name}
-                          </td>
-                           <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                      `;
-
-                       if(item.status == 0){
-                            custom += `
-                            <span
-                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                            Inactive
-                                        </span>
-                                        `;
-                       }else if(item.status == 1){
-                            custom += `
-                                        <span
-                                            class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                            <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                            Active
-                                        </span>
-                            `;
-
-                       }else if(item.status == 3){
-                            custom += `
-                                        <span
-                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                            Deleted
-                                        </span>
-
-                            `;
-                       }
-
-
-
-                          custom += `
-                              </td>
-                             <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
-                                     <div class="option">
-                                        <button id="dropdownMenuIconHorizontalButton${item.id}"
-                                            data-dropdown-toggle="dropdownDotsHorizontal${item.id}"
-                                            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white                       						focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                                            type="button">
-                                           <i class="fa-solid fa-gear"></i>
-                                        </button>
-
-                                        <div id="dropdownDotsHorizontal${item.id}"
-                                            class="option_dark hidden  bg-white border-b dark:bg-gray-800 dark:border-gray-700   rounded-lg shadow-sm w-44 ">
-
-                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
-
-                                                                  `;
-                                    if(item.status == 1){
-                                         if(auth.permission.transfer_update == 1){
-
-                                             custom +=`
-                                                        <li>
-                                                            <a href="/admin/movement/add/detail/id=${item.assets_id}"
-                                                                class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Update</a>
-                                                        </li>
-                                            `;
-                                         }
-
-                                         if(auth.permission.transfer_delete == 1){
-                                            custom +=`
-                                                        <li
-                                                        type="button" data-id="${item.id}"
-                                                        id="btn_delete_asset${item.id}"
-                                                        onclick="delete_value('btn_delete_asset'+${item.id},'delete_asset_admin','delete_value_asset')">
-
-                                                                <div class="cursor block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Delete</div>
-
-                                                        </li>
-                                            `;
-
-                                         }
-
-
-                                    }else if(item.status == 0){
-                                        custom +=`
-                                                        <li>
-                                                            <a href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}"
-                                                                class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">View</a>
-                                                        </li>
-
-                                        `;
-
-
-                                    }
-
-
-
-                                                             custom +=  `
-                                                                             </ul>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            `;
-            body_change.innerHTML += custom;
-
-        });
-          initFlowbite();
-    } else {
-        alert("Error No Table body.");
-    }
-}
 function show_sort_user() {
     let body_change = document.querySelector("#user_tb");
     if (body_change) {
@@ -1150,7 +978,7 @@ function show_sort_user() {
                                                     Active
                                                 </span>
                         </td>`;
-            };
+            }
             custom += `   <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
                                 <div class="option">
                                         <button id="dropdownMenuIconHorizontalButton${item.id}"
@@ -1174,7 +1002,10 @@ function show_sort_user() {
                  </li>
              `;
             }
-            if ((auth.permission.user_read == 1 && auth.permission.user_update == 0 )) {
+            if (
+                auth.permission.user_read == 1 &&
+                auth.permission.user_update == 0
+            ) {
                 custom += `
                                     <li>
                                         <a href="/admin/user/update/id=${item.id}"
@@ -1203,156 +1034,14 @@ function show_sort_user() {
 
             `;
 
-
             body_change.innerHTML += custom;
-               initFlowbite();
+            initFlowbite();
         });
     } else {
         alert("Error No Table body.");
     }
 }
 
-function show_sort_staff_asset() {
-    let body_change = document.querySelector("#asset_staff_body");
-    body_change.innerHTML = ``;
-    array.map((item) => {
-        body_change.innerHTML += `
-
-     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                     <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                            <input onchange="printable()" data-id="${
-                                                item.id
-                                            }" id="green-checkbox"
-                                            type="checkbox" value=""
-                                        class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                        ${item.id || ""}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                   ${
-                                       item.created_at
-                                           ? new Date(
-                                                 item.created_at
-                                             ).toLocaleDateString("en-US", {
-                                                 year: "numeric",
-                                                 month: "short",
-                                                 day: "numeric",
-                                             })
-                                           : ""
-                                   }
-
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                          ${item.document || ""}
-                                    </td>
-
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                             ${
-                                                 item.assets1 + item.assets2 ||
-                                                 ""
-                                             }
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                ${item.fa || ""}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                 ${item.fa_type || ""}
-                                    </td>
-
-                                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                               ${
-                                   item.status == 0
-                                       ? `  <span
-                                        class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                        <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                        Active
-                                    </span>
-                                    `
-                                       : item.status == 1
-                                       ? `
-                                       <span
-                                      class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                      <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                      Deleted
-                                  </span>
-                              `
-                                       : ` <span
-                                    class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                    <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                    Sold
-                                </span>`
-                               }
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                               ${item.fa_class || ""}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                      ${item.fa_subclass || ""}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                           ${item.depreciation || ""}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                       ${item.dr || ""}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                        ${item.pr || ""}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                        ${item.invoice_no || ""}
-
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                         ${item.description || ""}
-                                    </td>
-                                  <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  dark:bg-slate-900"
-                                    style="position: sticky; right: 0; background-color: white;">
-                                    ${
-                                        (auth?.permission?.assets_read == 1) &
-                                        (auth?.permission?.assets_update == 0)
-                                            ? `   <button type="button"
-                                            class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                            <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
-                                        </button>
-                                        `
-                                            : ``
-                                    }
-
-                                    ${
-                                        auth?.permission?.assets_update == 1
-                                            ? `
-                                                <a href="/admin/assets/edit/id=${item.id}">
-                                                    <button type="button"
-                                                        class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                            class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-                                                    </button>
-                                                 </a>
-                                            `
-                                            : // If auth.permission.assets_write is 1
-                                              `` // If not, show nothing
-                                    }
-                                    ${
-                                        auth?.permission?.assets_delete == 1
-                                            ? `
-                                                 <button type="button" data-id="${item.id}"
-                                                    id="btn_delete_asset${item.id}"
-                                                    onclick="delete_value('btn_delete_asset'+${item.id},'delete_asset_admin','delete_value_asset')"
-                                                    class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                                    <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
-                                            `
-                                            : // If auth.permission.assets_write is 1
-                                              `` // If not, show nothing
-                                    }
-
-
-                                </td>
-
-
-                                </tr>
-  `;
-    });
-}
 function show_sort_quick_data() {
     let body_change = document.querySelector("#body_quick_data");
     body_change.innerHTML = ``;
@@ -1362,15 +1051,15 @@ function show_sort_quick_data() {
     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                        <td scope="row"
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            ${item.id??''}
+                            ${item.id ?? ""}
                         </td>
                         <td scope="row"
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                 ${item.content??''}
+                                 ${item.content ?? ""}
                         </td>
                         <td scope="row"
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                 ${item.type??''}
+                                 ${item.type ?? ""}
                         </td>
                                  <td scope="row"
                                         class=" px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -1385,7 +1074,9 @@ function show_sort_quick_data() {
                                         <!-- Modal toggle -->
                         <button type="button" data-id="${item.id}"
                             id="btn_delete${item.id}"
-                                onclick="delete_value('btn_delete'+${item.id},'delete_data','delete_data_value')"
+                                onclick="delete_value('btn_delete'+${
+                                    item.id
+                                },'delete_data','delete_data_value')"
                             class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                             <i class="fa-solid fa-trash" style="color: #ffffff;"></i>
                         </button>
@@ -1448,7 +1139,7 @@ function isObject(data) {
 function show_sort_asset() {
     let body_change = document.querySelector("#assets_body");
     body_change.innerHTML = ``;
-    array.map((item,index) => {
+    array.map((item, index) => {
         let custom = ``;
         custom += `
 
@@ -1462,16 +1153,16 @@ function show_sort_asset() {
                                         class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 </td>
                                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                    ${index+1}
+                                                    ${index + 1}
                                                 </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                         ${item.id || ""}
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                    ${
-                                       item.issue_date
+                                       item.transaction_date
                                            ? new Date(
-                                                 item.issue_date
+                                                 item.transaction_date
                                              ).toLocaleDateString("en-US", {
                                                  year: "numeric",
                                                  month: "short",
@@ -1486,18 +1177,20 @@ function show_sort_asset() {
                                     </td>
 
                                     <td class="table_float_left_td  px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   bg-white dark:bg-gray-700 dark:border-gray-700">
-                                            ${item.assets1 || ""}${item.assets2 || ""}
+                                            ${item.assets1 || ""}${
+            item.assets2 || ""
+        }
                                     </td>
 
                                      <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                            ${item.item||""}
+                                            ${item.item || ""}
                                     </td>
                                          <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                            ${item.specification||""}
+                                            ${item.specification || ""}
                                     </td>
                                         </td>
                                          <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                            ${item.initial_condition||""}
+                                            ${item.initial_condition || ""}
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                 ${item.fa || ""}
@@ -1509,19 +1202,21 @@ function show_sort_asset() {
                                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                ${
                                    item.status == 0
-                                       ? `  <span
-                                        class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                        <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                        Active
-                                    </span>
-                                    `
-                                       : item.status == 1
                                        ? `
-                                       <span
+                                        <span
                                       class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                                       <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
                                       Deleted
                                   </span>
+                                    `
+                                       : item.status == 1
+                                       ? `
+                                        <span
+                                        class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                        <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                        Active
+                                    </span>
+
                               `
                                        : ` <span
                                     class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -1554,69 +1249,75 @@ function show_sort_asset() {
                                     </td>
                                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                               ${
-                                                   item.created_at
-                                                       ? new Date(
-                                                             item.created_at
-                                                         ).toLocaleDateString("en-US", {
-                                                             year: "numeric",
-                                                             month: "short",
-                                                             day: "numeric",
-                                                         })
-                                                       : ""
-                                               }
+                                  item.created_at
+                                      ? new Date(
+                                            item.created_at
+                                        ).toLocaleDateString("en-US", {
+                                            year: "numeric",
+                                            month: "short",
+                                            day: "numeric",
+                                        })
+                                      : ""
+                              }
                                     </td>
 
                                     <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
                                       <div class="option">
-                                        <button id="dropdownMenuIconHorizontalButton${item.id}"
-                                            data-dropdown-toggle="dropdownDotsHorizontal${item.id}"
+                                        <button id="dropdownMenuIconHorizontalButton${
+                                            item.id
+                                        }"
+                                            data-dropdown-toggle="dropdownDotsHorizontal${
+                                                item.id
+                                            }"
                                             class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                                             type="button">
                                         <i class="fa-solid fa-gear"></i>
                                         </button>
 
                                         <!-- Dropdown menu -->
-                                        <div id="dropdownDotsHorizontal${item.id}"
+                                        <div id="dropdownDotsHorizontal${
+                                            item.id
+                                        }"
                                             class=" hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
 
                                             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                                aria-labelledby="dropdownMenuIconHorizontalButton${item.id}">
+                                                aria-labelledby="dropdownMenuIconHorizontalButton${
+                                                    item.id
+                                                }">
 
 
                                     `;
 
-                               if(auth?.permission?.transfer_write == 1){
-
-                                                 custom+=`
+        if (auth?.permission?.transfer_write == 1) {
+            custom += `
 
                                                         <li>
                                                             <a href="/admin/movement/add/detail/id=${item.assets_id}"
                                                                 class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Movement</a>
                                                         </li>
                                                 `;
-
-                                    }
-                                    if(auth?.permission?.transfer_read  == 1){
-                                        custom+=`
+        }
+        if (auth?.permission?.transfer_read == 1) {
+            custom += `
                                                         <li>
                                                             <a href="/admin/movement/timeline/id=${item.assets_id}"
                                                                 class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Move
                                                                 List</a>
                                                         </li>
                                                 `;
-                                    }
+        }
 
-                                     if(auth?.permission?.assets_read == 1){
-                                        if(auth?.permission?.assets_update == 0){
-                                            custom+= `
+        if (auth?.permission?.assets_read == 1) {
+            if (auth?.permission?.assets_update == 0) {
+                custom += `
 
                                                      <li>
                                                             <a href="/admin/assets/view/id=${item.assets_id}"
                                                                 class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Detail</a>
                                                         </li>
                                         `;
-                                        }else{
-                                            custom+= `
+            } else {
+                custom += `
 
                                                         <li>
                                                             <a href="/admin/assets/edit/id=${item.assets_id}"
@@ -1625,12 +1326,10 @@ function show_sort_asset() {
 
 
                                             `;
-                                        }
-
-
-                                    }
-                                     if(auth?.permission?.assets_delete == 1){
-                                        custom+= `
+            }
+        }
+        if (auth?.permission?.assets_delete == 1) {
+            custom += `
 
                                               <li class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white"
                                                             data-id="${item.assets_id}"
@@ -1641,9 +1340,9 @@ function show_sort_asset() {
 
                                               </li>
                                         `;
-                                    }
+        }
 
-                                    custom+= `
+        custom += `
                                           </ul>
 
                                         </div>
@@ -1651,12 +1350,9 @@ function show_sort_asset() {
 
                                     </td></tr>`;
 
-
-                                    body_change.innerHTML+= custom;
-
+        body_change.innerHTML += custom;
     });
-      initFlowbite();
-
+    initFlowbite();
 }
 function show_sort_raw_asset() {
     let body_change = document.querySelector("#table_raw_body");
@@ -1712,7 +1408,8 @@ function show_sort_raw_asset() {
                                                 <a href="/admin/assets/add/assets=${
                                                     item.assets
                                                 }/invoice_no=${
-                                                    item.fa ? item.fa.replace(/\//g, "-") : "NA"}"
+            item.fa ? item.fa.replace(/\//g, "-") : "NA"
+        }"
                                                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a>
                                             </td>
 
@@ -1721,7 +1418,7 @@ function show_sort_raw_asset() {
             `;
     });
 }
-function close_modal(){
+function close_modal() {
     document.querySelector("#small-modal").style.display = "none";
 }
 function update_quick_data(item) {
@@ -1742,9 +1439,7 @@ function update_quick_data(item) {
         if (id) {
             id.value = item.id;
         }
-
     } else {
-
         if (content) {
             content.value = array[item].content;
         }
@@ -1754,13 +1449,13 @@ function update_quick_data(item) {
         if (id) {
             id.value = array[item].id;
         }
-        if(array[item].type == 'Employee'){
+        if (array[item].type == "Employee") {
             reference.value = array[item].reference;
-            reference.style.display = 'block';
-            span_reference.style.display = 'block';
-        }else{
-            reference.style.display = 'none';
-            span_reference.style.display= 'none';
+            reference.style.display = "block";
+            span_reference.style.display = "block";
+        } else {
+            reference.style.display = "none";
+            span_reference.style.display = "none";
         }
     }
 }
@@ -2053,8 +1748,8 @@ async function search_asset(no) {
         headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
-            'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache'
+            "Cache-Control": "no-cache",
+            Pragma: "no-cache",
         },
         body: JSON.stringify({
             type: type_val,
@@ -2068,7 +1763,7 @@ async function search_asset(no) {
             start: start_val,
             description: description_val,
             page: page,
-             _t: Date.now() // 👈 cache buster
+            _t: Date.now(), // 👈 cache buster
         }),
     })
         .then((res) => res.json())
@@ -2077,9 +1772,7 @@ async function search_asset(no) {
         });
 
     if (data) {
-
         if (data.data) {
-
             if (data.data.length > 0) {
                 let pagination_search = document.querySelector(
                     ".pagination_by_search"
@@ -2186,7 +1879,7 @@ async function search_asset(no) {
 
 
                                     <span class="font-bold flex justify-center items-center dark:text-slate-50">Found Page :${totalPage} Pages
-                                        &ensp;Total Assets: ${totalRecord} Records</span>
+                                        &ensp;Total Transaction: ${totalRecord} Records</span>
 
 
                                  </div>
@@ -2199,7 +1892,7 @@ async function search_asset(no) {
 
                 let body_change = document.querySelector("#assets_body");
                 body_change.innerHTML = ``;
-                data.data.map((item,index) => {
+                data.data.map((item, index) => {
                     let custom = ``;
                     custom += `
 
@@ -2213,21 +1906,24 @@ async function search_asset(no) {
                                                     class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             </td>
                                              <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                    ${index+1}
+                                                    ${index + 1}
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                     ${item.assets_id || ""}
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                ${
-                                                   item.issue_date
+                                                   item.transaction_date
                                                        ? new Date(
-                                                             item.issue_date
-                                                         ).toLocaleDateString("en-US", {
-                                                             year: "numeric",
-                                                             month: "short",
-                                                             day: "numeric",
-                                                         })
+                                                             item.transaction_date
+                                                         ).toLocaleDateString(
+                                                             "en-US",
+                                                             {
+                                                                 year: "numeric",
+                                                                 month: "short",
+                                                                 day: "numeric",
+                                                             }
+                                                         )
                                                        : ""
                                                }
 
@@ -2237,17 +1933,19 @@ async function search_asset(no) {
                                                 </td>
 
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                ${item.assets1 || ""}${item.assets2 || ""}
+                                                ${item.assets1 || ""}${
+                        item.assets2 || ""
+                    }
                                                 </td>
                                                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                            ${item.item||""}
+                                            ${item.item || ""}
                                     </td>
                                          <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                            ${item.specification||""}
+                                            ${item.specification || ""}
                                     </td>
                                         </td>
                                          <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                            ${item.initial_condition||""}
+                                            ${item.initial_condition || ""}
                                     </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                             ${item.fa || ""}
@@ -2259,19 +1957,21 @@ async function search_asset(no) {
                                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                            ${
                                                item.status == 0
-                                                   ? `  <span
-                                                    class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                                    <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                                    Active
-                                                </span>
-                                                `
-                                                   : item.status == 1
                                                    ? `
-                                                   <span
+                                                    <span
                                                   class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                                                   <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
                                                   Deleted
                                               </span>
+                                                `
+                                                   : item.status == 1
+                                                   ? `
+                                                   <span
+                                                    class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                                    <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                                    Active
+                                                </span>
+
                                           `
                                                    : ` <span
                                                 class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -2287,7 +1987,10 @@ async function search_asset(no) {
                                                   ${item.fa_subclass || ""}
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                       ${item.depreciation || ""}
+                                                       ${
+                                                           item.depreciation ||
+                                                           ""
+                                                       }
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                    ${item.dr || ""}
@@ -2307,63 +2010,72 @@ async function search_asset(no) {
                                                    item.created_at
                                                        ? new Date(
                                                              item.created_at
-                                                         ).toLocaleDateString("en-US", {
-                                                             year: "numeric",
-                                                             month: "short",
-                                                             day: "numeric",
-                                                         })
+                                                         ).toLocaleDateString(
+                                                             "en-US",
+                                                             {
+                                                                 year: "numeric",
+                                                                 month: "short",
+                                                                 day: "numeric",
+                                                             }
+                                                         )
                                                        : ""
                                                }
 
 
                                                 <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
                                                 <div class="option">
-                                                    <button id="dropdownMenuIconHorizontalButton${item.id}"
-                                                        data-dropdown-toggle="dropdownDotsHorizontal${item.id}"
+                                                    <button id="dropdownMenuIconHorizontalButton${
+                                                        item.id
+                                                    }"
+                                                        data-dropdown-toggle="dropdownDotsHorizontal${
+                                                            item.id
+                                                        }"
                                                         class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                                                         type="button">
                                                    <i class="fa-solid fa-gear"></i>
                                                     </button>
 
                                                     <!-- Dropdown menu -->
-                                                    <div id="dropdownDotsHorizontal${item.id}"
+                                                    <div id="dropdownDotsHorizontal${
+                                                        item.id
+                                                    }"
                                                         class=" hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
 
                                                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                                            aria-labelledby="dropdownMenuIconHorizontalButton${item.id}">
+                                                            aria-labelledby="dropdownMenuIconHorizontalButton${
+                                                                item.id
+                                                            }">
                                                 `;
-                                           if(auth?.permission?.transfer_write == 1){
-
-                                                 custom+=`
+                    if (auth?.permission?.transfer_write == 1) {
+                        custom += `
 
                                                                 <li>
                                                                     <a href="/admin/movement/add/detail/id=${item.assets_id}"
                                                                         class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Movement</a>
                                                                 </li>
                                                         `;
-
-                                            }
-                                            if(auth?.permission?.transfer_read  == 1){
-                                                custom+=`
+                    }
+                    if (auth?.permission?.transfer_read == 1) {
+                        custom += `
                                                                 <li>
                                                                     <a href="/admin/movement/timeline/id=${item.assets_id}"
                                                                         class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Move
                                                                         List</a>
                                                                 </li>
                                                         `;
-                                            }
+                    }
 
-                                            if(auth?.permission?.assets_read == 1){
-                                                if(auth?.permission?.assets_update == 0){
-                                                    custom+= `
+                    if (auth?.permission?.assets_read == 1) {
+                        if (auth?.permission?.assets_update == 0) {
+                            custom += `
 
                                                             <li>
                                                                     <a href="/admin/assets/view/id=${item.assets_id}"
                                                                         class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Detail</a>
                                                                 </li>
                                                 `;
-                                                }else{
-                                                    custom+= `
+                        } else {
+                            custom += `
 
                                                                 <li>
                                                                     <a href="/admin/assets/edit/id=${item.assets_id}"
@@ -2372,12 +2084,10 @@ async function search_asset(no) {
 
 
                                                     `;
-                                                }
-
-
-                                            }
-                                            if(auth?.permission?.assets_delete == 1){
-                                                custom+= `
+                        }
+                    }
+                    if (auth?.permission?.assets_delete == 1) {
+                        custom += `
 
                                                     <li class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white"
                                                                     data-id="${item.assets_id}"
@@ -2388,47 +2098,44 @@ async function search_asset(no) {
 
                                                     </li>
                                                 `;
-                                            }
+                    }
 
-
-                                                custom+= `
+                    custom += `
                                                     </ul>
 
                                                     </div>
                                                 </div>
                                                 `;
 
-
-                                                body_change.innerHTML+= custom;
+                    body_change.innerHTML += custom;
                 });
-                    initFlowbite();
+                initFlowbite();
                 array = data.data;
             } else {
-
-                    toast_red.querySelector("p").innerHTML = "Data not Found.";
-                    toast_red.style.display = "block";
-                    toast_red.style.animation = 'none'; // reset animation
-                    toast_red.offsetHeight; // trigger reflow to restart animation
-                    toast_red.style.animation = 'fadeOut2 4s forwards'; // start animation
+                toast_red.querySelector("p").innerHTML = "Data not Found.";
+                toast_red.style.display = "block";
+                toast_red.style.animation = "none"; // reset animation
+                toast_red.offsetHeight; // trigger reflow to restart animation
+                toast_red.style.animation = "fadeOut2 4s forwards"; // start animation
             }
         } else {
-                    toast_red.querySelector("p").innerHTML = "Data not Found.";
-                          toast_red.style.display = "block";
-                    toast_red.style.animation = 'none'; // reset animation
-                    toast_red.offsetHeight; // trigger reflow to restart animation
-                    toast_red.style.animation = 'fadeOut2 4s forwards'; // start animation
+            toast_red.querySelector("p").innerHTML = "Data not Found.";
+            toast_red.style.display = "block";
+            toast_red.style.animation = "none"; // reset animation
+            toast_red.offsetHeight; // trigger reflow to restart animation
+            toast_red.style.animation = "fadeOut2 4s forwards"; // start animation
         }
     } else {
-                        toast_red.querySelector("p").innerHTML = "Problem on database connection.";
-                              toast_red.style.display = "block";
-                        toast_red.style.animation = 'none'; // reset animation
-                        toast_red.offsetHeight; // trigger reflow to restart animation
-                        toast_red.style.animation = 'fadeOut2 4s forwards'; // start animation
-
+        toast_red.querySelector("p").innerHTML =
+            "Problem on database connection.";
+        toast_red.style.display = "block";
+        toast_red.style.animation = "none"; // reset animation
+        toast_red.offsetHeight; // trigger reflow to restart animation
+        toast_red.style.animation = "fadeOut2 4s forwards"; // start animation
     }
     document.querySelector("#loading").style.display = "none";
 }
-async function search_asset_staff(no) {
+async function search_movement(no) {
     let fa = document.querySelector("#fa");
     let asset_input = document.querySelector("#assets");
     let invoice = document.querySelector("#invoice");
@@ -2512,25 +2219,17 @@ async function search_asset_staff(no) {
     if (other) {
         type_val = other.value;
     }
-    url = `/api/fect/asset/staff/data`;
-
+    url = `/api/fect/movement/data`;
     // Loading label
     document.querySelector("#loading").style.display = "block";
 
-    let form = document.querySelector("#form_search");
-    if (form) {
-        if (!form.checkValidity()) {
-            // Trigger native form validation messages without submitting
-            form.reportValidity();
-        }
-    }
-
-    // console.log("type: "+ type_val+"    value "+value_val+"    "+id_val+"    "+state_val+"    "+start_val+"    "+end_val+"    "+description_val+"    page"+page+"    "+invoice_val+"    "+fa_val+"    ")
     let data = await fetch(url, {
         method: "POST",
         headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
+            "Cache-Control": "no-cache",
+            Pragma: "no-cache",
         },
         body: JSON.stringify({
             type: type_val,
@@ -2544,6 +2243,7 @@ async function search_asset_staff(no) {
             start: start_val,
             description: description_val,
             page: page,
+            _t: Date.now(), // 👈 cache buster
         }),
     })
         .then((res) => res.json())
@@ -2563,22 +2263,23 @@ async function search_asset_staff(no) {
                     if (data.page != 0) {
                         let page = data.page;
                         let totalPage = data.total_page;
+                        let totalRecord = data.total_record;
+
                         // Start by building the entire HTML content in one go
                         let paginationHtml = `
-                            <div class="flex">
+
                                 <ul class="flex items-center -space-x-px h-8 text-sm">
 
                                 `;
 
+                        // Add the current page dynamically
                         let left_val = page - 5;
-                        // Prevent < 0
                         if (left_val < 1) {
                             left_val = 1;
                         }
-                        // Left Arrow
                         if (page != 1 && totalPage != 1) {
                             paginationHtml += `
-                                    <li onclick="search_asset_staff(${
+                                    <li onclick="search_asset(${
                                         page - 1
                                     })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
 
@@ -2588,29 +2289,25 @@ async function search_asset_staff(no) {
                                     </li>
                                  `;
                         }
-
                         let right_val = page + 5;
-
-                        // Prevent < total
                         if (right_val > totalPage) {
                             right_val = totalPage;
                         }
 
-                        // For on left and right Value
-
                         for (let i = left_val; i <= right_val; i++) {
                             if (i != page) {
                                 paginationHtml += `
-                                        <li onclick="search_asset_staff(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                        <li onclick="search_asset(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                         >
 
                                                  ${i}
+
 
                                          </li>
                                      `;
                             } else if (i == page) {
                                 paginationHtml += `
-                                          <li onclick="search_asset_staff(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                          <li onclick="search_asset(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
 
                                                 ${i}
 
@@ -2621,7 +2318,7 @@ async function search_asset_staff(no) {
 
                         if (page != totalPage) {
                             paginationHtml += `
-                                    <li  onclick="search_asset_staff(${
+                                    <li  onclick="search_asset(${
                                         page + 1
                                     })" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
 
@@ -2629,68 +2326,76 @@ async function search_asset_staff(no) {
                                             <i class="fa-solid fa-chevron-right"></i>
 
                                     </li>
-                                        `;
+                    `;
                         }
 
-                        // Add the remaining pagination buttons and close the list
                         paginationHtml += `
-                        <li class="mx-2" style="margin-left:10px;">
+                           <li class="mx-2" style="margin-left:10px;">
                                     <a href="1" aria-current="page"
                                         class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
                                         <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;"></i>
                                     </a>
                                 </li>
                                 </ul>
-                                 <select
-                                    onchange="set_page_dynamic()"
-                                    id="select_page_dynamic"
-                                    class="flex mx-2 items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                `;
-
+                        <select
+                            onchange="set_page_dynamic_admin()"
+                            id="select_page_dynamic"
+                             class="flex  items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                             `;
                         if (page != 1) {
                             paginationHtml += `
-                                <option value="${page}">${page}</option>
-                                `;
+                                 <option value="${page}">${page}</option>
+                                 `;
                         }
 
                         for (let i = 1; i <= totalPage; i++) {
                             paginationHtml += `
-                                <option value="${i}">${i}</option>
-                                `;
+                                 <option value="${i}">${i}</option>
+                                 `;
                         }
 
                         paginationHtml += `
-                                </select>
-                                </div>
-                                `;
+                                 </select>
+
+
+                                    <span class="font-bold flex justify-center items-center dark:text-slate-50">Found Page :${totalPage} Pages
+                                        &ensp;Total Transaction: ${totalRecord} Records</span>
+
+
+                                 </div>
+                                 `;
 
                         // Finally, assign the full HTML to the element
                         pagination_search.innerHTML = paginationHtml;
                     }
                 }
 
-                let body_change = document.querySelector("#asset_staff_body");
+                let body_change = document.querySelector("#assets_body");
                 body_change.innerHTML = ``;
-                data.data.map((item) => {
-                    body_change.innerHTML += `
+                data.data.map((item, index) => {
+                    let custom = ``;
+                    custom += `
 
-                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
                                             <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                 <input onchange="printable()" data-id="${
-                                                    item.id || ""
-                                                }" id="green-checkbox"
+                                                    item.assets_id || ""
+                                                }" id="green-checkbox${item.id}"
                                                     type="checkbox" value=""
                                                     class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             </td>
+                                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                                    ${index + 1}
+                                                </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                    ${item.id || ""}
+                                                    ${item.assets_id || ""}
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                ${
-                                                   item.created_at
+                                                   item.transaction_date
                                                        ? new Date(
-                                                             item.created_at
+                                                             item.transaction_date
                                                          ).toLocaleDateString(
                                                              "en-US",
                                                              {
@@ -2708,12 +2413,20 @@ async function search_asset_staff(no) {
                                                 </td>
 
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                         ${
-                                                             item.assets1 +
-                                                                 item.assets2 ||
-                                                             ""
-                                                         }
+                                                ${item.assets1 || ""}${
+                        item.assets2 || ""
+                    }
                                                 </td>
+                                                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                            ${item.item || ""}
+                                    </td>
+                                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                            ${item.specification || ""}
+                                    </td>
+                                        </td>
+                                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                            ${item.initial_condition || ""}
+                                    </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                             ${item.fa || ""}
                                                 </td>
@@ -2724,19 +2437,21 @@ async function search_asset_staff(no) {
                                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                            ${
                                                item.status == 0
-                                                   ? `  <span
-                                                    class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                                    <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                                    Active
-                                                </span>
-                                                `
-                                                   : item.status == 1
                                                    ? `
-                                                   <span
+                                                    <span
                                                   class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                                                   <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
                                                   Deleted
                                               </span>
+                                                `
+                                                   : item.status == 1
+                                                   ? `
+                                                   <span
+                                                    class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                                    <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                                    Active
+                                                </span>
+
                                           `
                                                    : ` <span
                                                 class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -2770,69 +2485,154 @@ async function search_asset_staff(no) {
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                      ${item.description || ""}
                                                 </td>
-                                              <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  dark:bg-slate-900"
-                                                style="position: sticky; right: 0; background-color: white;">
-                                                ${
-                                                    auth?.permission
-                                                        ?.assets_write == 1
-                                                        ? `
-                                                            <a href="/admin/assets/edit/id=${item.id}">
-                                                                <button type="button"
-                                                                    class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                                        class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-                                                                </button>
-                                                             </a>
-                                                        `
-                                                        : // If auth.permission.assets_write is 1
-                                                          `` // If not, show nothing
-                                                }
-                                                ${
-                                                    auth?.permission
-                                                        ?.assets_delete == 1
-                                                        ? `
-                                                             <button type="button" data-id="${item.id}"
-                                                                id="btn_delete_asset${item.id}"
-                                                                onclick="delete_value('btn_delete_asset'+${item.id},'delete_asset_admin','delete_value_asset')"
-                                                                class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                                                <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
-                                                        `
-                                                        : // If auth.permission.assets_write is 1
-                                                          `` // If not, show nothing
-                                                }
+                                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                               ${
+                                                   item.created_at
+                                                       ? new Date(
+                                                             item.created_at
+                                                         ).toLocaleDateString(
+                                                             "en-US",
+                                                             {
+                                                                 year: "numeric",
+                                                                 month: "short",
+                                                                 day: "numeric",
+                                                             }
+                                                         )
+                                                       : ""
+                                               }
 
 
-                                            </td>
+                                                <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
+                                                <div class="option">
+                                                    <button id="dropdownMenuIconHorizontalButton${
+                                                        item.id
+                                                    }"
+                                                        data-dropdown-toggle="dropdownDotsHorizontal${
+                                                            item.id
+                                                        }"
+                                                        class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                                        type="button">
+                                                   <i class="fa-solid fa-gear"></i>
+                                                    </button>
+
+                                                    <!-- Dropdown menu -->
+                                                    <div id="dropdownDotsHorizontal${
+                                                        item.id
+                                                    }"
+                                                        class=" hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
+
+                                                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                            aria-labelledby="dropdownMenuIconHorizontalButton${
+                                                                item.id
+                                                            }">
+                                                `;
+                    if (auth?.permission?.transfer_write == 1) {
+                        custom += `
+
+                                                                <li>
+                                                                    <a href="/admin/movement/add/detail/id=${item.assets_id}"
+                                                                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Movement</a>
+                                                                </li>
+                                                        `;
+                    }
+                    if (auth?.permission?.transfer_read == 1) {
+                        custom += `
+                                                                <li>
+                                                                    <a href="/admin/movement/timeline/id=${item.assets_id}"
+                                                                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Move
+                                                                        List</a>
+                                                                </li>
+                                                        `;
+                    }
+
+                    if (auth?.permission?.assets_read == 1) {
+                        if (auth?.permission?.assets_update == 0) {
+                            custom += `
+
+                                                            <li>
+                                                                    <a href="/admin/assets/view/id=${item.assets_id}"
+                                                                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Detail</a>
+                                                                </li>
+                                                `;
+                        } else {
+                            custom += `
+
+                                                                <li>
+                                                                    <a href="/admin/assets/edit/id=${item.assets_id}"
+                                                                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Update</a>
+                                                                </li>
 
 
-                                            </tr>
-              `;
+                                                    `;
+                        }
+                    }
+                    if (auth?.permission?.assets_delete == 1) {
+                        custom += `
+
+                                                    <li class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white"
+                                                                    data-id="${item.assets_id}"
+                                                                    id="btn_delete_asset${item.assets_id}"
+                                                                    onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')">
+
+                                                                    Delete
+
+                                                    </li>
+                                                `;
+                    }
+
+                    custom += `
+                                                    </ul>
+
+                                                    </div>
+                                                </div>
+                                                `;
+
+                    body_change.innerHTML += custom;
                 });
+                initFlowbite();
                 array = data.data;
-
-                document.querySelector("#loading").style.display = "none";
             } else {
-                alert("Data not Found.");
-                document.querySelector("#loading").style.display = "none";
+                toast_red.querySelector("p").innerHTML = "Data not Found.";
+                toast_red.style.display = "block";
+                toast_red.style.animation = "none"; // reset animation
+                toast_red.offsetHeight; // trigger reflow to restart animation
+                toast_red.style.animation = "fadeOut2 4s forwards"; // start animation
             }
         } else {
-            alert("Data not array");
-            document.querySelector("#loading").style.display = "none";
+            toast_red.querySelector("p").innerHTML = "Data not Found.";
+            toast_red.style.display = "block";
+            toast_red.style.animation = "none"; // reset animation
+            toast_red.offsetHeight; // trigger reflow to restart animation
+            toast_red.style.animation = "fadeOut2 4s forwards"; // start animation
         }
     } else {
-        alert("Problem on database connection.");
-
-        document.querySelector("#loading").style.display = "none";
+        toast_red.querySelector("p").innerHTML =
+            "Problem on database connection.";
+        toast_red.style.display = "block";
+        toast_red.style.animation = "none"; // reset animation
+        toast_red.offsetHeight; // trigger reflow to restart animation
+        toast_red.style.animation = "fadeOut2 4s forwards"; // start animation
     }
+    document.querySelector("#loading").style.display = "none";
 }
 
 function set_page_dynamic() {
     let select = document.querySelector("#select_page_dynamic");
     if (select) {
         if (select.value != "") {
-            search_asset_staff(parseInt(select.value));
+            search_asset(parseInt(select.value));
         }
     }
 }
+function set_page_movement() {
+    let select = document.querySelector("#select_page_dynamic");
+    if (select) {
+        if (select.value != "") {
+           search_movement(parseInt(select.value));
+        }
+    }
+}
+
 function set_page_dynamic_admin() {
     let select = document.querySelector("#select_page_dynamic");
     if (select) {
@@ -2841,7 +2641,7 @@ function set_page_dynamic_admin() {
         }
     }
 }
-function select_page_dynamic_select_movement(){
+function select_page_dynamic_select_movement() {
     let select = document.querySelector("#select_page_dynamic");
     if (select) {
         if (select.value != "") {
@@ -3184,7 +2984,9 @@ async function raw_assets(no) {
                          <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                             <a href="/admin/assets/add/assets=${
                                 item.assets
-                            }/invoice_no=${item.fa ? item.fa.replace(/\//g, '-') : "NA"}"
+                            }/invoice_no=${
+                        item.fa ? item.fa.replace(/\//g, "-") : "NA"
+                    }"
                                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a>
                         </td>
 
@@ -3301,7 +3103,6 @@ async function search_change_log(no) {
         });
 
     if (data) {
-
         if (data.data) {
             document.querySelector("#loading").style.display = "none";
             if (data.data.length > 0) {
@@ -3486,28 +3287,11 @@ function set_page() {
 
     if (select_page) {
         if (select_page.value != "") {
-            window.location.href = `/admin/assets/list/${select_page.value}`;
+            window.location.href = `/admin/assets/transaction/${select_page.value}`;
         }
     }
 }
-function set_page_movement() {
-    let select_page = document.querySelector("#select_page");
 
-    if (select_page) {
-        if (select_page.value != "") {
-            window.location.href = `/admin/movement/add/${select_page.value}`;
-        }
-    }
-}
-function set_page_movement_search() {
-    let select_page = document.querySelector("#select_page");
-
-    if (select_page) {
-        if (select_page.value != "") {
-            window.location.href = `/admin/movement/list/${select_page.value}`;
-        }
-    }
-}
 function set_page_changeLog() {
     let select_page = document.querySelector("#select_page");
 
@@ -3733,7 +3517,7 @@ async function search_quick_data(no) {
                                     ${item.type}
                                </td>
                                       <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                    ${item.reference??''}
+                                    ${item.reference ?? ""}
                                </td>
                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                      <button type="button" data-modal-target="small-modal"
@@ -3747,7 +3531,9 @@ async function search_quick_data(no) {
 
                                         <button type="button" data-id="{{ $item->id }}"
                                             id="btn_delete{{ $item->id }}"
-                                            onclick="delete_value('btn_delete'+${item.id},'delete_data','delete_data_value')"
+                                            onclick="delete_value('btn_delete'+${
+                                                item.id
+                                            },'delete_data','delete_data_value')"
                                             class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
                                </td>
@@ -3768,10 +3554,10 @@ async function search_quick_data(no) {
     }
 }
 
+// Search Data Asset using Fetch
 async function search_mobile(asset) {
     let input_assets = document.querySelector("#sidebar-search");
     let panel_list = document.querySelector("#show_list");
-
 
     let val = "NA";
     if (input_assets) {
@@ -3806,7 +3592,6 @@ async function search_mobile(asset) {
         });
 
     if (data) {
-
         if (data.data) {
             if (data.data.length != 0) {
                 panel_list.innerHTML = ``;
@@ -3837,7 +3622,9 @@ async function search_mobile(asset) {
                     custom += `
                         <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                                <a href="/admin/assets/edit/id=${item.id}"> <button>View</button></a>
+                                                <a href="/admin/assets/edit/id=${
+                                                    item.id
+                                                }"> <button>View</button></a>
 
                                              </td>
                                              <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
@@ -3875,786 +3662,19 @@ async function search_mobile(asset) {
         panel_list.innerHTML = `<h1>Problem Data rendering</h1>`;
         panel_list.style.display = "block";
     }
-
-
 }
-function close_search(){
+function close_search() {
     let panel_list = document.querySelector("#show_list");
     panel_list.style.display = "none";
 }
-async function search_asset_for_movement(no) {
-    let fa = document.querySelector("#fa");
-    let asset_input = document.querySelector("#assets");
-    let invoice = document.querySelector("#invoice");
-    let description = document.querySelector("#description");
-    let start = document.querySelector("#start_date");
-    let end = document.querySelector("#end_date");
-    let state = document.querySelector("#state");
-    let id_asset = document.querySelector("#id_asset");
-    let other = document.querySelector("#other_search");
-    let value = document.querySelector("#other_value");
-    let status = document.querySelector("#status");
 
-    let status_val = "NA";
-    let id_val = "NA";
-    let fa_val = "NA";
-    let asset_val = "NA";
-    let invoice_val = "NA";
-    let description_val = "NA";
-    let start_val = "NA";
-    let end_val = "NA";
-    let state_val = "NA";
-    let type_val = "NA";
-    let value_val = "NA";
-
-    let page = 1;
-    if(status){
-        status_val = status.value;
-    }
-    if (no) {
-        page = no;
-    }
-    if (id_asset) {
-        if (id_asset.value != "") {
-            id_val = id_asset.value;
-        }
-    }
-    if (fa) {
-        if (fa.value != "") {
-            fa_val = fa.value;
-        }
-    }
-    if (asset_input) {
-        if (asset_input.value != "") {
-            asset_val = asset_input.value;
-        }
-    }
-    if (invoice) {
-        if (invoice.value != "") {
-            invoice_val = invoice.value;
-        }
-    }
-    if (description) {
-        if (description.value != "") {
-            description_val = description.value;
-        }
-    }
-    if (start) {
-        if (start.value != "") {
-            start_val = start.value;
-        }
-    }
-    if (end) {
-        if (end.value != "") {
-            end_val = end.value;
-        }
-    }
-    if (state) {
-        if (state.value != "") {
-            state_val = state.value;
-        }
-    }
-
-    if (start_val && end_val && start_val != "NA" && end_val != "NA") {
-        if (start_val > end_val) {
-            alert(
-                "Start Date is greater than End Date.Please select correct date and Try again."
-            );
-            return;
-        }
-    }
-    if (value) {
-        if (value.value != "") {
-            value_val = value.value;
-        }
-    }
-    if (other) {
-        type_val = other.value;
-    }
-    url = `/api/fect/movement/data`;
-    // Loading label
-    document.querySelector("#loading").style.display = "block";
-
-    let data = await fetch(url, {
-        method: "POST",
-        headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            type: type_val,
-            value: value_val,
-            id: id_val,
-            state: state_val,
-            asset: asset_val,
-            fa: fa_val,
-            invoice: invoice_val,
-            end: end_val,
-            start: start_val,
-            description: description_val,
-            page: page,
-            role:auth.role,
-            status: status_val
-        }),
-    })
-        .then((res) => res.json())
-        .catch((error) => {
-            alert(error);
-        });
-
-    if (data) {
-        console.log(data);
-
-        if (data.data) {
-            if (data.data.length > 0) {
-                let pagination_search = document.querySelector(
-                    ".pagination_by_search"
-                );
-                if (pagination_search) {
-                    pagination_search.style.display = "block";
-
-                    if (data.page != 0) {
-                        let page = data.page;
-                        let totalPage = data.total_page;
-                        let totalRecord = data.total_record;
-
-                        // Start by building the entire HTML content in one go
-                        let paginationHtml = `
-
-                                <ul class="flex items-center -space-x-px h-8 text-sm">
-
-                                `;
-
-                        // Add the current page dynamically
-                        let left_val = page - 5;
-                        if (left_val < 1) {
-                            left_val = 1;
-                        }
-                        if (page != 1 && totalPage != 1) {
-                            paginationHtml += `
-                                    <li onclick="search_asset_for_movement(${
-                                        page - 1
-                                    })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-
-
-                                            <i class="fa-solid fa-angle-left"></i>
-
-                                    </li>
-                                 `;
-                        }
-                        let right_val = page + 5;
-                        if (right_val > totalPage) {
-                            right_val = totalPage;
-                        }
-
-                        for (let i = left_val; i <= right_val; i++) {
-                            if (i != page) {
-                                paginationHtml += `
-                                        <li onclick="search_asset_for_movement(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                        >
-
-                                                 ${i}
-
-
-                                         </li>
-                                     `;
-                            } else if (i == page) {
-                                paginationHtml += `
-                                          <li onclick="search_asset_for_movement(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
-
-                                                ${i}
-
-                                        </li>
-                                     `;
-                            }
-                        }
-
-                        if (page != totalPage) {
-                            paginationHtml += `
-                                    <li  onclick="search_asset_for_movement(${
-                                        page + 1
-                                    })" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-
-
-                                            <i class="fa-solid fa-chevron-right"></i>
-
-                                    </li>
-                    `;
-                        }
-
-                        paginationHtml += `
-                           <li class="mx-2" style="margin-left:10px;">
-                                    <a href="1" aria-current="page"
-                                        class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
-                                        <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;"></i>
-                                    </a>
-                                </li>
-                                </ul>
-                        <select
-                            onchange="set_page_dynamic_admin_movement()"
-                            id="select_page_dynamic_select_movement"
-                             class="flex  items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                             `;
-                        if (page != 1) {
-                            paginationHtml += `
-                                 <option value="${page}">${page}</option>
-                                 `;
-                        }
-
-                        for (let i = 1; i <= totalPage; i++) {
-                            paginationHtml += `
-                                 <option value="${i}">${i}</option>
-                                 `;
-                        }
-
-                        paginationHtml += `
-                                 </select>
-
-
-                                    <span class="font-bold flex justify-center items-center dark:text-slate-50">Found Page :${totalPage} Pages
-                                        &ensp;Total Assets: ${totalRecord} Records</span>
-
-
-                                 </div>
-                                 `;
-
-                        // Finally, assign the full HTML to the element
-                        pagination_search.innerHTML = paginationHtml;
-                    }
-                }
-
-                let body_change = document.querySelector("#table_select_movement_body");
-                body_change.innerHTML = ``;
-
-                        data.data.map((item) => {
-                                let custom = ``;
-                                custom += `
-                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                            <td scope="row"
-                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                ${ item.assets_id }
-                                            </td>
-                                            <td scope="row"
-                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-
-                                                            ${
-                                                            item.created_at
-                                                                ? new Date(
-                                                                        item.created_at
-                                                                    ).toLocaleDateString(
-                                                                        "en-US",
-                                                                        {
-                                                                            year: "numeric",
-                                                                            month: "short",
-                                                                            day: "numeric",
-                                                                        }
-                                                                    )
-                                                                : ""
-                                                        }
-
-                                            </td>
-                                            <td scope="row"
-                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                ${ item.document }
-                                            </td>
-                                            <td scope="row"
-                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                ${ item.assets1 + item.assets2 }
-                                            </td>
-                                            <td scope="row"
-                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                ${ item.fa }
-                                            </td>
-
-                                            <td scope="row"
-                                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            ${ item.invoice_no }
-                                            </td>
-                                `;
-                                custom += `<td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">`;
-                                if(item.status == 0){
-                                     custom += `     <span
-                                            class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                            <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                            Active
-                                        </span>`;
-                                }else if(item.status == 1){
-                                    custom += ` <span
-                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                            Deleted
-                                        </span>`;
-                                }else if(item.status == 2){
-                                    custom += `
-                                     <span
-                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                            Sold
-                                        </span>
-                                `;
-
-                                }
-                                custom+= ` </td>`;
-                               custom += `
-                                <td scope="row"
-                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    ${ item.item_description }
-                                </td>
-
-                                <td scope="row"
-                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    ${ item.invoice_description }
-                                </td>
-                                <td scope="row"
-                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    ${ item.total_movement }
-                                </td>
-                                <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
-                                style="  position: sticky; right: 0; ">
-
-                                    <a href="/admin/movement/add/detail/id=${ item.assets_id }"
-                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Create Movement</a>
-                                </td>
-                            </tr>
-                    `;
-                    body_change.innerHTML += custom;
-                });
-                array = data.data;
-            } else {
-                alert("Data not Found.");
-            }
-        } else {
-            alert("Data not Found.");
-        }
-    } else {
-        alert("Problem on database connection.");
-    }
-    document.querySelector("#loading").style.display = "none";
-}
-
-async function search_movement(no){
-
-    no??1;
-
-    let id = document.querySelector("#id_movement");
-    let movement_no = document.querySelector("#movement_no");
-    let assets = document.querySelector("#assets");
-    let status = document.querySelector("#status");
-    let from_department = document.querySelector("#from_department");
-    let to_department = document.querySelector("#to_department");
-    let start_date = document.querySelector("#from_date");
-    let end_date = document.querySelector("#end_date");
-    let other_search_input = document.querySelector("#other_search");
-    let other_value = document.querySelector("#other_value")
-
-
-
-    // Initailize Variable
-    let id_val = 'NA';
-    let movement_no_val = 'NA';
-    let assets_val = 'NA';
-    let status_val = 'NA';
-    let from_department_val = 'NA';
-    let to_department_val = 'NA';
-    let start_date_val = 'NA';
-    let end_date_val ='NA';
-    let other_search_val = 'NA';
-    let other_value_val = 'NA';
-
-    if(id){
-        if(id.value){
-            id_val = id.value;
-        }
-    }
-
-    if(movement_no){
-        if(movement_no.value){
-            movement_no_val = movement_no.value;
-        }
-    }
-    if(assets){
-        if(assets.value){
-            assets_val = assets.value;
-        }
-    }
-    if(status){
-        if(status.value){
-            status_val = status.value;
-        }
-    }
-    if(from_department){
-        if(from_department.value){
-            from_department_val = from_department.value;
-        }
-    }
-    if(to_department){
-        if(to_department.value){
-            to_department_val = to_department.value;
-        }
-    }
-
-    if(start_date){
-        if(start_date.value){
-            start_date_val = start_date.value;
-        }
-    }
-    if(end_date){
-        if(end_date.value){
-            end_date_val = end_date.value;
-        }
-    }
-    if(other_search == 1){
-        if(other_search_input){
-            if(other_search_input.value){
-                other_search_val = other_search_input.value;
-            }
-        }
-        if(other_value){
-            if(other_value.value){
-                other_value_val = other_value.value;
-            }
-        }
-    }
-
-    if (start_date_val && end_date_val && start_date_val != "NA" && end_date_val != "NA") {
-        if (start_date_val > end_date_val) {
-            alert(
-                "Start Date is greater than End Date.Please select correct date and Try again."
-            );
-            return;
-        }
-    }
-
-    document.querySelector("#loading").style.display = "block";
-
-    let url = `/api/fect/search/movement/data`;
-
-    let data = await fetch(url, {
-        method: "POST",
-        headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            movement_id : id_val,
-            movement_no : movement_no_val,
-            assets : assets_val,
-            status: status_val,
-            from_department : from_department_val,
-            to_department : to_department_val,
-            start_date : start_date_val,
-            end_date : end_date_val,
-            other_search : other_search_val,
-            other_value : other_value_val,
-            page : no
-        }),
-        })
-        .then((res) => res.json())
-        .catch((error) => {
-            alert(error);
-        });
-
-        if (data) {
-
-            console.log(data);
-            if(data.page){
-
-            }
-            if (data.data) {
-                if (data.data.length > 0) {
-                    let pagination_search = document.querySelector(
-                        ".pagination_by_search"
-                    );
-                    if (pagination_search) {
-                        pagination_search.style.display = "block";
-
-                        if (data.page != 0) {
-                            let page = data.page;
-                            let totalPage = data.total_page;
-                            let totalRecord = data.total_record;
-
-                            // Start by building the entire HTML content in one go
-                            let paginationHtml = `
-
-                                    <ul class="flex items-center -space-x-px h-8 text-sm">
-
-                                    `;
-
-                            // Add the current page dynamically
-                            let left_val = page - 5;
-                            if (left_val < 1) {
-                                left_val = 1;
-                            }
-                            if (page != 1 && totalPage != 1) {
-                                paginationHtml += `
-                                        <li onclick="search_movement(${
-                                            page - 1
-                                        })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-
-
-                                                <i class="fa-solid fa-angle-left"></i>
-
-                                        </li>
-                                     `;
-                            }
-                            let right_val = page + 5;
-                            if (right_val > totalPage) {
-                                right_val = totalPage;
-                            }
-
-                            for (let i = left_val; i <= right_val; i++) {
-                                if (i != page) {
-                                    paginationHtml += `
-                                            <li onclick="search_movement(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                            >
-
-                                                     ${i}
-
-
-                                             </li>
-                                         `;
-                                } else if (i == page) {
-                                    paginationHtml += `
-                                              <li onclick="search_movement(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
-
-                                                    ${i}
-
-                                            </li>
-                                         `;
-                                }
-                            }
-
-                            if (page != totalPage) {
-                                paginationHtml += `
-                                        <li  onclick="search_movement(${
-                                            page + 1
-                                        })" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-
-
-                                                <i class="fa-solid fa-chevron-right"></i>
-
-                                        </li>
-                        `;
-                            }
-
-                            paginationHtml += `
-                               <li class="mx-2" style="margin-left:10px;">
-                                        <a href="1" aria-current="page"
-                                            class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
-                                            <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;"></i>
-                                        </a>
-                                    </li>
-                                    </ul>
-                            <select
-                                onchange="set_page_dynamic_admin_movement()"
-                                id="select_page_dynamic_select_movement"
-                                 class="flex  items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                 `;
-                            if (page != 1) {
-                                paginationHtml += `
-                                     <option value="${page}">${page}</option>
-                                     `;
-                            }
-
-                            for (let i = 1; i <= totalPage; i++) {
-                                paginationHtml += `
-                                     <option value="${i}">${i}</option>
-                                     `;
-                            }
-
-                            paginationHtml += `
-                                     </select>
-
-
-                                        <span class="font-bold flex justify-center items-center dark:text-slate-50">Found Page :${totalPage} Pages
-                                            &ensp;Total Assets: ${totalRecord} Records</span>
-
-
-                                     </div>
-                                     `;
-
-                            // Finally, assign the full HTML to the element
-                            pagination_search.innerHTML = paginationHtml;
-                        }
-                    }
-
-                    let body_change = document.querySelector("#movement_body");
-                    body_change.innerHTML = ``;
-
-                            data.data.map((item) => {
-                                    let custom = ``;
-                                    custom += `
-                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-
-                                                <td scope="row"
-                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                    ${ item.id }
-                                                </td>
-                                                <td scope="row"
-                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-
-                                                                ${
-                                                                item.created_at
-                                                                    ? new Date(
-                                                                            item.created_at
-                                                                        ).toLocaleDateString(
-                                                                            "en-US",
-                                                                            {
-                                                                                year: "numeric",
-                                                                                month: "short",
-                                                                                day: "numeric",
-                                                                            }
-                                                                        )
-                                                                    : ""
-                                                            }
-
-                                                </td>
-                                                <td scope="row"
-                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                    ${ item.movement_no }
-                                                </td>
-                                                <td   scope="row"
-                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                    ${ item.assets_no ??''}
-                                                </td>
-                                                <td   scope="row"
-                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                    ${ item.reference ??''}
-                                                </td>
-                                                <td scope="row"
-                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                    ${ item.from_department??'' }
-                                                </td>
-
-                                                <td scope="row"
-                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                ${ item.to_department??'' }
-                                                </td>
-                                                 <td scope="row"
-                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                ${ item.from_location??'' }
-                                                </td>
-                                                           <td scope="row"
-                                                    class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                ${ item.to_location??'' }
-                                                </td>
-                                    `;
-                                    custom += `<td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">`;
-                                    if(item.status == 0){
-                                        custom += ` <span
-                                        class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                        <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                        Inactive
-                                    </span>`;
-
-                                    }else if(item.status == 1){
-                                        custom += `     <span
-                                        class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                        <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                        Active
-                                    </span>`;
-                                    }else if(item.status == 3){
-                                        custom+= `
-                                              <span
-                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                            Deleted
-                                        </span>
-
-                                    <span
-                                        `;
-                                    }
-
-
-                          custom += `
-                             </td>
-                             <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
-                                     <div class="option">
-                                        <button id="dropdownMenuIconHorizontalButton${item.id}"
-                                            data-dropdown-toggle="dropdownDotsHorizontal${item.id}"
-                                            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white                       						focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                                            type="button">
-                                           <i class="fa-solid fa-gear"></i>
-                                        </button>
-
-                                        <div id="dropdownDotsHorizontal${item.id}"
-                                            class="option_dark hidden  bg-white border-b dark:bg-gray-800 dark:border-gray-700   rounded-lg shadow-sm w-44 ">
-
-                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
-
-                                                                  `;
-                                    if(item.status == 1){
-                                         if(auth.permission.transfer_update == 1){
-
-                                             custom +=`
-                                                        <li>
-                                                            <a href="/admin/movement/add/detail/id=${item.assets_id}"
-                                                                class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Update</a>
-                                                        </li>
-                                            `;
-                                         }
-
-                                         if(auth.permission.transfer_delete == 1){
-                                            custom +=`
-                                                        <li
-                                                        type="button" data-id="${item.id}"
-                                                        id="btn_delete_asset${item.id}"
-                                                        onclick="delete_value('btn_delete_asset'+${item.id},'delete_asset_admin','delete_value_asset')">
-
-                                                                <div class="cursor block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Delete</div>
-
-                                                        </li>
-                                            `;
-
-                                         }
-
-
-                                    }else if(item.status == 0){
-                                        custom +=`
-                                                        <li>
-                                                            <a href="/admin/movement/view/id=${item.id}/assets_id=${item.assets_id}/varaint=${item.varaint}"
-                                                                class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">View</a>
-                                                        </li>
-
-                                        `;
-
-
-                                    }
-
-
-
-                                                             custom +=  `
-                                                                             </ul>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-
-                                    `;
-                        body_change.innerHTML += custom;
-                    });
-                      initFlowbite();
-                    array = data.data;
-                } else {
-                    alert("Data not Found.");
-                }
-            } else {
-                alert("Data not Found.");
-            }
-        } else {
-            alert("Problem on database connection.");
-        }
-        document.querySelector("#loading").style.display = "none";
-
-
-}
-
-async function chang_viewpoint(no,section) {
-   let limit = document.querySelector("#change_limit");
+// Fect Data to Change View point data
+async function chang_viewpoint(no, section) {
+    let limit = document.querySelector("#change_limit");
 
     let limit_val = "NA";
 
-
-    if(limit){
+    if (limit) {
         limit_val = limit.value;
     }
 
@@ -4669,7 +3689,7 @@ async function chang_viewpoint(no,section) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            limit: limit_val
+            limit: limit_val,
         }),
     })
         .then((res) => res.json())
@@ -4678,178 +3698,16 @@ async function chang_viewpoint(no,section) {
         });
 
     if (data) {
-
-        if(data[0]){
-             let page = 1;
-                if (no) {
-                    page = no;
-                }
-            if(section == 'assets'){
+        if (data[0]) {
+            let page = 1;
+            if (no) {
+                page = no;
+            }
+            if (section == "assets") {
                 search_asset(no);
-            }else if(section == 'changelog'){
+            } else if (section == "changelog") {
                 search_change_log(0);
             }
         }
     }
-}
-
-
-
-async function add_department(no) {
-
-    let name_input = document.querySelector("#name_department"+no);
-
-    if (!name_input.value) {
-        alert("Please enter the department name.");
-        return;
-    }
-
-    url = `/api/add/department`;
-    // Loading label
-    document.querySelector("#loading").style.display = "block";
-
-    let data = await fetch(url, {
-        method: "POST",
-        headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            company_id: no,
-            name : name_input.value
-        }),
-        })
-        .then((res) => res.json())
-        .catch((error) => {
-            alert(error);
-        });
-
-    if (data) {
-        console.log(data);
-
-
-                 let body_table = document.querySelector('#body_department'+no);
-
-                body_table.innerHTML = ``;
-                let custom = ``;
-
-                data.map((item,index) => {
-                    custom += `
-                                <tr class="mt-2 border-gray-600">
-                                    <td>${index}</td>
-                                    <td
-                                    class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                   ${item.name}</td>
-
-                                    <td>
-                                    <button type="button"
-                                       onclick="delete_department(${item.id})"><i
-                                                                                        class="fa-solid fa-trash"
-                                                                                        style="color: #ff0000;"></i></button>
-                                </td>
-
-                                            </tr>
-
-                    `;
-
-                });
-                body_table.innerHTML = custom;
-               document.querySelector("#loading").style.display = "none";
-               toast_red.querySelector("p").innerHTML = "Success.";
-               toast_red.style.display = "block";
-               toast_red.style.animation = 'none'; // reset animation
-               toast_red.offsetHeight; // trigger reflow to restart animation
-               toast_red.style.animation = 'fadeOut2 4s forwards'; // start animation
-
-        }
-
-
-}
-
-
-
-
-async function delete_department(id) {
-
-
-
-
-    url = `/api/delete/department`;
-    // Loading label
-    document.querySelector("#loading").style.display = "block";
-
-    let data = await fetch(url, {
-        method: "POST",
-        headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            department_id: id
-        }),
-        })
-        .then((res) => res.json())
-        .catch((error) => {
-            alert(error);
-        });
-
-    if (data) {
-        insertRowAfter('department_row'+data.id, data.data[0]);
-
-
-        console.log(data);
-
-
-                 let body_table = document.querySelector('#body_department'+data.id);
-
-                body_table.innerHTML = ``;
-                let custom = ``;
-
-                data.data.map((item,index) => {
-                    custom += `
-                                <tr class="mt-2 border-gray-600">
-                                    <td>${index+1}</td>
-                                    <td
-                                    class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                   ${item.name}</td>
-
-                                    <td>
-                                    <button type="button"
-                                       onclick="delete_department(${item.id})"><i
-                                                                                        class="fa-solid fa-trash"
-                                                                                        style="color: #ff0000;"></i></button>
-                                </td>
-
-                                            </tr>
-
-                    `;
-
-                });
-                body_table.innerHTML = custom;
-               document.querySelector("#loading").style.display = "none";
-               toast_red.querySelector("p").innerHTML = "Success.";
-               toast_red.style.display = "block";
-               toast_red.style.animation = 'none'; // reset animation
-               toast_red.offsetHeight; // trigger reflow to restart animation
-               toast_red.style.animation = 'fadeOut2 4s forwards'; // start animation
-
-        }
-
-
-}
-
-function insertRowAfter(rowId, newData) {
-  const targetRow = document.getElementById(rowId);
-
-  if (!targetRow) return;
-
-  // Create a new <tr>
-  const newRow = document.createElement('tr');
-  newRow.innerHTML = `
-    <td>${newData.id}</td>
-    <td>${newData.name}</td>
-  `;
-
-  // Insert after the target row
-  targetRow.parentNode.insertBefore(newRow, targetRow.nextSibling);
 }

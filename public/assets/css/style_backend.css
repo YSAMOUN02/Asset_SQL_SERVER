@@ -49,8 +49,8 @@
 
 body{
   position: relative;
-  min-width: 100vw; /* corrected */
-
+  min-width: 100vw !important;
+  overflow-x: hidden;
 
 }
 .container-height{

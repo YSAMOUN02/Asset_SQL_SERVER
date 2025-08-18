@@ -37,8 +37,8 @@
 
         // Chart 3
         // Convert the collection to an array
-        $data_by_year = \App\Models\StoredAssets::selectRaw('YEAR(issue_date) as year, COUNT(*) as count')
-            ->groupByRaw('YEAR(issue_date)')
+        $data_by_year = \App\Models\StoredAssets::selectRaw('YEAR(transaction_date) as year, COUNT(*) as count')
+            ->groupByRaw('YEAR(transaction_date)')
             ->get()
             ->mapWithKeys(function ($item) {
                 return [$item->year => (int) $item->count];

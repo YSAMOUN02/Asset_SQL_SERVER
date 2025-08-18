@@ -189,23 +189,23 @@
                         </th>
                         <th scope="col"  class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
                             onclick="dynamic_sort('assets_date','date','raw_assets')">
-                            Invoice Date &ensp; <i class="fa-solid fa-sort"></i>
+                            Invoice Date &ensp;
                         </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  "
                             onclick="dynamic_sort('assets','string','raw_assets')">
-                            Assets Code&ensp; <i class="fa-solid fa-sort"></i>
+                            Assets Code&ensp;
                         </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  "
                             onclick="dynamic_sort('fa','string','raw_assets')">
-                            Fix Assets&ensp; <i class="fa-solid fa-sort"></i>
+                            Fix Assets&ensp;
                         </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  "
                             onclick="dynamic_sort('invoice_no','string','raw_assets')">
-                            Invoice&ensp; <i class="fa-solid fa-sort"></i>
+                            Invoice&ensp;
                         </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  "
                             onclick="dynamic_sort('description','string','raw_assets')">
-                            Description&ensp; <i class="fa-solid fa-sort"></i>
+                            Description&ensp;
                         </th>
 
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
