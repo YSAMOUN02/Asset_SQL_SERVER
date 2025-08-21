@@ -9,105 +9,89 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+ public function up(): void
     {
-        Schema::create('assets', function (Blueprint $table) {
+        Schema::create('assets_transaction', function (Blueprint $table) {
+            // ASSET INFO
+            $table->id('assets_id'); // primary key
+            $table->string('reference')->nullable();
+            $table->string('assets1');
+            $table->string('assets2')->nullable();
 
-            // New Field
-            // $table->string('old_code')->nullable();
-            // $table->string('uom')->nullable();
-            // $table->string('status_qty')->nullable();
-            // $table->string('quantity')->nullable();
-            // $table->string('amount')->nullable();
+            $table->string('fa_no')->nullable();
+            $table->string('item')->nullable();
+            $table->date('transaction_date')->nullable()->default('1990-01-01');
+            $table->string('initial_condition')->nullable();
+            $table->string('specification')->nullable();
+            $table->text('item_description')->nullable();
+            $table->string('asset_group')->nullable();
+            $table->text('remark_assets')->nullable();
 
+            // HOLDER INFO
+            $table->string('asset_holder')->nullable();
+            $table->string('holder_name')->nullable();
+            $table->string('position')->nullable();
+            $table->string('location')->nullable();
+            $table->string('department')->nullable();
+            $table->string('company')->nullable();
+            $table->text('remark_holder')->nullable();
 
+            // INTERNAL DOC INFO
+            $table->string('grn')->nullable();
+            $table->string('po')->nullable();
+            $table->string('pr')->nullable();
+            $table->string('dr')->nullable();
+            $table->string('dr_requested_by')->nullable();
+            $table->date('dr_date')->nullable()->default('1990-01-01');
+            $table->text('remark_internal_doc')->nullable();
 
-            $table->id();
+            // ERP DATA
+            $table->string('asset_code_account')->nullable();
+            $table->date('invoice_date')->nullable()->default('1990-01-01');
+            $table->string('invoice_no')->nullable();
+            $table->string('fa')->nullable();
+            $table->string('fa_class')->nullable();
+            $table->string('fa_subclass')->nullable();
+            $table->string('depreciation')->nullable();
+            $table->string('fa_type')->nullable();
+            $table->string('fa_location')->nullable();
+            $table->decimal('cost', 15, 2)->nullable();
+            $table->decimal('vat', 10, 2)->nullable();
+            $table->string('currency')->nullable();
+            $table->text('description')->nullable();
+            $table->text('invoice_description')->nullable();
+            $table->string('vendor')->nullable();
+            $table->string('vendor_name')->nullable();
+            $table->string('address')->nullable();
+            $table->string('address2')->nullable();
+            $table->string('contact')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
 
-
-            // Asset Info
-            $table->bigInteger('assets_id')->nullable();
-            $table->string('varaint')->default(0);
-            $table->string('document')->nullable(); // ref
-            $table->string('assets1')->nullable(); // asset_code1
-            $table->string('assets2')->nullable(); // asset_code2
-            $table->string('fa_no')->nullable(); // fa_no
-            $table->string('item')->nullable(); // item
-            $table->date('transaction_date')->nullable(); // transaction_date
-            $table->string('initial_condition')->nullable(); // initial_condition
-            $table->string('specification')->nullable(); // specification
-            $table->string('item_description')->nullable(); // item_description
-            $table->string('asset_group')->nullable(); // asset_group
-            $table->string('remark_assets')->nullable(); // remark_assets
-
-            //  Asset  Holder
-            $table->string('asset_holder')->nullable(); // asset_holder
-            $table->string('holder_name')->nullable(); // holder_name
-            $table->string('position')->nullable(); // position
-            $table->string('location')->nullable(); // department
-            $table->string('department')->nullable(); // department
-            $table->string('company')->nullable(); // company
-            $table->string('remark_holder')->nullable(); // company
-
-            // Internal Document
-            $table->string('grn')->nullable(); // grn
-            $table->string('po')->nullable(); // po
-            $table->string('pr')->nullable(); // pr
-            $table->string('dr')->nullable(); // dr
-            $table->string('dr_requested_by')->nullable(); // dr_requested_by
-            $table->date('dr_date')->nullable(); // dr_date
-            $table->string('remark_internal_doc')->nullable(); // remark_internal_doc
-
-
-
-            // ERP Invoice
-            $table->string('asset_code_account')->nullable(); // asset_code_account
-            $table->date('invoice_date')->nullable(); // invoice_posting_date
-            $table->string('invoice_no')->nullable(); // invoice
-            $table->string('fa')->nullable(); // fa
-            $table->string('fa_class')->nullable(); // fa_class
-            $table->string('fa_subclass')->nullable(); // fa_subclass
-            $table->string('depreciation')->nullable(); // depreciation_book_code
-            $table->string('fa_type')->nullable(); // fa_type
-            $table->string('fa_location')->nullable(); // fa_location
-            $table->decimal('cost', 10, 2)->nullable(); // cost
-            $table->string('currency')->nullable(); // currency
-            $table->string('vat')->nullable(); // vat
-            $table->longText('description')->nullable(); // description
-            $table->longText('invoice_description')->nullable(); // invoice_description
-            $table->string('quantity')->nullable();
-            $table->string('amount')->nullable();
-            $table->string('company_buy')->nullable(); // vendor
-            // Vendor
-            $table->string('vendor')->nullable(); // vendor
-            $table->string('vendor_name')->nullable(); // vendor_name
-            $table->string('address')->nullable(); // address
-            $table->string('address2')->nullable(); // address2
-            $table->string('contact')->nullable(); // contact
-            $table->string('phone')->nullable(); // phone
-            $table->string('email')->nullable(); // email
-
-            // State  Asset
-            $table->date('deleted_at')->nullable();
-            $table->integer('status')->default(0); // Delete Status
-            $table->integer('total_movement')->default(0); // movement no
-            $table->string('last_varaint')->default(1);
-
-
-            // Additional Input
+            // MOVEMENT INFO
+            $table->string('ref_movement')->nullable();
+            $table->text('purpose')->nullable();
+            $table->string('status_recieved')->nullable();
+            $table->string('to_ref')->nullable();
             $table->string('old_code')->nullable();
-            $table->string('uom')->nullable();
-            $table->string('status_qty')->nullable();
 
-            $table->timestamps();
+            // BACKEND STATE
+            $table->tinyInteger('status')->default(1);
+            $table->integer('variant')->default(0);
+            $table->integer('last_varaint')->default(0);
+            $table->tinyInteger('deleted')->default(0);
+            $table->date('deleted_at')->nullable()->default('1990-01-01');
+
+            $table->timestamps(); // created_at & updated_at
         });
     }
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('assets');
+        Schema::dropIfExists('assets_transaction');
     }
 };

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\ChangeLog;
+use Illuminate\Support\Facades\Auth;
 
 abstract class Controller
 {
-    public function Change_log($id,$varaint,$change,$section,$change_by,$user_id){
+    public function Change_log($id, $varaint, $change, $section, $change_by, $user_id)
+    {
 
         $new_change = new ChangeLog();
         $new_change->key = $id;
@@ -18,7 +20,7 @@ abstract class Controller
         $new_change->save();
     }
 
-    public function upload_image($image, $thumbnail = null,$var,$no)
+    public function upload_image($image, $thumbnail = null, $var, $no)
     {
         $year = date('Y');
         $month = date('m');
@@ -36,15 +38,16 @@ abstract class Controller
         if (!$thumbnail) {
             $thumbnail = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
         }
-        $name = $thumbnail.'-V'.$var.'-NO'.$no.'.'.$extension;
+        $name = $thumbnail . '-V' . $var . '-NO' . $no . '.' . $extension;
 
         // Move the file to the correct path
-        $image->move($path,$name);
+        $image->move($path, $name);
 
-        return $name ;
+        return $name;
     }
 
-    public function upload_file($file) {
+    public function upload_file($file)
+    {
         // Generate a random name to avoid conflicts
         $FileName = $file->getClientOriginalName();
 
@@ -55,6 +58,31 @@ abstract class Controller
     }
 
 
-
-
+    public static function storeChangeLog($record, $action = 'created', $section = 'General', $reason = null, $old_values = null)
+    {
+        return ChangeLog::create([
+            'action'      => $action,
+            'record_id'   => $record->id,
+            'record_no'   => ($record->assets1 ?? '') . ($record->assets2 ?? ''),
+            'user_id'     => Auth::id() ?? null,
+            'change_by'   => Auth::user()->name ?? 'System',
+            'section'     => $section,
+            'old_values'  => $old_values ? json_encode($old_values) : null,
+            'new_values'  => json_encode($record),
+            'reason'      => $reason,
+            'created_at'  => now(),
+            'updated_at'  => now(),
+        ]);
+    }
+    protected function parseDateOrDefault($date, $default = '1900-01-01')
+    {
+        try {
+            if (!empty($date)) {
+                return \Carbon\Carbon::parse($date)->format('Y-m-d');
+            }
+        } catch (\Exception $e) {
+            // Invalid date, return default
+        }
+        return $default;
+    }
 }

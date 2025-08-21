@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('change_log', function (Blueprint $table) {
             $table->id();
-            $table->string("key")->nullable();
-            $table->string("varaint")->nullable();
-            $table->string("change")->nullable();
-            $table->string("section")->nullable();
-            $table->string('change_by')->nullable();
-            $table->string('user_id')->nullable();
-            $table->timestamps();
+            $table->string('action'); // created, updated, deleted
+            $table->unsignedBigInteger('record_id')->nullable();// assets_id or user_id
+            $table->string('record_no')->nullable(); //asset no or user no
+            $table->unsignedBigInteger('user_id')->nullable(); // Who did the action
+            $table->string('change_by')->nullable()->after('action');
+            $table->string('section')->nullable();
+            $table->json('old_values')->nullable(); // Data before change
+            $table->json('new_values')->nullable(); // Data after change
+            $table->string('reason')->nullable(); // Optional: why change was made
+            $table->timestamps(); // when it happened
         });
     }
 

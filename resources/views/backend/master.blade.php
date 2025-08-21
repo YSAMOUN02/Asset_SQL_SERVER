@@ -25,7 +25,7 @@
     <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/16925/16925957.png" type="image/x-icon">
 
 
-    <title>Assets System</title>
+    <title>Assets System  @yield('header')</title>
 </head>
 
 <body>
@@ -205,41 +205,53 @@
                                 <button type="button"
                                     class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                                     aria-controls="dropdown-pages" data-collapse-toggle="dropdown-pages">
-                                    <i class="fa-solid fa-folder-open"></i>
-                                    <span class="flex-1 ml-3 text-left whitespace-nowrap">Assets Record</span>
+                                    <i class="fa-solid fa-folder-plus"></i>
+                                    <span class="flex-1 ml-3 text-left whitespace-nowrap">Add Asset</span>
                                     <i class="fa-solid fa-chevron-down"></i>
                                 </button>
-                                <ul id="dropdown-pages" class="hidden py-2 space-y-2">
+                                <ul id="dropdown-pages" class="hidden py-2 space-y-2" aria-expanded="true">
 
 
-                                        <li>
-                                            <a href="/admin/assets/add/1"
-                                                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Create
-                                                with Invoice</a>
-                                        </li>
+                                    <li>
+                                        <a href="/admin/assets/add/1"
+                                            class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                            <i class="fa-solid fa-file-invoice-dollar mx-2"></i>With Invoice</a>
+                                    </li>
 
-                                        <li>
-                                            <a href="/admin/assets/add/assets=NEW/invoice_no=NEW"
-                                                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Create
-                                                without Invoice</a>
-                                        </li>
+                                    <li>
+                                        <a href="/admin/assets/add/assets=NEW/invoice_no=NEW"
+                                            class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="fa-solid fa-pen mx-2"></i> Manual</a>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/import/assets"
+                                            class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="mx-2 fa-solid fa-file-excel"></i> Import Excel</a>
+                                    </li>
 
-                                        <li>
-                                            <a href="/admin/assets/1"
-                                                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Manage Assets</a>
-                                        </li>
+
 
 
 
                                 </ul>
                             </li>
                         @endif
+                        <li>
+                            <a href="/admin/assets/1">
+                                <button type="button"
+                                    class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+
+                                  <i class="fa-solid fa-folder-open"></i>
+                                    <span class="flex-1 ml-3 text-left whitespace-nowrap"> Manage Assets</span>
+
+                                </button>
+                            </a>
+
+                        </li>
                         @if (Auth::user()->Permission->transfer_write == 1 || Auth::user()->Permission->transfer_read == 1)
                             <li>
                                 <a href="/admin/assets/transaction/1">
                                     <button type="button"
                                         class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                                        <i class="fa-solid fa-shuffle"></i>
+                                        <i class="fa-solid fa-folder-tree"></i>
                                         <span class="flex-1 ml-3 text-left whitespace-nowrap">Asset History</span>
 
                                     </button>
@@ -247,6 +259,8 @@
 
                             </li>
                         @endif
+
+
                         @if (Auth::user()->Permission->user_write == 1 || Auth::user()->Permission->user_read == 1)
                             <li>
                                 <button type="button"
@@ -263,7 +277,7 @@
                                     @if (Auth::user()->Permission->user_write == 1)
                                         <li>
                                             <a href="/admin/user/add"
-                                                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Add
+                                                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="fa-solid fa-user-plus mx-2"></i>Add
                                                 User</a>
                                         </li>
                                         @php
@@ -273,7 +287,7 @@
                                     @if (Auth::user()->Permission->user_read == 1)
                                         <li>
                                             <a href="/admin/user/list"
-                                                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">List
+                                                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="fa-solid fa-users-rectangle mx-2"></i>List
                                                 Users</a>
                                         </li>
                                         @php
@@ -306,17 +320,6 @@
 
                             </li>
 
-                            {{-- <li>
-                        <a onclick="{alert('Upcoming Update....')}">
-                            <button type="button"
-                                class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                                <i class="fa-solid fa-file-excel"></i>
-                                <span class="flex-1 ml-3 text-left whitespace-nowrap"> Export Report </span>
-
-                            </button>
-                        </a>
-
-                    </li> --}}
                         @endif
                         @if (Auth::user()->role == 'admin')
                             <li>

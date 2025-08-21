@@ -1,5 +1,8 @@
 @extends('backend.master')
 @section('content')
+@section('header')
+    (Dashboard Admin)
+@endsection
     <script>
         // Initialize Array for Chart Data
         var boxData = [];

@@ -10,45 +10,39 @@ use Illuminate\Http\Request;
 
 class ChangeLogController extends Controller
 {
-    public function ChangeLog($page)
+    public function ChangeLog(Request $request, $page = 1)
     {
-
         $viewpoint = Limit::first();
-        $limit = $viewpoint->limit??50;
-        $count_post = ChangeLog::count();
-        // return  $count_post ;
-        $total_page = ceil($count_post/$limit);
-        $offet = 0;
-        if($page != 0){
-            $offet = ($page - 1) * $limit;
+        $limit = $viewpoint->limit ?? 50;
+
+        // Base query with eager load
+        $query = ChangeLog::with('users');
+
+        // 🔹 Optional filters
+        if ($request->filled('section')) {
+            $query->where('section', $request->section);
         }
 
+        if ($request->filled('change_by')) {
+            $query->where('change_by', $request->change_by);
+        }
 
-        // Set the end date to the end of today
-        $end_date = Carbon::now()->endOfDay(); // Sets the time to 23:59:59 of today
+        // Get logs with pagination
+        $changeLog = $query->latest('id')->paginate($limit, ['*'], 'page', $page);
 
-        // Fetch change log entries between the start and end dates
+        // Distinct values for filter dropdowns
+        $change_by = ChangeLog::distinct()->pluck('change_by')->filter();
+        $section   = ChangeLog::distinct()->pluck('section')->filter();
 
-            $changeLog = ChangeLog::with(['users'])
-            ->orderBy("id", "desc")
-            ->limit($limit)
-            ->offset($offet)
-            ->get();
-            $change_by = ChangeLog::select('change_by')->distinct()->get();
-
-            $section = ChangeLog::select('section')->distinct()->get();
-
-        // Pass the data to the view
         return view("backend.list-change-log", [
-            'changeLog' => $changeLog,
-            'change_by'=>$change_by,
-            'total_page' => $total_page,
-            'total_record' => $count_post,
-            'page' => $page,
-            'section' => $section,
-            'limit' => $limit
+            'changeLog'    => $changeLog,                 // already has pagination info
+            'change_by'    => $change_by,                 // for dropdown filter
+            'section'      => $section,                   // for dropdown filter
+            'total_page'   => $changeLog->lastPage(),     // total pages
+            'total_record' => $changeLog->total(),        // total records
+            'page'         => $changeLog->currentPage(),  // current page
+            'limit'        => $limit,
+            'filters'      => $request->only(['section', 'change_by']), // pass active filters
         ]);
     }
-
-
 }

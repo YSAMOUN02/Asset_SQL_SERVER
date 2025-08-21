@@ -1,6 +1,8 @@
 @extends('backend.master')
 @section('content')
-
+@section('header')
+    (User List)
+@endsection
     @if (Session::has('fail'))
         <div id="toast"
             class="max-w-xs bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-neutral-800 dark:border-neutral-700"

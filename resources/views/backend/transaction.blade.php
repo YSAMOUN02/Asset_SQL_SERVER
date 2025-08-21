@@ -14,7 +14,7 @@
             </div>
             <div class="ms-3 text-sm font-normal">
                 <span class="mb-1 text-sm font-semibold text-gray-900 dark:text-white">Are you sure ?</span>
-                <div class="mb-2 text-sm font-normal">This Record will be delete Permanent.</div>
+                <div class="mb-2 text-sm font-normal">This Record will be delete.</div>
                 <form action="/admin/assets/admin/delete/submit" method="POST">
                     @csrf
                     <input type="text" name="id" id="delete_value_asset" class="hidden">
@@ -288,7 +288,7 @@
 
 
 
-                            <button type="button" onclick="search_asset(0)" id="search_item"
+                            <button type="button" onclick="search_movement(0)" id="search_item"
                                 class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                 <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                             </button>
@@ -488,12 +488,7 @@
                                                 <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
                                                 Active
                                             </span>
-                                        @elseif($item->status == 2)
-                                            <span
-                                                class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                                <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                                Sold
-                                            </span>
+
                                         @endif
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
@@ -524,19 +519,19 @@
                                     <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
 
                                         <div class="option">
-                                            <button id="dropdownMenuIconHorizontalButton{{ $item->id }}"
-                                                data-dropdown-toggle="dropdownDotsHorizontal{{ $item->id }}"
+                                            <button id="dropdownMenuIconHorizontalButton{{ $item->assets_id }}"
+                                                data-dropdown-toggle="dropdownDotsHorizontal{{ $item->assets_id }}"
                                                 class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                                                 type="button">
                                                 <i class="fa-solid fa-gear"></i>
                                             </button>
 
                                             <!-- Dropdown menu -->
-                                            <div id="dropdownDotsHorizontal{{ $item->id }}"
+                                            <div id="dropdownDotsHorizontal{{ $item->assets_id }}"
                                                 class="option_dark hidden  bg-white border-b dark:bg-gray-800 dark:border-gray-700   rounded-lg shadow-sm w-44 ">
 
                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                                    aria-labelledby="dropdownMenuIconHorizontalButton{{ $item->id }}">
+                                                    aria-labelledby="dropdownMenuIconHorizontalButton{{ $item->assets_id }}">
                                                     @if (Auth::user()->Permission->transfer_write == 1)
                                                         <li>
                                                             <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"

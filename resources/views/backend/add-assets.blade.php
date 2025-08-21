@@ -1,5 +1,8 @@
 @extends('backend.master')
 @section('content')
+@section('header')
+    (Add Assets)
+@endsection
     <link rel="stylesheet" href="{{ asset('assets/css/flatpickr.min.css') }}">
     <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
 
@@ -32,7 +35,7 @@
                     Code <span class="text-rose-500">*</span></label>
                 <div class="flex w-full">
                     @if (!empty($asset->assets))
-                        <input type="text" id="asset_Code1" name="asset_code1"  readonly
+                        <input type="text" id="asset_Code1" name="asset_code1" readonly
                             class="p-2.5 percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value="{{ $asset->assets }}" />
                     @else
@@ -63,10 +66,8 @@
                     Date</label>
                 <input type="text" id="transaction_date" name="transaction_date" value="{{ today() }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-{{--
-                <input type="datetime-local" id="transaction_date"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ today() }}" name="transaction_date" /> --}}
+
+
             </div>
             <div>
                 <label for="Initial_Conditions" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Initial
@@ -217,11 +218,10 @@
 
             <div>
                 <div>
-                    <label for="dr" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DR Request
+                    <label for="dr_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DR Request
                         Date</label>
-                    <input type="datetime-local" id="dr" name="dr_date"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value="{{ today() }}" />
+                    <input type="datetime-local" id="dr_date" name="dr_date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </div>
             </div>
 
@@ -257,12 +257,12 @@
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Invoice Posting Date</label>
                     @if (!empty($asset->paid_date))
-                        <input type="datetime-local" id="invoice_posting_date" name="invoice_posting_date" readonly
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset->paid_date }}" />
+                        <input type="text" id="invoice_posting_date" name="invoice_posting_date" readonly
+                            value="{{ \Carbon\Carbon::parse($asset->paid_date)->format('Y-m-d\TH:i') }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     @else
-                        <input type="datetime-local" id="invoice_posting_date" name="invoice_posting_date" readonly
-                            value="{{ today() }}"
+                        <input type="text" id="invoice_posting_date" name="invoice_posting_date" readonly
+                            value="{{ \Carbon\Carbon::today()->format('Y-m-d\TH:i') }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     @endif
 
@@ -386,7 +386,7 @@
                 <div class="flex w-full">
                     @if (!empty($asset->cost))
                         <input type="text" id="cost" name="cost" readonly
-                            class="percent3 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            class="percent3 bg-gray-50 p-2.5 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value="{{ (float) $asset->cost }}" />
                     @else
                         <input type="text" id="cost" name="cost" readonly
@@ -599,14 +599,18 @@
 
 
     <script>
-        latpickr("#transaction_date", {
+        flatpickr("#transaction_date", {
             dateFormat: "d-M-Y",
-
+            defaultDate: "today"
         });
-
-        // flatpickr("#dob", {
-        //     dateFormat: "d-M-Y",
-        //     defaultDate: "01-Jan-2000"
-        // });
+        flatpickr("#dr_date", {
+            dateFormat: "d-M-Y",
+            defaultDate: "today"
+        });
+        flatpickr("#invoice_posting_date", {
+            dateFormat: "d-M-Y",
+            defaultDate: "today",
+            clickOpens: false // prevents calendar from opening
+        });
     </script>
 @endsection

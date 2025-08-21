@@ -1,7 +1,8 @@
 @extends('backend.master')
 @section('content')
-
-
+@section('header')
+    (Manage Assets)
+@endsection
     <div id="delete_asset_admin"
         class="toast_delete w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400"
         role="alert">
@@ -77,7 +78,7 @@
         <div class="search-bar bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
 
-            <form action="/admin/assets/add/search" method="POST">
+            <form  method="POST">
                 @csrf
                 <div class="max-w-full min-h-full grid px-2 py-1 gap-1 lg:gap-2  grid-cols-3 lg:grid-cols-4 md:grid-cols-2">
                     <div>
@@ -513,8 +514,8 @@
                                     </td>
                                     <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
                                         <div class="option">
-                                            <button id="dropdownMenuIconHorizontalButton_view2_{{ $item->id }}"
-                                                data-dropdown-toggle="dropdownDotsHorizontal_view2_{{ $item->id }}"
+                                            <button id="dropdownMenuIconHorizontalButton_view2_{{ $item->assets_id }}"
+                                                data-dropdown-toggle="dropdownDotsHorizontal_view2_{{ $item->assets_id }}"
                                                 class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                                                 type="button">
                                                 <i class="fa-solid fa-gear"></i>
@@ -525,7 +526,7 @@
                                                 class="option_dark hidden bg-white border-b dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-sm w-44">
 
                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                                    aria-labelledby="dropdownMenuIconHorizontalButton_view2_{{ $item->id }}">
+                                                    aria-labelledby="dropdownMenuIconHorizontalButton_view2_{{ $item->assets_id }}">
                                                     @if (Auth::user()->Permission->transfer_write == 1)
                                                         <li>
                                                             <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"

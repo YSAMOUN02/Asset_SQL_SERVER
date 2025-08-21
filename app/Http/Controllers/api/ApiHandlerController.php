@@ -205,7 +205,7 @@ class ApiHandlerController extends Controller
         $page =$request->page??1;
 
 
-        $data =  movement::orderBy('transaction_date', 'desc')
+        $data =  StoredAssets::orderBy('transaction_date', 'desc')
             ->where("last_varaint", 1);
 
         if ($id != "NA") {

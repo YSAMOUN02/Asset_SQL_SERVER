@@ -1,6 +1,8 @@
 @extends('backend.master')
 @section('content')
-
+@section('header')
+    (Set up Data)
+@endsection
 
     <div id="delete_data"
         class="toast_delete w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400"

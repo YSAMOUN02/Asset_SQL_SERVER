@@ -19,7 +19,7 @@
 
                         <i class="fa-brands fa-codepen mr-3 "></i>Lastest Change
                         ({{ \Carbon\Carbon::parse($asset[$i]->created_at)->format('M d Y') }})
-                        @if ($asset[$i]->status == 1)
+                        @if ($asset[$i]->status == 0)
                             &ensp; &ensp;<i class="fa-solid fa-trash-can" style="color: #ff0000;"></i> &ensp;(Deleted at
                             {{ $asset[$i]->deleted_at }})
                         @endif
@@ -53,7 +53,7 @@
 
                         <i class="fa-solid fa-palette mr-3"></i>V {{ $i }}
                         ({{ \Carbon\Carbon::parse($asset[$i]->created_at)->format('M d Y') }})
-                        @if ($asset[$i]->status == 1)
+                        @if ($asset[$i]->status == 0)
                             &ensp; &ensp;<i class="fa-solid fa-trash-can" style="color: #ff0000;"></i> &ensp;(Deleted at
                             {{ $asset[$i]->deleted_at }})
                         @endif
@@ -92,7 +92,7 @@
                         class="text-rose-500">*</span></label>
                 <div class="flex w-full">
                     <input type="text" id="asset_Code1" name="asset_code1" readonly
-                        class="percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="percent70 bg-gray-50 border border-gray-300 p-2.5 text-gray-900 text-sm focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value="{{ old('asset_code1', $asset[$current_varaint]->assets1 ?? '') }}" />
 
                     <input type="text" name="asset_code2"
@@ -120,7 +120,7 @@
                     Date</label>
                 <input type="date" id="Issue_Date"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ old('issue_date', $asset[$current_varaint]->issue_date, today()) }}" name="issue_date" />
+                    value="{{ old('issue_date', $asset[$current_varaint]->transaction_date, today()) }}" name="issue_date" />
             </div>
 
             <div>
@@ -421,7 +421,7 @@
                     VAT</label>
                 <div class="flex w-full">
                     <input type="text" id="cost" name="cost" readonly
-                        class="percent3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="percent3 p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value="{{ old('cost', (float) $asset[$current_varaint]->cost ?? '') }}" />
                     <input type="text" id="currency" name="currency" readonly
                         class="percent3 bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -709,7 +709,7 @@
         @if ($update_able != 0)
             @if (
                 $total_varaint == $current_varaint &&
-                    ($asset[$current_varaint]->status == 0 || $asset[$current_varaint]->status == 2))
+                    ($asset[$current_varaint]->status == 1))
                 <div class="btn_float_right">
                     <button type="button" onclick="search_assets()"
                         class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Search
@@ -743,4 +743,19 @@
 
         @endif
     </form>
+       <script>
+        flatpickr("#transaction_date", {
+            dateFormat: "d-M-Y",
+            defaultDate: "today"
+        });
+        flatpickr("#dr_date", {
+            dateFormat: "d-M-Y",
+            defaultDate: "today"
+        });
+        flatpickr("#invoice_posting_date", {
+            dateFormat: "d-M-Y",
+            defaultDate: "today",
+            clickOpens: false // prevents calendar from opening
+        });
+    </script>
 @endsection

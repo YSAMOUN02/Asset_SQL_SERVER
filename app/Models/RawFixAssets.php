@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class RawFixAssets extends Model
 {
     use HasFactory;
-
     protected $table = 'dbo.Raw Fix Assets';
+
+
 }
