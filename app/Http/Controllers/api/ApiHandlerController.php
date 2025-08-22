@@ -206,7 +206,8 @@ class ApiHandlerController extends Controller
 
 
         $data =  StoredAssets::orderBy('transaction_date', 'desc')
-            ->where("last_varaint", 1);
+        ->orderBy('assets1', 'desc');
+
 
         if ($id != "NA") {
             $data->where("assets_id", 'LIKE', "%".$id."%");
@@ -314,8 +315,8 @@ class ApiHandlerController extends Controller
         $page =$request->page??1;
 
 
-        $data =  movement::orderBy('assets_id', 'desc')
-            ->where("last_varaint", 1);
+        $data =  movement::orderBy('transaction_date', 'desc');
+
 
         if ($id != "NA") {
             $data->where("assets_id", 'LIKE', "%".$id."%");

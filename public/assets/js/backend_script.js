@@ -413,56 +413,74 @@ async function search_assets() {
                                 <th scope="col" class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">Action</th>
                             </tr>
                         </thead>
-                        <tbody class="sticky top-0">
-                            ${data
-                                .map(
-                                    (item, index) => `
-                                <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                      ${
-                                          item.posting_date
-                                              ? new Date(
-                                                    item.posting_date
-                                                ).toLocaleDateString("en-US", {
-                                                    year: "numeric",
-                                                    month: "short",
-                                                    day: "numeric",
-                                                })
-                                              : ""
-                                      }
-                                    </td>
-                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  no_wrap">${
-                                        item.assets || ""
-                                    }</td>
-                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  no_wrap">${
-                                        item.fa || ""
-                                    }</td>
-                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  no_wrap">${
-                                        item.invoice_no || ""
-                                    }</td>
-                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">${
-                                        item.description || ""
-                                    }</td>
-                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">${
-                                        item.fa_description || ""
-                                    }</td>
-                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">${
-                                        parseFloat(item.cost) || ""
-                                    }</td>
-                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">${
-                                        item.currency || ""
-                                    }</td>
-                                    <td class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                        <button type="button"  onclick="assets_invoice_choose(${index})"
-                                        class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                        Select</button>
-                                    </td>
+                  <tbody class="sticky top-0">
+    ${data
+        .map(
+            (item, index) => `
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
-                                </tr>
-                            `
-                                )
-                                .join("")}
-                        </tbody>
+                <td class="px-1 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+                    ${
+                        item.posting_date
+                            ? new Date(item.posting_date).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                      year: "numeric",
+                                      month: "short",
+                                      day: "numeric",
+                                  }
+                              )
+                            : ""
+                    }
+                </td>
+
+                <td class="px-1 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 no_wrap">
+                    ${item.assets || ""}
+                </td>
+
+                <td class="px-1 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 no_wrap">
+                    ${item.fa || ""}
+                </td>
+
+                <td class="px-1 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 no_wrap">
+                    ${item.invoice_no || ""}
+                </td>
+
+                <td class="px-1 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+                    ${item.description || ""}
+                </td>
+
+                <td class="px-1 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+                    ${item.fa_description || ""}
+                </td>
+
+                <td class="px-1 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+                    ${
+                        item.cost !== undefined && item.cost !== null
+                            ? parseFloat(item.cost)
+                            : ""
+                    }
+                </td>
+
+                <td class="px-1 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+                    ${item.currency || ""}
+                </td>
+
+                <td class="px-1 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+                    <button
+                        type="button"
+                        onclick="assets_invoice_choose(${index})"
+                        class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                        Select
+                    </button>
+                </td>
+
+            </tr>
+        `
+        )
+        .join("")}
+</tbody>
+
                     </table>
                      </div>
                 `;
@@ -1608,6 +1626,7 @@ function export_group() {
         form.submit();
     }
 }
+
 function select_all() {
     let select_all_v = document.querySelector("#select_all");
     let input_select = document.querySelectorAll(".select_box");
@@ -1770,7 +1789,7 @@ async function search_asset(no) {
         .catch((error) => {
             alert(error);
         });
-
+    let body_change = document.querySelector("#assets_body");
     if (data) {
         if (data.data) {
             if (data.data.length > 0) {
@@ -1858,7 +1877,7 @@ async function search_asset(no) {
                                 </li>
                                 </ul>
                         <select
-                            onchange="set_page_dynamic_admin()"
+                            onchange="set_page_dynamic()"
                             id="select_page_dynamic"
                              class="flex  items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                              `;
@@ -1890,7 +1909,6 @@ async function search_asset(no) {
                     }
                 }
 
-                let body_change = document.querySelector("#assets_body");
                 body_change.innerHTML = ``;
                 data.data.map((item, index) => {
                     let custom = ``;
@@ -1905,9 +1923,7 @@ async function search_asset(no) {
                                                     type="checkbox" value=""
                                                     class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             </td>
-                                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                    ${index + 1}
-                                                </td>
+
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                     ${item.assets_id || ""}
                                                 </td>
@@ -1929,81 +1945,70 @@ async function search_asset(no) {
 
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                      ${item.document || ""}
-                                                </td>
-
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                 ${item.assets1 || ""}${
                         item.assets2 || ""
                     }
                                                 </td>
+                                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                       ${
+                                           item.status == 1
+                                               ? `
+                                                <span
+                                                class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                                <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                                Active
+                                                </span>
+                                            `
+                                               : `
+                                                <span
+                                                class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                                <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                                Inactive
+                                                </span>
+                                            `
+                                       }
+                                                </td>
+
+                                                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                                        ${
+                                                            item.status_recieved ||
+                                                            ""
+                                                        }
+                                                        </td>
+
+
                                                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                             ${item.item || ""}
                                     </td>
                                          <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                             ${item.specification || ""}
                                     </td>
-                                        </td>
-                                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                            ${item.initial_condition || ""}
-                                    </td>
+
+
+
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                            ${item.fa || ""}
-                                                </td>
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                             ${item.fa_type || ""}
+                                                  ${
+                                                      item.initial_condition ||
+                                                      ""
+                                                  }
                                                 </td>
 
-                                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                           ${
-                                               item.status == 0
-                                                   ? `
-                                                    <span
-                                                  class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                                  <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                                  Deleted
-                                              </span>
-                                                `
-                                                   : item.status == 1
-                                                   ? `
-                                                   <span
-                                                    class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                                    <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                                    Active
-                                                </span>
-
-                                          `
-                                                   : ` <span
-                                                class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                                <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                                Sold
-                                            </span>`
-                                           }
+                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                                   ${item.holder_name || ""}
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                           ${item.fa_class || ""}
+                                                    ${item.department || ""}
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                  ${item.fa_subclass || ""}
-                                                </td>
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                       ${
-                                                           item.depreciation ||
-                                                           ""
-                                                       }
-                                                </td>
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                   ${item.dr || ""}
-                                                </td>
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                    ${item.pr || ""}
-                                                </td>
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                    ${item.invoice_no || ""}
+                                                    ${item.company || ""}
 
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                     ${item.description || ""}
+                                                     ${item.old_code || ""}
+                                                </td>
+
+                                                                  <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                                      ${item.document || ""}
                                                 </td>
                                                      <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                ${
@@ -2057,7 +2062,7 @@ async function search_asset(no) {
                     }
                     if (auth?.permission?.transfer_read == 1) {
                         custom += `
-                                                                <li>
+                                                                                            <li>
                                                                     <a href="/admin/movement/timeline/id=${item.assets_id}"
                                                                         class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Move
                                                                         List</a>
@@ -2113,6 +2118,7 @@ async function search_asset(no) {
                 array = data.data;
             } else {
                 toast_red.querySelector("p").innerHTML = "Data not Found.";
+                body_change.innerHTML = "";
                 toast_red.style.display = "block";
                 toast_red.style.animation = "none"; // reset animation
                 toast_red.offsetHeight; // trigger reflow to restart animation
@@ -2120,6 +2126,7 @@ async function search_asset(no) {
             }
         } else {
             toast_red.querySelector("p").innerHTML = "Data not Found.";
+            body_change.innerHTML = "";
             toast_red.style.display = "block";
             toast_red.style.animation = "none"; // reset animation
             toast_red.offsetHeight; // trigger reflow to restart animation
@@ -2250,7 +2257,7 @@ async function search_movement(no) {
         .catch((error) => {
             alert(error);
         });
-
+    let body_change = document.querySelector("#assets_body");
     if (data) {
         if (data.data) {
             if (data.data.length > 0) {
@@ -2279,7 +2286,7 @@ async function search_movement(no) {
                         }
                         if (page != 1 && totalPage != 1) {
                             paginationHtml += `
-                                    <li onclick="search_asset(${
+                                    <li onclick="search_movement(${
                                         page - 1
                                     })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
 
@@ -2297,7 +2304,7 @@ async function search_movement(no) {
                         for (let i = left_val; i <= right_val; i++) {
                             if (i != page) {
                                 paginationHtml += `
-                                        <li onclick="search_asset(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                        <li onclick="search_movement(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                                         >
 
                                                  ${i}
@@ -2307,7 +2314,7 @@ async function search_movement(no) {
                                      `;
                             } else if (i == page) {
                                 paginationHtml += `
-                                          <li onclick="search_asset(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                          <li onclick="search_movement(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
 
                                                 ${i}
 
@@ -2318,9 +2325,9 @@ async function search_movement(no) {
 
                         if (page != totalPage) {
                             paginationHtml += `
-                                    <li  onclick="search_asset(${
+                                    <li  onclick="search_movement(${
                                         page + 1
-                                    })" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                    })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
 
 
                                             <i class="fa-solid fa-chevron-right"></i>
@@ -2338,8 +2345,8 @@ async function search_movement(no) {
                                 </li>
                                 </ul>
                         <select
-                            onchange="set_page_dynamic_admin()"
-                            id="select_page_dynamic"
+                            onchange="set_page_dynamic_admin_movement()"
+                            id="select_page_dynamic_movement"
                              class="flex  items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                              `;
                         if (page != 1) {
@@ -2370,231 +2377,220 @@ async function search_movement(no) {
                     }
                 }
 
-                let body_change = document.querySelector("#assets_body");
                 body_change.innerHTML = ``;
+
                 data.data.map((item, index) => {
                     let custom = ``;
                     custom += `
+    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-
-                                            <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                <input onchange="printable()" data-id="${
-                                                    item.assets_id || ""
-                                                }" id="green-checkbox${item.id}"
-                                                    type="checkbox" value=""
-                                                    class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                            </td>
-                                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                    ${index + 1}
-                                                </td>
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                    ${item.assets_id || ""}
-                                                </td>
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                               ${
-                                                   item.transaction_date
-                                                       ? new Date(
-                                                             item.transaction_date
-                                                         ).toLocaleDateString(
-                                                             "en-US",
-                                                             {
-                                                                 year: "numeric",
-                                                                 month: "short",
-                                                                 day: "numeric",
-                                                             }
-                                                         )
-                                                       : ""
-                                               }
-
-                                                </td>
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                      ${item.document || ""}
-                                                </td>
-
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                ${item.assets1 || ""}${
-                        item.assets2 || ""
-                    }
-                                                </td>
-                                                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                            ${item.item || ""}
-                                    </td>
-                                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                            ${item.specification || ""}
-                                    </td>
-                                        </td>
-                                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                            ${item.initial_condition || ""}
-                                    </td>
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                            ${item.fa || ""}
-                                                </td>
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                             ${item.fa_type || ""}
-                                                </td>
-
-                                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                           ${
-                                               item.status == 0
-                                                   ? `
-                                                    <span
-                                                  class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                                  <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                                  Deleted
-                                              </span>
-                                                `
-                                                   : item.status == 1
-                                                   ? `
-                                                   <span
-                                                    class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                                    <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                                    Active
-                                                </span>
-
-                                          `
-                                                   : ` <span
-                                                class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                                <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                                Sold
-                                            </span>`
-                                           }
-                                                </td>
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                           ${item.fa_class || ""}
-                                                </td>
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                  ${item.fa_subclass || ""}
-                                                </td>
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                       ${
-                                                           item.depreciation ||
-                                                           ""
-                                                       }
-                                                </td>
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                   ${item.dr || ""}
-                                                </td>
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                    ${item.pr || ""}
-                                                </td>
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                    ${item.invoice_no || ""}
-
-                                                </td>
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                     ${item.description || ""}
-                                                </td>
-                                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                               ${
-                                                   item.created_at
-                                                       ? new Date(
-                                                             item.created_at
-                                                         ).toLocaleDateString(
-                                                             "en-US",
-                                                             {
-                                                                 year: "numeric",
-                                                                 month: "short",
-                                                                 day: "numeric",
-                                                             }
-                                                         )
-                                                       : ""
-                                               }
+        <!-- Checkbox -->
+        <td class="print_val px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+            <input onchange="printable()" data-id="${item.assets_id || ""}"
+                id="green-checkbox${item.id}" type="checkbox" value=""
+                class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded
+                focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800
+                focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+        </td>
 
 
-                                                <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
-                                                <div class="option">
-                                                    <button id="dropdownMenuIconHorizontalButton${
-                                                        item.id
-                                                    }"
-                                                        data-dropdown-toggle="dropdownDotsHorizontal${
-                                                            item.id
-                                                        }"
-                                                        class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                                                        type="button">
-                                                   <i class="fa-solid fa-gear"></i>
-                                                    </button>
 
-                                                    <!-- Dropdown menu -->
-                                                    <div id="dropdownDotsHorizontal${
-                                                        item.id
-                                                    }"
-                                                        class=" hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
+        <!-- Asset ID -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+            ${item.assets_id || ""}
+        </td>
 
-                                                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                                            aria-labelledby="dropdownMenuIconHorizontalButton${
-                                                                item.id
-                                                            }">
-                                                `;
+        <!-- Transaction Date -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+            ${
+                item.transaction_date
+                    ? new Date(item.transaction_date).toLocaleDateString(
+                          "en-US",
+                          {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                          }
+                      )
+                    : ""
+            }
+        </td>
+
+        <!-- Assets Code -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+            ${(item.assets1 || "") + (item.assets2 || "")}
+        </td>
+
+        <!-- Status -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+            ${
+                item.status == 0
+                    ? `
+                        <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium
+                        px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>Inactive
+                        </span>`
+                    : `
+                        <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium
+                        px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                            <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>Active
+                        </span>`
+            }
+        </td>
+  <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                                        ${
+                                                            item.status_recieved ||
+                                                            ""
+                                                        }
+                                                        </td>
+
+        <!-- Item -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.item || ""
+        }</td>
+
+        <!-- Specification -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.specification || ""
+        }</td>
+
+        <!-- Initial Condition -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.initial_condition || ""
+        }</td>
+
+        <!-- Holder -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.holder_name || ""
+        }</td>
+
+        <!-- Department -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.department || ""
+        }</td>
+
+        <!-- Company -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.company || ""
+        }</td>
+
+        <!-- Old Code -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.old_code || ""
+        }</td>
+
+        <!-- Reference -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.reference || ""
+        }</td>
+
+        <!-- Created Date -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+            ${
+                item.created_at
+                    ? new Date(item.created_at).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                      })
+                    : ""
+            }
+        </td>
+
+        <!-- Actions -->
+        <td class="bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
+            <div class="option">
+                <button id="dropdownMenuIconHorizontalButton${item.assets_id}"
+                    data-dropdown-toggle="dropdownDotsHorizontal${
+                        item.assets_id
+                    }"
+                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900
+                    bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none
+                    dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700
+                    dark:focus:ring-gray-600"
+                    type="button">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+
+                <div id="dropdownDotsHorizontal${item.assets_id}"
+                    class="hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44
+                    dark:bg-gray-700 dark:divide-gray-600">
+                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                        aria-labelledby="dropdownMenuIconHorizontalButton${
+                            item.assets_id
+                        }">
+    `;
+
+                    // Movement
                     if (auth?.permission?.transfer_write == 1) {
                         custom += `
-
-                                                                <li>
-                                                                    <a href="/admin/movement/add/detail/id=${item.assets_id}"
-                                                                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Movement</a>
-                                                                </li>
-                                                        `;
+            <li>
+                <a href="/admin/movement/add/detail/id=${item.assets_id}"
+                    class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">
+                    Movement
+                </a>
+            </li>`;
                     }
+
+                    // Move List
                     if (auth?.permission?.transfer_read == 1) {
                         custom += `
-                                                                <li>
-                                                                    <a href="/admin/movement/timeline/id=${item.assets_id}"
-                                                                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Move
-                                                                        List</a>
-                                                                </li>
-                                                        `;
+            <li>
+                <a href="/admin/movement/timeline/id=${item.assets_id}"
+                    class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">
+                    Move List
+                </a>
+            </li>`;
                     }
 
+                    // View / Update
                     if (auth?.permission?.assets_read == 1) {
                         if (auth?.permission?.assets_update == 0) {
                             custom += `
-
-                                                            <li>
-                                                                    <a href="/admin/assets/view/id=${item.assets_id}"
-                                                                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Detail</a>
-                                                                </li>
-                                                `;
+                <li>
+                    <a href="/admin/assets/view/id=${item.assets_id}"
+                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">
+                        Detail
+                    </a>
+                </li>`;
                         } else {
                             custom += `
-
-                                                                <li>
-                                                                    <a href="/admin/assets/edit/id=${item.assets_id}"
-                                                                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Update</a>
-                                                                </li>
-
-
-                                                    `;
+                <li>
+                    <a href="/admin/assets/edit/id=${item.assets_id}"
+                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">
+                        Update
+                    </a>
+                </li>`;
                         }
                     }
+
+                    // Delete
                     if (auth?.permission?.assets_delete == 1) {
                         custom += `
-
-                                                    <li class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white"
-                                                                    data-id="${item.assets_id}"
-                                                                    id="btn_delete_asset${item.assets_id}"
-                                                                    onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')">
-
-                                                                    Delete
-
-                                                    </li>
-                                                `;
+            <li class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white"
+                data-id="${item.assets_id}"
+                id="btn_delete_asset${item.assets_id}"
+                onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')">
+                Delete
+            </li>`;
                     }
 
                     custom += `
-                                                    </ul>
-
-                                                    </div>
-                                                </div>
-                                                `;
-
+                    </ul>
+                </div>
+            </div>
+        </td>
+    </tr>`;
                     body_change.innerHTML += custom;
                 });
+
                 initFlowbite();
                 array = data.data;
             } else {
                 toast_red.querySelector("p").innerHTML = "Data not Found.";
                 toast_red.style.display = "block";
                 toast_red.style.animation = "none"; // reset animation
+                body_change.innerHTML = '';
                 toast_red.offsetHeight; // trigger reflow to restart animation
                 toast_red.style.animation = "fadeOut2 4s forwards"; // start animation
             }
@@ -2602,6 +2598,7 @@ async function search_movement(no) {
             toast_red.querySelector("p").innerHTML = "Data not Found.";
             toast_red.style.display = "block";
             toast_red.style.animation = "none"; // reset animation
+                  body_change.innerHTML = '';
             toast_red.offsetHeight; // trigger reflow to restart animation
             toast_red.style.animation = "fadeOut2 4s forwards"; // start animation
         }
@@ -2618,6 +2615,7 @@ async function search_movement(no) {
 
 function set_page_dynamic() {
     let select = document.querySelector("#select_page_dynamic");
+
     if (select) {
         if (select.value != "") {
             search_asset(parseInt(select.value));
@@ -2628,7 +2626,7 @@ function set_page_movement() {
     let select = document.querySelector("#select_page_dynamic");
     if (select) {
         if (select.value != "") {
-           search_movement(parseInt(select.value));
+            search_movement(parseInt(select.value));
         }
     }
 }
@@ -2641,6 +2639,15 @@ function set_page_dynamic_admin() {
         }
     }
 }
+function set_page_dynamic_admin_movement() {
+    let select = document.querySelector("#select_page_dynamic");
+    if (select) {
+        if (select.value != "") {
+            search_movement(parseInt(select.value));
+        }
+    }
+}
+
 function select_page_dynamic_select_movement() {
     let select = document.querySelector("#select_page_dynamic");
     if (select) {
@@ -2675,7 +2682,7 @@ function set_page_dynamic_quick() {
     }
 }
 function set_page_dynamic_admin_movement() {
-    let select = document.querySelector("#select_page_dynamic_select_movement");
+    let select = document.querySelector("#select_page_dynamic_movement");
     if (select) {
         if (select.value != "") {
             search_movement(parseInt(select.value));
@@ -3271,14 +3278,17 @@ async function search_change_log(no) {
                 array = data.data;
             } else {
                 alert("Data not found");
+                           body_change.innerHTML = ``;
                 document.querySelector("#loading").style.display = "none";
             }
         } else {
             alert("Data not found");
+                       body_change.innerHTML = ``;
             document.querySelector("#loading").style.display = "none";
         }
     } else {
         alert("Error Fetch not responce");
+                   body_change.innerHTML = ``;
         document.querySelector("#loading").style.display = "none";
     }
 }

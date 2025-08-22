@@ -145,12 +145,8 @@
                         <select id="state" name="state"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="All">All</option>
-                            <option value="0">Active</option>
-                            <option value="2">Sold</option>
-                            @if (Auth::user()->role == 'admin')
-                                <option value="1">Deleted</option>
-                            @endif
-
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
 
                         </select>
                     </div>
@@ -162,15 +158,19 @@
                             <select name="" onchange="otherSearch()" id="other_search"
                                 class= " w-36 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 lg:p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="">Other Search</option>
-                                <option value="document">Refference</option>
+                                <!-- ASSET INFO -->
+                                <option value="reference">Refference</option>
+                                <option value="assets1">Asset Code 1</option>
+                                <option value="assets2">Asset Code 2</option>
+                                <option value="fa_no">Fix Asset No</option>
                                 <option value="item">Item</option>
-                                <option value="initial_condition">Initail Condition</option>
+                                <option value="initial_condition">Initial Condition</option>
                                 <option value="specification">Specification</option>
                                 <option value="item_description">Item Description</option>
                                 <option value="asset_group">Asset Group</option>
                                 <option value="remark_assets">Remark Assets</option>
 
-
+                                <!-- HOLDER INFO -->
                                 <option value="asset_holder">Assets Holder ID</option>
                                 <option value="holder_name">Holder Name</option>
                                 <option value="position">Position</option>
@@ -179,29 +179,45 @@
                                 <option value="company">Company</option>
                                 <option value="remark_holder">Remark Holder</option>
 
-
+                                <!-- INTERNAL DOC INFO -->
                                 <option value="grn">GRN</option>
-                                <option value="pr">PR</option>
                                 <option value="po">PO</option>
+                                <option value="pr">PR</option>
                                 <option value="dr">DR</option>
-                                <option value="dr_requested_by">DR Request by</option>
+                                <option value="dr_requested_by">DR Requested By</option>
                                 <option value="remark_internal_doc">Remark Document</option>
 
+                                <!-- ERP DATA -->
+                                <option value="asset_code_account">Asset Code Account</option>
+                                <option value="invoice_date">Invoice Date</option>
+                                <option value="invoice_no">Invoice No</option>
+                                <option value="fa">FA</option>
                                 <option value="fa_class">Fix Asset Class</option>
-                                <option value="fa_subclass">Fix Asset Sub Class</option>
+                                <option value="fa_subclass">Fix Asset Subclass</option>
                                 <option value="depreciation">Depreciation</option>
                                 <option value="fa_type">Fix Asset Type</option>
-                                <option value="fa_location">Fix Assets Location</option>
+                                <option value="fa_location">Fix Asset Location</option>
+                                <option value="cost">Cost</option>
+                                <option value="vat">VAT</option>
+                                <option value="currency">Currency</option>
+                                <option value="description">Description</option>
                                 <option value="invoice_description">Invoice Description</option>
-
-
                                 <option value="vendor">Vendor</option>
                                 <option value="vendor_name">Vendor Name</option>
                                 <option value="address">Address</option>
                                 <option value="address2">Address 2</option>
                                 <option value="contact">Contact</option>
-                                <option value="phone">Phone </option>
+                                <option value="phone">Phone</option>
                                 <option value="email">Email</option>
+
+                                <!-- MOVEMENT INFO -->
+                                <option value="ref_movement">Movement Reference</option>
+                                <option value="purpose">Purpose</option>
+                                <option value="status_recieved">Status Received</option>
+                                <option value="to_ref">To Reference</option>
+                                <option value="old_code">Old Code</option>
+
+
                             </select>
                             <input type="text" id="other_value"
                                 class= " w-32  bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block mx-2 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -329,88 +345,57 @@
                                     class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
 
                             </th>
+
                             <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
-                                No &ensp;
-                            </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('assets_id','int','assets')">
                                 ID &ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('transaction_date','date','assets')">
+
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                                 Transaction Date&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('document','string','assets')">
-                                Refference&ensp;
                             </th>
 
                             <th scope="col"
-                                class="table_float_left_th px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-white dark:bg-gray-700 dark:border-gray-700"
-                                onclick="dynamic_sort('assets1','string','assets')">
+                                class="table_float_left_th px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-white dark:bg-gray-700 dark:border-gray-700">
                                 Asset Code&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('item','string','assets')">
-                                Item&ensp;
-                            </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('specification','string','assets')">
-                                Specification&ensp;
-                            </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('initial_condition','string','assets')">
-                                Initial Condition&ensp;
-                            </th>
-
-
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('fa','string','assets')">
-                                Fix Asset No&ensp;
-                            </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('fa_type','string','assets')">
-                                Fix Asset Type&ensp;
-                            </th>
-
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('status','string','assets')">
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
 
                                 Status &ensp;
                             </th>
 
+                            <th>
+                                status when recieved
+                            </th>
 
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Item&ensp;
+                            </th>
 
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('fa_class','string','assets')">
-                                Fix Asset class&ensp;
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Specification&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('fa_subclass','string','assets')">
-                                Fix Asset Subclass&ensp;
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Initial Condition&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('depreciation','string','assets')">
-                                Deoreciation Code&ensp;
+
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Holder Name&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('dr','string','assets')">
-                                DR&ensp;
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Department&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('pr','string','assets')">
-                                PR&ensp;
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Company&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('invoice_no','string','assets')">
-                                Invoice No&ensp;
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Old Code&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('description','string','assets')">
-                                Description&ensp;
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                                Refference&ensp;
                             </th>
-                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2"
-                                onclick="dynamic_sort('created_at','date','assets')">
+
+                            <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                                 Issue Date&ensp;
                             </th>
                             <th scope="col"
@@ -434,46 +419,24 @@
                                             id="green-checkbox{{ $item->id }}" type="checkbox" value=""
                                             class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                     </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $no }}
 
-                                        @php
-                                            $no++;
-                                        @endphp
 
-                                    </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
 
                                         {{ $item->assets_id }}
 
 
                                     </td>
+
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                         {{ \Carbon\Carbon::parse($item->transaction_date)->format('M d Y') }}
 
                                     </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->document }}
-                                    </td>
+
 
                                     <td
                                         class="table_float_left_td  px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   bg-white dark:bg-gray-700 dark:border-gray-700">
                                         {{ $item->assets1 . $item->assets2 ?? '' }}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->item }}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->specification }}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->initial_condition }}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->fa }}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->fa_type }}
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                         @if ($item->status == 0)
@@ -488,29 +451,36 @@
                                                 <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
                                                 Active
                                             </span>
-
                                         @endif
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->fa_class }}
+                                        {{ $item->status_recieved }}
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->fa_subclass }}
+                                        {{ $item->item }}
+                                    </td>
+
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                        {{ $item->specification }}
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->depreciation }}
+                                        {{ $item->initial_condition }}
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->dr }}
+                                        {{ $item->holder_name ?? '' }}
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->pr }}
+                                        {{ $item->department ?? '' }}
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->invoice_no }}
+                                        {{ $item->company ?? '' }}
+                                    </td>
+
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                        {{ $item->old_code ?? '' }}
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->description }}
+                                        {{ $item->reference ?? '' }}
                                     </td>
                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                         {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
@@ -532,32 +502,33 @@
 
                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                     aria-labelledby="dropdownMenuIconHorizontalButton{{ $item->assets_id }}">
-                                                    @if (Auth::user()->Permission->transfer_write == 1)
+                                                    <li>
+                                                        <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
+                                                            class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Tran
+                                                        </a>
+                                                    </li>
+                                                    @if (Auth::user()->Permission->transfer_write == 1 && $item->status == 1)
                                                         <li>
                                                             <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
                                                                 class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Movement</a>
                                                         </li>
                                                     @endif
-                                                    {{-- @if (Auth::user()->Permission->transfer_read == 1)
-                                                        <li>
-                                                            <a href="/admin/movement/timeline/id={{ $item->assets_id }}"
-                                                                class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Move
-                                                                List</a>
-                                                        </li>
-                                                    @endif --}}
-                                                    @if (Auth::user()->Permission->assets_read == 1 )
+
+
+                                                    @if (Auth::user()->Permission->assets_read == 1)
                                                         <li>
                                                             <a href="/admin/assets/view/id={{ $item->assets_id }}"
                                                                 class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">View</a>
                                                         </li>
                                                     @endif
-                                                    @if (Auth::user()->Permission->assets_update == 1)
+
+                                                    @if (Auth::user()->Permission->assets_update == 1 && $item->status == 1)
                                                         <li>
                                                             <a href="/admin/assets/edit/id={{ $item->assets_id }}"
                                                                 class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Update</a>
                                                         </li>
                                                     @endif
-                                                    @if (Auth::user()->Permission->assets_delete == 1)
+                                                    @if (Auth::user()->Permission->assets_delete == 1 && $item->status == 1)
                                                         <li class="cursor block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white"
                                                             data-id="{{ $item->assets_id }}"
                                                             id="btn_delete_asset{{ $item->assets_id }}"
@@ -588,7 +559,7 @@
             <input type="text" name="id" id="id_printer">
             <button type="submit">submit</button>
         </form>
-        <form id="form_export" action="/admin/export/excel/assets" method="post">
+        <form id="form_export" action="/admin/export/excel/movement" method="post">
             @csrf
             <input type="text" name="id_export" id="id_export">
             <button type="submit">submit</button>

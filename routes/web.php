@@ -48,6 +48,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/qr/code/print/assets', [AssetsController::class, 'multi_print']);
     // Export
     Route::post('/admin/export/excel/assets', [AssetsController::class, 'multi_export']);
+     Route::post('/admin/export/excel/movement', [AssetsController::class, 'multi_export_movement']);
+
     // Import
     Route::get('/admin/import/assets/template', [AssetsController::class, 'downloadAssetsTemplate']);
     Route::post('/admin/assets/import/submit', [AssetsController::class, 'import_submit']);
