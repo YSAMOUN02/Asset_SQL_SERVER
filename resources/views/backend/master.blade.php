@@ -28,7 +28,7 @@
     <title>Assets System  @yield('header')</title>
 </head>
 
-<body>
+<body id="body_backend">
     <div id="loading">
         <div id="loading_style"
             class="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700 ">
@@ -307,8 +307,17 @@
                         @endif
                         @if (Auth::user()->Permission->quick_read == 1)
                             <li>
-                                <a href="/quick/data/1">
-                                    {{-- <a href="/admin/user/list"> --}}
+
+                                   <button type="button" onclick="{alert('Coming Soon')}"
+                                        class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+
+                                        <i class="fa-solid fa-book"></i>
+                                        <span class="flex-1 ml-3 text-left whitespace-nowrap">Data Setup</span>
+
+                                    </button>
+                                     {{-- <a href="/admin/user/list"> --}}
+                                {{-- <a href="/quick/data/1">
+
                                     <button type="button"
                                         class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
 
@@ -316,7 +325,7 @@
                                         <span class="flex-1 ml-3 text-left whitespace-nowrap">Data Setup</span>
 
                                     </button>
-                                </a>
+                                </a> --}}
 
                             </li>
 

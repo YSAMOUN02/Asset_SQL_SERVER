@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ChangeLog;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 abstract class Controller
 {
     public function Change_log($id, $varaint, $change, $section, $change_by, $user_id)
@@ -58,22 +58,21 @@ abstract class Controller
     }
 
 
-    public static function storeChangeLog($record, $action = 'created', $section = 'General', $reason = null, $old_values = null)
-    {
-        return ChangeLog::create([
-            'action'      => $action,
-            'record_id'   => $record->id,
-            'record_no'   => ($record->assets1 ?? '') . ($record->assets2 ?? ''),
-            'user_id'     => Auth::id() ?? null,
-            'change_by'   => Auth::user()->name ?? 'System',
-            'section'     => $section,
-            'old_values'  => $old_values ? json_encode($old_values) : null,
-            'new_values'  => json_encode($record),
-            'reason'      => $reason,
-            'created_at'  => now(),
-            'updated_at'  => now(),
-        ]);
-    }
+public function storeChangeLog($record_id,$record_no, $oldValues, $newValues, $action, $table, $reason )
+{
+    ChangeLog::create([
+        'record_id'   => $record_id,
+        'record_no' => $record_no,
+        'old_values' => $oldValues??'',
+        'new_values' => $newValues??'',
+        'action'     => $action,
+        'section' => $table,
+        'reason'     => $reason,
+        'user_id'    => Auth::id(),
+        'change_by'  => Auth::user()->name
+    ]);
+
+}
     protected function parseDateOrDefault($date, $default = '1900-01-01')
     {
         try {

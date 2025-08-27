@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class movement extends Model
 {
     use HasFactory;
-    protected $table = 'assets_transaction';
+    protected $table = 'assets_transaction'; // your table name
+    protected $primaryKey = 'assets_id';     // custom PK
+    public $incrementing = true;
+    protected $keyType = 'int';
+
     protected $fillable = [
         'reference',
         'assets1',
@@ -21,6 +25,7 @@ class movement extends Model
         'item_description',
         'asset_group',
         'remark_assets',
+
         'asset_holder',
         'holder_name',
         'position',
@@ -28,6 +33,7 @@ class movement extends Model
         'department',
         'company',
         'remark_holder',
+
         'grn',
         'po',
         'pr',
@@ -35,19 +41,55 @@ class movement extends Model
         'dr_requested_by',
         'dr_date',
         'remark_internal_doc',
+
+        // 🔹 ERP DATA
+        'asset_code_account',
+        'invoice_date',
+        'invoice_no',
+        'fa',
+        'fa_class',
+        'fa_subclass',
+        'depreciation',
+        'fa_type',
+        'fa_location',
+        'cost',
+        'vat',
+        'currency',
+        'description',
+        'invoice_description',
+        'vendor',
+        'vendor_name',
+        'address',
+        'address2',
+        'contact',
+        'phone',
+        'email',
+
+        // Movement
         'ref_movement',
         'purpose',
         'status_recieved',
         'to_ref',
-        // backend-only columns
+        'old_code',
+
+        // Backend state
         'status',
         'variant',
         'last_varaint',
         'deleted',
-        'deleted_at',
+        'deleted_at'
+
     ];
+    protected $casts = [
+        'transaction_date' => 'date',
+        'dr_date'          => 'date',
+        'invoice_date'     => 'date',
+        'deleted_at'       => 'date',
 
-
+        'cost' => 'decimal:2',
+        'vat'  => 'decimal:2',
+    ];
+    public $timestamps = true;  // so updated_at works
 
     public function images()
     {

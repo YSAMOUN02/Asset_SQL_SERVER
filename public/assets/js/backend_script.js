@@ -1566,6 +1566,8 @@ function printable() {
         let input = data.querySelector("input");
         if (input.checked == true) {
             k = length -= 1;
+        } else {
+            k = length;
         }
     });
 

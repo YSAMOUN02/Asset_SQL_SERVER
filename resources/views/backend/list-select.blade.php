@@ -275,16 +275,14 @@
                                     }
                                 @endphp
                                 {{-- {{$invoice}} --}}
-                                <button data-popover-target="popover-default{{ $no }}" type="button" onclick="{alert('This is not available now')}"
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><i
-                                        class="fa-solid fa-square-plus" style="font-size:25px"></i></button>
-                                {{-- <a
+        
+                                <a
                                         href="/admin/assets/add/assets={{ $item->assets }}/invoice_no={{ $modifiedString }}">
                                         <button data-popover-target="popover-default{{$no}}" type="button"
                                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><i
                                                 class="fa-solid fa-square-plus" style="font-size:25px"></i></button>
 
-                                    </a> --}}
+                                    </a>
                                 <div data-popover id="popover-default{{ $no }}" role="tooltip"
                                     class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-xs opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                     <div

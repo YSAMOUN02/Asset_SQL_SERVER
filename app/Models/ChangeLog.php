@@ -20,7 +20,9 @@ class ChangeLog extends Model
         'section',      // section like 'Movement', 'Assets'
         'old_values',   // JSON before change
         'new_values',   // JSON after change
-        'reason',       // optional reason
+        'reason',       // optional reason.
+        'old_values',
+        'new_values',
         'created_at',
         'updated_at'
     ];

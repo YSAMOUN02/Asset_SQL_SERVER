@@ -20,6 +20,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Admin Feature ----------------------------------------------------------------------------------------------------
     Route::get('/', [AdminController::class, 'dashboard_admin']);
+
+    Route::get('/admin/dasboard/{report}/{year}/{months}', [AdminController::class, 'dashboard_admin']);
+
     Route::get('/logout', [AdminController::class, 'logout']);
 
 
@@ -67,23 +70,11 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-    // USER----------------------------------------------------------------------------------------------------
-    // ADD
-    Route::get('/admin/user/add', [UserController::class, 'add_user']);
-    Route::POST('/admin/user/add/submit', [UserController::class, 'add_submit']);
-    // LIST
-    Route::get('/admin/user/list', [UserController::class, 'list_user']);
-    // View
-    Route::get('/admin/user/view/id={id}', [UserController::class, 'view_user']);
-    // Update
-    Route::get('/admin/user/update/id={id}', [UserController::class, 'update_user']);
-    Route::post('/admin/user/update/submit', [UserController::class, 'update_user_submit']);
-    // Delete
-    Route::post('/admin/user/delete/submit', [UserController::class, 'delete_user']);
 
 
     // Change History----------------------------------------------------------------------------------------------------
     Route::get('/admin/assets/change/log/{page}', [ChangeLogController::class, 'ChangeLog']);
+   Route::post('/admin/change/log/search', [ChangeLogController::class, 'searchChangeLog']);
 
 
 
@@ -104,3 +95,17 @@ Route::middleware(['auth'])->group(function () {
 
 
 });
+   // USER----------------------------------------------------------------------------------------------------
+    // ADD
+    Route::get('/admin/user/add', [UserController::class, 'add_user']);
+    Route::POST('/admin/user/add/submit', [UserController::class, 'add_submit']);
+    // LIST
+    Route::get('/admin/user/list', [UserController::class, 'list_user']);
+    // View
+    Route::get('/admin/user/view/id={id}', [UserController::class, 'view_user']);
+    // Update
+    Route::get('/admin/user/update/id={id}', [UserController::class, 'update_user']);
+    Route::post('/admin/user/update/submit', [UserController::class, 'update_user_submit']);
+    // Delete
+    Route::post('/admin/user/delete/submit', [UserController::class, 'delete_user']);
+

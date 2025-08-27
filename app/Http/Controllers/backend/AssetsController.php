@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate; // For proper column conversion
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
@@ -46,7 +46,7 @@ class AssetsController extends Controller
 
         // if(Auth::user()->permission->assets_read == 1 && Auth::user()->role == 'admin'){
 
-        $count_post = movement::where("last_varaint", 1)->count();
+        $count_post = movement::count();
         $total_page = ceil($count_post / $limit);
         $offset = 0;
         if ($page != 0) {
@@ -56,7 +56,6 @@ class AssetsController extends Controller
         $asset =  movement::orderBy('assets_id', 'desc')
             ->limit($limit)
             ->offset($offset)
-            ->where("last_varaint", 1)
 
             ->get();
 
@@ -117,7 +116,7 @@ class AssetsController extends Controller
         $asset =  StoredAssets::orderBy('assets_id', 'desc')
             ->limit($limit)
             ->offset($offset)
-            ->where("last_varaint", 1)
+            ->where("status", 1)
 
             ->get();
 
@@ -214,129 +213,119 @@ class AssetsController extends Controller
             return redirect('/')->with('fail', 'You do not have permission Assets Write.');
         }
     }
-
     public function assets_add_submit(Request $request)
     {
-        // return 1;
-        if (Auth::user()->permission->assets_write == 1) {
-            $asset_lastest  = StoredAssets::orderBy('assets_id', 'desc')->first();
+        // ✅ Validate required fields
+        $request->validate([
+            'assets1' => 'required|string|max:255',
+            'item'    => 'required|string|max:255',
+        ]);
 
+        $asset = new Movement();
+        $columns = $asset->getFillable();
 
-            // return $asset_user->id;
-            $asset = new StoredAssets();
-
-            // Asset Info
-            $asset->assets_id = $asset_lastest->assets_id + 1;
-            $asset->document = $request->document ?? "";
-            $asset->assets1 = $request->asset_code1 ?? "";
-            $asset->assets2 = $request->asset_code2 ?? "";
-            $asset->fa_no = $request->fa_no ?? "";
-            $asset->item = $request->item ?? "";
-            $asset->transaction_date = $request->transaction_date ? Carbon::parse($request->transaction_date)->format('Y-m-d H:i:s') : null;
-            $asset->initial_condition = $request->intail_condition ?? "";
-            $asset->specification = $request->specification ?? "";
-            $asset->item_description = $request->item_description ?? "";
-            $asset->asset_group = $request->asset_group ?? "";
-            $asset->remark_assets = $request->remark_assets ?? "";
-
-            // Asset Holder
-            $asset->asset_holder = $request->asset_holder ?? "";
-            $asset->holder_name = $request->holder_name ?? "";
-            $asset->position = $request->position ?? "";
-            $asset->location = $request->location ?? "";
-            $asset->department = $request->department ?? "";
-            $asset->company = $request->company ?? "";
-            $asset->remark_holder = $request->remark_holder ?? "";
-
-            // Internal Document
-            $asset->grn = $request->grn ?? "";
-            $asset->po = $request->po ?? "";
-            $asset->pr = $request->pr ?? "";
-            $asset->dr = $request->dr ?? "";
-            $asset->dr_requested_by = $request->dr_requested_by ?? "";
-            $asset->dr_date = $request->dr_date ? Carbon::parse($request->dr_date)->format('Y-m-d H:i:s') : null;
-            $asset->remark_internal_doc = $request->remark_internal_doc ?? "";
-
-            // ERP Invoice
-            $asset->asset_code_account = $request->asset_code_account ?? "";
-            $asset->invoice_date = $request->invoice_posting_date ? Carbon::parse($request->invoice_posting_date)->format('Y-m-d H:i:s') : null;
-            $asset->invoice_no = $request->invoice ?? "";
-            $asset->fa = $request->fa ?? "";
-            $asset->fa_class = $request->fa_class ?? "";
-            $asset->fa_subclass = $request->fa_subclass ?? "";
-            $asset->depreciation = $request->depreciation_book_code ?? "";
-            $asset->fa_type = $request->fa_type ?? "";
-            $asset->fa_location = $request->fa_location ?? "";
-            $asset->cost = $request->cost ?? 0;
-            $asset->currency = $request->currency ?? "";
-            $asset->vat = $request->vat ?? "";
-            $asset->description = $request->description ?? "";
-            $asset->invoice_description = $request->invoice_description ?? "";
-
-            // Vendor
-            $asset->vendor = $request->vendor ?? "";
-            $asset->vendor_name = $request->vendor_name ?? "";
-            $asset->address = $request->address ?? "";
-            $asset->address2 = $request->address2 ?? "";
-            $asset->contact = $request->contact ?? "";
-            $asset->phone = $request->phone ?? "";
-            $asset->email = $request->email ?? "";
-
-            // Save the data
-            $asset->save();
-
-
-            // Add New FIle
-            if ($request->file_state > 0) {
-                for ($i = 1; $i <= $request->file_state; $i++) {  // Start from 1
-                    $fileKey = 'file_doc' . $i;  // Dynamic file input key
-
-                    if ($request->hasFile($fileKey)) {
-                        $file = $request->file($fileKey);
-                        $fileName = $this->upload_file($file);
-
-                        $file = new File();
-                        $file->asset_id = $asset_lastest->assets_id + 1;
-                        $file->varaint = 0;
-                        $file->file = $fileName;
-                        $file->save();
-                        $file = new FileUser();
-                        $file->asset_id = $asset->id;
-                        $file->file = $fileName;
-                        $file->save();
-                    }
-                }
+        foreach ($columns as $field) {
+            // Skip backend fields so we don’t overwrite them
+            if (in_array($field, ['status', 'variant', 'last_varaint', 'deleted'])) {
+                continue;
             }
-            // Add New Image
-            if ($request->image_state > 0) {
-                for ($i = 1; $i <= $request->image_state; $i++) {  // Start from 1
-                    $imageKey = 'image' . $i;  // Dynamic image input key
-                    if ($request->hasFile($imageKey)) {
-                        $file = $request->file($imageKey);
-                        $thumbnail = $this->upload_image($file, $asset->asset_code1 . $asset->asset_code2 ?? "", 0, $i);
-                        $image = new Image();
-                        $image->asset_id = $asset_lastest->assets_id + 1;
-                        $image->varaint = 0;
-                        $image->image = $thumbnail;
-                        $image->save();  // Don't forget to save the image
 
+            $value = $request->$field ?? '';
 
-                    }
-                }
+            // ✅ Convert date fields
+            if (in_array($field, ['transaction_date', 'dr_date', 'invoice_date', 'deleted_at'])) {
+                $asset->$field = $value ? Carbon::parse($value)->format('Y-m-d') : '';
             }
-            // public function Change_log($id,$varaint,$change,$section,$change_by,$user_id){
-
-            $this->Change_log($asset_lastest->assets_id + 1, 0, "Insert", "Asset Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);
-
-            if ($asset) {
-                return redirect('/admin/assets/list/1')->with('success', 'Added 1 Asset Record.');
-            } else {
-                return redirect('/admin/assets/list/1')->with('fail', 'Opp!. Something when wronge.');
+            // ✅ Convert decimals
+            elseif (in_array($field, ['cost', 'vat'])) {
+                $asset->$field = is_numeric($value) ? (float)$value : 0; // default 0
             }
-        } else {
-            return redirect('/')->with('fail', 'You do not have permission Assets Write.');
+            // ✅ Strings & other fields
+            else {
+                $asset->$field = $value;
+            }
         }
+
+        // ✅ Ensure special inputs are assigned
+        $asset->assets1   = $request->assets1 ?? '';
+        $asset->assets2   = $request->assets2 ?? '';
+        $asset->reference = $request->reference ?? '';
+
+        // ✅ Set backend fields (unchanged)
+        $asset->status       = 1;
+        $asset->variant      = 1;
+        $asset->last_varaint = 1;
+        $asset->deleted      = 0;
+
+        $asset->save();
+        $newAssetId = $asset->assets_id;
+
+        // ✅ Insert into change log
+        foreach ($asset->getAttributes() as $column => $value) {
+            if ($value !== '' && !in_array($column, ['status', 'variant', 'last_varaint', 'deleted', 'deleted_at'])) {
+                $reason = !empty($asset->invoice_no)
+                    ? "New asset added by Invoice: " . $asset->invoice_no
+                    : "New asset added";
+
+                $this->storeChangeLog(
+                    $record_id  = $newAssetId,
+                    $record_no  = $asset->assets1,
+                    $oldValues  = null,
+                    $newValues  = $column . ' : ' . $value,
+                    $action     = 'Insert',
+                    $table      = 'Asset Record',
+                    $reason     = $reason
+                );
+            }
+        }
+
+        // ✅ Handle uploaded files
+        if ($request->file_state > 0) {
+            for ($i = 1; $i <= $request->file_state; $i++) {
+                $fileKey = 'file_doc' . $i;
+                if ($request->hasFile($fileKey)) {
+                    $file     = $request->file($fileKey);
+                    $fileName = $this->upload_file($file);
+
+                    $fileModel = new File();
+                    $fileModel->asset_id = $newAssetId;
+                    $fileModel->variant  = 0;
+                    $fileModel->file     = $fileName;
+                    $fileModel->save();
+
+                    $fileUser = new FileUser();
+                    $fileUser->asset_id = $newAssetId;
+                    $fileUser->file     = $fileName;
+                    $fileUser->save();
+                }
+            }
+        }
+
+        // ✅ Handle uploaded images
+        if ($request->image_state > 0) {
+            for ($i = 1; $i <= $request->image_state; $i++) {
+                $imageKey = 'image' . $i;
+                if ($request->hasFile($imageKey)) {
+                    $file      = $request->file($imageKey);
+                    $thumbnail = $this->upload_image(
+                        $file,
+                        ($asset->assets1 . $asset->assets2) ?? "",
+                        0,
+                        $i
+                    );
+
+                    $imageModel = new Image();
+                    $imageModel->asset_id = $newAssetId;
+                    $imageModel->variant  = 0;
+                    $imageModel->image    = $thumbnail;
+                    $imageModel->save();
+                }
+            }
+        }
+
+        return redirect('/admin/assets/1')->with('success', 'Added 1 Asset Record.');
     }
+
 
 
     public function update_asset($id)
@@ -618,32 +607,33 @@ class AssetsController extends Controller
             return redirect('/')->with('fail', 'You do not have permission Assets Read.');
         }
     }
-
-
-    // Not Delete but Just Change Status
-    public function delete_admin_asset(request $request)
+    public function delete_admin_asset(Request $request)
     {
+        $asset_delete = movement::where('assets_id', $request->id)->first();
 
-        if (Auth::user()->permission->assets_delete == 1) {
+        if (!$asset_delete) {
+            return redirect()->back()->with('fail', "Opps. Something went wrong.");
+        }
 
-            $asset_delete = StoredAssets::where('assets_id', $request->id)->where("last_varaint", 1)->first();
-            $asset_delete->status = 1;
-            $asset_delete->deleted_at = Carbon::parse(today())->format('Y-m-d H:i:s');
-            $deleted = $asset_delete->save();
+        // Capture old values before change
+        $oldValues = 'deleted = ' . $asset_delete->deleted . ', status = ' . $asset_delete->status . ', deleted_at = ' . (($asset_delete->deleted_at)->format('d-M-Y') ?? '01-01-1900');
+        // return $request->reason;
+        // Soft delete
+        $asset_delete->deleted = 1;
+        $asset_delete->deleted_at = now();
+        $deleted = $asset_delete->save();
+         $newValues = 'deleted = ' . $asset_delete->deleted . ', status = ' . $asset_delete->status . ', deleted_at = ' . (($asset_delete->deleted_at)->format('d-M-Y') ?? '01-01-1900');
+        if ($deleted) {
 
-
-
-            $this->Change_log($asset_delete->assets_id, $asset_delete->varaint, "Delete", "Asset Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
-
-            if ($deleted) {
-                return redirect("/admin/assets/list/1")->with('success', "Delete Record Success.");
-            } else {
-                return redirect("/admin/assets/list/1")->with('fail', "Opps. Somthing went wronge.");
-            }
+            // storeChangeLog($record_id,$record_no, $oldValues, $newValues, $action, $table, $reason)
+            $this->storeChangeLog($asset_delete->assets_id, $asset_delete->assets1 . $asset_delete->assets2, $oldValues, $newValues , 'Delete', 'Assets', $request->reason ?? 'No reason provided');
+            // $this->initailize_record($request->id);
+            return redirect()->back()->with('success', "Delete Record Success.");
         } else {
-            return redirect()->back()->with('fail', 'You do not have permission to delete this asset.');
+            return redirect()->back()->with('fail', "Opps. Something went wrong.");
         }
     }
+
 
     public function initailize_record($id)
     {
@@ -1098,7 +1088,7 @@ class AssetsController extends Controller
         }
     }
 
- public function multi_export_movement(request $request)
+    public function multi_export_movement(request $request)
     {
 
         if (Auth::user()->permission->assets_read == 1) {
@@ -1595,7 +1585,7 @@ class AssetsController extends Controller
                     'status_recieved'   => trim($row['AB']),
                     'to_ref'            => trim($row['AC']),
                     'old_code'          => '',
-                    'variant'           => 0,
+                    'variant'           => 1,
                     'last_varaint'      => 1,
                     'status'            => 1, // New record status = 1
                 ];
@@ -1611,8 +1601,8 @@ class AssetsController extends Controller
                 $data['depreciation']         = $accounting->depreciation        ?? '';
                 $data['fa_type']              = $accounting->fa_type             ?? '';
                 $data['fa_location']          = $accounting->fa_location         ?? '';
-                $data['cost']                 = $accounting->cost                ?? '';
-                $data['vat']                  = $accounting->vat                 ?? '';
+                $data['cost']                 = $accounting ? (is_numeric($accounting->cost) ? (float)$accounting->cost : 0) : 0;
+                $data['vat']                  = $accounting ? (is_numeric($accounting->vat)  ? (float)$accounting->vat  : 0) : 0;
                 $data['currency']             = $accounting->currency            ?? '';
                 $data['description']          = $accounting->description         ?? '';
                 $data['invoice_description']  = $accounting->invoice_description ?? '';
@@ -1638,11 +1628,24 @@ class AssetsController extends Controller
                 return back()->with('errorList', $errors)->with('error', 'Import failed: one or more rows are invalid.');
             }
 
-            foreach ($validData as $data) {
-                $record = movement::create($data);
-                $this->storeChangeLog($record, 'Import', null, 'Import from Excel file');
-            }
 
+            foreach ($validData as $data) {
+                // generate a unique string PK
+                $data['assets_id'] = Str::uuid();  // generates a unique string ID
+                $record = Movement::create($data);
+                $insertedId = $record->assets_id;  // now you can use it immediately
+                // now $record->assets_id has a valid value
+
+                $this->storeChangeLog(
+                    $insertedId,
+                    $record->assets1 . $record->assets2,
+                    null,   // old values
+                    null,   // new values
+                    'Import',
+                    'Assets and Movement',
+                    'Import from Excel file'
+                );
+            }
             DB::commit();
             return back()->with('success', "Assets imported successfully! Total rows inserted: " . count($validData));
         } catch (\Exception $e) {
