@@ -25,7 +25,7 @@
     <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/16925/16925957.png" type="image/x-icon">
 
 
-    <title>Assets System  @yield('header')</title>
+    <title>@yield('header')</title>
 </head>
 
 <body id="body_backend">
@@ -149,8 +149,8 @@
                         <a href="/" class="flex items-center justify-between mr-4">
                             <img src="/static_img/images.png" class="mr-3 h-8" alt="Flowbite Logo" />
                             <span
-                                class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white text-black">
-                                Assets System</span>
+                                class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white text-blue-900">
+                                Assets System</span> &ensp;&ensp; @yield('style')
                         </a>
 
                     </div>
@@ -252,7 +252,7 @@
                                     <button type="button"
                                         class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                                         <i class="fa-solid fa-folder-tree"></i>
-                                        <span class="flex-1 ml-3 text-left whitespace-nowrap">Asset History</span>
+                                        <span class="flex-1 ml-3 text-left whitespace-nowrap">Assets History</span>
 
                                     </button>
                                 </a>

@@ -13,26 +13,32 @@ return new class extends Migration
     {
         Schema::create('permission', function (Blueprint $table) {
             $table->id();
-        
-            $table->smallInteger('user_read');
-            $table->smallInteger('user_write');
-            $table->smallInteger('user_delete');
-            $table->smallInteger('user_update');
-            $table->smallInteger('assets_read');
-            $table->smallInteger('assets_write');
-            $table->smallInteger('assets_update');
-            $table->smallInteger('assets_delete');
+            $table->unsignedBigInteger('user_id');   // 🔑 Foreign key to users
 
-            $table->smallInteger('transfer_read');
-            $table->smallInteger('transfer_write');
-            $table->smallInteger('transfer_update');
-            $table->smallInteger('transfer_delete');
+            $table->boolean('user_read')->default(0);
+            $table->boolean('user_write')->default(0);
+            $table->boolean('user_update')->default(0);
+            $table->boolean('user_delete')->default(0);
 
-            $table->smallInteger('quick_read');
-            $table->smallInteger('quick_write');
-            $table->smallInteger('quick_update');
-            $table->smallInteger('quick_delete');
+            $table->boolean('assets_read')->default(0);
+            $table->boolean('assets_write')->default(0);
+            $table->boolean('assets_update')->default(0);
+            $table->boolean('assets_delete')->default(0);
+
+            $table->boolean('transfer_read')->default(0);
+            $table->boolean('transfer_write')->default(0);
+            $table->boolean('transfer_update')->default(0);
+            $table->boolean('transfer_delete')->default(0);
+
+            $table->boolean('quick_read')->default(0);
+            $table->boolean('quick_write')->default(0);
+            $table->boolean('quick_update')->default(0);
+            $table->boolean('quick_delete')->default(0);
+
             $table->timestamps();
+
+            // 🔗 Relationship with users
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

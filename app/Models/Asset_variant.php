@@ -5,15 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class movement extends Model
+class Asset_variant extends Model
 {
     use HasFactory;
-    protected $table = 'assets_transaction'; // your table name
-    protected $primaryKey = 'assets_id';     // custom PK
+
+    protected $table = 'assets_variant';
+    protected $primaryKey = 'id';     // custom PK
     public $incrementing = true;
     protected $keyType = 'int';
 
     protected $fillable = [
+         'assets_id',
         'reference',
         'assets1',
         'assets2',
@@ -90,18 +92,4 @@ class movement extends Model
         'vat'  => 'decimal:2',
     ];
     public $timestamps = true;  // so updated_at works
-
-    public function images()
-    {
-        return $this->hasMany(Image::class, 'asset_id', 'assets_id');
-    }
-    public function files()
-    {
-        return $this->hasMany(File::class, 'asset_id', 'assets_id');
-    }
-
-    public function assets_variant()
-    {
-        return $this->hasMany(Asset_variant::class, 'assets_id', 'assets_id');
-    }
 }

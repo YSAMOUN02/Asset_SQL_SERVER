@@ -38,11 +38,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/assets/restore', [AssetsController::class, 'restore']);
     //Import
     Route::get('/admin/import/assets', [AssetsController::class, 'assets_import']);
-    // Update
-    Route::get('/admin/assets/edit/id={id}', [AssetsController::class, 'update_asset']);
+    // Update and View
+    Route::get('/admin/assets/data/{state}/id={id}/variant={variant}', [AssetsController::class, 'update_and_view_asset']);
     Route::post('/admin/assets/update/submit', [AssetsController::class, 'update_submit']);
-    // View
-    Route::get('/admin/assets/view/id={id}', [AssetsController::class, 'view_asset']);
+
+
     Route::get('/admin/assets/view/varaint={var}/id={id}', [AssetsController::class, 'view_varaint_asset']);
     // Delete
     Route::post('/admin/assets/admin/delete/submit', [AssetsController::class, 'delete_admin_asset']);
@@ -93,8 +93,6 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/admin/movement/timeline/id={id}', [MovementController::class, 'movement_timeline']);
     // Route::post('/admin/movement/admin/update/submit', [MovementController::class, 'update_movement_submit']);
 
-
-});
    // USER----------------------------------------------------------------------------------------------------
     // ADD
     Route::get('/admin/user/add', [UserController::class, 'add_user']);
@@ -108,4 +106,4 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/user/update/submit', [UserController::class, 'update_user_submit']);
     // Delete
     Route::post('/admin/user/delete/submit', [UserController::class, 'delete_user']);
-
+});

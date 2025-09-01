@@ -1,6 +1,20 @@
 @extends('backend.master')
 @section('content')
+@section('header')
+    Assets History
+@endsection
+@section('style')
+   <span class="ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
+                 class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">Assets History List</span>
+</span>
 
+@endsection
+
+
+
+    <link rel="stylesheet" href="{{ asset('assets/css/flatpickr.min.css') }}">
+    <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
+    <script src="{{ asset('assets/js/xlsx.full.min.js') }}"></script>
 
     <div id="delete_asset_admin"
         class="toast_delete w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400"
@@ -17,6 +31,8 @@
                 <div class="mb-2 text-sm font-normal">This Record will be delete.</div>
                 <form action="/admin/assets/admin/delete/submit" method="POST">
                     @csrf
+                      <input type="text" name="reason" id="reason" placeholder="Reason"
+                    class="m-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <input type="text" name="id" id="delete_value_asset" class="hidden">
                     <div class="grid grid-cols-2 gap-2">
 
@@ -124,7 +140,7 @@
                         <label for="start_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Start
                             (issue Date)</label>
 
-                        <input type="date" id="start_date" name="start_date" name="end_date"
+                        <input type="text" id="start_date" name="start_date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                     </div>
@@ -132,7 +148,7 @@
                         <label for="end_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">To
                             date (issue Date)</label>
 
-                        <input type="date" id="end_date" name="end_date"
+                        <input type="text" id="end_date" name="end_date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                     </div>
@@ -292,6 +308,7 @@
 
                         </div>
                         <div class="flex fix_button">
+
                             <button type="button" id="print" onclick="print_group()"
                                 class="text-white  hidden update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                 Print
@@ -299,15 +316,13 @@
 
                             <button type="button" id="export_excel" onclick="export_group()"
                                 class="text-white  hidden update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                Export
+                                <i class="fa-solid fa-download"></i>
                             </button>
+                            <button type="button" onclick="exportToExcel()"
+                                class="text-white flex items-center justify-between  update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                Export</button>
 
 
-
-                            <button type="button" onclick="search_movement(0)" id="search_item"
-                                class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
-                            </button>
 
                             <select name="" id="change_limit" onchange="chang_viewpoint(0,'assets')"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -316,13 +331,17 @@
                                     <option value="{{ $limit }}" selected>{{ $limit }} Row</option>
 
                                     <!-- Other options excluding the current limit -->
-                                    @foreach ([25, 50, 75, 100, 125, 150, 175, 200, 250] as $option)
+                                    @foreach ([25, 50, 75, 100, 125, 150, 175, 200, 250, 500] as $option)
                                         @if ($limit != $option)
                                             <option value="{{ $option }}">{{ $option }} Row</option>
                                         @endif
                                     @endforeach
                                 @endif
                             </select>
+                             <button type="button" onclick="search_movement(0)" id="search_item"
+                                class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
+                            </button>
 
 
                         </div>
@@ -412,82 +431,104 @@
                                 $no = 1;
                             @endphp
                             @foreach ($asset as $item)
-                                <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-
-                                    <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        <input onchange="printable()" data-id="{{ $item->assets_id }}"
-                                            id="green-checkbox{{ $item->id }}" type="checkbox" value=""
-                                            class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    </td>
-
-
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-
-                                        {{ $item->assets_id }}
+                                @if ($item->deleted == 0)
+                                    <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                            <input onchange="printable()" data-id="{{ $item->assets_id }}"
+                                                id="green-checkbox{{ $item->id }}" type="checkbox" value=""
+                                                class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
 
 
-                                    </td>
 
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ \Carbon\Carbon::parse($item->transaction_date)->format('M d Y') }}
+                                        </td>
+                                    @else
+                                    <tr class=" bg-rose-100 border-b dark:bg-gray-800 dark:border-gray-700">
 
-                                    </td>
+                                        <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                            <input onchange="printable()" data-id="{{ $item->assets_id }}"
+                                                id="green-checkbox{{ $item->id }}" type="checkbox" value=""
+                                                class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                Deleted
+                                        </td>
+                                @endif
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+
+                                    {{ $item->assets_id }}
 
 
-                                    <td
-                                        class="table_float_left_td  px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   bg-white dark:bg-gray-700 dark:border-gray-700">
-                                        {{ $item->assets1 . $item->assets2 ?? '' }}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        @if ($item->status == 0)
-                                            <span
-                                                class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                                                <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                                                Inactive
-                                            </span>
-                                        @elseif($item->status == 1)
-                                            <span
-                                                class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                                <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                                                Active
-                                            </span>
-                                        @endif
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->status_recieved }}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->item }}
-                                    </td>
+                                </td>
 
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->specification }}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->initial_condition }}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->holder_name ?? '' }}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->department ?? '' }}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->company ?? '' }}
-                                    </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ \Carbon\Carbon::parse($item->transaction_date)->format('M d Y') }}
 
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->old_code ?? '' }}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ $item->reference ?? '' }}
-                                    </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                        {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
+                                </td>
 
-                                    </td>
-                                    <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
 
+                                <td
+                                    class="table_float_left_td  px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   bg-white dark:bg-gray-700 dark:border-gray-700">
+                                    {{ $item->assets1 . $item->assets2 ?? '' }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    @if ($item->status == 0)
+                                        <span
+                                            class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                            Inactive
+                                        </span>
+                                    @elseif($item->status == 1)
+                                        <span
+                                            class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                            <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                            Active
+                                        </span>
+                                    @endif
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->status_recieved }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->item }}
+                                </td>
+
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->specification }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->initial_condition }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->holder_name ?? '' }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->department ?? '' }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->company ?? '' }}
+                                </td>
+
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->old_code ?? '' }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ $item->reference ?? '' }}
+                                </td>
+                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
+
+                                </td>
+                                <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
+
+                                    @if ($item->status == 0)
+                                        <a
+                                            href="/admin/assets/data/view/id={{ $item->assets_id }}/variant={{ $item->variant }}">
+                                            <button data-popover-target="popover-default{{ $no }}"
+                                                type="button"
+                                                class="text-white mx-2 bg-grey-100 hover:bg-grey-200 focus:ring-4 focus:outline-none focus:ring-blue-100 font-medium rounded-lg text-sm px-2.5 py-2 text-center dark:bg-blue-200 dark:hover:bg-blue-200 dark:focus:ring-blue-300">
+
+                                                <i class="fa-solid fa-eye text-slate-900"></i>
+                                            </button>
+                                        </a>
+                                    @else
                                         <div class="option">
                                             <button id="dropdownMenuIconHorizontalButton{{ $item->assets_id }}"
                                                 data-dropdown-toggle="dropdownDotsHorizontal{{ $item->assets_id }}"
@@ -502,12 +543,8 @@
 
                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                     aria-labelledby="dropdownMenuIconHorizontalButton{{ $item->assets_id }}">
-                                                    <li>
-                                                        <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
-                                                            class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Tran
-                                                        </a>
-                                                    </li>
-                                                    @if (Auth::user()->Permission->transfer_write == 1 && $item->status == 1)
+
+                                                    @if (Auth::user()->Permission->transfer_write == 1 && $item->deleted == 0)
                                                         <li>
                                                             <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
                                                                 class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Movement</a>
@@ -517,18 +554,18 @@
 
                                                     @if (Auth::user()->Permission->assets_read == 1)
                                                         <li>
-                                                            <a href="/admin/assets/view/id={{ $item->assets_id }}"
+                                                            <a href="/admin/assets/data/view/id={{ $item->assets_id }}/variant={{ $item->variant }}"
                                                                 class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">View</a>
                                                         </li>
                                                     @endif
 
                                                     @if (Auth::user()->Permission->assets_update == 1 && $item->status == 1)
                                                         <li>
-                                                            <a href="/admin/assets/edit/id={{ $item->assets_id }}"
+                                                            <a href="/admin/assets/data/update/id={{ $item->assets_id }}/variant={{ $item->variant }}"
                                                                 class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Update</a>
                                                         </li>
                                                     @endif
-                                                    @if (Auth::user()->Permission->assets_delete == 1 && $item->status == 1)
+                                                    @if (Auth::user()->Permission->assets_delete == 1 && $item->deleted == 0)
                                                         <li class="cursor block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white"
                                                             data-id="{{ $item->assets_id }}"
                                                             id="btn_delete_asset{{ $item->assets_id }}"
@@ -540,8 +577,8 @@
 
                                             </div>
                                         </div>
-
-                                    </td>
+                                    @endif
+                                </td>
                                 </tr>
                             @endforeach
                         @endif
@@ -565,9 +602,25 @@
             <button type="submit">submit</button>
         </form>
     </div>
+
     <script>
         let array = @json($asset);
 
+        function exportToExcel() {
+            // Convert JSON to worksheet
+            let worksheet = XLSX.utils.json_to_sheet(array);
+
+            // Create a new workbook and append worksheet
+            let workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Assets");
+
+            // Export as Excel file
+            XLSX.writeFile(workbook, "assets.xlsx");
+        }
+
+
+
+        let page_view = @json($page);
 
         let sort_state = 0;
 
@@ -580,6 +633,15 @@
                 event.preventDefault();
                 button.click();
             }
+        });
+
+        flatpickr("#start_date", {
+            dateFormat: "d-M-Y",
+            defaultDate: null
+        });
+        flatpickr("#end_date", {
+            dateFormat: "d-M-Y",
+            defaultDate: null
         });
     </script>
 @endsection

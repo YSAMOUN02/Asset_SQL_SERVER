@@ -1,7 +1,12 @@
 @extends('backend.master')
 @section('content')
 @section('header')
-    (Audit Trail Data)
+   Change History Data
+@endsection
+@section('style')
+   <span class="ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
+                 class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">Change History</span>
+</span>
 @endsection
 <link rel="stylesheet" href="{{ asset('assets/css/flatpickr.min.css') }}">
 <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
@@ -144,7 +149,7 @@
                     $right_limit = min($total_page, $page + 5); // Set the right boundary, but not above the total pages
                 @endphp
                 <nav aria-label="Page navigation example">
-                    <ul class="flex items-center -space-x-px h-8 text-sm ">
+                    <ul class="flex items-center -space-x-px h-8 text-sm  me-2">
 
                         {{-- Previous Button --}}
                         @if ($page != 1)
@@ -197,6 +202,7 @@
                     </ul>
                 </nav>
             @endif
+             @if($page!=1)
             <select onchange="set_page_changeLog()" id="select_page"
                 class="flex mx-0 lg:mx-2 items-center justify-center px-3 h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 name="" id="">
@@ -211,6 +217,7 @@
                 @endfor
 
             </select>
+            @endif
             <span class="font-bold flex justify-left items-center text-gray-900 dark:text-white">Page
                 :{{ $total_page }} Pages
                 &ensp;Total Changes: {{ $total_record }} Records</span>
@@ -239,6 +246,7 @@
                     @endforeach
                 @endif
             </select>
+        =
         </div>
     </div>
        @endif

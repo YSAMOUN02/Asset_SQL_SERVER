@@ -1,8 +1,16 @@
 @extends('backend.master')
 @section('content')
 @section('header')
-    (Select Invoice)
+  Invoice List
 @endsection
+@section('style')
+   <span class="ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
+                 class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">Add Assets by Invoice ERP</span>
+</span>
+
+@endsection
+<link rel="stylesheet" href="{{ asset('assets/css/flatpickr.min.css') }}">
+<script src="{{ asset('assets/js/flatpickr.js') }}"></script>
 <div class="container-height   shadow-md sm:rounded-lg dark:bg-gray-800">
 
     <div class="search-bar bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -49,9 +57,10 @@
                 <label for="start_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Start
                     from date</label>
 
-                <input type="date" id="start_date" name="start_date" value="" name="end_date"
-                    onchange="check_date()"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        <input type="text" id="start_date" name="start_date"  name="start_date"    onchange="check_date()"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+
+
 
             </div>
             <div>
@@ -241,7 +250,7 @@
                             </td>
                             <td scope="row"
                                 class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ \Carbon\Carbon::parse($item->assets_date)->format('M d Y') }}
+                                {{ \Carbon\Carbon::parse($item->assets_date)->format('d-M-Y') }}
 
                             </td>
                             <td scope="row"
@@ -275,8 +284,17 @@
                                     }
                                 @endphp
                                 {{-- {{$invoice}} --}}
-        
-                                <a
+                                    @if ($item->is_registered == true)
+
+                                      <span
+                                        class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                        <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                       Registerd
+                                    </span>
+                                    @else
+
+
+                                      <a
                                         href="/admin/assets/add/assets={{ $item->assets }}/invoice_no={{ $modifiedString }}">
                                         <button data-popover-target="popover-default{{$no}}" type="button"
                                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><i
@@ -294,6 +312,10 @@
                                     </div>
                                     <div data-popper-arrow></div>
                                 </div>
+
+
+                                    @endif
+
 
                             </td>
                         </tr>
@@ -328,6 +350,18 @@
             event.preventDefault();
             button.click();
         }
+    });
+
+
+    flatpickr("#start_date", {
+        dateFormat: "d-M-Y",
+        defaultDate: null,
+
+    });
+     flatpickr("#end_date", {
+        dateFormat: "d-M-Y",
+        defaultDate: null,
+
     });
 </script>
 

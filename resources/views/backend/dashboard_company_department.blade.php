@@ -1,8 +1,9 @@
 @extends('backend.master')
 @section('content')
 @section('header')
-    (Dashboard Admin)
+    Dashboard Admin
 @endsection
+
 <div id="top-filters" class="sticky top-0 z-50">
     <script src="{{ asset('assets/js/chart.js') }}"></script>
     <script src="{{ asset('assets/js/chartjs-plugin-datalabels.js') }}"></script>

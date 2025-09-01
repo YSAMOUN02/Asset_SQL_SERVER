@@ -1,7 +1,7 @@
 @extends('backend.master')
 @section('content')
 @section('header')
-    (Dashboard Admin)
+    Dashboard Admin
 @endsection
 
 <script src="{{ asset('assets/js/chart.js') }}"></script>

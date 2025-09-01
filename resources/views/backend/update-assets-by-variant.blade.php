@@ -1,78 +1,168 @@
 @extends('backend.master')
 @section('content')
+    <link rel="stylesheet" href="{{ asset('assets/css/flatpickr.min.css') }}">
+    <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
     <div class="border-b bg-white dark:bg-slate-900 dark:text-white border-gray-200 dark:border-gray-700">
         <ul
             class="flex  overflow-x-auto whitespace-nowrap -mb-px text-sm font-medium text-center text-gray-500   dark:text-gray-200">
+            @if ($asset_main->variant == $variant)
+                <li class="me-2 active_tab">
+                    <a href="/admin/assets/data/{{ $state }}/id={{ $asset_main->assets_id }}/variant={{ $asset_main->variant }}"
+                        class="inline-flex items-center justify-center p-4  hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 ">
+
+                        <i class="fa-brands fa-codepen mr-3 "></i>Lastest Change Variant {{ $asset_main->variant }}
+                        @if ($asset_main->deleted == 1)
+                            &ensp; &ensp;<i class="fa-solid fa-trash-can" style="color: #ff0000;"></i>
+                            &ensp;({{ \Carbon\Carbon::parse($asset_main->deleted_at)->format('d-M-Y') }})
+                        @endif
+                    </a>
+                </li>
+            @else
+                <li class="me-2 ">
+                    <a href="/admin/assets/data/{{ $state }}/id={{ $asset_main->assets_id }}/variant={{ $asset_main->variant }}"
+                        class="inline-flex items-center justify-center p-4  hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 ">
+
+                        <i class="fa-brands fa-codepen mr-3 "></i>Lastest Change Variant {{ $asset_main->variant }}
+                        @if ($asset_main->deleted == 1)
+                            &ensp; &ensp;<i class="fa-solid fa-trash-can" style="color: #ff0000;"></i>
+                            &ensp;({{ \Carbon\Carbon::parse($asset_main->deleted_at)->format('d-M-Y') }})
+                        @endif
+                    </a>
+                </li>
+            @endif
             @php
-                $i = $total_varaint;
+                $asset = $asset_main;
+                $current_last_variant = $asset_main->variant;
             @endphp
 
-            @while ($i >= 0)
-                @if ($total_varaint == $i)
-                    @if ($i == $current_varaint)
-                        <li class="me-2 active_tab">
+            @if (!empty($asset_main->assets_variant))
+                @foreach ($asset_main->assets_variant as $item)
+                    @if ($item->variant == 1)
+                        @if ($item->variant == $variant)
+                            <li class="me-2 active_tab">
+                                @php
+                                    $colors = [
+                                        '#e74c3c',
+                                        '#8e44ad',
+                                        '#3498db',
+                                        '#16a085',
+                                        '#f39c12',
+                                        '#d35400',
+                                        '#2ecc71',
+                                    ];
+                                    $color = $colors[$item->variant % count($colors)];
+                                @endphp
+                                <a href="/admin/assets/{{ $state }}/id={{ $item->assets_id }}/variant={{ $item->variant }}"
+                                    class="inline-flex items-center justify-center p-4  hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 ">
+
+                                    <i class="fa-solid fa-folder-plus mx-2" style="color: {{ $color }}"></i> Variant
+                                    {{ $item->variant }}
+                                    @if ($item->deleted == 1)
+                                        &ensp; &ensp;<i class="fa-solid fa-trash-can" style="color: #ff0000;"></i>
+                                        &ensp;({{ \Carbon\Carbon::parse($item->deleted_at)->format('d-M-Y') }})
+                                    @endif
+                                </a>
+                            </li>
                         @else
-                        <li class="me-2">
-                    @endif
-                    <a href="/admin/assets/view/varaint={{ $i }}/id={{ $asset[$current_varaint]->assets_id }}"
-                        class="inline-flex items-center justify-center p-4  hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 ">
+                            <li class="me-2 ">
+                                @php
+                                    $colors = [
+                                        '#e74c3c',
+                                        '#8e44ad',
+                                        '#3498db',
+                                        '#16a085',
+                                        '#f39c12',
+                                        '#d35400',
+                                        '#2ecc71',
+                                    ];
+                                    $color = $colors[$item->variant % count($colors)];
+                                @endphp
+                                <a href="/admin/assets/data/{{ $state }}/id={{ $item->assets_id }}/variant={{ $item->variant }}"
+                                    class="inline-flex items-center justify-center p-4  hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 ">
 
-                        <i class="fa-brands fa-codepen mr-3 "></i>Lastest Change
-                        ({{ \Carbon\Carbon::parse($asset[$i]->created_at)->format('M d Y') }})
-                        @if ($asset[$i]->status == 0)
-                            &ensp; &ensp;<i class="fa-solid fa-trash-can" style="color: #ff0000;"></i> &ensp;(Deleted at
-                            {{ $asset[$i]->deleted_at }})
+                                    <i class="fa-solid fa-folder-plus mx-2" style="color: {{ $color }}"></i> Variant
+                                    {{ $item->variant }}
+                                    @if ($item->deleted == 1)
+                                        &ensp; &ensp;<i class="fa-solid fa-trash-can" style="color: #ff0000;"></i>
+                                        &ensp;({{ \Carbon\Carbon::parse($item->deleted_at)->format('d-M-Y') }})
+                                    @endif
+                                </a>
+                            </li>
                         @endif
-                    </a>
-                    </li>
-                @elseif($i == 0)
-                    @if ($i == $current_varaint)
-                        <li class="me-2 active_tab">
+                    @elseif($item->variant > 1)
+                        @if ($variant == $item->variant)
+                            <li class="me-2 active_tab">
+                                @php
+                                    $colors = [
+                                        '#e74c3c',
+                                        '#8e44ad',
+                                        '#3498db',
+                                        '#16a085',
+                                        '#f39c12',
+                                        '#d35400',
+                                        '#2ecc71',
+                                    ];
+                                    $color = $colors[$item->variant % count($colors)];
+                                @endphp
+                                <a href="/admin/assets/data/{{ $state }}/id={{ $item->assets_id }}/variant={{ $item->variant }}"
+                                    class="inline-flex items-center justify-center p-4  hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 ">
+
+                                    <i class="fa-solid fa-palette mx-2" style="color: {{ $color }}"></i> Variant
+                                    {{ $item->variant }}
+                                    @if ($item->deleted == 1)
+                                        &ensp; &ensp;<i class="fa-solid fa-trash-can" style="color: #ff0000;"></i>
+                                        &ensp;({{ \Carbon\Carbon::parse($item->deleted_at)->format('d-M-Y') }})
+                                    @endif
+                                </a>
+                            </li>
                         @else
-                        <li class="me-2">
-                    @endif
-                    <a href="/admin/assets/view/varaint={{ $i }}/id={{ $asset[$current_varaint]->assets_id }}"
-                        class="inline-flex items-center justify-center p-4  hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 ">
+                            <li class="me-2">
+                                @php
+                                    $colors = [
+                                        '#e74c3c',
+                                        '#8e44ad',
+                                        '#3498db',
+                                        '#16a085',
+                                        '#f39c12',
+                                        '#d35400',
+                                        '#2ecc71',
+                                    ];
+                                    $color = $colors[$item->variant % count($colors)];
+                                @endphp
+                                <a href="/admin/assets/data/{{ $state }}/id={{ $item->assets_id }}/variant={{ $item->variant }}"
+                                    class="inline-flex items-center justify-center p-4  hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 ">
 
-                        <i class="fa-solid fa-folder-open mr-3"></i>First Created
-                        ({{ \Carbon\Carbon::parse($asset[$i]->created_at)->format('M d Y') }})
-                        @if ($asset[$i]->deleted == 1)
-                            &ensp; &ensp;<i class="fa-solid fa-trash-can" style="color: #ff0000;"></i> &ensp;(Deleted at
-                            {{ $asset[$i]->deleted_at }})
+                                    <i class="fa-solid fa-palette mx-2" style="color: {{ $color }}"></i> Variant
+                                    {{ $item->variant }}
+                                    @if ($item->deleted == 1)
+                                        &ensp; &ensp;<i class="fa-solid fa-trash-can" style="color: #ff0000;"></i>
+                                        &ensp;({{ \Carbon\Carbon::parse($item->deleted_at)->format('d-M-Y') }})
+                                    @endif
+                                </a>
+                            </li>
                         @endif
-                    </a>
-                    </li>
-                @else
-                    @if ($i == $current_varaint)
-                        <li class="me-2 active_tab">
-                        @else
-                        <li class="me-2">
                     @endif
-                    <a href="/admin/assets/view/varaint={{ $i }}/id={{ $asset[$current_varaint]->assets_id }}"
-                        class="inline-flex items-center justify-center p-4  hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 ">
-
-                        <i class="fa-solid fa-palette mr-3"></i>V {{ $i }}
-                        ({{ \Carbon\Carbon::parse($asset[$i]->created_at)->format('M d Y') }})
-                        @if ($asset[$i]->status == 0)
-                            &ensp; &ensp;<i class="fa-solid fa-trash-can" style="color: #ff0000;"></i> &ensp;(Deleted at
-                            {{ $asset[$i]->deleted_at }})
-                        @endif
-                    </a>
-                    </li>
-                @endif
-                @php
-                    $i--;
-                @endphp
-            @endwhile
-
-
+                @endforeach
+            @endif
         </ul>
     </div>
 
+    @if (!empty($asset_main->assets_variant))
+        @foreach ($asset_main->assets_variant as $item)
+            @php
+                if ($item->variant == $variant) {
+                    $asset = $item;
+                    break; // stop looping once found
+                }
+            @endphp
+        @endforeach
+    @endif
 
 
-    <form class="p-5 dark:bg-gray-900 bg-white"  id="form-submit" enctype="multipart/form-data" action="/admin/assets/update/submit"
-        method="POST">
+    <form class="p-5 dark:bg-gray-900 bg-white" id="form-submit" enctype="multipart/form-data"
+        action="/admin/assets/update/submit" method="POST"
+        @if ($state != 'update') onsubmit="return false;" @endif>
+
         @csrf
         <h1 class="title_base text-black dark:text-blue-100">Asset Info</h1>
 
@@ -80,10 +170,10 @@
             <div>
                 <label for="Reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference <span
                         class="text-rose-500">*</span></label>
-                <input type="text" id="Reference"
+                <input type="text" id="reference"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="document" value="{{ old('document', $asset[$current_varaint]->document ?? '') }}" required />
-                <input type="text" class="hidden" name="id" value="{{ $asset[$current_varaint]->assets_id }}">
+                    name="reference" value="{{ old('reference', $asset->reference ?? '') }}" required />
+                <input type="text" class="hidden" name="assets_id" value="{{ $asset->assets_id }}">
             </div>
 
             <div class="flex flex-col w-full">
@@ -91,12 +181,11 @@
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset Code <span
                         class="text-rose-500">*</span></label>
                 <div class="flex w-full">
-                    <input type="text" id="asset_Code1" name="asset_code1" readonly
+                    <input type="text" id="asset_Code1" name="asset1" readonly
                         class="percent70 bg-gray-50 border border-gray-300 p-2.5 text-gray-900 text-sm focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value="{{ old('asset_code1', $asset[$current_varaint]->assets1 ?? '') }}" />
+                        value="{{ old('assets1', $asset->assets1 ?? '') }}" />
 
-                    <input type="text" name="asset_code2"
-                        value="{{ old('asset_code2', $asset[$current_varaint]->assets2 ?? '') }}"
+                    <input type="text" name="assets2" value="{{ old('assets2', $asset->assets2 ?? '') }}"
                         class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 </div>
             </div>
@@ -105,31 +194,30 @@
                 <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">FA-No</label>
                 <input type="text" id="fa_no"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="fa_no" value="{{ old('fa_no', $asset[$current_varaint]->fa_no ?? '') }}" />
+                    name="fa_no" value="{{ old('fa_no', $asset->fa_no ?? '') }}" />
             </div>
 
             <div>
                 <label for="item" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item</label>
                 <input type="text" id="item"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="item" value="{{ old('item', $asset[$current_varaint]->item ?? '') }}" />
+                    name="item" value="{{ old('item', $asset->item ?? '') }}" />
             </div>
 
             <div>
-                <label for="Issue_Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Issue
-                    Date</label>
-                <input type="date" id="Issue_Date"
+                <label for="transaction_date"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Transaction Date</label>
+                <input type="text" id="transaction_date"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ old('issue_date', $asset[$current_varaint]->transaction_date, today()) }}" name="issue_date" />
+                    name="transaction_date" />
             </div>
 
             <div>
-                <label for="Initial_Conditions" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Initial
+                <label for="initial_condition" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Initial
                     Conditions</label>
-                <input type="text" id="initial_Conditions"
+                <input type="text" id="initial_condition"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="intail_condition"
-                    value="{{ old('intail_condition', $asset[$current_varaint]->initial_condition ?? '') }}" />
+                    name="initial_condition" value="{{ old('initial_condition', $asset->initial_condition ?? '') }}" />
             </div>
 
             <div>
@@ -137,8 +225,7 @@
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Specifications</label>
                 <input type="text" id="Specifications"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="specification"
-                    value="{{ old('specification', $asset[$current_varaint]->specification ?? '') }}" />
+                    name="specification" value="{{ old('specification', $asset->specification ?? '') }}" />
             </div>
 
             <div>
@@ -146,7 +233,7 @@
                     Description</label>
                 <input type="text" id="item_description" name="item_description"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ old('item_description', $asset[$current_varaint]->item_description ?? '') }}" />
+                    value="{{ old('item_description', $asset->item_description ?? '') }}" />
             </div>
 
             <div>
@@ -154,40 +241,22 @@
                     Group</label>
                 <input type="text" id="asset_group"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="asset_group" value="{{ old('asset_group', $asset[$current_varaint]->asset_group ?? '') }}" />
+                    name="asset_group" value="{{ old('asset_group', $asset->asset_group ?? '') }}" />
             </div>
+
             <div>
-
-                <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
-                <select id="status" name="status"
-                    class=" changed block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-
-
-
-                    @if ($asset[$current_varaint]->status == 2)
-                        <option value="2">Sold</option>
-                        @if (Auth::user()->role == 'admin')
-                            <option value="1">Deleted</option>
-                        @endif
-                        <option value="0">Active</option>
-                    @elseif($asset[$current_varaint]->delected == 0)
-                        <option value="0">Active</option>
-                        @if (Auth::user()->role == 'admin')
-                            <option value="1">Deleted</option>
-                        @endif
-                        <option value="2">Sold</option>
-                    @endif
-
-                </select>
+                <label for="old_code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Old Code
+                    (Optional)</label>
+                <input type="text" id="old_code"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    name="old_code" value="{{ old('old_code', $asset->old_code ?? '') }}" />
             </div>
-
             <div>
                 <label for="remark_assets"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark</label>
                 <input type="text" id="remark_assets"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="remark_assets"
-                    value="{{ old('remark_assets', $asset[$current_varaint]->remark_assets ?? '') }}" />
+                    name="remark_assets" value="{{ old('remark_assets', $asset->remark_assets ?? '') }}" />
             </div>
         </div>
 
@@ -200,70 +269,54 @@
                     Holder ID</label>
                 <input type="text" id="asset_holder"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="asset_holder" value="{{ old('asset_holder', $asset[$current_varaint]->asset_holder ?? '') }}"
+                    name="asset_holder" value="{{ old('asset_holder', $asset->asset_holder ?? '') }}"
                     placeholder="INV-90.." />
             </div>
             <div>
                 <label for="holder_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                 <input type="text" id="holder_name"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="holder_name" value="{{ old('holder_name', $asset[$current_varaint]->holder_name ?? '') }}" />
+                    name="holder_name" value="{{ old('holder_name', $asset->holder_name ?? '') }}" />
             </div>
             <div>
                 <label for="position"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position/Title</label>
                 <input type="text" id="position"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="position" value="{{ old('position', $asset[$current_varaint]->position ?? '') }}" />
+                    name="position" value="{{ old('position', $asset->position ?? '') }}" />
             </div>
             <div>
                 <label for="location"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
                 <input type="text" id="location"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="location" value="{{ old('location', $asset[$current_varaint]->location ?? '') }}" />
+                    name="location" value="{{ old('location', $asset->location ?? '') }}" />
             </div>
             <div>
-
-                <label for="department"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                <select id="department" name="department"
-                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    @if (!empty($asset[$current_varaint]->department))
-                        <option value="{{ $asset[$current_varaint]->department }}">
-                            {{ $asset[$current_varaint]->department }}</option>
-                    @else
-                        <option value=""></option>
-                    @endif
-                    @if (!empty($department))
-                        @foreach ($department as $item)
-                            @if ($item->content != $asset[$current_varaint]->department)
-                                <option value="{{ $item->content }}">{{ $item->content }}</option>
-                            @endif
-                        @endforeach
-                    @endif
-                    <option value=""></option>
-
-                </select>
+                      <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Department <span class="text-rose-500">*</span>
+            </label>
+                <input list="departments_list" id="department" name="department" required value="{{$asset->department}}"
+                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Start typing department...">
+                @php $departments = [ 'Accounting & Finance', 'Administration & HR', 'Management', 'Maintenance', 'Planning', 'Purchase', 'Regulatory Affairs', 'External Project & Special Project', 'Warehouse', 'Logistic', 'MIS', 'Consultant', 'Accounting & Finance', 'Research & Development', 'Commercial', 'Regulatory Affairs', 'Production', 'Quality Control', 'Maintenance', 'Warehouse', 'Management', 'Quality Assurance', 'Pizza Project', 'Kitchen Center', 'Consultant', 'Commercial', 'Production', 'Export and Marketing', 'Quality Assurance', 'Quality Control', 'Research & Development', 'Quality Production', 'Order', ]; @endphp
+                <datalist id="departments_list">
+                    @foreach ($departments as $department)
+                        <option value="{{ $department }}"></option>
+                    @endforeach
+                </datalist>
             </div>
             <div>
                 <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
                 <select id="company" name="company"
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    @if (!empty($asset[$current_varaint]->company))
-                        <option value="{{ $asset[$current_varaint]->company }}">{{ $asset[$current_varaint]->company }}
-                        </option>
-                    @else
-                        <option value=""></option>
-                    @endif
-                    @if (!empty($company))
-                        @foreach ($company as $item)
-                            @if ($item->content != $asset[$current_varaint]->company)
-                                <option value="{{ $item->content }}">{{ $item->content }}</option>
-                            @endif
-                        @endforeach
-                    @endif
-                    <option value=""></option>
+
+                    <option value="CFR" @if (($asset->company ?? '') == 'CFR') selected @endif>CFR</option>
+                    <option value="Depomex" @if (($asset->company ?? '') == 'Depomex') selected @endif>Depomex</option>
+                    <option value="INV" @if (($asset->company ?? '') == 'INV') selected @endif>INV</option>
+                    <option value="Other" @if (($asset->company ?? '') == 'Other') selected @endif>Other</option>
+                    <option value="PPM" @if (($asset->company ?? '') == 'PPM') selected @endif>PPM</option>
+                    <option value="PPM&Confirel" @if (($asset->company ?? '') == 'PPM&Confirel') selected @endif>PPM&Confirel</option>
 
                 </select>
             </div>
@@ -272,8 +325,7 @@
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark</label>
                 <input type="text" id="remark_holder"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="remark_holder"
-                    value="{{ old('remark_holder', $asset[$current_varaint]->remark_holder ?? '') }}" />
+                    name="remark_holder" value="{{ old('remark_holder', $asset->remark_holder ?? '') }}" />
             </div>
         </div>
 
@@ -283,42 +335,41 @@
                 <label for="grn" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">GRN No</label>
                 <input type="text" id="grn"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="grn" value="{{ old('grn', $asset[$current_varaint]->grn ?? '') }}" />
+                    name="grn" value="{{ old('grn', $asset->grn ?? '') }}" />
             </div>
             <div>
                 <label for="po" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PO No</label>
                 <input type="text" id="po"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="po" value="{{ old('po', $asset[$current_varaint]->po ?? '') }}" />
+                    name="po" value="{{ old('po', $asset->po ?? '') }}" />
             </div>
             <div>
                 <label for="pr" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PR (Purchase
                     Request)</label>
                 <input type="text" id="pr"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="pr" value="{{ old('pr', $asset[$current_varaint]->pr ?? '') }}" />
+                    name="pr" value="{{ old('pr', $asset->pr ?? '') }}" />
             </div>
             <div>
                 <label for="dr" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DR (Department
                     Request)</label>
                 <input type="text" id="dr"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="dr" value="{{ old('dr', $asset[$current_varaint]->dr ?? '') }}" />
+                    name="dr" value="{{ old('dr', $asset->dr ?? '') }}" />
             </div>
             <div>
                 <label for="dr_requested_by" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DR
                     (Requested by)</label>
                 <input type="text" id="dr_requested_by"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="dr_requested_by"
-                    value="{{ old('dr_requested_by', $asset[$current_varaint]->dr_requested_by ?? '') }}" />
+                    name="dr_requested_by" value="{{ old('dr_requested_by', $asset->dr_requested_by ?? '') }}" />
             </div>
             <div>
                 <label for="dr_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DR Request
                     Date</label>
                 <input type="date" id="dr_date"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="dr_date" value="{{ old('dr_date', $asset[$current_varaint]->dr_date, today()) }}" />
+                    name="dr_date" value="{{ old('dr_date', $asset->dr_date, today()) }}" />
 
 
             </div>
@@ -328,7 +379,7 @@
                 <input type="text" id="remark_internal_doc"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="remark_internal_doc"
-                    value="{{ old('remark_internal_doc', $asset[$current_varaint]->remark_internal_doc ?? '') }}" />
+                    value="{{ old('remark_internal_doc', $asset->remark_internal_doc ?? '') }}" />
             </div>
         </div>
 
@@ -340,25 +391,24 @@
                     Code (Account)</label>
                 <input type="text" id="asset_code_account" name="asset_code_account" readonly
                     class="w-full bg-gray-50 border p-2.5 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ old('asset_code_account', $asset[$current_varaint]->asset_code_account ?? '') }}" />
+                    value="{{ old('asset_code_account', $asset->asset_code_account ?? '') }}" />
             </div>
 
-            <!-- Invoice Posting Date -->
             <div>
-                <label for="invoice_posting_date"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Invoice Posting Date</label>
-                <input type="datetime-local" id="invoice_posting_date" name="invoice_posting_date" readonly
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ old('invoice_posting_date', $asset[$current_varaint]->invoice_date ?? '') }}" />
+                <label for="invoice_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Invoice Posting Date
+                </label>
+                <input type="text" id="invoice_date" name="invoice_date" readonly
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
             </div>
 
             <!-- Invoice No -->
             <div>
-                <label for="fa_invoice" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Invoice
+                <label for="invoice_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Invoice
                     No</label>
-                <input type="text" id="fa_invoice" name="invoice" readonly
+                <input type="text" id="invoice_no" name="invoice_no" readonly
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ old('invoice', $asset[$current_varaint]->invoice_no ?? '') }}" />
+                    value="{{ old('invoice_no', $asset->invoice_no ?? '') }}" />
             </div>
 
             <!-- Fix Assets-No -->
@@ -367,7 +417,7 @@
                     Assets-No</label>
                 <input type="text" id="fa" name="fa" readonly
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ old('fa', $asset[$current_varaint]->fa ?? '') }}" />
+                    value="{{ old('fa', $asset->fa ?? '') }}" />
             </div>
 
             <!-- FA Class -->
@@ -376,7 +426,7 @@
                     Class</label>
                 <input type="text" id="fa_class" name="fa_class" readonly
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ old('fa', $asset[$current_varaint]->fa_class ?? '') }}" />
+                    value="{{ old('fa_class', $asset->fa_class ?? '') }}" />
             </div>
 
             <!-- FA Subclass Code -->
@@ -385,16 +435,16 @@
                     Subclass Code</label>
                 <input type="text" id="FA_Subclass_Code" name="fa_subclass" readonly
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ old('fa_subclass', $asset[$current_varaint]->fa_subclass ?? '') }}" />
+                    value="{{ old('fa_subclass', $asset->fa_subclass ?? '') }}" />
             </div>
 
             <!-- Depreciation Book Code -->
             <div>
-                <label for="depreciation_book_code"
+                <label for="depreciation"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Depreciation Book Code</label>
-                <input type="text" id="depreciation_book_code" name="depreciation_book_code" readonly
+                <input type="text" id="depreciation" name="depreciation" readonly
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ old('depreciation_book_code', $asset[$current_varaint]->depreciation ?? '') }}" />
+                    value="{{ old('depreciation', $asset->depreciation ?? '') }}" />
             </div>
 
             <!-- FA Posting Type -->
@@ -403,7 +453,7 @@
                     Posting Type</label>
                 <input type="text" id="fa_posting_type" name="fa_type" readonly
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ old('fa_type', $asset[$current_varaint]->fa_type ?? '') }}" />
+                    value="{{ old('fa_type', $asset->fa_type ?? '') }}" />
             </div>
 
             <!-- FA Location -->
@@ -412,7 +462,7 @@
                     Location</label>
                 <input type="text" id="fa_location" name="fa_location" readonly
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value="{{ old('fa_location', $asset[$current_varaint]->fa_location ?? '') }}" />
+                    value="{{ old('fa_location', $asset->fa_location ?? '') }}" />
             </div>
 
             <!-- Cost & VAT -->
@@ -422,13 +472,13 @@
                 <div class="flex w-full">
                     <input type="text" id="cost" name="cost" readonly
                         class="percent3 p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value="{{ old('cost', (float) $asset[$current_varaint]->cost ?? '') }}" />
+                        value="{{ old('cost', (float) $asset->cost ?? '') }}" />
                     <input type="text" id="currency" name="currency" readonly
                         class="percent3 bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value="{{ old('currency', $asset[$current_varaint]->currency ?? '') }}" />
+                        value="{{ old('currency', $asset->currency ?? '') }}" />
                     <input type="text" id="vat" name="vat" readonly
-                        class="percent3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value="{{ old('vat', $asset[$current_varaint]->vat ?? '') }}" />
+                        class="percent3 px-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        value="{{ old('vat', $asset->vat ?? '') }}" />
                 </div>
             </div>
 
@@ -437,7 +487,7 @@
                     Description
                 </label>
                 <textarea id="description" name="description" readonly
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('description', $asset[$current_varaint]->description ?? '') }}</textarea>
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('description', $asset->description ?? '') }}</textarea>
             </div>
 
             <div class="flex flex-col w-full">
@@ -445,7 +495,7 @@
                     Invoice Description
                 </label>
                 <textarea id="invoice_description" name="invoice_description" readonly
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('invoice_description', $asset[$current_varaint]->invoice_description ?? '') }}
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('invoice_description', $asset->invoice_description ?? '') }}
                 </textarea>
             </div>
 
@@ -462,7 +512,7 @@
 
                     <input type="text" id="vendor" name="vendor" readonly
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value= "{{ old('vendor', $asset[$current_varaint]->vendor ?? '') }}" />
+                        value= "{{ old('vendor', $asset->vendor ?? '') }}" />
 
 
                 </div>
@@ -474,7 +524,7 @@
 
                     <input type="text" id="vendor_name" name="vendor_name" readonly
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value= "{{ old('vendor_name', $asset[$current_varaint]->vendor_name ?? '') }}" />
+                        value= "{{ old('vendor_name', $asset->vendor_name ?? '') }}" />
 
 
                 </div>
@@ -486,7 +536,7 @@
 
                     <input type="text" id="address" name="address" readonly
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        value= "{{ old('address', $asset[$current_varaint]->address ?? '') }}" />
+                        value= "{{ old('address', $asset->address ?? '') }}" />
 
 
                 </div>
@@ -495,10 +545,10 @@
                 <div>
                     <label for="address2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address
                         2</label>
-                    @if (!empty($asset[$current_varaint]->address2))
+                    @if (!empty($asset->address2))
                         <input type="text" id="address2" name="address2" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset[$current_varaint]->address2 }}" />
+                            value="{{ $asset->address2 }}" />
                     @else
                         <input type="text" id="address2" name="address2" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -511,10 +561,10 @@
                     <label for="contact"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact</label>
 
-                    @if (!empty($asset[$current_varaint]->contact))
+                    @if (!empty($asset->contact))
                         <input type="text" id="contact" name="contact" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset[$current_varaint]->contact }}" />
+                            value="{{ $asset->contact }}" />
                     @else
                         <input type="text" id="contact" name="contact" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -526,10 +576,10 @@
                 <div>
                     <label for="phone"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
-                    @if (!empty($asset[$current_varaint]->phone))
+                    @if (!empty($asset->phone))
                         <input type="text" id="phone" name="phone" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset[$current_varaint]->phone }}" />
+                            value="{{ $asset->phone }}" />
                     @else
                         <input type="text" id="phone" name="phone" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -541,10 +591,10 @@
                 <div>
                     <label for="email"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">E-Mail</label>
-                    @if (!empty($asset[$current_varaint]->email))
+                    @if (!empty($asset->email))
                         <input type="text" id="email" name="email" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset[$current_varaint]->email }}" />
+                            value="{{ $asset->email }}" />
                     @else
                         <input type="text" id="email" name="email" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -553,28 +603,27 @@
                 </div>
             </div>
         </div>
-        <h1 class="mb-2 title_base text-black dark:text-blue-100">QR Code </h1>
+        {{-- <h1 class="mb-2 title_base text-black dark:text-blue-100">QR Code </h1>
         <div id="qr_code">
-            <a target="_blank"
-                href="/admin/qr/code/print/assets={{ $asset[$current_varaint]->assets1 . $asset[$current_varaint]->assets2 }}">
+            <a target="_blank" href="/admin/qr/code/print/assets={{ $asset->assets1 . $asset->assets2 }}">
                 {{ $qr_code }}
             </a>
 
 
-        </div>
+        </div> --}}
         <h1 class="mb-2 title_base text-black mt-4 dark:text-blue-100">Image </h1>
         <input type="text" class="hidden" name="image_state" value="0" id="image_state">
         <input type="text" class="hidden" name="file_state" value="0" id="file_state">
         <div id="image_show" class="grid gap-6 mb-6 grid-cols-1 lg:grid-cols-4 md:grid-cols-4">
             @if (!empty($asset))
-                @if (!empty($asset[$current_varaint]->images))
+                @if (!empty($asset->images))
                     @php
                         $image_qty = 0;
                         $image_no = 1;
 
                     @endphp
 
-                    @foreach ($asset[$current_varaint]->images as $item)
+                    @foreach ($asset->images as $item)
                         @php
                             $date = explode('-', $item->created_at);
                             $year = $date[0];
@@ -582,7 +631,7 @@
                             // $path= "/storage/uploads/image/".$item->image;
                         @endphp
 
-                        @if ($item->varaint == $current_varaint)
+                        @if ($item->variant == $variant)
                             <div class="image_box" id="image_box_varaint{{ $item->id }}">
                                 <img id="image_box_varaint_img{{ $item->id }}"
                                     src="/storage/uploads/image/{{ $year }}/{{ $month }}/{{ $item->image }}"
@@ -612,21 +661,21 @@
         <h1 class="mb-2 title_base text-black dark:text-blue-100">Other FIle</h1>
         <div id="container_file" class="grid justify-start gap-6 mb-6 grid-cols-1 lg:grid-cols-1 md:grid-cols-1">
 
-            @if (!empty($asset[$current_varaint]->files))
+            @if (!empty($asset->files))
                 @php
                     $file_qty = 0;
                     $file_no = 1;
 
                 @endphp
 
-                @foreach ($asset[$current_varaint]->files as $item)
+                @foreach ($asset->files as $item)
                     @php
                         $pathInfo = pathinfo($item->file);
 
                         $extension = $pathInfo['extension']; // txt
                         $filename = $item->file; // example
                     @endphp
-                    @if ($item->varaint == $current_varaint)
+                    @if ($item->variant == $current_variant)
                         @if ($extension == 'xlsx')
                             <div class="flex box_file" id="file_container{{ $file_no }}">
                                 <a target="_blank" href="/uploads/files/{{ $filename }}">
@@ -706,20 +755,19 @@
         </div>
 
         </div>
-        @if ($update_able != 0)
-            @if (
-                $total_varaint == $current_varaint &&
-                    ($asset[$current_varaint]->status == 1))
+
+        @if ($state == 'update')
+            @if ($asset->deleted == 0)
                 <div class="btn_float_right">
                     <button type="button" onclick="search_assets()"
                         class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Search
                         Invoice
                     </button>
-                    <button type="button" onclick="append_img()"
+                    <button type="button" {{-- onclick="append_img()" --}} onclick="{alert('Under maintenance')}"
                         class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                         <i class="fa-solid fa-image" style="color: #ffffff;"></i>
                     </button>
-                    <button type="button" onclick=" append_file()"
+                    <button type="button" {{-- onclick=" append_file()" --}} onclick="{alert('Under maintenance')}"
                         class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                         <i class="fa-solid fa-file"></i>
                     </button>
@@ -729,33 +777,64 @@
                     </button>
                 </div>
             @else
-                @if (Auth::user()->role == 'admin')
-                    <div class="btn_float_right">
+                {{-- @if (Auth::user()->role == 'super_admin') --}}
+                <div class="btn_float_right">
 
-                        <button type="button" onclick="change_form_attribute()"
-                            class="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                            Restore <i class="fa-solid fa-download"></i>
-                        </button>
+                    <button type="button" onclick="change_form_attribute()"
+                        class="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                        Restore <i class="fa-solid fa-download"></i>
+                    </button>
 
-                    </div>
-                @endif
+                </div>
+                {{-- @endif --}}
             @endif
-
         @endif
     </form>
-       <script>
+    @php
+        $defaultDate_invoice = !empty($asset->invoice_date)
+            ? \Carbon\Carbon::parse($asset->invoice_date)->format('Y-m-d')
+            : '1900-01-01';
+
+        if ($asset->invoice_date == '1900-01-01') {
+            $defaultDate_invoice = '1900-01-01';
+        }
+
+        $defaultDate_transaction = !empty($asset->transaction_date)
+            ? \Carbon\Carbon::parse($asset->transaction_date)->format('Y-m-d')
+            : \Carbon\Carbon::now()->format('Y-m-d');
+
+        $defaultDate_dr = !empty($asset->dr_date)
+            ? \Carbon\Carbon::parse($asset->dr_date)->format('Y-m-d')
+            : \Carbon\Carbon::now()->format('Y-m-d');
+    @endphp
+    <script>
         flatpickr("#transaction_date", {
             dateFormat: "d-M-Y",
-            defaultDate: "today"
+            defaultDate: "{{ $defaultDate_transaction }}"
         });
+
         flatpickr("#dr_date", {
             dateFormat: "d-M-Y",
-            defaultDate: "today"
+            defaultDate: "{{ $defaultDate_dr }}"
         });
-        flatpickr("#invoice_posting_date", {
+        flatpickr("#invoice_date", {
             dateFormat: "d-M-Y",
-            defaultDate: "today",
-            clickOpens: false // prevents calendar from opening
+            defaultDate: "{{ $defaultDate_invoice }}",
+            clickOpens: false
         });
+           const departmentInput = document.getElementById('department');
+    const validDepartments = @json($departments);
+
+    departmentInput.addEventListener('change', function() {
+        if (!validDepartments.includes(this.value)) {
+            alert("Please select a department from the list!");
+            this.value = ""; // clear invalid input
+        } else {
+            // Trigger your search function here
+            otherSearch();
+        }
+    });
+
     </script>
+
 @endsection

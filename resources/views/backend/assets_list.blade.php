@@ -1,8 +1,15 @@
 @extends('backend.master')
 @section('content')
 @section('header')
-    (Manage Assets)
+  Active  Assets Management
 @endsection
+@section('style')
+   <span class="ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
+                 class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">Active Assets Management</span>
+</span>
+
+@endsection
+    <script src="{{ asset('assets/js/xlsx.full.min.js') }}"></script>
 <div id="delete_asset_admin"
     class="toast_delete w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400"
     role="alert">
@@ -14,13 +21,15 @@
             <span class="sr-only">Refresh icon</span>
         </div>
         <div class="ms-3 text-sm font-normal">
-            <span class="mb-1 text-sm font-semibold text-gray-900 dark:text-white">This Record will be delete this Record?</span>
+            <span class="mb-1 text-sm font-semibold text-gray-900 dark:text-white">This Record will be delete this
+                Record?</span>
 
 
             <form action="/admin/assets/admin/delete/submit" method="POST">
                 @csrf
                 <input type="text" name="id" id="delete_value_asset" class="hidden">
-                  <input type="text" name="reason" id="reason" placeholder="Reason" class="m-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="text" name="reason" id="reason" placeholder="Reason"
+                    class="m-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div class="grid grid-cols-2 gap-2">
 
                     <div>
@@ -311,6 +320,8 @@
                             Export
                         </button>
 
+                                 <button type="button" onclick="exportToExcel()" class="text-white  update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Export</button>
+
 
 
                         <button type="button" onclick="search_asset(0)" id="search_item"
@@ -325,7 +336,7 @@
                                 <option value="{{ $limit }}" selected>{{ $limit }} Row</option>
 
                                 <!-- Other options excluding the current limit -->
-                                @foreach ([25, 50, 75, 100, 125, 150, 175, 200, 250] as $option)
+                                @foreach ([25, 50, 75, 100, 125, 150, 175, 200, 250,500] as $option)
                                     @if ($limit != $option)
                                         <option value="{{ $option }}">{{ $option }} Row</option>
                                     @endif
@@ -434,11 +445,10 @@
                                 <tr class=" bg-rose-100 border-b dark:bg-gray-800 dark:border-gray-700">
 
                                     <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                           <input onchange="printable()" data-id="{{ $item->assets_id }}"
-                                        id="green-checkbox{{ $item->id }}" type="checkbox" value=""
-                                        class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                        <input onchange="printable()" data-id="{{ $item->assets_id }}"
+                                            id="green-checkbox{{ $item->id }}" type="checkbox" value=""
+                                            class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                         <span class="px-2 ">Deleted</span>
-
                             @endif
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
 
@@ -504,7 +514,7 @@
 
 
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                {{ \Carbon\Carbon::parse($item->created_at)->format('d-M-Y')??'' }}
+                                {{ \Carbon\Carbon::parse($item->created_at)->format('d-M-Y') ?? '' }}
 
                             </td>
                             <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
@@ -531,17 +541,17 @@
 
                                             @if (Auth::user()->Permission->assets_read == 1)
                                                 <li>
-                                                    <a href="/admin/assets/view/id={{ $item->assets_id }}"
+                                                 <a href="/admin/assets/data/view/id={{ $item->assets_id }}/variant={{ $item->variant }}"
                                                         class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">View</a>
                                                 </li>
                                             @endif
                                             @if (Auth::user()->Permission->assets_update == 1)
                                                 <li>
-                                                    <a href="/admin/assets/edit/id={{ $item->assets_id }}"
+                                                    <a href="/admin/assets/data/update/id={{ $item->assets_id }}/variant={{ $item->variant }}"
                                                         class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Update</a>
                                                 </li>
                                             @endif
-                                            @if (Auth::user()->Permission->assets_delete == 1)
+                                            @if (Auth::user()->Permission->assets_delete == 1 && $item->deleted == 0)
                                                 <li class="cursor block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white"
                                                     data-id="{{ $item->assets_id }}"
                                                     id="btn_delete_asset{{ $item->assets_id }}"
@@ -580,8 +590,20 @@
 <script>
     let array = @json($asset);
 
-
+    let page_view = @json($page);
     let sort_state = 0;
+
+           function exportToExcel() {
+        // Convert JSON to worksheet
+        let worksheet = XLSX.utils.json_to_sheet(array);
+
+        // Create a new workbook and append worksheet
+        let workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Assets");
+
+        // Export as Excel file
+        XLSX.writeFile(workbook, "assets.xlsx");
+    }
 
 
     const button = document.querySelector('#search_item');

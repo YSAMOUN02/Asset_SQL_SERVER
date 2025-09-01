@@ -46,65 +46,9 @@ class User extends Authenticatable
         ];
     }
     public function Permission(){
-        return $this->hasOne(Permission::class, 'id');
+        return $this->hasOne(Permission::class, 'user_id');
     }
-   // Define the relationship with the Permission model
-   public function permissions()
-   {
-       return $this->hasOne(Permission::class);
-   }
 
-   // Check if a user has a specific permission for users
-   public function hasUserPermission($permission)
-   {
-       return $this->permissions->$permission === '1';
-   }
 
-   // Check if a user has a specific permission for assets
-   public function hasAssetPermission($permission)
-   {
-       return $this->permissions->$permission === '1';
-   }
 
-   // Helper methods for user permissions
-   public function canUserRead()
-   {
-       return $this->hasUserPermission('user_read');
-   }
-
-   public function canUserWrite()
-   {
-       return $this->hasUserPermission('user_write');
-   }
-
-   public function canUserExecute()
-   {
-       return $this->hasUserPermission('user_execute');
-   }
-
-   public function canUserUpdate()
-   {
-       return $this->hasUserPermission('user_update');
-   }
-
-   // Helper methods for asset permissions
-   public function canAssetsRead()
-   {
-       return $this->hasAssetPermission('assets_read');
-   }
-
-   public function canAssetsWrite()
-   {
-       return $this->hasAssetPermission('assets_write');
-   }
-
-   public function canAssetsExecute()
-   {
-       return $this->hasAssetPermission('assets_execute');
-   }
-
-   public function canAssetsUpdate()
-   {
-       return $this->hasAssetPermission('assets_update');
-   }
 }

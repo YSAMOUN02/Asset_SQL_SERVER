@@ -73,6 +73,11 @@ public function storeChangeLog($record_id,$record_no, $oldValues, $newValues, $a
     ]);
 
 }
+
+public function permission_alert($message){
+
+return redirect()->back()->with('error','You do not has permission on '.$message);
+}
     protected function parseDateOrDefault($date, $default = '1900-01-01')
     {
         try {
