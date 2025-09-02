@@ -32,7 +32,7 @@ class MovementController extends Controller
             'asset' => $last_assets
         ]);
     }
-    public function movement_add_submit(request $request)
+    public function movement_add_submit(Request $request)
     {
         // 1. Validate form
         $request->validate([
@@ -43,9 +43,9 @@ class MovementController extends Controller
         ]);
 
         // 2. Find last asset by hidden ID
-        $lastAsset = movement::with(['images', 'files'])
-            ->where('assets_id', $request->last_assets_id)
-            ->where('deleted', 0)
+        $lastAsset = movement::where('assets_id', $request->last_assets_id)
+            ->where('status', 1)
+            ->orderby('transaction_date', 'desc')
             ->first();
 
         if (!$lastAsset) {
@@ -54,21 +54,21 @@ class MovementController extends Controller
 
         // 3. Duplicate base asset
         $newAsset = $lastAsset->replicate();
-        $newAsset->assets1        = $lastAsset->assets1;
-        $newAsset->assets2        = $request->assets2 ?? $lastAsset->assets2;
-        $newAsset->reference      = $request->ref_movement ?? $lastAsset->reference;
+        $newAsset->assets1          = $lastAsset->assets1;
+        $newAsset->assets2          = $request->assets2 ?? $lastAsset->assets2;
+        $newAsset->reference        = $request->ref_movement ?? $lastAsset->reference;
         $newAsset->transaction_date = $request->transaction_date
             ? \Carbon\Carbon::parse($request->transaction_date)->format('Y-m-d')
             : $lastAsset->transaction_date;
 
         // Override holder/location/department/company/purpose
-        $newAsset->asset_holder   = $request->holder ?? $lastAsset->asset_holder;
-        $newAsset->holder_name    = $request->holder_name ?? $lastAsset->holder_name;
-        $newAsset->location       = $request->location ?? $lastAsset->location;
-        $newAsset->department     = $request->department ?? $lastAsset->department;
-        $newAsset->company        = $request->company ?? $lastAsset->company;
-        $newAsset->purpose        = $request->purpose ?? $lastAsset->purpose;
-        $newAsset->status_recieved = $request->status_recieved ?? $lastAsset->status_recieved;
+        $newAsset->asset_holder     = $request->holder ?? $lastAsset->asset_holder;
+        $newAsset->holder_name      = $request->holder_name ?? $lastAsset->holder_name;
+        $newAsset->location         = $request->location ?? $lastAsset->location;
+        $newAsset->department       = $request->department ?? $lastAsset->department;
+        $newAsset->company          = $request->company ?? $lastAsset->company;
+        $newAsset->purpose          = $request->purpose ?? $lastAsset->purpose;
+        $newAsset->status_recieved  = $request->status_recieved ?? $lastAsset->status_recieved;
         $newAsset->initial_condition = $request->initial_condition ?? $lastAsset->initial_condition;
 
         // Backend state
@@ -76,11 +76,21 @@ class MovementController extends Controller
         $newAsset->last_varaint   = 1;
         $newAsset->deleted        = 0;
         $newAsset->deleted_at     = null;
-
+        $newAsset->status         = 1; // new one is active
         $newAsset->save();
 
         // 4. Copy related images to new variant
-        foreach ($lastAsset->images as $image) {
+        $images = $lastAsset->images()->where('variant', $lastAsset->variant)->get();
+        foreach ($images as $image) {
+            $newImage = $image->replicate();
+            $newImage->asset_id = $newAsset->assets_id;
+            $newImage->variant  = $newAsset->variant;
+            $newImage->save();
+        }
+
+        // 4. Copy related images to new variant
+        $images = $lastAsset->images()->where('variant', $lastAsset->variant)->get();
+        foreach ($images as $image) {
             $newImage = $image->replicate();
             $newImage->asset_id = $newAsset->assets_id;
             $newImage->variant  = $newAsset->variant;
@@ -88,15 +98,30 @@ class MovementController extends Controller
         }
 
         // 5. Copy related files to new variant
-        foreach ($lastAsset->files as $file) {
+        $files = $lastAsset->files()->where('variant', $lastAsset->variant)->get();
+        foreach ($files as $file) {
             $newFile = $file->replicate();
             $newFile->asset_id = $newAsset->assets_id;
             $newFile->variant  = $newAsset->variant;
             $newFile->save();
         }
 
-        return redirect()->back()->with('success', 'Movement created successfully with images & files.');
+        // 6. Mark all old assets with the same assets1 as inactive
+        movement::where('assets1', $lastAsset->assets1)
+            ->where('assets_id','<>',$newAsset->assets_id)
+            ->update(['status' => 0]);
+
+        // 7. Store change log for the movement
+        $this->storeChangeLog(
+            $newAsset->assets_id,
+            $newAsset->assets1,
+            $lastAsset->toArray(),   // old values from the last asset
+            $newAsset->toArray(),    // new values from the new asset
+            'Movement',
+            'movement',
+            'Asset movement created'
+        );
+
+        return redirect()->back()->with('success', 'Movement created successfully, old assets set inactive.');
     }
 }
-
-// $this->Change_log($asset_user->id, 0, "Insert", "Asset Record", Auth::user()->fname . " " . Auth::user()->name, Auth::user()->id);

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('file', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('asset_id');
-            $table->string('vaiant')->default(1);
+            $table->string('variant')->default(1);
             $table->longText('file');
             $table->timestamps();
         });
