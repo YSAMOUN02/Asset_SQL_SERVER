@@ -540,7 +540,37 @@ z-index: 99;
 .chart_cont{
     height: 500px;
 }
+.image-container {
+    position: relative;
+    display: inline-block;
+    overflow: hidden; /* keep image inside container */
+}
 
+.zoom-lens {
+    position: fixed; /* follow viewport */
+    border: 4px solid #4b6cb7;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: none;
+    z-index: 9999; /* on top of everything */
+    transition: all 0.05s ease-out;
+}
+.image_box {
+    position: relative;
+    overflow: hidden;
+}
+ #variant_tabs {
+        scroll-behavior: smooth;
+        cursor: grab; /* default cursor */
+    }
+
+    #variant_tabs.cursor-grabbing {
+        cursor: grabbing; /* cursor while dragging */
+    }
   @keyframes fade_out{
     0%{
       display: block;

@@ -3,8 +3,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/flatpickr.min.css') }}">
     <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
     <div class="border-b bg-white dark:bg-slate-900 dark:text-white border-gray-200 dark:border-gray-700">
-        <ul
+        <ul id="variant_tabs"
             class="flex  overflow-x-auto whitespace-nowrap -mb-px text-sm font-medium text-center text-gray-500   dark:text-gray-200">
+
             @if ($asset_main->variant == $variant)
                 <li class="me-2 active_tab">
                     <a href="/admin/assets/data/{{ $state }}/id={{ $asset_main->assets_id }}/variant={{ $asset_main->variant }}"
@@ -33,9 +34,11 @@
             @php
                 $asset = $asset_main;
                 $current_last_variant = $asset_main->variant;
+                $master_image = $asset_main->images;
+                $master_variant = $asset_main->variant;
             @endphp
 
-            @if (!empty($asset_main->assets_variant))
+            @if (count($asset_main->assets_variant) > 0)
                 @foreach ($asset_main->assets_variant as $item)
                     @if ($item->variant == 1)
                         @if ($item->variant == $variant)
@@ -52,7 +55,7 @@
                                     ];
                                     $color = $colors[$item->variant % count($colors)];
                                 @endphp
-                                <a href="/admin/assets/{{ $state }}/id={{ $item->assets_id }}/variant={{ $item->variant }}"
+                                <a href="/admin/assets/data/{{ $state }}/id={{ $item->assets_id }}/variant={{ $item->variant }}"
                                     class="inline-flex items-center justify-center p-4  hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 ">
 
                                     <i class="fa-solid fa-folder-plus mx-2" style="color: {{ $color }}"></i> Variant
@@ -157,14 +160,12 @@
             @endphp
         @endforeach
     @endif
-
-
     <form class="p-5 dark:bg-gray-900 bg-white" id="form-submit" enctype="multipart/form-data"
         action="/admin/assets/update/submit" method="POST"
         @if ($state != 'update') onsubmit="return false;" @endif>
 
         @csrf
-        <h1 class="title_base text-black dark:text-blue-100">Asset Info</h1>
+        <h1 class="title_base text-black dark:text-blue-100">Asset Info </h1>
 
         <div class="grid gap-6 mb-6 md:grid-cols-2 mt-5">
             <div>
@@ -174,19 +175,64 @@
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="reference" value="{{ old('reference', $asset->reference ?? '') }}" required />
                 <input type="text" class="hidden" name="assets_id" value="{{ $asset->assets_id }}">
+                <input type="text" class="hidden" name="state" value="{{ $state }}">
             </div>
 
+            @php
+                $codes = [
+                    'PD' => 'Production',
+                    'CM' => 'Commercial',
+                    '34' => 'Project at 34A',
+                    'AG' => 'Administation and General Affairs',
+                    'CP' => 'Confnirel Factory',
+                    'EX' => 'Export',
+                    'FD' => 'Accounting and Finance',
+                    'HR' => 'Human Resource',
+                    'IA' => 'Inernal Audit',
+                    'IT' => 'Management of Information System',
+                    'KA' => 'Project in Kampot',
+                    'KE' => 'Project in Kep',
+                    'LO' => 'Logistic',
+                    'MG' => 'Management',
+                    'MK' => 'Marketing',
+                    'MT' => 'Maitenance',
+                    'PN' => 'Planing',
+                    'PP' => 'PPM Factory',
+                    'PU' => 'Purchase',
+                    'PV' => 'Project Prek Phnov',
+                    'QA' => 'Quality Assurance',
+                    'QM' => 'Quality Management',
+                    'RD' => 'Research and Development',
+                    'RP' => 'Registration and New Product',
+                    'RT' => 'Project in Ratanakiri',
+                    'SA' => 'Sales Adminstration',
+                    'SL' => 'Sales',
+                    'ST' => 'Stock/Warehouse',
+                    'C' => 'Confirel',
+                    'D' => 'Depomex',
+                    'E' => 'External Project',
+                    'I' => 'Investco',
+                    'P' => 'PPM',
+                ];
+            @endphp
             <div class="flex flex-col w-full">
                 <label for="no" id="assets_label"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset Code <span
-                        class="text-rose-500">*</span></label>
+                        class="text-rose-500" id="assets12">*</span> </label>
                 <div class="flex w-full">
                     <input type="text" id="asset_Code1" name="asset1" readonly
                         class="percent70 bg-gray-50 border border-gray-300 p-2.5 text-gray-900 text-sm focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value="{{ old('assets1', $asset->assets1 ?? '') }}" />
 
-                    <input type="text" name="assets2" value="{{ old('assets2', $asset->assets2 ?? '') }}"
+                    <select name="assets2" required onchange=""
                         class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value=""></option>
+                        @foreach ($codes as $code => $key)
+                            <option value="{{ '-' . $code }}" {{ $asset->assets2 == '-' . $code ? 'selected' : '' }}>
+                                {{ $code }}&ensp; ({{ $key }})
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 
@@ -213,25 +259,27 @@
             </div>
 
             <div>
-                <label for="initial_condition" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Initial
-                    Conditions</label>
-                <input type="text" id="initial_condition"
+                <label for="initial_condition"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Initial
+                    Conditions <span class="text-rose-500">*</span></label>
+                <input type="text" id="initial_condition" required
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="initial_condition" value="{{ old('initial_condition', $asset->initial_condition ?? '') }}" />
             </div>
 
             <div>
                 <label for="Specifications"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Specifications</label>
-                <input type="text" id="Specifications"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Specifications <span
+                        class="text-rose-500">*</span></label>
+                <input type="text" id="Specifications" required
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="specification" value="{{ old('specification', $asset->specification ?? '') }}" />
             </div>
 
             <div>
                 <label for="item_description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item
-                    Description</label>
-                <input type="text" id="item_description" name="item_description"
+                    Description <span class="text-rose-500">*</span></label>
+                <input type="text" id="item_description" name="item_description" required
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     value="{{ old('item_description', $asset->item_description ?? '') }}" />
             </div>
@@ -293,10 +341,11 @@
                     name="location" value="{{ old('location', $asset->location ?? '') }}" />
             </div>
             <div>
-                      <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Department <span class="text-rose-500">*</span>
-            </label>
-                <input list="departments_list" id="department" name="department" required value="{{$asset->department}}"
+                <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Department <span class="text-rose-500">*</span>
+                </label>
+                <input list="departments_list" id="department" name="department" required
+                    value="{{ $asset->department }}"
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Start typing department...">
                 @php $departments = [ 'Accounting & Finance', 'Administration & HR', 'Management', 'Maintenance', 'Planning', 'Purchase', 'Regulatory Affairs', 'External Project & Special Project', 'Warehouse', 'Logistic', 'MIS', 'Consultant', 'Accounting & Finance', 'Research & Development', 'Commercial', 'Regulatory Affairs', 'Production', 'Quality Control', 'Maintenance', 'Warehouse', 'Management', 'Quality Assurance', 'Pizza Project', 'Kitchen Center', 'Consultant', 'Commercial', 'Production', 'Export and Marketing', 'Quality Assurance', 'Quality Control', 'Research & Development', 'Quality Production', 'Order', ]; @endphp
@@ -307,8 +356,9 @@
                 </datalist>
             </div>
             <div>
-                <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
-                <select id="company" name="company"
+                <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company <span
+                        class="text-rose-500">*</span></label>
+                <select id="company" name="company" required
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                     <option value="CFR" @if (($asset->company ?? '') == 'CFR') selected @endif>CFR</option>
@@ -367,7 +417,7 @@
             <div>
                 <label for="dr_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DR Request
                     Date</label>
-                <input type="date" id="dr_date"
+                <input type="text" id="dr_date"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="dr_date" value="{{ old('dr_date', $asset->dr_date, today()) }}" />
 
@@ -603,61 +653,65 @@
                 </div>
             </div>
         </div>
-        {{-- <h1 class="mb-2 title_base text-black dark:text-blue-100">QR Code </h1>
+        <h1 class="mb-2 title_base text-black dark:text-blue-100">QR Code </h1>
         <div id="qr_code">
+
             <a target="_blank" href="/admin/qr/code/print/assets={{ $asset->assets1 . $asset->assets2 }}">
-                {{ $qr_code }}
+                {!! QrCode::size(250)->generate($asset->assets1 . $asset->assets2) !!}
             </a>
-
-
-        </div> --}}
+        </div>
         <h1 class="mb-2 title_base text-black mt-4 dark:text-blue-100">Image </h1>
+        {{-- Count for New Image inserted --}}
         <input type="text" class="hidden" name="image_state" value="0" id="image_state">
         <input type="text" class="hidden" name="file_state" value="0" id="file_state">
-        <div id="image_show" class="grid gap-6 mb-6 grid-cols-1 lg:grid-cols-4 md:grid-cols-4">
-            @if (!empty($asset))
-                @if (!empty($asset->images))
-                    @php
-                        $image_qty = 0;
-                        $image_no = 1;
+        <div id="image_show" class="grid gap-6 mb-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 
-                    @endphp
+            @if (!empty($master_image))
+                @php
+                    $image_qty = 0;
+                    $image_no = 0;
+                @endphp
 
-                    @foreach ($asset->images as $item)
+                @foreach ($master_image as $item)
+
+                    @if ($item->variant == $variant)
                         @php
-                            $date = explode('-', $item->created_at);
-                            $year = $date[0];
-                            $month = $date[1];
-                            // $path= "/storage/uploads/image/".$item->image;
+                            $image_qty++;
+                            $image_no++;
                         @endphp
+                        <div class="image_box relative overflow-hidden rounded shadow-md" id="image_box_varaint{{$item->id}}" style="min-height:300px;">
+                            {{-- Display image --}}
+                            <img id="image_box_varaint_img{{ $item->id }}"
+                                src="{{ asset('storage/uploads/image/' . $item->image) }}"
+                                onclick="maximize_minimize('image_box_varaint_img{{ $item->id }}',1)"
+                                alt="{{ $item->image }}" class="zoomable w-full h-full object-cover cursor-pointer">
 
-                        @if ($item->variant == $variant)
-                            <div class="image_box" id="image_box_varaint{{ $item->id }}">
-                                <img id="image_box_varaint_img{{ $item->id }}"
-                                    src="/storage/uploads/image/{{ $year }}/{{ $month }}/{{ $item->image }}"
-                                    onclick="maximize_minimize('image_box_varaint_img{{ $item->id }}',1)"
-                                    alt="test">
-                                <button type="button" onclick="remove_image_from_stored_varaint({{ $item->id }})"
-                                    id="delete_image"><i class="fa-solid fa-trash" style="color: #ff0000;"></i></button>
+                            {{-- Delete button --}}
+                            <button type="button" onclick="remove_image_from_stored_varaint({{ $item->id }})"
+                                class="absolute top-2 right-10 bg-white p-1 rounded shadow hover:bg-red-100">
+                                <i class="fa-solid fa-trash text-red-600"></i>
+                            </button>
 
-                                <a download="{{ $item->image }}" href=""><button type="button"
-                                        id="download_image"><i class="fa-regular fa-circle-down"
-                                            style="color: #71bd00;"></i></button></a>
-                                <input type="text" value="{{ $item->image }}"
-                                    name="image_stored{{ $image_no }}" class="hidden">
-                            </div>
-                            @php
+                            {{-- Download button --}}
+                            <a download="{{ $item->image }}"
+                                href="{{ asset('storage/uploads/image/' . rawurlencode($item->image)) }}"
+                                class="absolute top-2 right-2 bg-white p-1 rounded shadow hover:bg-green-100">
+                                <i class="fa-regular fa-circle-down text-green-600"></i>
+                            </a>
 
-                                $image_qty++;
-                                $image_no++;
+                            {{-- Hidden input --}}
+                            <input type="hidden" value="{{ $item->image }}" id="image_input_variant_{{$item->id}}" name="image_stored{{ $image_no }}">
+                        </div>
 
-                            @endphp
-                        @endif
-                    @endforeach
-                    <input type="text" class="hidden" name="state_stored_image" value="{{ $image_qty }}">
-                @endif
+
+                    @endif
+                @endforeach
+
+                {{-- Track total images --}}
+                <input type="hidden" name="state_stored_image" value="{{ $image_qty }}">
             @endif
         </div>
+
         <h1 class="mb-2 title_base text-black dark:text-blue-100">Other FIle</h1>
         <div id="container_file" class="grid justify-start gap-6 mb-6 grid-cols-1 lg:grid-cols-1 md:grid-cols-1">
 
@@ -755,32 +809,54 @@
         </div>
 
         </div>
-
-        @if ($state == 'update')
+        @if ($state == 'view')
+            <script>
+                const form = document.querySelector('#form-submit'); // select your form
+                if (form) {
+                    form.querySelectorAll('input, select, textarea, button').forEach(el => {
+                        el.disabled = true; // disable all fields
+                    });
+                }
+            </script>
+        @else
             @if ($asset->deleted == 0)
+
                 <div class="btn_float_right">
                     <button type="button" onclick="search_assets()"
                         class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Search
                         Invoice
                     </button>
-                    <button type="button" {{-- onclick="append_img()" --}} onclick="{alert('Under maintenance')}"
+                    <button type="button" onclick="append_img()" {{-- onclick="{alert('Under maintenance')}" --}}
                         class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                         <i class="fa-solid fa-image" style="color: #ffffff;"></i>
                     </button>
-                    <button type="button" {{-- onclick=" append_file()" --}} onclick="{alert('Under maintenance')}"
+                    {{-- <button type="button"
+
+                     onclick="{alert('Under maintenance')}"
                         class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                         <i class="fa-solid fa-file"></i>
-                    </button>
-                    <button type="submit"
+                    </button> --}}
+                    @if ($variant ==  $master_variant)
+                        <button type="submit"
                         class="text-white mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Submit
                     </button>
+                    @else
+                        <button type="submit"
+                        class="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                        Restore <i class="fa-solid fa-download"></i>
+                    </button>
+
+
+                    @endif
+
                 </div>
             @else
+
                 {{-- @if (Auth::user()->role == 'super_admin') --}}
                 <div class="btn_float_right">
 
-                    <button type="button" onclick="change_form_attribute()"
+                    <button type="submit"
                         class="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                         Restore <i class="fa-solid fa-download"></i>
                     </button>
@@ -822,19 +898,93 @@
             defaultDate: "{{ $defaultDate_invoice }}",
             clickOpens: false
         });
-           const departmentInput = document.getElementById('department');
-    const validDepartments = @json($departments);
+        const departmentInput = document.getElementById('department');
+        const validDepartments = @json($departments);
 
-    departmentInput.addEventListener('change', function() {
-        if (!validDepartments.includes(this.value)) {
-            alert("Please select a department from the list!");
-            this.value = ""; // clear invalid input
-        } else {
-            // Trigger your search function here
-            otherSearch();
-        }
+        departmentInput.addEventListener('change', function() {
+            if (!validDepartments.includes(this.value)) {
+                alert("Please select a department from the list!");
+                this.value = ""; // clear invalid input
+            } else {
+                // Trigger your search function here
+                otherSearch();
+            }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const input1 = document.getElementById("assets1");
+            const select2 = document.getElementById("assets2");
+            const labelSpan = document.getElementById("assets12");
+
+            function updateLabel() {
+                const val1 = input1.value.trim();
+                const val2 = select2.value.trim();
+                if (val1 && val2) {
+                    labelSpan.textContent = val1 + val2; // concat with '-' already in val2
+                } else {
+                    labelSpan.textContent = "*"; // fallback if empty
+                }
+            }
+
+        });
+
+        document.querySelectorAll('#image_show .zoomable').forEach(img => {
+            const lens = document.createElement('div');
+            lens.classList.add('zoom-lens');
+            document.body.appendChild(lens); // append to body for fixed positioning
+
+            let targetX = 0,
+                targetY = 0;
+            let currentX = 0,
+                currentY = 0;
+            let targetZoom = 2;
+            let currentZoom = 2;
+            const zoomStep = 0.2;
+            const minZoom = 1;
+            const maxZoom = 5;
+
+            img.addEventListener('mousemove', e => {
+                targetX = e.clientX;
+                targetY = e.clientY;
+                lens.style.display = 'block';
+            });
+
+            img.addEventListener('mouseleave', () => lens.style.display = 'none');
+
+            img.addEventListener('wheel', e => {
+                e.preventDefault();
+                targetZoom += e.deltaY < 0 ? zoomStep : -zoomStep;
+                targetZoom = Math.max(minZoom, Math.min(maxZoom, targetZoom));
+            });
+
+            function animateLens() {
+                currentX += (targetX - currentX) * 0.15;
+                currentY += (targetY - currentY) * 0.15;
+                currentZoom += (targetZoom - currentZoom) * 0.1;
+
+                lens.style.left = (currentX - lens.offsetWidth / 2) + 'px';
+                lens.style.top = (currentY - lens.offsetHeight / 2) + 'px';
+
+                const rect = img.getBoundingClientRect();
+                const imgX = currentX - rect.left;
+                const imgY = currentY - rect.top;
+
+                lens.style.backgroundImage = `url(${img.src})`;
+                lens.style.backgroundSize = `${img.width * currentZoom}px ${img.height * currentZoom}px`;
+                lens.style.backgroundPosition =
+                    `${-imgX * currentZoom + lens.offsetWidth / 2}px ${-imgY * currentZoom + lens.offsetHeight / 2}px`;
+
+                requestAnimationFrame(animateLens);
+            }
+
+            animateLens();
+        });
+            const tabs = document.getElementById('variant_tabs');
+    tabs.addEventListener('wheel', (e) => {
+        e.preventDefault(); // prevent vertical scroll
+        tabs.scrollLeft += e.deltaY; // use vertical scroll to scroll horizontally
     });
-
     </script>
 
 @endsection

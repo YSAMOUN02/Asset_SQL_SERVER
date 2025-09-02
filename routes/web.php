@@ -69,6 +69,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/quick/data/update/submit', [QuickDataController::class, 'update_quick_data']);
 
 
+    // Movement
+      Route::get('/admin/movement/add/detail/id={id}', [MovementController::class, 'movement']);
+      Route::post('/admin/movement/add/submit', [MovementController::class, 'movement_add_submit']);
+
 
 
 

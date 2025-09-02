@@ -88,7 +88,7 @@ function append_img () {
                                         style="color: #ff0000;"></i>
 
 
-                                <a download="{{ $item->image }}" href="/uploads/image/{{ $item->image }}"><button
+                                <a download="${ item.image }" href="/uploads/image/${item.image }"><button
                                         type="button" id="download_image"><i class="fa-regular fa-circle-down"
                                             style="color: #71bd00;"></i></button></a>
                                 <input id="input${state_box}"  type="file"
@@ -107,7 +107,7 @@ function append_img () {
     document.querySelector('#input' + state_box).click()
 
     // Assign Value to  input text as state
-    document.querySelector('#image_state').value = state_box
+    document.querySelector('#image_state').value += state_box
 
     // Transfer value to Image
 
@@ -139,42 +139,114 @@ function onchnage_imgae (event, boxNo) {
         alert('File is Unknown! , FIle allow is  JPG  JPEG  GIF PNG')
     }
 }
+function maximize_minimize(id, state) {
+    let imgElement = state === 0
+        ? document.querySelector('#box' + id)
+        : document.querySelector('#' + id);
 
-function maximize_minimize (id, state) {
-    if (state == 0) {
-        var url = document.querySelector('#box' + id).src
-        // Create a new window or tab
-        var newWindow = window.open('', '_blank')
-        // Add the image to the new window and style it for full screen
-        newWindow.document.write(
-            `<html><head><title>Full Screen Image</title></head><body style="margin:0;"><img src="${url}" style="width:100vw; height:100vh; object-fit:contain;"></body></html>`
-        )
-        newWindow.document.close() // Close the document to render the content
-    } else if (state == 1) {
-        var imgElement = document.querySelector('#' + id)
+    if (!imgElement) return;
 
-        if (imgElement) {
-            var url = imgElement.src // Get the image URL
+    const url = imgElement.src;
+    const newWindow = window.open('', '_blank');
 
-            // Open a new tab and display the image in full screen
-            var newWindow = window.open('', '_blank')
-            newWindow.document.write(`
-                <html>
-                <head>
+    newWindow.document.write(`
+        <html>
+        <head>
+            <title>Smooth Image Zoom</title>
+            <style>
+                body {
+                    margin:0;
+                    background:black;
+                    display:flex;
+                    justify-content:center;
+                    align-items:center;
+                    height:100vh;
+                    overflow:hidden;
+                }
+                #zoom-img {
+                    max-width:90vw;
+                    max-height:90vh;
+                    cursor:crosshair;
+                }
+                .zoom-lens {
+                    position:absolute;
+                    border: 4px solid #4b6cb7;
+                    border-radius:50%;
+                    width:250px;
+                    height:250px;
+                    pointer-events:none;
+                    background-repeat:no-repeat;
+                    background-size:cover;
+                    display:none;
+                    z-index:1000;
+                    transition: all 0.1s ease-out;
+                }
+            </style>
+        </head>
+        <body>
+            <img id="zoom-img" src="${url}" />
+            <div class="zoom-lens" id="zoom-lens"></div>
+            <script>
+                const img = document.getElementById('zoom-img');
+                const lens = document.getElementById('zoom-lens');
 
-                <title>Full Screen Image</title>
-                </head>
-                <body style="margin:0; background-color: black;">
-                    <img src="${url}" style="width:100vw; height:100vh; object-fit:contain;">
-                </body>
-                </html>
-            `)
-            newWindow.document.close() // Ensure the content is fully loaded
-        } else {
-            console.error('Image not found! Check the ID:', id)
-        }
-    }
+                let targetX = 0, targetY = 0;
+                let currentX = 0, currentY = 0;
+
+                // Smooth scroll zoom
+                let targetZoom = 2;
+                let currentZoom = 2;
+                const zoomStep = 0.2;
+                const minZoom = 1;
+                const maxZoom = 5;
+
+                img.addEventListener('mousemove', e => {
+                    const rect = img.getBoundingClientRect();
+                    targetX = e.clientX - rect.left;
+                    targetY = e.clientY - rect.top;
+                    lens.style.display = 'block';
+                });
+
+                img.addEventListener('mouseleave', () => lens.style.display = 'none');
+
+                img.addEventListener('wheel', e => {
+                    e.preventDefault();
+                    targetZoom += e.deltaY < 0 ? zoomStep : -zoomStep;
+                    targetZoom = Math.max(minZoom, Math.min(maxZoom, targetZoom));
+                });
+
+                function animateLens() {
+                    // Smooth position
+                    currentX += (targetX - currentX) * 0.15;
+                    currentY += (targetY - currentY) * 0.15;
+
+                    // Smooth zoom
+                    currentZoom += (targetZoom - currentZoom) * 0.1;
+
+                    const rect = img.getBoundingClientRect();
+                    const pageX = rect.left + currentX;
+                    const pageY = rect.top + currentY;
+
+                    lens.style.left = (pageX - lens.offsetWidth/2) + 'px';
+                    lens.style.top = (pageY - lens.offsetHeight/2) + 'px';
+
+                    lens.style.backgroundImage = 'url(${url})';
+                    lens.style.backgroundSize = img.width * currentZoom + 'px ' + img.height * currentZoom + 'px';
+                    lens.style.backgroundPosition = (-currentX * currentZoom + lens.offsetWidth/2) + 'px ' + (-currentY * currentZoom + lens.offsetHeight/2) + 'px';
+
+                    requestAnimationFrame(animateLens);
+                }
+
+                animateLens();
+            </script>
+        </body>
+        </html>
+    `);
+
+    newWindow.document.close();
 }
+
+
 
 function remove_image (id) {
     document.querySelector('#image_box' + id).remove()
@@ -588,7 +660,9 @@ function close_table () {
 }
 
 function remove_image_from_stored_varaint (id) {
-    document.querySelector('#image_box_varaint' + id).remove()
+    document.querySelector('#image_box_varaint' + id).remove();
+    document.querySelector('#image_input_variant_' + id).remove();
+
 }
 
 function select_all_permission () {
@@ -1742,14 +1816,7 @@ async function search_asset (no) {
         }
     }
 
-    if (start_val && end_val && start_val != 'NA' && end_val != 'NA') {
-        if (start_val > end_val) {
-            alert(
-                'Start Date is greater than End Date.Please select correct date and Try again.'
-            )
-            return
-        }
-    }
+
     if (value) {
         if (value.value != '') {
             value_val = value.value

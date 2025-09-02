@@ -209,23 +209,15 @@ class ApiHandlerController extends Controller
         // Check if start and end are provided and not "NA"
 
         if ($start != "NA" && $end != "NA") {
-            // Ensure both start and end are in the correct date format (e.g., 'Y-m-d H:i:s')
-            $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay(); // or use ->toDateTimeString() if needed
-            $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay(); // or use ->toDateTimeString()
-
+            $startDate = Carbon::parse($start)->startOfDay();
+            $endDate = Carbon::parse($end)->endOfDay();
 
             $data->whereBetween('transaction_date', [$startDate, $endDate]);
-
-            // Start date only provided
-        } elseif ($start != "NA" && $end == "NA") {
-
-            $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
+        } elseif ($start != "NA") {
+            $startDate = Carbon::parse($start)->startOfDay();
             $data->where('transaction_date', '>=', $startDate);
-
-            // End date only provided
-        } elseif ($start == "NA" && $end != "NA") {
-
-            $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
+        } elseif ($end != "NA") {
+            $endDate = Carbon::parse($end)->endOfDay();
             $data->where('transaction_date', '<=', $endDate);
         }
 

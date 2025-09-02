@@ -26,7 +26,7 @@ abstract class Controller
         $month = date('m');
 
         // Ensure the directory exists
-        $path = public_path("storage/uploads/image/{$year}/{$month}");
+        $path = public_path("storage/uploads/image/");
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
         }
@@ -38,7 +38,7 @@ abstract class Controller
         if (!$thumbnail) {
             $thumbnail = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
         }
-        $name = $thumbnail . '-V' . $var . '-NO' . $no . '.' . $extension;
+        $name = $thumbnail . '-NO' . $no . '.' . $extension;
 
         // Move the file to the correct path
         $image->move($path, $name);

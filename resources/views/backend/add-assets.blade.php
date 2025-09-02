@@ -1,35 +1,42 @@
 @extends('backend.master')
 @section('content')
 @section('header')
-  Asset Add Form
+    Asset Add Form
 @endsection
 @section('style')
-   <span class="ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
-                 class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">Form Assets Registration</span>
-</span>
-
+    <span class="ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">Form Assets Registration</span>
+    </span>
 @endsection
 <style>
-@media print {
-    body * {
-        visibility: hidden; /* hide everything */
+    @media print {
+        body * {
+            visibility: hidden;
+            /* hide everything */
+        }
+
+        #form_assets,
+        #form_assets * {
+            visibility: visible;
+            /* show only the form */
+        }
+
+        #form_assets {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+
+        button {
+            display: none;
+            /* hide buttons */
+        }
+
+        .hide_print {
+            display: none
+        }
     }
-    #form_assets, #form_assets * {
-        visibility: visible; /* show only the form */
-    }
-    #form_assets {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-    }
-    button {
-        display: none; /* hide buttons */
-    }
-    .hide_print{
-        display: none
-    }
-}
 </style>
 <link rel="stylesheet" href="{{ asset('assets/css/flatpickr.min.css') }}">
 <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
@@ -71,15 +78,51 @@
                         class="p-2.5 percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 @endif
 
-                {{-- <input type="text" name="assets2" value="" placeholder="Department Code" class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    > --}}
+                @php
+                    $codes = [
+                        'PD' => 'Production',
+                        'CM' => 'Commercial',
+                        '34' => 'Project at 34A',
+                        'AG' => 'Administation and General Affairs',
+                        'CP' => 'Confnirel Factory',
+                        'EX' => 'Export',
+                        'FD' => 'Accounting and Finance',
+                        'HR' => 'Human Resource',
+                        'IA' => 'Inernal Audit',
+                        'IT' => 'Management of Information System',
+                        'KA' => 'Project in Kampot',
+                        'KE' => 'Project in Kep',
+                        'LO' => 'Logistic',
+                        'MG' => 'Management',
+                        'MK' => 'Marketing',
+                        'MT' => 'Maitenance',
+                        'PN' => 'Planing',
+                        'PP' => 'PPM Factory',
+                        'PU' => 'Purchase',
+                        'PV' => 'Project Prek Phnov',
+                        'QA' => 'Quality Assurance',
+                        'QM' => 'Quality Management',
+                        'RD' => 'Research and Development',
+                        'RP' => 'Registration and New Product',
+                        'RT' => 'Project in Ratanakiri',
+                        'SA' => 'Sales Adminstration',
+                        'SL' => 'Sales',
+                        'ST' => 'Stock/Warehouse',
+                        'C'	 => 'Confirel',
+                        'D'	 =>  'Depomex',
+                        'E'	 =>  'External Project',
+                        'I'  => 'Investco',
+                        'P'  => 'PPM'
 
-                <select type="text" name="assets2" required placeholder="Department Code"
+                    ];
+                @endphp
+
+                <select type="text" name="assets2" required placeholder="Department Code" required
                     class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value="" selected></option>
-                    <option value="MT">MT</option>
-                    <option value="IT">IT</option>
-                    <option value="HR">HR</option>
+                    @foreach ($codes as $code => $key)
+                        <option value="{{ '-'.$code }}">{{ $code . ' : ' . $key }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -97,7 +140,9 @@
                 name="item" required />
         </div>
         <div>
-            <label for="transaction_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Issue
+            <label for="transaction_date"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">transaction <span
+                    class="text-rose-500">*</span>
                 Date</label>
             <input type="text" id="transaction_date" name="transaction_date"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -635,20 +680,22 @@
 
     <div class="btn_float_right">
 
-        <button type="button" onclick="window.print()" class="text-white update_btn hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i class="fa-solid fa-print"></i></button>
+        <button type="button" onclick="window.print()"
+            class="text-white update_btn hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
+                class="fa-solid fa-print"></i></button>
         <button type="button" onclick="search_assets()"
             class="text-white update_btn hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Search
             Invoice
         </button>
         <button type="button"
-        {{-- onclick="append_img()" --}}
-        onclick="{alert('Under maintenance')}"
+        onclick="append_img()"
+        {{-- onclick="{alert('Under maintenance')}" --}}
             class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
             <i class="fa-solid fa-image" style="color: #ffffff;"></i>
         </button>
         <button type="button"
-        {{-- onclick="append_file()" --}}
-                onclick="{alert('Under maintenance')}"
+        onclick="append_file()"
+         {{-- onclick="{alert('Under maintenance')}" --}}
             class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
             <i class="fa-solid fa-file"></i>
         </button>
@@ -693,6 +740,5 @@
             otherSearch();
         }
     });
-
 </script>
 @endsection

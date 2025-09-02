@@ -305,7 +305,7 @@
                                 </ul>
                             </li>
                         @endif
-                        @if (Auth::user()->Permission->quick_read == 1)
+                        {{-- @if (Auth::user()->Permission->quick_read == 1)
                             <li>
 
                                    <button type="button" onclick="{alert('Coming Soon')}"
@@ -314,7 +314,7 @@
                                         <i class="fa-solid fa-book"></i>
                                         <span class="flex-1 ml-3 text-left whitespace-nowrap">Data Setup</span>
 
-                                    </button>
+                                    </button> --}}
                                      {{-- <a href="/admin/user/list"> --}}
                                 {{-- <a href="/quick/data/1">
 
@@ -327,9 +327,9 @@
                                     </button>
                                 </a> --}}
 
-                            </li>
+                            {{-- </li>
 
-                        @endif
+                        @endif --}}
                         @if (Auth::user()->role == 'admin')
                             <li>
                                 <a href="/admin/assets/change/log/1">

@@ -305,7 +305,7 @@ class AssetsController extends Controller
                     $fileName = $this->upload_file($file);
                     $fileModel = new File();
                     $fileModel->asset_id = $newAssetId;
-                    $fileModel->variant  = 0;
+                    $fileModel->variant  = 1;
                     $fileModel->file     = $fileName;
                     $fileModel->save();
                 }
@@ -321,13 +321,13 @@ class AssetsController extends Controller
                     $thumbnail = $this->upload_image(
                         $file,
                         ($asset->assets1 . $asset->assets2) ?? "",
-                        0,
+                        1,
                         $i
                     );
 
                     $imageModel = new Image();
                     $imageModel->asset_id = $newAssetId;
-                    $imageModel->variant  = 0;
+                    $imageModel->variant  = 1;
                     $imageModel->image    = $thumbnail;
                     $imageModel->save();
                 }
@@ -353,10 +353,10 @@ class AssetsController extends Controller
             ->where('assets_id', $id)
             ->first();
 
-
+        // return $asset_main ;
 
         if (!$asset_main) {
-            return 123;
+            return  redirect()->back()->with('error', 'Not Found!');
         }
         return view('backend.update-assets-by-variant', [
             'asset_main' => $asset_main,
@@ -365,7 +365,6 @@ class AssetsController extends Controller
             'state' => $state
         ]);
     }
-
     public function update_submit(Request $request)
     {
         DB::beginTransaction();
@@ -376,15 +375,19 @@ class AssetsController extends Controller
             // 2. Save old values
             $oldValues = $asset->toArray();
 
-            // 3. Copy old record into assets_variant
+            // 3. Copy old record into assets_variant (keep the OLD variant number here)
             $variantData = $asset->toArray();
             unset($variantData['id']); // remove PK
             $variantData['assets_id'] = $asset->assets_id;
-            $variantData['variant'] = $asset->variant;
+            $variantData['variant'] = $asset->variant; // ✅ store the old variant
             Asset_Variant::create($variantData);
 
-            // 4. Update main asset
+            // 4. Update main asset (assign new values + increment variant)
+            $newVariant = $asset->variant + 1;
             $asset->fill($request->all());
+
+            $asset->variant = $newVariant; // ✅ now bump main asset to new variant
+            $asset->deleted = 0; //prevent new deleted
             $asset->save();
 
             // 5. Detect changes per column
@@ -416,8 +419,57 @@ class AssetsController extends Controller
                     );
                 }
             }
+
+
             DB::commit();
-            return redirect()->back()->with('success', 'Asset updated successfully.');
+
+            // Handle Update Existed Image Variant
+            if ($request->input('state_stored_image') > 0) {
+
+                $image_qty = $request->input('state_stored_image');
+                for ($i = 1; $i <= $image_qty; $i++) {
+                    $imageName = $request->input('image_stored' . $i);
+
+                    if (!empty($imageName)) {
+                        $old_image = Image::where('image', $imageName)
+                            ->where('asset_id', $request->assets_id)
+                            ->first();
+
+
+                        if ($old_image) {
+                            $new_v_image = new Image();
+                            $new_v_image->asset_id = $request->assets_id;
+                            $new_v_image->image = $imageName;
+                            $new_v_image->variant = $variantData['variant'] + 1;
+                            $new_v_image->save();
+                        }
+                    }
+                }
+            }
+
+            if ((int)$request->input('image_state') > 0) {
+                $total_image = (int)$request->input('image_state');
+                $no = Image::where('asset_id', $request->assets_id)
+                    ->count();
+
+                for ($i = 1; $i <= $total_image; $i++) {
+                    $imageKey = 'image' . $i;
+                    if ($request->hasFile($imageKey)) {
+                        $file = $request->file($imageKey);
+                        $no++;
+                        $thumbnail = $this->upload_image($file, ($request->assets1 . $request->assets2) ?? "", $variantData['variant'] + 1, $no);
+                        $imageModel = new Image();
+                        $imageModel->asset_id = $request->assets_id;
+                        $imageModel->variant  = $variantData['variant'] + 1;
+                        $imageModel->image    = $thumbnail;
+                        $imageModel->save();
+                    }
+                }
+            }
+
+            // ✅ Redirect to the new variant page
+            return redirect('/admin/assets/data/' . $request->state . '/id=' . $asset->assets_id . '/variant=' . $newVariant)
+                ->with('success', 'Asset updated successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Update failed: ' . $e->getMessage());
@@ -552,139 +604,139 @@ class AssetsController extends Controller
     //     }
     // }
     // Not work
-    public function restore(request $request)
-    {
-        if (Auth::user()->permission->assets_update == 1 && Auth::user()->role == 'admin') {
+    // public function restore(request $request)
+    // {
+    //     if (Auth::user()->permission->assets_update == 1 && Auth::user()->role == 'admin') {
 
-            // Update Existing Last Varaint
-            $last_varaint = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->select("varaint", "assets_id")->first();
-            if (!empty($last_varaint)) {
+    //         // Update Existing Last Varaint
+    //         $last_varaint = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->select("varaint", "assets_id")->first();
+    //         if (!empty($last_varaint)) {
 
-                // Update Last Varaint to old
-                $modify_last = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->first();
-                $modify_last->last_varaint = 0;
-                $modify_last->save();
-                $var = $last_varaint->varaint += 1;
+    //             // Update Last Varaint to old
+    //             $modify_last = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->first();
+    //             $modify_last->last_varaint = 0;
+    //             $modify_last->save();
+    //             $var = $last_varaint->varaint += 1;
 
-                // Create New Record as Last Varaint
-                $asset = new StoredAssets();
-                $asset->assets_id = $modify_last->assets_id;
-                $asset->varaint = $var;
-                $asset->document = $request->document ?? "";
-                $asset->assets1 = $request->asset_code1 ?? "";
-                $asset->assets2 = $request->asset_code2 ?? "";
-                $asset->fa_no = $request->fa_no ?? "";
-                $asset->item = $request->item ?? "";
-                $asset->transaction_date = $request->transaction_date ? Carbon::parse($request->transaction_date)->format('Y-m-d H:i:s') : null;
-                $asset->initial_condition = $request->intail_condition ?? "";
-                $asset->specification = $request->specification ?? "";
-                $asset->item_description = $request->item_description ?? "";
-                $asset->asset_group = $request->asset_group ?? "";
-                $asset->remark_assets = $request->remark_assets ?? "";
+    //             // Create New Record as Last Varaint
+    //             $asset = new StoredAssets();
+    //             $asset->assets_id = $modify_last->assets_id;
+    //             $asset->varaint = $var;
+    //             $asset->document = $request->document ?? "";
+    //             $asset->assets1 = $request->asset_code1 ?? "";
+    //             $asset->assets2 = $request->asset_code2 ?? "";
+    //             $asset->fa_no = $request->fa_no ?? "";
+    //             $asset->item = $request->item ?? "";
+    //             $asset->transaction_date = $request->transaction_date ? Carbon::parse($request->transaction_date)->format('Y-m-d H:i:s') : null;
+    //             $asset->initial_condition = $request->intail_condition ?? "";
+    //             $asset->specification = $request->specification ?? "";
+    //             $asset->item_description = $request->item_description ?? "";
+    //             $asset->asset_group = $request->asset_group ?? "";
+    //             $asset->remark_assets = $request->remark_assets ?? "";
 
-                // Asset Holder
-                $asset->asset_holder = $request->asset_holder ?? "";
-                $asset->holder_name = $request->holder_name ?? "";
-                $asset->position = $request->position ?? "";
-                $asset->location = $request->location ?? "";
-                $asset->department = $request->department ?? "";
-                $asset->company = $request->company ?? "";
-                $asset->remark_holder = $request->remark_holder ?? "";
+    //             // Asset Holder
+    //             $asset->asset_holder = $request->asset_holder ?? "";
+    //             $asset->holder_name = $request->holder_name ?? "";
+    //             $asset->position = $request->position ?? "";
+    //             $asset->location = $request->location ?? "";
+    //             $asset->department = $request->department ?? "";
+    //             $asset->company = $request->company ?? "";
+    //             $asset->remark_holder = $request->remark_holder ?? "";
 
-                // Internal Document
-                $asset->grn = $request->grn ?? "";
-                $asset->po = $request->po ?? "";
-                $asset->pr = $request->pr ?? "";
-                $asset->dr = $request->dr ?? "";
-                $asset->dr_requested_by = $request->dr_requested_by ?? "";
-                $asset->dr_date = $request->dr_date ? Carbon::parse($request->dr_date)->format('Y-m-d H:i:s') : null;
-                $asset->remark_internal_doc = $request->remark_internal_doc ?? "";
+    //             // Internal Document
+    //             $asset->grn = $request->grn ?? "";
+    //             $asset->po = $request->po ?? "";
+    //             $asset->pr = $request->pr ?? "";
+    //             $asset->dr = $request->dr ?? "";
+    //             $asset->dr_requested_by = $request->dr_requested_by ?? "";
+    //             $asset->dr_date = $request->dr_date ? Carbon::parse($request->dr_date)->format('Y-m-d H:i:s') : null;
+    //             $asset->remark_internal_doc = $request->remark_internal_doc ?? "";
 
-                // ERP Invoice
-                $asset->asset_code_account = $request->asset_code_account ?? "";
-                $asset->invoice_date = $request->invoice_posting_date ? Carbon::parse($request->invoice_posting_date)->format('Y-m-d H:i:s') : null;
-                $asset->invoice_no = $request->invoice ?? "";
-                $asset->fa = $request->fa ?? "";
-                $asset->fa_class = $request->fa_class ?? "";
-                $asset->fa_subclass = $request->fa_subclass ?? "";
-                $asset->depreciation = $request->depreciation_book_code ?? "";
-                $asset->fa_type = $request->fa_type ?? "";
-                $asset->fa_location = $request->fa_location ?? "";
-                $asset->cost = $request->cost ?? "";
-                $asset->currency = $request->currency ?? "";
-                $asset->vat = $request->vat ?? "";
-                $asset->description = $request->description ?? "";
-                $asset->invoice_description = $request->invoice_description ?? "";
+    //             // ERP Invoice
+    //             $asset->asset_code_account = $request->asset_code_account ?? "";
+    //             $asset->invoice_date = $request->invoice_posting_date ? Carbon::parse($request->invoice_posting_date)->format('Y-m-d H:i:s') : null;
+    //             $asset->invoice_no = $request->invoice ?? "";
+    //             $asset->fa = $request->fa ?? "";
+    //             $asset->fa_class = $request->fa_class ?? "";
+    //             $asset->fa_subclass = $request->fa_subclass ?? "";
+    //             $asset->depreciation = $request->depreciation_book_code ?? "";
+    //             $asset->fa_type = $request->fa_type ?? "";
+    //             $asset->fa_location = $request->fa_location ?? "";
+    //             $asset->cost = $request->cost ?? "";
+    //             $asset->currency = $request->currency ?? "";
+    //             $asset->vat = $request->vat ?? "";
+    //             $asset->description = $request->description ?? "";
+    //             $asset->invoice_description = $request->invoice_description ?? "";
 
-                // Vendor
-                $asset->vendor = $request->vendor ?? "";
-                $asset->vendor_name = $request->vendor_name ?? "";
-                $asset->address = $request->address ?? "";
-                $asset->address2 = $request->address2 ?? "";
-                $asset->contact = $request->contact ?? "";
-                $asset->phone = $request->phone ?? "";
-                $asset->email = $request->email ?? "";
-                $asset->save();
-            } else {
-                return redirect('/admin/assets/list/1')->with('fail', 'Record Not Found.');
-            }
-            // Add New FIle
-            if ($request->file_state > 0) {
-                for ($i = 1; $i <= $request->file_state; $i++) {  // Start from 1
-                    $fileKey = 'file_doc' . $i;  // Dynamic file input key
+    //             // Vendor
+    //             $asset->vendor = $request->vendor ?? "";
+    //             $asset->vendor_name = $request->vendor_name ?? "";
+    //             $asset->address = $request->address ?? "";
+    //             $asset->address2 = $request->address2 ?? "";
+    //             $asset->contact = $request->contact ?? "";
+    //             $asset->phone = $request->phone ?? "";
+    //             $asset->email = $request->email ?? "";
+    //             $asset->save();
+    //         } else {
+    //             return redirect('/admin/assets/list/1')->with('fail', 'Record Not Found.');
+    //         }
+    //         // Add New FIle
+    //         if ($request->file_state > 0) {
+    //             for ($i = 1; $i <= $request->file_state; $i++) {  // Start from 1
+    //                 $fileKey = 'file_doc' . $i;  // Dynamic file input key
 
-                    if ($request->hasFile($fileKey)) {
-                        $file = $request->file($fileKey);
-                        $fileName = $this->upload_file($file);
+    //                 if ($request->hasFile($fileKey)) {
+    //                     $file = $request->file($fileKey);
+    //                     $fileName = $this->upload_file($file);
 
-                        $file = new File();
-                        $file->asset_id = $last_varaint->assets_id;
-                        $file->varaint = $var;
-                        $file->file = $fileName;
-                        $file->save();
-                        $file = new FileUser();
-                        $file->asset_id = $last_varaint->assets_id;
-                        $file->file = $fileName;
-                        $file->save();
-                    }
-                }
-            }
-            // Add New Image
-            if ($request->image_state > 0) {
-                for ($i = 1; $i <= $request->image_state; $i++) {  // Start from 1
-                    $imageKey = 'image' . $i;  // Dynamic image input key
-                    if ($request->hasFile($imageKey)) {
-                        $file = $request->file($imageKey);
-                        $thumbnail = $this->upload_image($file);
+    //                     $file = new File();
+    //                     $file->asset_id = $last_varaint->assets_id;
+    //                     $file->varaint = $var;
+    //                     $file->file = $fileName;
+    //                     $file->save();
+    //                     $file = new FileUser();
+    //                     $file->asset_id = $last_varaint->assets_id;
+    //                     $file->file = $fileName;
+    //                     $file->save();
+    //                 }
+    //             }
+    //         }
+    //         // Add New Image
+    //         if ($request->image_state > 0) {
+    //             for ($i = 1; $i <= $request->image_state; $i++) {  // Start from 1
+    //                 $imageKey = 'image' . $i;  // Dynamic image input key
+    //                 if ($request->hasFile($imageKey)) {
+    //                     $file = $request->file($imageKey);
+    //                     $thumbnail = $this->upload_image($file);
 
-                        $image = new Image();
-                        $image->asset_id = $last_varaint->assets_id;
-                        $image->varaint = $var;
-                        $image->image = $thumbnail;
-                        $image->save();  // Don't forget to save the image
-                        $image = new ImageUser();
-                        $image->asset_id = $last_varaint->assets_id;
-                        $image->image = $thumbnail;
-                        $image->save();  // Don't forget to save the image
-                        // return 1;
-                    }
-                }
-            }
+    //                     $image = new Image();
+    //                     $image->asset_id = $last_varaint->assets_id;
+    //                     $image->varaint = $var;
+    //                     $image->image = $thumbnail;
+    //                     $image->save();  // Don't forget to save the image
+    //                     $image = new ImageUser();
+    //                     $image->asset_id = $last_varaint->assets_id;
+    //                     $image->image = $thumbnail;
+    //                     $image->save();  // Don't forget to save the image
+    //                     // return 1;
+    //                 }
+    //             }
+    //         }
 
 
-            $this->Change_log($asset->assets_id, $asset->varaint, "Restore", "Asset Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
+    //         $this->Change_log($asset->assets_id, $asset->varaint, "Restore", "Asset Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
 
-            $this->update_existing_to_new_varaint($request, $last_varaint->assets_id, $var);
+    //         $this->update_existing_to_new_varaint($request, $last_varaint->assets_id, $var);
 
-            if ($last_varaint) {
-                return redirect('/admin/assets/list/1')->with('success', 'Restore Success.');
-            } else {
-                return redirect('/admin/assets/list/1')->with('fail', 'Opp!. Something when wronge.');
-            }
-        } else {
-            return redirect('/')->with('fail', 'You do not have permission Update to Restore Old Assets and Role: admin .');
-        }
-    }
+    //         if ($last_varaint) {
+    //             return redirect('/admin/assets/list/1')->with('success', 'Restore Success.');
+    //         } else {
+    //             return redirect('/admin/assets/list/1')->with('fail', 'Opp!. Something when wronge.');
+    //         }
+    //     } else {
+    //         return redirect('/')->with('fail', 'You do not have permission Update to Restore Old Assets and Role: admin .');
+    //     }
+    // }
     public function print_qr($assets)
     {
 

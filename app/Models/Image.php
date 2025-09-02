@@ -12,11 +12,10 @@ class Image extends Model
 
 
     protected $table = "image";
-    
 
+    protected $fillable = ['assets_id', 'image', 'variant'];
     public function storedAsset()
     {
-        return $this->belongsTo(StoredAssets::class, 'asset_id','assets_id');
-        
+        return $this->belongsTo(StoredAssets::class, 'asset_id', 'assets_id');
     }
 }

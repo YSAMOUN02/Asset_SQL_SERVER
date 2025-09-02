@@ -9,6 +9,8 @@
 </span>
 
 @endsection
+    <link rel="stylesheet" href="{{ asset('assets/css/flatpickr.min.css') }}">
+    <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
     <script src="{{ asset('assets/js/xlsx.full.min.js') }}"></script>
 <div id="delete_asset_admin"
     class="toast_delete w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400"
@@ -615,5 +617,15 @@
             button.click();
         }
     });
+
+
+        flatpickr("#start_date", {
+            dateFormat: "d-M-Y",
+            defaultDate: null
+        });
+        flatpickr("#end_date", {
+            dateFormat: "d-M-Y",
+            defaultDate: null
+        });
 </script>
 @endsection
