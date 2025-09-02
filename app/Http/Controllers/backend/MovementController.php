@@ -88,14 +88,6 @@ class MovementController extends Controller
             $newImage->save();
         }
 
-        // 4. Copy related images to new variant
-        $images = $lastAsset->images()->where('variant', $lastAsset->variant)->get();
-        foreach ($images as $image) {
-            $newImage = $image->replicate();
-            $newImage->asset_id = $newAsset->assets_id;
-            $newImage->variant  = $newAsset->variant;
-            $newImage->save();
-        }
 
         // 5. Copy related files to new variant
         $files = $lastAsset->files()->where('variant', $lastAsset->variant)->get();
@@ -122,6 +114,6 @@ class MovementController extends Controller
             'Asset movement created'
         );
 
-        return redirect()->back()->with('success', 'Movement created successfully, old assets set inactive.');
+        return redirect('/admin/assets/transaction/1')->with('success', 'Movement created successfully, old assets set inactive.');
     }
 }

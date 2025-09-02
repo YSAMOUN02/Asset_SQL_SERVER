@@ -448,6 +448,7 @@ class AssetsController extends Controller
             }
 
             if ((int)$request->input('image_state') > 0) {
+
                 $total_image = (int)$request->input('image_state');
                 $no = Image::where('asset_id', $request->assets_id)
                     ->count();
