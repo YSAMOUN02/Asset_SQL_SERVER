@@ -348,22 +348,12 @@ body{
 #logout{
   z-index: 10000;
 }
-#loading_style{
-  width: 200px;
-  height: 100px;
-  position: fixed;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  z-index: 99;
-  backdrop-filter: blur(10px);
-  background-color: black;
-  color: white;
 
+
+body{
+    position: relative;
 }
-#loading h1{
-  margin: 0 10px;
-}
+
 #search_icon_mobile{
 z-index: 99;
 
@@ -571,6 +561,81 @@ z-index: 99;
     #variant_tabs.cursor-grabbing {
         cursor: grabbing; /* cursor while dragging */
     }
+
+/* Circular loader container */
+.loader-circle {
+  width: 80px;
+  height: 80px;
+  border: 8px solid #f3f3f3; /* light grey */
+  border-top: 8px solid #0ea5e9; /* cyan blue */
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite; /* faster spin */
+}
+.loader-wrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.8); /* semi-transparent overlay */
+  z-index: 9999;
+}
+.animate-spin-fast {
+  animation: spin-fast 0.7s linear infinite;
+}
+.progress-glow {
+  background: linear-gradient(
+    90deg,
+    rgba(180, 245, 255, 0.8) 25%,
+    rgb(103, 240, 255) 50%,
+    rgba(0, 170, 196, 0.8) 75%
+  );
+  background-size: 200px 100%;
+  animation: progress-shimmer 1.2s infinite linear;
+}
+main{
+    position: relative;
+}
+#loading {
+    position:fixed;      /* fixed relative to viewport */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;        /* use flex to center inner box */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.2); /* optional overlay */
+       transition: opacity 0.3s ease;
+}
+
+
+#loading h1{
+  margin: 0 10px;
+}
+    /* Faster spin */
+@keyframes spin-fast {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Spin animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+/* Progress bar shimmer effect */
+@keyframes progress-shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
   @keyframes fade_out{
     0%{
       display: block;

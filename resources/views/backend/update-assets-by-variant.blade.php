@@ -33,6 +33,8 @@
             @endif
             @php
                 $asset = $asset_main;
+
+                $master_id = $asset_main->assets_id;
                 $current_last_variant = $asset_main->variant;
                 $master_image = $asset_main->images;
                 $master_variant = $asset_main->variant;
@@ -673,13 +675,13 @@
                 @endphp
 
                 @foreach ($master_image as $item)
-
                     @if ($item->variant == $variant)
                         @php
                             $image_qty++;
                             $image_no++;
                         @endphp
-                        <div class="image_box relative overflow-hidden rounded shadow-md" id="image_box_varaint{{$item->id}}" style="min-height:300px;">
+                        <div class="image_box relative overflow-hidden rounded shadow-md"
+                            id="image_box_varaint{{ $item->id }}" style="min-height:300px;">
                             {{-- Display image --}}
                             <img id="image_box_varaint_img{{ $item->id }}"
                                 src="{{ asset('storage/uploads/image/' . $item->image) }}"
@@ -700,10 +702,9 @@
                             </a>
 
                             {{-- Hidden input --}}
-                            <input type="hidden" value="{{ $item->image }}" id="image_input_variant_{{$item->id}}" name="image_stored{{ $image_no }}">
+                            <input type="hidden" value="{{ $item->image }}"
+                                id="image_input_variant_{{ $item->id }}" name="image_stored{{ $image_no }}">
                         </div>
-
-
                     @endif
                 @endforeach
 
@@ -820,8 +821,16 @@
             </script>
         @else
             @if ($asset->deleted == 0)
-
                 <div class="btn_float_right">
+
+                    @if ($master_variant == $variant)
+                        <a href="/admin/movement/add/detail/id={{ $master_id }}">
+                            <button type="button"
+                                class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                Movement
+                            </button>
+                        </a>
+                    @endif
                     <button type="button" onclick="search_assets()"
                         class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Search
                         Invoice
@@ -836,23 +845,20 @@
                         class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                         <i class="fa-solid fa-file"></i>
                     </button> --}}
-                    @if ($variant ==  $master_variant)
+                    @if ($variant == $master_variant)
                         <button type="submit"
-                        class="text-white mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Submit
-                    </button>
+                            class="text-white mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Submit
+                        </button>
                     @else
                         <button type="submit"
-                        class="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                        Restore <i class="fa-solid fa-download"></i>
-                    </button>
-
-
+                            class="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                            Restore <i class="fa-solid fa-download"></i>
+                        </button>
                     @endif
 
                 </div>
             @else
-
                 {{-- @if (Auth::user()->role == 'super_admin') --}}
                 <div class="btn_float_right">
 
@@ -980,11 +986,11 @@
 
             animateLens();
         });
-            const tabs = document.getElementById('variant_tabs');
-    tabs.addEventListener('wheel', (e) => {
-        e.preventDefault(); // prevent vertical scroll
-        tabs.scrollLeft += e.deltaY; // use vertical scroll to scroll horizontally
-    });
+        const tabs = document.getElementById('variant_tabs');
+        tabs.addEventListener('wheel', (e) => {
+            e.preventDefault(); // prevent vertical scroll
+            tabs.scrollLeft += e.deltaY; // use vertical scroll to scroll horizontally
+        });
     </script>
 
 @endsection

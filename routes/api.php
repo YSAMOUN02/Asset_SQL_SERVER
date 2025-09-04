@@ -19,9 +19,8 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/fect/movement/data', [ApiHandlerController::class, 'search_list_movement_more']);
 
-    Route::post('/fect/movement/data', [ApiHandlerController::class, 'search_list_movement_more']);
+    Route::post('/fect/assets/new/data', [ApiHandlerController::class, 'search_list_asset_new_more']);
 
-    Route::post('/fect/search/movement/data', [ApiHandlerController::class, 'search_movement_more']);
 
     Route::get('/fixAsset/location', [ApiHandlerController::class, 'fa_location']);
 

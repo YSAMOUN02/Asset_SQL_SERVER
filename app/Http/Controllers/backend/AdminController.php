@@ -45,10 +45,10 @@ class AdminController extends Controller
                 return $query;
             }
 
-            if($year == 'all'){
+            if ($year == 'all') {
                 $year = now()->year;
             }
-            if($month == 'all'){
+            if ($month == 'all') {
                 $month = now()->month;
             }
             // --- This Month / Year Active Assets ---
@@ -95,7 +95,7 @@ class AdminController extends Controller
             return view('backend.dashboard_sumarry', compact(
                 'year',
                 'month',
-                   'month_name',
+                'month_name',
                 'year_name',
                 'report',
                 // Chart 1
@@ -168,19 +168,21 @@ class AdminController extends Controller
             ));
         } elseif ($report == 3) {
             // Active counts per year
-            $active_by_year = StoredAssets::selectRaw("
+            $active_by_year = movement::selectRaw("
             YEAR(transaction_date) as year,
-            COUNT(*) as active_count
-        ")
+            COUNT(*) as active_count")
                 ->groupByRaw("YEAR(transaction_date)")
                 ->orderByRaw("YEAR(transaction_date) ASC")
                 ->get();
 
+
+
+
+
             // Register counts per year
             $register_by_year = Register_assets::selectRaw("
             YEAR(transaction_date) as year,
-            COUNT(*) as register_count
-        ")
+            COUNT(*) as register_count")
                 ->groupByRaw("YEAR(transaction_date)")
                 ->orderByRaw("YEAR(transaction_date) ASC")
                 ->get();
@@ -189,13 +191,37 @@ class AdminController extends Controller
             $activeData = $active_by_year->pluck('active_count');
             $registerData = $register_by_year->pluck('register_count');
 
+            // Extract years and counts
+            $labels = $register_by_year->pluck('year');
+            $registerCounts = $register_by_year->pluck('register_count');
+
+            // Compute cumulative register counts
+            $cumulativeRegister = [];
+            $sum = 0;
+            foreach ($registerCounts as $count) {
+                $sum += $count;
+                $cumulativeRegister[] = $sum;
+            }
+
+            // Active counts (if you want them normal, keep as-is)
+            $activeData = $active_by_year->pluck('active_count');
+
+
+
+
+
+
             return view('backend.dashboard_timeline', compact(
                 'year',
                 'month',
                 'labels',
                 'activeData',
                 'registerData',
-                'report'
+                'report',
+
+
+                // chart 3
+                'cumulativeRegister'
             ));
         }
     }

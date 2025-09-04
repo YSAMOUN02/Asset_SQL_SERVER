@@ -1,17 +1,17 @@
 @extends('backend.master')
 @section('content')
 @section('header')
-  Active  Assets Management
+   Last Active Assets Management
 @endsection
 @section('style')
-   <span class="ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
-                 class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">Active Assets Management</span>
-</span>
+    <span class="ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">Last Active Assets Management</span>
+    </span>
 
 @endsection
-    <link rel="stylesheet" href="{{ asset('assets/css/flatpickr.min.css') }}">
-    <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
-    <script src="{{ asset('assets/js/xlsx.full.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('assets/css/flatpickr.min.css') }}">
+<script src="{{ asset('assets/js/flatpickr.js') }}"></script>
+<script src="{{ asset('assets/js/xlsx.full.min.js') }}"></script>
 <div id="delete_asset_admin"
     class="toast_delete w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400"
     role="alert">
@@ -134,7 +134,7 @@
                 </div>
                 <div>
                     <label for="start_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Start
-                        (issue Date)</label>
+                        (Transaction Date)</label>
 
                     <input type="date" id="start_date" name="start_date" name="end_date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -142,7 +142,7 @@
                 </div>
                 <div>
                     <label for="end_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">To
-                        date (issue Date)</label>
+                        date (Transaction Date)</label>
 
                     <input type="date" id="end_date" name="end_date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -322,29 +322,27 @@
                             Export
                         </button>
 
-                                 <button type="button" onclick="exportToExcel()" class="text-white  update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Export</button>
 
-
-
-                        <button type="button" onclick="search_asset(0)" id="search_item"
-                            class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                            <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
-                        </button>
-
-                        <select name="" id="change_limit" onchange="chang_viewpoint(0,'assets')"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <select id="change_limit" onchange="chang_viewpoint(0,'assets')"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-5 py-0 mx-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             @if ($limit)
                                 <!-- Selected/current limit option at the top -->
                                 <option value="{{ $limit }}" selected>{{ $limit }} Row</option>
 
                                 <!-- Other options excluding the current limit -->
-                                @foreach ([25, 50, 75, 100, 125, 150, 175, 200, 250,500] as $option)
+                                @foreach ([25, 50, 75, 100, 125, 150] as $option)
                                     @if ($limit != $option)
                                         <option value="{{ $option }}">{{ $option }} Row</option>
                                     @endif
                                 @endforeach
                             @endif
                         </select>
+                        <button type="button" onclick="search_asset(0)" id="search_item"
+                            class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                            <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
+                        </button>
+
+
 
 
                     </div>
@@ -435,7 +433,7 @@
                     @if (!empty($asset))
                         @foreach ($asset as $item)
                             @if ($item->deleted == 0)
-                                <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <tr class="bg-rose-100 text-black dark:bg-black dark:text-white border-b  dark:border-gray-700">
                                     <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
 
                                         <input onchange="printable()" data-id="{{ $item->assets_id }}"
@@ -444,7 +442,7 @@
 
                                     </td>
                                 @else
-                                <tr class=" bg-rose-100 border-b dark:bg-gray-800 dark:border-gray-700">
+                                <tr class="bg-white text-black dark:bg-black dark:text-white border-b  dark:border-gray-700">
 
                                     <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                         <input onchange="printable()" data-id="{{ $item->assets_id }}"
@@ -530,31 +528,31 @@
 
                                     <!-- Dropdown menu -->
                                     <div id="dropdownDotsHorizontal_view2_{{ $item->assets_id }}"
-                                        class="option_dark hidden bg-white border-b dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-sm w-44">
+                                        class=" hidden bg-white border-b dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-sm w-44">
 
                                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                             aria-labelledby="dropdownMenuIconHorizontalButton_view2_{{ $item->assets_id }}">
                                             @if (Auth::user()->Permission->transfer_write == 1)
                                                 <li>
                                                     <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
-                                                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Movement</a>
+                                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">Movement</a>
                                                 </li>
                                             @endif
 
                                             @if (Auth::user()->Permission->assets_read == 1)
                                                 <li>
-                                                 <a href="/admin/assets/data/view/id={{ $item->assets_id }}/variant={{ $item->variant }}"
-                                                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">View</a>
+                                                    <a href="/admin/assets/data/view/id={{ $item->assets_id }}/variant={{ $item->variant }}"
+                                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">View</a>
                                                 </li>
                                             @endif
                                             @if (Auth::user()->Permission->assets_update == 1)
                                                 <li>
                                                     <a href="/admin/assets/data/update/id={{ $item->assets_id }}/variant={{ $item->variant }}"
-                                                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Update</a>
+                                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">Update</a>
                                                 </li>
                                             @endif
                                             @if (Auth::user()->Permission->assets_delete == 1 && $item->deleted == 0)
-                                                <li class="cursor block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white"
+                                                <li class="cursor block px-4 py-2 hover:bg-gray-200  bg-white text-black"
                                                     data-id="{{ $item->assets_id }}"
                                                     id="btn_delete_asset{{ $item->assets_id }}"
                                                     onclick="delete_value('btn_delete_asset'+{{ $item->assets_id }},'delete_asset_admin','delete_value_asset')">
@@ -590,22 +588,22 @@
     </form>
 </div>
 <script>
-    let array = @json($asset);
+    // let array = @json($asset);
 
     let page_view = @json($page);
     let sort_state = 0;
 
-           function exportToExcel() {
-        // Convert JSON to worksheet
-        let worksheet = XLSX.utils.json_to_sheet(array);
+    // function exportToExcel() {
+    //     // Convert JSON to worksheet
+    //     let worksheet = XLSX.utils.json_to_sheet(array);
 
-        // Create a new workbook and append worksheet
-        let workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Assets");
+    //     // Create a new workbook and append worksheet
+    //     let workbook = XLSX.utils.book_new();
+    //     XLSX.utils.book_append_sheet(workbook, worksheet, "Assets");
 
-        // Export as Excel file
-        XLSX.writeFile(workbook, "assets.xlsx");
-    }
+    //     // Export as Excel file
+    //     XLSX.writeFile(workbook, "assets.xlsx");
+    // }
 
 
     const button = document.querySelector('#search_item');
@@ -619,13 +617,13 @@
     });
 
 
-        flatpickr("#start_date", {
-            dateFormat: "d-M-Y",
-            defaultDate: null
-        });
-        flatpickr("#end_date", {
-            dateFormat: "d-M-Y",
-            defaultDate: null
-        });
+    flatpickr("#start_date", {
+        dateFormat: "d-M-Y",
+        defaultDate: null
+    });
+    flatpickr("#end_date", {
+        dateFormat: "d-M-Y",
+        defaultDate: null
+    });
 </script>
 @endsection

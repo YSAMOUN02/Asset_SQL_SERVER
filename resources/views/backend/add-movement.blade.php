@@ -198,15 +198,16 @@
                     <select id="status_recieved" name="status_recieved"
                         class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
-                        <option value="CFR">Old</option>
+                        <option value="Old">Old</option>
                         <option value="Good">Good</option>
                         <option value="Broken">Broken</option>
                         <option value="Low">Low</option>
                         <option value="Medium">Medium</option>
                         <option value="Other">Other</option>
                     </select>
-                </div>
-                    <button>Submit</button>
+                      <div class="btn_float_right">
+
+                    <button  class="text-white update_btn hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Submit</button>
                 </div>
             </div>
         </form>

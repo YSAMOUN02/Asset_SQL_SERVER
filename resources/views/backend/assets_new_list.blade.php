@@ -1,20 +1,16 @@
 @extends('backend.master')
 @section('content')
 @section('header')
-    Assets History
+    New Assets Management
 @endsection
 @section('style')
     <span class="ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
-            class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">Assets History List</span>
+            class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">New Assets Management</span>
     </span>
 @endsection
-
-
-
 <link rel="stylesheet" href="{{ asset('assets/css/flatpickr.min.css') }}">
 <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
 <script src="{{ asset('assets/js/xlsx.full.min.js') }}"></script>
-
 <div id="delete_asset_admin"
     class="toast_delete w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400"
     role="alert">
@@ -26,13 +22,15 @@
             <span class="sr-only">Refresh icon</span>
         </div>
         <div class="ms-3 text-sm font-normal">
-            <span class="mb-1 text-sm font-semibold text-gray-900 dark:text-white">Are you sure ?</span>
-            <div class="mb-2 text-sm font-normal">This Record will be delete.</div>
+            <span class="mb-1 text-sm font-semibold text-gray-900 dark:text-white">This Record will be delete this
+                Record?</span>
+
+
             <form action="/admin/assets/admin/delete/submit" method="POST">
                 @csrf
+                <input type="text" name="id" id="delete_value_asset" class="hidden">
                 <input type="text" name="reason" id="reason" placeholder="Reason"
                     class="m-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <input type="text" name="id" id="delete_value_asset" class="hidden">
                 <div class="grid grid-cols-2 gap-2">
 
                     <div>
@@ -90,8 +88,6 @@
 
 <div class="container-height   shadow-md sm:rounded-lg dark:bg-gray-800">
     <div class="search-bar bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-
-
         <form action="/admin/assets/add/search" method="POST">
             @csrf
             <div class="max-w-full min-h-full grid px-2 py-1 gap-1 lg:gap-2  grid-cols-3 lg:grid-cols-4 md:grid-cols-2">
@@ -139,7 +135,7 @@
                     <label for="start_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Start
                         (Transaction Date)</label>
 
-                    <input type="text" id="start_date" name="start_date"
+                    <input type="date" id="start_date" name="start_date" name="end_date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                 </div>
@@ -147,7 +143,7 @@
                     <label for="end_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">To
                         date (Transaction Date)</label>
 
-                    <input type="text" id="end_date" name="end_date"
+                    <input type="date" id="end_date" name="end_date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                 </div>
@@ -233,6 +229,13 @@
                             <option value="old_code">Old Code</option>
 
 
+
+
+
+
+
+
+
                         </select>
                         <input type="text" id="other_value"
                             class= " w-32  bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block mx-2 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -286,9 +289,8 @@
                                     </ul>
                                 </nav>
                             @endif
-                            <select onchange="set_page()" id="select_page"
-                                class="flex  items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                name="" id="">
+                            <select onchange="set_page_dynamic_asset_new()" id="set_page_dynamic_asset_new"
+                                class="flex  items-center justify-center px-1 h-8   lg:px-3 lg:h-8  md:px-1 md:h-8 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                 @if ($page != 1)
                                     <option value="{{ $page }}">{{ $page }}</option>
                                 @else
@@ -306,8 +308,8 @@
                         </div>
 
                     </div>
-                    <div class="flex fix_button">
 
+                    <div class="flex fix_button">
                         <button type="button" id="print" onclick="print_group()"
                             class="text-white  hidden update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                             Print
@@ -315,26 +317,30 @@
 
                         <button type="button" id="export_excel" onclick="export_group()"
                             class="text-white  hidden update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                            <i class="fa-solid fa-download"></i>
+                            Export
                         </button>
-                        <select name="" id="change_limit" onchange="chang_viewpoint(0,'assets')"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-0 mx-2  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                          <select name="" id="change_limit" onchange="chang_viewpoint(0,'assets')"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 mx-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             @if ($limit)
                                 <!-- Selected/current limit option at the top -->
                                 <option value="{{ $limit }}" selected>{{ $limit }} Row</option>
 
                                 <!-- Other options excluding the current limit -->
-                                @foreach ([25, 50, 75, 100, 125, 150, 175, 200, 250,300, 500] as $option)
+                                @foreach ([25, 50, 75, 100, 125, 150, 175, 200, 250] as $option)
                                     @if ($limit != $option)
                                         <option value="{{ $option }}">{{ $option }} Row</option>
                                     @endif
                                 @endforeach
                             @endif
                         </select>
-                        <button type="button" onclick="search_movement(0)" id="search_item"
+
+                        <button type="button" onclick="search_asset_new(1)" id="search_item"
                             class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                             <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                         </button>
+
+
 
 
                     </div>
@@ -344,6 +350,9 @@
             </div>
 
         </form>
+
+
+
 
     </div>
     <div class="table-data  max-w-full relative overflow-x-auto whitespace-nowrap shadow-md sm:rounded-lg">
@@ -375,10 +384,10 @@
 
                             Status &ensp;
                         </th>
-
                         <th>
                             status when recieved
                         </th>
+
 
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             Item&ensp;
@@ -420,29 +429,24 @@
 
                 <tbody id="assets_body">
                     @if (!empty($asset))
-                        @php
-                            $no = 1;
-                        @endphp
                         @foreach ($asset as $item)
                             @if ($item->deleted == 0)
-                                <tr class="  bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
+                                <tr class=" bg-rose-100 text-black dark:bg-black dark:text-white border-b  dark:border-gray-700">
                                     <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+
                                         <input onchange="printable()" data-id="{{ $item->assets_id }}"
                                             id="green-checkbox{{ $item->id }}" type="checkbox" value=""
                                             class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-
-
 
                                     </td>
                                 @else
-                                <tr class="bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
+                                <tr class=" bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
 
                                     <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                         <input onchange="printable()" data-id="{{ $item->assets_id }}"
                                             id="green-checkbox{{ $item->id }}" type="checkbox" value=""
                                             class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        Deleted
-                                    </td>
+                                        <span class="px-2 ">Deleted</span>
                             @endif
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
 
@@ -452,7 +456,7 @@
                             </td>
 
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                {{ \Carbon\Carbon::parse($item->transaction_date)->format('M d Y') }}
+                                {{ \Carbon\Carbon::parse($item->transaction_date)->format('d-M-Y') }}
 
                             </td>
 
@@ -505,73 +509,59 @@
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                 {{ $item->reference ?? '' }}
                             </td>
+
+
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
+                                {{ \Carbon\Carbon::parse($item->created_at)->format('d-M-Y') ?? '' }}
 
                             </td>
                             <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
+                                <div class="option">
+                                    <button id="dropdownMenuIconHorizontalButton_view2_{{ $item->assets_id }}"
+                                        data-dropdown-toggle="dropdownDotsHorizontal_view2_{{ $item->assets_id }}"
+                                        class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                        type="button">
+                                        <i class="fa-solid fa-gear"></i>
+                                    </button>
 
-                                @if ($item->status == 0)
-                                    <a
-                                        href="/admin/assets/data/view/id={{ $item->assets_id }}/variant={{ $item->variant }}">
-                                        <button data-popover-target="popover-default{{ $no }}"
-                                            type="button"
-                                            class="text-white mx-2 bg-grey-100 hover:bg-grey-200 focus:ring-4 focus:outline-none focus:ring-blue-100 font-medium rounded-lg text-sm px-2.5 py-2 text-center dark:bg-blue-200 dark:hover:bg-blue-200 dark:focus:ring-blue-300">
+                                    <!-- Dropdown menu -->
+                                    <div id="dropdownDotsHorizontal_view2_{{ $item->assets_id }}"
+                                        class="option_dark hidden bg-white border-b dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow-sm w-44">
 
-                                            <i class="fa-solid fa-eye text-slate-900"></i>
-                                        </button>
-                                    </a>
-                                @else
-                                    <div class="option">
-                                        <button id="dropdownMenuIconHorizontalButton{{ $item->assets_id }}"
-                                            data-dropdown-toggle="dropdownDotsHorizontal{{ $item->assets_id }}"
-                                            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                                            type="button">
-                                            <i class="fa-solid fa-gear"></i>
-                                        </button>
+                                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                            aria-labelledby="dropdownMenuIconHorizontalButton_view2_{{ $item->assets_id }}">
+                                            @if (Auth::user()->Permission->transfer_write == 1)
+                                                <li>
+                                                    <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
+                                                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Movement</a>
+                                                </li>
+                                            @endif
 
-                                        <!-- Dropdown menu -->
-                                        <div id="dropdownDotsHorizontal{{ $item->assets_id }}"
-                                            class="option_dark hidden  bg-white border-b dark:bg-gray-800 dark:border-gray-700   rounded-lg shadow-sm w-44 ">
-
-                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                                aria-labelledby="dropdownMenuIconHorizontalButton{{ $item->assets_id }}">
-
-                                                @if (Auth::user()->Permission->transfer_write == 1 && $item->deleted == 0)
-                                                    <li>
-                                                        <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
-                                                            class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">Movement</a>
-                                                    </li>
-                                                @endif
-
-
-                                                @if (Auth::user()->Permission->assets_read == 1)
-                                                    <li>
-                                                        <a href="/admin/assets/data/view/id={{ $item->assets_id }}/variant={{ $item->variant }}"
-                                                            class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">View</a>
-                                                    </li>
-                                                @endif
-
-                                                @if (Auth::user()->Permission->assets_update == 1 && $item->status == 1)
-                                                    <li>
-                                                        <a href="/admin/assets/data/update/id={{ $item->assets_id }}/variant={{ $item->variant }}"
-                                                            class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">Update</a>
-                                                    </li>
-                                                @endif
-                                                @if (Auth::user()->Permission->assets_delete == 1 && $item->deleted == 0)
-                                                    <li class="cursor block px-4 py-2 hover:bg-gray-200  bg-white text-black"
-                                                        data-id="{{ $item->assets_id }}"
-                                                        id="btn_delete_asset{{ $item->assets_id }}"
-                                                        onclick="delete_value('btn_delete_asset'+{{ $item->assets_id }},'delete_asset_admin','delete_value_asset')">
-                                                        Delete
-                                                    </li>
-                                                @endif
-                                            </ul>
-
-                                        </div>
+                                            @if (Auth::user()->Permission->assets_read == 1)
+                                                <li>
+                                                    <a href="/admin/assets/data/view/id={{ $item->assets_id }}/variant={{ $item->variant }}"
+                                                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">View</a>
+                                                </li>
+                                            @endif
+                                            @if (Auth::user()->Permission->assets_update == 1)
+                                                <li>
+                                                    <a href="/admin/assets/data/update/id={{ $item->assets_id }}/variant={{ $item->variant }}"
+                                                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Update</a>
+                                                </li>
+                                            @endif
+                                            @if (Auth::user()->Permission->assets_delete == 1 && $item->deleted == 0)
+                                                <li class="cursor block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white"
+                                                    data-id="{{ $item->assets_id }}"
+                                                    id="btn_delete_asset{{ $item->assets_id }}"
+                                                    onclick="delete_value('btn_delete_asset'+{{ $item->assets_id }},'delete_asset_admin','delete_value_asset')">
+                                                    Delete
+                                                </li>
+                                            @endif
+                                        </ul>
                                     </div>
-                                @endif
+                                </div>
                             </td>
+
                             </tr>
                         @endforeach
                     @endif
@@ -589,33 +579,18 @@
         <input type="text" name="id" id="id_printer">
         <button type="submit">submit</button>
     </form>
-    <form id="form_export" action="/admin/export/excel/movement" method="post">
+    <form id="form_export" action="/admin/export/excel/assets" method="post">
         @csrf
         <input type="text" name="id_export" id="id_export">
         <button type="submit">submit</button>
     </form>
 </div>
-
 <script>
-    let array = @json($asset);
-
-    function exportToExcel() {
-        // Convert JSON to worksheet
-        let worksheet = XLSX.utils.json_to_sheet(array);
-
-        // Create a new workbook and append worksheet
-        let workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Assets");
-
-        // Export as Excel file
-        XLSX.writeFile(workbook, "assets.xlsx");
-    }
-
-
+    // let array = @json($asset);
 
     let page_view = @json($page);
-
     let sort_state = 0;
+
 
 
     const button = document.querySelector('#search_item');
@@ -627,6 +602,7 @@
             button.click();
         }
     });
+
 
     flatpickr("#start_date", {
         dateFormat: "d-M-Y",

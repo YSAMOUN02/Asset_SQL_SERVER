@@ -24,17 +24,14 @@
 
     </ul>
 </div>
-
-
-
-<form id="user_form" action="/admin/user/add/submit" method="POST">
+<form id="user_form" action="/admin/user/add/submit" method="POST" class="bg-white text-black dark:bg-black dark:text-white p-2.5 rounded-sm">
     @csrf
     <div class="h-max grid grid-cols-2 px-2 mt-5 gap-6 mb-6 md:grid-cols-2">
         <div>
             <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First
                 name</label>
             <input type="text" id="first_name" name="fname"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required />
         </div>
         <div>
@@ -379,6 +376,10 @@
         </div>
     </div>
 </form>
+
+
+
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

@@ -8,6 +8,7 @@ use App\Models\Fix_assets;
 use App\Models\QuickData;
 use App\Models\RawFixAssets;
 use App\Models\StoredAssets;
+use App\Models\New_assets;
 use App\Models\Limit;
 use App\Models\movement;
 use App\Models\User;
@@ -588,6 +589,117 @@ class ApiHandlerController extends Controller
 
 
         return response()->json(["Success."], 200);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    public function search_list_asset_new_more(request $request)
+    {
+
+        $fa = $request->fa ?? "";
+        $invoice = $request->invoice ?? "";
+        $assets = $request->asset ?? "";
+        $description = $request->description ?? "";
+        $start = $request->start ?? "";
+        $end = $request->end ?? "";
+        $state = $request->state ?? "NA";
+        $type = $request->type ?? "NA";
+        $value = $request->value ?? "NA";
+        $id = $request->id ?? "NA";
+        $page = $request->page ?? 1;
+
+
+        $data =  New_assets::orderBy('transaction_date', 'desc')
+            ->orderBy('assets1', 'desc')->where('deleted','<>',1);
+
+
+        if ($id != "NA") {
+            $data->where("assets_id", 'LIKE', "%" . $id . "%");
+        }
+        if ($assets != "NA") {
+            $data->where(DB::raw("CONCAT(assets1, assets2)"), 'LIKE', "%" . $assets . "%");
+        }
+        if ($fa != "NA") {
+            $data->where("fa", 'LIKE', "%" . $fa . "%");
+        }
+        if ($invoice != "NA") {
+            $data->where("invoice_no", 'LIKE', "%" . $invoice . "%");
+        }
+        if ($description != "NA") {
+            $data->where("description", 'LIKE', "%" . $description . "%");
+        }
+
+        // Check if start and end are provided and not "NA"
+
+        if ($start != "NA" && $end != "NA") {
+            $startDate = Carbon::parse($start)->startOfDay();
+            $endDate = Carbon::parse($end)->endOfDay();
+
+            $data->whereBetween('transaction_date', [$startDate, $endDate]);
+        } elseif ($start != "NA") {
+            $startDate = Carbon::parse($start)->startOfDay();
+            $data->where('transaction_date', '>=', $startDate);
+        } elseif ($end != "NA") {
+            $endDate = Carbon::parse($end)->endOfDay();
+            $data->where('transaction_date', '<=', $endDate);
+        }
+
+
+        if ($state != "NA") {
+            if ($state == "All") {
+            } elseif ($state == 0) {
+                $data->where("status", 0);
+            } elseif ($state == 1) {
+                $data->where("status", 1);
+            } elseif ($state == 2) {
+                $data->where("status", 2);
+            }
+        }
+
+        if ($type != "NA" && $value != "NA") {
+            $data->where($type, 'LIKE', '%' . $value . '%');
+        }
+
+
+        $viewpoint = Limit::first();
+        $limit = $viewpoint->limit ?? 50;
+
+        $offet = 0;
+        if ($page != 0) {
+            $offet = ($page - 1) * $limit;
+        }
+        $count = $data->count();
+
+        $data->limit($limit);
+        $data->offset($offet);
+        $asset_data = $data->get();
+
+        $total_pages = ceil($count / $limit);
+
+        // return response()->json($count);
+        $arr = new arr();
+        $arr->page = $page;
+        $arr->total_page = $total_pages;
+        $arr->total_record = $count;
+        $arr->data = $asset_data;
+
+
+        if ($count > 0) {
+            return response()->json($arr)
+                ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+                ->header('Pragma', 'no-cache');
+        } else {
+            return response()->json([]);
+        }
     }
 }
 

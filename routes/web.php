@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
     // LIST
     Route::get('/admin/assets/{page}', [AssetsController::class, 'list_assets']);
     Route::get('/admin/assets/transaction/{page}', [AssetsController::class, 'list_transaction']);
+    Route::get('/admin/assets/new/{page}', [AssetsController::class, 'assets_new']);
     // Add
     Route::get('/admin/assets/add/assets={assets}/invoice_no={invoice}', [AssetsController::class, 'assets_add']);
     Route::post('/admin/assets/add/submit', [AssetsController::class, 'assets_add_submit']);
@@ -77,25 +78,9 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Change History----------------------------------------------------------------------------------------------------
-    Route::get('/admin/assets/change/log/{page}', [ChangeLogController::class, 'ChangeLog']);
-   Route::post('/admin/change/log/search', [ChangeLogController::class, 'searchChangeLog']);
+    Route::get('/admin/change/log/{page}', [ChangeLogController::class, 'ChangeLog']);
+    Route::post('/admin/change/log/search', [ChangeLogController::class, 'searchChangeLog']);
 
-
-
-
-    // Temp
-    // Route::post('/admin/assets/list/search', [AssetsController::class, 'list_asset_search']);
-    // Route::post('/admin/assets/add/search', [AssetsController::class, 'assets_add_by_search']);
-    // Route::post('/admin/assets/staff/delete/submit', [AssetsController::class, 'staff_delete_submit']);
-    // Route::get('/admin/movement/add/{page}', [MovementController::class, 'add_transfer']);
-    // Route::get('/admin/movement/add/detail/id={id}', [MovementController::class, 'add_transfer_detail']);
-    // Route::post('/admin/movement/add/detail/submit', [MovementController::class, 'add_transfer_submit']);
-    // Route::get('/admin/movement/list/{page}', [MovementController::class, 'movement_list']);
-    // Route::get('/admin/movement/edit/id={id}/assets_id={assets_id}/varaint={assets_varaint}', [MovementController::class, 'update_movement_detail']);
-    // Route::get('/admin/movement/view/id={id}/assets_id={assets_id}/varaint={assets_varaint}', [MovementController::class, 'view_movement_detail']);
-    // Route::post('/admin/movement/admin/delete/submit', [MovementController::class, 'delete_movement_detail']);
-    // Route::get('/admin/movement/timeline/id={id}', [MovementController::class, 'movement_timeline']);
-    // Route::post('/admin/movement/admin/update/submit', [MovementController::class, 'update_movement_submit']);
 
    // USER----------------------------------------------------------------------------------------------------
     // ADD

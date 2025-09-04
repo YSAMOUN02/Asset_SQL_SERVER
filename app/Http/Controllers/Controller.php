@@ -5,20 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\ChangeLog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
 abstract class Controller
 {
-    public function Change_log($id, $varaint, $change, $section, $change_by, $user_id)
-    {
 
-        $new_change = new ChangeLog();
-        $new_change->key = $id;
-        $new_change->varaint = $varaint;
-        $new_change->change = $change;
-        $new_change->section = $section;
-        $new_change->change_by = $change_by;
-        $new_change->user_id = $user_id;
-        $new_change->save();
-    }
 
     public function upload_image($image, $thumbnail = null, $var, $no)
     {
@@ -58,26 +48,26 @@ abstract class Controller
     }
 
 
-public function storeChangeLog($record_id,$record_no, $oldValues, $newValues, $action, $table, $reason )
-{
-    ChangeLog::create([
-        'record_id'   => $record_id,
-        'record_no' => $record_no,
-        'old_values' => $oldValues??'',
-        'new_values' => $newValues??'',
-        'action'     => $action,
-        'section' => $table,
-        'reason'     => $reason,
-        'user_id'    => Auth::id(),
-        'change_by'  => Auth::user()->name
-    ]);
+    public function storeChangeLog($record_id, $record_no, $oldValues, $newValues, $action, $table, $reason)
+    {
+        ChangeLog::create([
+            'record_id'   => $record_id,
+            'record_no' => $record_no,
+            'old_values' => $oldValues ?? '',
+            'new_values' => $newValues ?? '',
+            'action'     => $action,
+            'section' => $table,
+            'reason'     => $reason,
+            'user_id'    => Auth::id(),
+            'change_by'  => Auth::user()->name
+        ]);
+    }
 
-}
+    public function permission_alert($message)
+    {
 
-public function permission_alert($message){
-
-return redirect()->back()->with('error','You do not has permission on '.$message);
-}
+        return redirect()->back()->with('error', 'You do not has permission on ' . $message);
+    }
     protected function parseDateOrDefault($date, $default = '1900-01-01')
     {
         try {

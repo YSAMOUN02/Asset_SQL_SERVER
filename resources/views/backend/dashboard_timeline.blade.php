@@ -69,12 +69,12 @@
             <canvas id="ChartByYear" class="w-full h-[400px]"></canvas>
         </div>
         <span class="mt-2 text-transparent bg-clip-text bg-gradient-to-r to-purple-600 from-purple-400">
-            Movement Active TimeLine
+            Movement Process TimeLine
 
         </span>
     </div>
 
-   <div class="flex flex-col items-center justify-center p-4 w-full">
+    <div class="flex flex-col items-center justify-center p-4 w-full">
         <div class="w-full mx-auto bg-white dark:bg-gray-900 rounded-xl shadow p-4">
             <canvas id="register" class="w-full h-[400px]"></canvas>
         </div>
@@ -83,6 +83,7 @@
 
         </span>
     </div>
+
 
 </div>
 
@@ -173,59 +174,125 @@
 
 
 
+// Compute cumulative by year
+let cumulativeByYear = [];
+let runningSum = 0;
 
-    new Chart(document.getElementById('register'), {
-        type: 'line',
-        data: {
-            labels: yearLabels,
-            datasets: [
-                {
-                    label: 'Register',
-                    data: registerData,
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    tension: 0.3,
-                    pointRadius: 6,
-                    pointHoverRadius: 8
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: true
-                },
-                tooltip: {
-                    callbacks: {
-                        label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y} records`
+registerData.forEach((count, i) => {
+    runningSum += parseInt(count, 10);
+    cumulativeByYear.push(runningSum);
+});
+
+new Chart(document.getElementById('register'), {
+    type: 'line',
+    data: {
+        labels: yearLabels,
+        datasets: [
+            {
+                label: 'Register (Per Year)',
+                data: registerData,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                tension: 0.3,
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                yAxisID: 'y'
+            },
+            {
+                label: 'Register (Cumulative)',
+                data: cumulativeByYear,
+                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                tension: 0.3,
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                yAxisID: 'y'
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: true },
+            tooltip: {
+                callbacks: {
+                    label: (ctx) => {
+                        if (ctx.dataset.label.includes('Cumulative')) {
+                            let prev = ctx.dataIndex > 0 ? cumulativeByYear[ctx.dataIndex - 1] : 0;
+                            let diff = ctx.parsed.y - prev;
+                            let percent = prev > 0 ? ((diff / prev) * 100).toFixed(1) : 0;
+                            return `${ctx.dataset.label}: ${ctx.parsed.y} (+${percent}%)`;
+                        } else {
+                            return `${ctx.dataset.label}: ${ctx.parsed.y} records`;
+                        }
                     }
-                },
-                datalabels: {
-                    anchor: 'end', // position above the point
-                    align: 'top',
-                    color: '#111',
-                    font: {
-                        weight: 'bold',
-                        size: 12
-                    },
-                    formatter: (value) => value // show the quantity
                 }
             },
-            scales: {
-                x: {
-                    ticks: {
-                        autoSkip: false
-                    }
+            datalabels: {
+                anchor: 'end',
+                align: 'top',
+                color: '#111',
+                font: {
+                    weight: 'bold',
+                    size: 10
                 },
-                y: {
-                    beginAtZero: true
+                formatter: (value, ctx) => {
+                    if (ctx.dataset.label.includes('Cumulative')) {
+                        let prev = ctx.dataIndex > 0 ? cumulativeByYear[ctx.dataIndex - 1] : 0;
+                        let diff = value - prev;
+                        let percent = prev > 0 ? ((diff / prev) * 100).toFixed(1) : 0;
+                        return `${value} (+${percent}%)`;
+                    }
+                    return value;
                 }
             }
         },
-        plugins: [ChartDataLabels] // make sure this plugin is loaded
-    });
+        scales: {
+            x: { ticks: { autoSkip: false } },
+            y: { beginAtZero: true }
+        }
+    },
+    plugins: [ChartDataLabels]
+});
+
+    // Chart 3
+
+
+    // Compute year-over-year increase (difference from previous year)
+
+
+// Compute cumulative by year (always increasing)
+// let cumulativeByYear = [];
+// let runningSum = 0;
+
+// registerData.forEach((count, i) => {
+//     runningSum += parseInt(count, 10); // ensure number
+//     cumulativeByYear.push(runningSum);
+// });
+
+// Register Chart (Cumulative by Year)
+// new Chart(document.getElementById('CumulativeByYear'), {
+//     type: 'line',
+//     data: {
+//         labels: yearLabels,
+//         datasets: [{
+//             label: 'Register Growth (Year by Year)',
+//             data: cumulativeByYear,
+//             borderColor: 'rgba(54, 162, 235, 1)',
+//             backgroundColor: 'rgba(54, 162, 235, 0.2)',
+//             tension: 0.3,
+//             pointRadius: 6,
+//             pointHoverRadius: 8
+//         }]
+//     },
+//     options: {
+//         /* your existing options */
+//     },
+//     plugins: [ChartDataLabels]
+// });
+
+
 
 
 </script>

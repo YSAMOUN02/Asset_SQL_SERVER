@@ -304,20 +304,11 @@
 
                     <!-- Old Values -->
                     <td class="px-3 py-2 text-sm text-gray-700 dark:text-gray-300 align-top">
-                        {{ $item->old_values ?? '-' }}
+                        {{ $item->old_values}}
                     </td>
 
                     <td class="px-3 py-2 text-sm text-gray-700 dark:text-gray-300 align-top">
-                        @php
-                            $value = $item->new_values ?? '-';
-
-                            // Check if value is a date in Y-m-d format and convert it
-                            if ($value && preg_match('/^\d{4}-\d{2}-\d{2}$/', $value)) {
-                                $value = \Carbon\Carbon::parse($value)->format('d-M-Y');
-                            }
-                        @endphp
-
-                        {{ $value }}
+                        {{$item->new_values}}
                     </td>
 
                     <!-- Section -->
@@ -351,7 +342,7 @@
 </div>
 </div>
 <script>
-    let array = @json($changeLog);
+    // let array = @json($changeLog);
 
     let sort_state = 0;
 

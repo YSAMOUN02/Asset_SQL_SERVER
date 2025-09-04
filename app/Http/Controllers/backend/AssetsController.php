@@ -14,6 +14,8 @@ use App\Models\movement;
 use App\Models\QuickData;
 use App\Models\Limit;
 use App\Models\Asset_variant;
+use App\Models\New_assets;
+
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -38,6 +40,7 @@ class AssetsController extends Controller
     // Turn to Asset Add View
     public function assetes_add()
     {
+        $this->permission_alert('Assets Write');
         return view('backend.add-assets');
     }
     public function list_transaction($page)
@@ -190,7 +193,7 @@ class AssetsController extends Controller
     // Add New Asset Via Selet on List Invoice
     public function assets_add($assets, $invoice)
     {
-
+                $this->permission_alert('Assets Write');
         if (Auth::user()->permission->assets_write == 1) {
             if ($invoice != "NA") {
                 $modifiedString = str_replace('-', '/', $invoice);
@@ -410,7 +413,7 @@ class AssetsController extends Controller
                 if ($oldValue != $newValue) {
                     $this->storeChangeLog(
                         $asset->assets_id,
-                        $asset->reference,
+                        $asset->assets1,
                         $column . ': ' . $oldValue,
                         $column . ': ' . $newValue,
                         'update',
@@ -1324,12 +1327,19 @@ class AssetsController extends Controller
 
     public function assets_import()
     {
+        if(Auth::user()->permission->assets_write){
+            return redirect()->back()->with('error','You do not has permission');
+        }
+
         return view('backend.import');
     }
 
 
     public function downloadAssetsTemplate()
     {
+           if(Auth::user()->permission->assets_write){
+            return redirect()->back()->with('error','You do not has permission');
+        }
         $spreadsheet = new Spreadsheet();
         $lastRowImport = 1000; // max rows in Sheet1
 
@@ -1524,8 +1534,8 @@ class AssetsController extends Controller
     }
     public function import_submit(Request $request)
     {
-        if (Auth::user()->permission->assets_write) {
-            $this->permission_alert('Assets Write.');
+          if(Auth::user()->permission->assets_write){
+            return redirect()->back()->with('error','You do not has permission');
         }
 
         $request->validate([
@@ -1670,5 +1680,43 @@ class AssetsController extends Controller
             DB::rollBack();
             return back()->with('error', 'Import failed due to unexpected error: ' . $e->getMessage());
         }
+    }
+
+
+
+
+    // No Deleted Allow  and Only 1 Record of new Register
+    public function assets_new($page){
+        // return Auth::user()->Permission;
+        if(Auth::user()->permission->assets_read != 1){
+            return redirect()->back()->with('error','You do not has permission');
+        }
+
+
+      $viewpoint = Limit::first();
+        $limit = $viewpoint->limit ?? 50;
+
+        // if(Auth::user()->permission->assets_read == 1 && Auth::user()->role == 'admin'){
+
+        $count_post = New_assets::count();
+        $total_page = ceil($count_post / $limit);
+        $offset = 0;
+        if ($page != 0) {
+            $offset = ($page - 1) * $limit;
+        }
+
+        $asset =  New_assets::orderBy('assets1', 'desc')->where('deleted','<>',1)
+            ->limit($limit)
+            ->offset($offset)
+            ->get();
+
+        return view('backend.assets_new_list', [
+            'asset' => $asset,
+            'total_page' => $total_page,
+            'page' => $page,
+            'total_assets' => $count_post,
+            'total_page' => $total_page,
+            'limit' =>  $limit
+        ]);
     }
 }

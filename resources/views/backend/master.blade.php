@@ -29,26 +29,38 @@
 </head>
 
 <body id="body_backend">
-    <div id="loading">
-        <div id="loading_style"
-            class="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700 ">
-            <div role="status">
-                <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-                    viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                        fill="currentColor" />
-                    <path
-                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                        fill="currentFill" />
+    <div id="loading"
+        class="fixed inset-0 flex items-center justify-center z-[9999] pointer-events-none opacity-100 transition-opacity duration-700">
+        <div
+            class="flex flex-col items-center justify-center p-6 rounded-2xl shadow-2xl bg-white/90 dark:bg-gray-800/90 w-64 sm:w-72 backdrop-blur animate-fade">
+
+            <!-- Spinner with percentage -->
+            <div class="relative mb-4 w-14 h-14">
+                <svg class="w-14 h-14 text-cyan-400 animate-spin-fast drop-shadow-lg" viewBox="0 0 50 50">
+                    <circle class="opacity-20" cx="25" cy="25" r="22" stroke="currentColor"
+                        stroke-width="4" fill="none"></circle>
+                    <path class="opacity-80" fill="currentColor"
+                        d="M25 5a20 20 0 1 0 20 20A20 20 0 0 0 25 5zm0 36a16 16 0 1 1 16-16 16 16 0 0 1-16 16z">
+                    </path>
                 </svg>
-
+                <div id="percent_text"
+                    class="absolute inset-0 flex items-center justify-center text-sm font-bold text-gray-800 dark:text-gray-100">
+                    0%
+                </div>
             </div>
-            <h1>Loading ....</h1>
+
+            <!-- Loading text with animated dots -->
+            <h1 id="loading_text" class="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 tracking-wide">
+                Loading
+            </h1>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden shadow-inner">
+                <div id="progress_bar" class="progress-glow h-3 w-0 transition-all duration-300 ease-out rounded-full">
+                </div>
+            </div>
         </div>
-
     </div>
-
     @if (Session::has('fail'))
         <div id="toast"
             class="max-w-xs bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-neutral-800 dark:border-neutral-700"
@@ -65,6 +77,28 @@
                 <div class="ms-3">
                     <p id="hs-toast-warning-example-label" class="text-sm text-gray-700 dark:text-neutral-400">
                         {{ Session::get('fail') }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        </div>
+    @endif
+    @if (Session::has('error'))
+        <div id="toast"
+            class="max-w-xs bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-neutral-800 dark:border-neutral-700"
+            role="alert" tabindex="-1" aria-labelledby="hs-toast-warning-example-label">
+            <div class="flex p-4">
+                <div class="shrink-0">
+                    <svg class="shrink-0 size-4 fill-red-800 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="16"
+                        height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z">
+                        </path>
+                    </svg>
+                </div>
+                <div class="ms-3">
+                    <p id="hs-toast-warning-example-label" class="text-sm text-gray-700 dark:text-neutral-400">
+                        {{ Session::get('error') }}
                     </p>
                 </div>
             </div>
@@ -220,33 +254,43 @@
 
                                     <li>
                                         <a href="/admin/assets/add/assets=NEW/invoice_no=NEW"
-                                            class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="fa-solid fa-pen mx-2"></i> Manual</a>
+                                            class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i
+                                                class="fa-solid fa-pen mx-2"></i> Manual</a>
                                     </li>
                                     <li>
                                         <a href="/admin/import/assets"
-                                            class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="mx-2 fa-solid fa-file-excel"></i> Import Excel</a>
+                                            class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i
+                                                class="mx-2 fa-solid fa-file-excel"></i> Import Excel</a>
                                     </li>
-
-
-
-
-
                                 </ul>
                             </li>
                         @endif
+                            @if (Auth::user()->Permission->assets_read == 1)
                         <li>
                             <a href="/admin/assets/1">
                                 <button type="button"
                                     class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
 
-                                  <i class="fa-solid fa-folder-open"></i>
+                                    <i class="fa-solid fa-folder-open"></i>
                                     <span class="flex-1 ml-3 text-left whitespace-nowrap"> Manage Assets</span>
 
                                 </button>
                             </a>
 
                         </li>
-                        @if (Auth::user()->Permission->transfer_write == 1 || Auth::user()->Permission->transfer_read == 1)
+                        <li>
+                            <a href="/admin/assets/new/1">
+                                <button type="button"
+                                    class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+
+                                    <i class="fa-solid fa-file"></i>
+                                    <span class="flex-1 ml-3 text-left whitespace-nowrap"> New Assets List</span>
+
+                                </button>
+                            </a>
+
+                        </li>
+
                             <li>
                                 <a href="/admin/assets/transaction/1">
                                     <button type="button"
@@ -271,37 +315,25 @@
                                     <i class="fa-solid fa-chevron-down"></i>
                                 </button>
                                 <ul id="dropdown-pages-user" class="hidden py-2 space-y-2">
-                                    @php
-                                        $state_user = 0;
-                                    @endphp
+
                                     @if (Auth::user()->Permission->user_write == 1)
                                         <li>
                                             <a href="/admin/user/add"
-                                                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="fa-solid fa-user-plus mx-2"></i>Add
+                                                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i
+                                                    class="fa-solid fa-user-plus mx-2"></i>Add
                                                 User</a>
                                         </li>
-                                        @php
-                                            $state_user = 1;
-                                        @endphp
                                     @endif
                                     @if (Auth::user()->Permission->user_read == 1)
                                         <li>
                                             <a href="/admin/user/list"
-                                                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i class="fa-solid fa-users-rectangle mx-2"></i>List
+                                                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i
+                                                    class="fa-solid fa-users-rectangle mx-2"></i>List
                                                 Users</a>
                                         </li>
-                                        @php
-                                            $state_user = 1;
-                                        @endphp
                                     @endif
 
-                                    @if ($state_user == 0)
-                                        <li>
-                                            <span
-                                                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">No
-                                                Permission</span>
-                                        </li>
-                                    @endif
+
                                 </ul>
                             </li>
                         @endif
@@ -315,8 +347,8 @@
                                         <span class="flex-1 ml-3 text-left whitespace-nowrap">Data Setup</span>
 
                                     </button> --}}
-                                     {{-- <a href="/admin/user/list"> --}}
-                                {{-- <a href="/quick/data/1">
+                        {{-- <a href="/admin/user/list"> --}}
+                        {{-- <a href="/quick/data/1">
 
                                     <button type="button"
                                         class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
@@ -327,12 +359,12 @@
                                     </button>
                                 </a> --}}
 
-                            {{-- </li>
+                        {{-- </li>
 
                         @endif --}}
-                        @if (Auth::user()->role == 'admin')
+                        {{-- @if (Auth::user()->role == 'super_admin') --}}
                             <li>
-                                <a href="/admin/assets/change/log/1">
+                                <a href="/admin/change/log/1">
                                     <button type="button"
                                         class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
 
@@ -343,7 +375,7 @@
                                 </a>
 
                             </li>
-                        @endif
+                        {{-- @endif --}}
 
 
                         <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
@@ -419,6 +451,8 @@
         </div>
     </main>
 
+
+
     <!-- Flowbite JS -->
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
@@ -434,15 +468,27 @@
             }
         });
 
-        // When the window is loading, show the loading graphic
-        window.onload = function() {
-            // Hide the loading graphic and show the content once the page is fully loaded
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const data = await showLoader(async () => {
+                    // simulate some initial async task
+                    await new Promise(resolve => setTimeout(resolve, 10));
+                    return {
+                        message: "Page ready"
+                    };
+                });
+                console.log(data);
+            } catch (err) {
+                console.error(err);
+            }
+        });
 
-            document.querySelector("#loading").style.display = 'none';
 
-        };
+
+
+
+
         let auth = @json(Auth::user());
-
         let toast_green = document.getElementById('toast_green');
         let toast_red = document.getElementById('toast_red');
     </script>

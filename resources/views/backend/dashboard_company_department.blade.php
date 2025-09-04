@@ -152,16 +152,16 @@
         'rgba(255, 159, 64, 1)'
     ];
 </script>
-<div id="main_cart" class="grid grid-cols-1 p-4 bg-white dark:bg-black gap-4">
+<div id="main_cart" class="grid grid-cols-1 p-4 bg-white  dark:bg-white gap-4">
     {{-- Grid Layout --}}
     <div
-        class="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 justify-start bg-white dark:bg-black h-full w-full gap-2">
+        class="grid grid-cols-1 lg:grid-cols-1 md:grid-cols-1  justify-start bg-white dark:bg-white h-full w-full gap-2">
 
 
         <div class="flex flex-col items-center justify-center p-4">
 
             <div class="flex items-center justify-center w-full">
-                <canvas id="Recordbycompany" width="400" height="200"></canvas>
+                <canvas id="Recordbycompany" width="400" height="600"></canvas>
             </div>
             <span class="text-transparent bg-clip-text bg-gradient-to-r to-purple-600 from-purple-400">Active Asset By
                 Company From {{ $month_name }}
