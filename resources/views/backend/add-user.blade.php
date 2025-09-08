@@ -3,9 +3,9 @@
 @section('header')
     (Add User)
 @endsection
-<div class="border-b lg:mt-3 shadow-black border-gray-200 dark:border-gray-700">
+<div class="border-b lg:mt-3 bg-white dark:bg-black shadow-black border-gray-200 dark:border-gray-700">
     <ul class="user_tab flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
-        <li class="me-2  active_tab">
+        <li class="me-2  bg-white">
 
             <div
                 class=" inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
@@ -13,7 +13,7 @@
             </div>
         </li>
 
-        <li class="  md:mx-9  lg:mx-36 normal_tab hover:cursor-pointer" onclick="change_permission()"
+        <li class="bg-white  md:mx-9  lg:mx-36 normal_tab hover:cursor-pointer" onclick="change_permission()"
             data-dropdown-toggle="dropdownSearch">
             <div
                 class="inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">

@@ -1232,16 +1232,33 @@ async function search_asset(no) {
                 body_change.innerHTML = ``;
                 data.data.map((item, index) => {
                     let custom = ``;
-                    custom += `
-
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-
-                                            <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                    if(item.deleted == 1){
+                        custom+= `<tr class="bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
+                                     <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                 <input onchange="printable()" data-id="${item.assets_id || ""
-                        }" id="green-checkbox${item.id}"
+                            }" id="green-checkbox${item.id}"
+                                                    type="checkbox" value=""
+                                                    class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                Deleted
+                                                    </td>
+
+
+                        `;
+                    }else{
+                        custom+= `<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                 <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                                <input onchange="printable()" data-id="${item.assets_id || ""
+                            }" id="green-checkbox${item.id}"
                                                     type="checkbox" value=""
                                                     class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             </td>
+                        `;
+                    }
+                    custom += `
+
+
+
+
 
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                     ${item.assets_id || ""}
@@ -1360,7 +1377,7 @@ async function search_asset(no) {
                                                             aria-labelledby="dropdownMenuIconHorizontalButton${item.assets_id
                         }">
                                                 `;
-                    if (auth?.permission?.transfer_write == 1) {
+                    if (auth?.permission?.transfer_write == 1 && item.deleted != 1) {
                         custom += `
 
                                                                 <li>
@@ -1388,7 +1405,7 @@ async function search_asset(no) {
 
                                                     `;
                     }
-                    if (auth?.permission?.assets_delete == 1) {
+                    if (auth?.permission?.assets_delete == 1 && item.deleted != 1) {
                         custom += `
 
                                                     <li class="block px-4 py-2 hover:bg-gray-200  bg-white text-black"
@@ -3005,49 +3022,7 @@ function close_search() {
     panel_list.style.display = "none";
 }
 
-// Fect Data to Change View point data
-async function chang_viewpoint(no, section) {
-    let limit = document.querySelector("#change_limit");
 
-    let limit_val = "NA";
-
-    if (limit) {
-        limit_val = limit.value;
-    }
-
-    url = `/api/change/viewpoint`;
-    // Loading label
-    document.querySelector("#loading").style.display = "block";
-
-    let data = await fetch(url, {
-        method: "POST",
-        headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            limit: limit_val,
-        }),
-    })
-        .then((res) => res.json())
-        .catch((error) => {
-            alert(error);
-        });
-
-    if (data) {
-        if (data[0]) {
-            let page = 1;
-            if (no) {
-                page = no;
-            }
-            if (section == "assets") {
-                search_asset(no);
-            } else if (section == "changelog") {
-                search_change_log(0);
-            }
-        }
-    }
-}
 
 async function search_asset_new(no) {
     const fa = document.querySelector("#fa");
@@ -3174,18 +3149,21 @@ async function search_asset_new(no) {
                 if (item.deleted == 1) {
                     custom += `
                        <tr class="bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
+                        <td class="print_val px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">
+                            <input onchange="printable()" data-id="${item.assets_id || ""}" id="green-checkbox${item.id}" type="checkbox" class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     `;
                 } else {
                     custom += `
                        <tr class="bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
-                    `;
-                }
-                custom = `
 
                         <td class="print_val px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">
-                            <input onchange="printable()" data-id="${item.assets_id || ""
-                    }" id="green-checkbox${item.id
-                    }" type="checkbox" class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input onchange="printable()" data-id="${item.assets_id || ""}" id="green-checkbox${item.id}" type="checkbox" class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+
+
+                    `;
+                }
+                custom += `
+
                         </td>
                         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${item.assets_id || ""
                     }</td>
@@ -3356,4 +3334,35 @@ async function showLoader(asyncTask) {
     }, 500);
 
     return result;
+}
+
+
+
+async function change_toggle(state) {
+
+    const url = `/api/fect/assets/new/data`;
+
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+                "Cache-Control": "no-cache",
+                Pragma: "no-cache",
+            },
+            body: JSON.stringify({
+                type: "minimize",
+                value: state, // 1 or 0
+                id: auth.id,  // send current user id
+                _t: Date.now() // cache buster
+            }),
+        });
+
+        const data = await response.json();
+
+        console.log("Toggle state saved:", data); // will be 1 or 0
+    } catch (error) {
+        console.error("Error saving toggle state:", error);
+    }
 }

@@ -4,7 +4,7 @@
     (User Detail)
 @endsection
 <div class="border-b border-gray-200 dark:border-gray-700">
-    <ul class="user_tab flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+    <ul class="user_tab bg-white flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
         <li class="me-2  active_tab">
 
             <div
@@ -28,7 +28,7 @@
 
 <form id="user_form" action="/admin/user/update/submit" method="POST">
     @csrf
-    <div class="h-max grid grid-cols-2 px-2 mt-5 gap-6 mb-6 md:grid-cols-2">
+    <div class="bg-white p-5 h-max grid grid-cols-2 px-2 gap-6  md:grid-cols-2">
         <div>
             <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First
                 name</label>
@@ -123,8 +123,8 @@
 
 
     </div>
-    <div class="px-2">
-        <div class="mb-6">
+    <div class=" bg-white p-3">
+        <div>
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email
                 address</label>
             <input type="email" name="email" value="{{ $user->email }}" id="email"

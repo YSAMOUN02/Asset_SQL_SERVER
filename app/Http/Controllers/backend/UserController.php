@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\User;
+use App\Models\User_property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -20,9 +21,9 @@ class UserController extends Controller
 
     public function add_user()
     {
-        if(Auth::user()->permission->user_write != 1){
+        if (Auth::user()->permission->user_write != 1) {
             $this->permission_alert(
-               'User Write.'
+                'User Write.'
             );
         }
         return view('backend.add-user');
@@ -111,6 +112,18 @@ class UserController extends Controller
             );
         }
 
+        // New View point
+        $new_viewpoint = new User_property();
+        $new_viewpoint->user_id = $user->id;
+        $new_viewpoint->type = 'viewpoint';
+        $new_viewpoint->value = 50;
+        $new_viewpoint->save();
+
+
+
+
+
+
         return redirect('/admin/user/list')->with('success', 'Added 1 user and logged all fields.');
     }
 
@@ -153,14 +166,21 @@ class UserController extends Controller
 
     public function update_user_submit(Request $request)
     {
+        // 🔐 Authorization check
         if (empty(Auth::user())) {
             return redirect('/')->with('fail', 'You are unauthorized.');
         }
+        if (Auth::user()->permission->user_update != 1) {
+            return redirect('/')->with('fail', 'You are unauthorized.');
+        }
 
-        $user = User::where('id', $request->id)->first();
-        if (!$user) return redirect()->back()->with('fail', 'User not found.');
+        // 🔎 Find user
+        $user = User::find($request->id);
+        if (!$user) {
+            return redirect()->back()->with('fail', 'User not found.');
+        }
 
-        // Collect old values
+        // Collect old values for logging
         $oldUserValues = $user->only([
             'name',
             'role',
@@ -192,24 +212,24 @@ class UserController extends Controller
             'quick_delete'
         ]);
 
-        // Update user
-        $user->fill([
-            'name' => $request->login_name,
-            'role' => $request->role,
-            'email' => $request->email,
-            'fname' => $request->fname,
-            'lname' => $request->lname,
-            'phone' => $request->phone,
-            'company' => $request->company,
-            'department' => $request->department,
-            'status' => !empty($request->status) ? 1 : 0,
-        ]);
+        // ✅ Update user info
+        $user->name       = $request->login_name;
+        $user->role       = $request->role;
+        $user->email      = $request->email;
+        $user->fname      = $request->fname;
+        $user->lname      = $request->lname;
+        $user->phone      = $request->phone;
+        $user->company    = $request->company;
+        $user->department = $request->department;
+        $user->status     = $request->has('status') ? 1 : 0;
+
         if (!empty($request->password)) {
             $user->password = Hash::make($request->password);
         }
+
         $user->save();
 
-        // Update permissions
+        // ✅ Update permissions
         $permission = $user->permission;
         $permissionFields = [
             'user_read',
@@ -231,7 +251,7 @@ class UserController extends Controller
         ];
 
         foreach ($permissionFields as $field) {
-            $permission->$field = !empty($request->$field) ? 1 : 0;
+            $permission->$field = $request->has($field) ? 1 : 0;
         }
         $permission->save();
 
@@ -242,8 +262,8 @@ class UserController extends Controller
                 $this->storeChangeLog(
                     $user->id,
                     $user->name,
-                    $col . ': ' . $old,
-                    $col . ': ' . $new,
+                    "$col: $old",
+                    "$col: $new",
                     'Updated',
                     'users',
                     "Field $col changed"
@@ -258,8 +278,8 @@ class UserController extends Controller
                 $this->storeChangeLog(
                     $user->id,
                     $user->name,
-                    $col . ': ' . $old,
-                    $col . ': ' . $new,
+                    "$col: $old",
+                    "$col: $new",
                     'Updated',
                     'permissions',
                     "Permission $col changed"

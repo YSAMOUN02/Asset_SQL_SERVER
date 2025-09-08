@@ -81,14 +81,14 @@ class movement extends Model
 
     ];
     protected $casts = [
-        'transaction_date' => 'date',
-        'dr_date'          => 'date',
-        'invoice_date'     => 'date',
-        'deleted_at'       => 'date',
+        'transaction_date' => 'datetime',
+        'dr_date'          => 'datetime',
+        'invoice_date'     => 'datetime',
 
         'cost' => 'decimal:2',
         'vat'  => 'decimal:2',
     ];
+
     public $timestamps = true;  // so updated_at works
 
     public function images()

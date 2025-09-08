@@ -6,14 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\ChangeLog;
 use App\Models\Limit;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User_property;
 use Illuminate\Http\Request;
 
 class ChangeLogController extends Controller
 {
     public function ChangeLog(Request $request, $page = 1)
     {
-        $viewpoint = Limit::first();
-        $limit = $viewpoint->limit ?? 50;
+        $viewpoint = User_property::where('user_id',Auth::user()->id)->where('type','viewpoint')->first();
+        $limit = $viewpoint->value ?? 50;
 
         // Base query with eager load
         $query = ChangeLog::with('users');

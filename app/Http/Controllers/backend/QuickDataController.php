@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Location;
 use App\Models\Department;
-use App\Models\Limit;
+use App\Models\User_property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +16,8 @@ class QuickDataController extends Controller
 {
     public function control_quick_data($page)
     {
-        $viewpoint = Limit::first();
-        $limit = $viewpoint->limit ?? 50;
+           $viewpoint = User_property::where('user_id',Auth::user()->id)->where('type','viewpoint')->first();
+        $limit = $viewpoint->value ?? 50;
 
         $count_post = Company::count();
         $total_page = ceil($count_post / $limit);

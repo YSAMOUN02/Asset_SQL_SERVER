@@ -33,7 +33,7 @@
             @endif
             @php
                 $asset = $asset_main;
-
+                $master_status = $asset_main->status;
                 $master_id = $asset_main->assets_id;
                 $current_last_variant = $asset_main->variant;
                 $master_image = $asset_main->images;
@@ -167,7 +167,20 @@
         @if ($state != 'update') onsubmit="return false;" @endif>
 
         @csrf
-        <h1 class="title_base text-black dark:text-blue-100">Asset Info </h1>
+
+        <h1 class="title_base text-black dark:text-blue-100">Asset Info
+
+            @if ($master_status == 1)
+                <span class="title_base text-green-600">[Last Active]</span>
+            @else
+                <span class="title_base text-red-600">[Inactive]</span>
+            @endif
+        </h1>
+
+
+
+
+
 
         <div class="grid gap-6 mb-6 md:grid-cols-2 mt-5">
             <div>
@@ -891,16 +904,23 @@
     @endphp
     <script>
         flatpickr("#transaction_date", {
-            dateFormat: "d-M-Y",
+            altInput: true, // show pretty date
+            altFormat: "d-M-Y", // display format
+            dateFormat: "Y-m-d", // value submitted to backend
             defaultDate: "{{ $defaultDate_transaction }}"
         });
 
         flatpickr("#dr_date", {
-            dateFormat: "d-M-Y",
+            altInput: true,
+            altFormat: "d-M-Y",
+            dateFormat: "Y-m-d",
             defaultDate: "{{ $defaultDate_dr }}"
         });
+
         flatpickr("#invoice_date", {
-            dateFormat: "d-M-Y",
+            altInput: true,
+            altFormat: "d-M-Y",
+            dateFormat: "Y-m-d",
             defaultDate: "{{ $defaultDate_invoice }}",
             clickOpens: false
         });

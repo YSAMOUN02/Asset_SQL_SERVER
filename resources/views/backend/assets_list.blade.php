@@ -4,7 +4,7 @@
    Last Active Assets Management
 @endsection
 @section('style')
-    <span class="ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
+    <span class="fade1 ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
             class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">Last Active Assets Management</span>
     </span>
 
@@ -323,20 +323,7 @@
                         </button>
 
 
-                        <select id="change_limit" onchange="chang_viewpoint(0,'assets')"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-5 py-0 mx-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            @if ($limit)
-                                <!-- Selected/current limit option at the top -->
-                                <option value="{{ $limit }}" selected>{{ $limit }} Row</option>
 
-                                <!-- Other options excluding the current limit -->
-                                @foreach ([25, 50, 75, 100, 125, 150] as $option)
-                                    @if ($limit != $option)
-                                        <option value="{{ $option }}">{{ $option }} Row</option>
-                                    @endif
-                                @endforeach
-                            @endif
-                        </select>
                         <button type="button" onclick="search_asset(0)" id="search_item"
                             class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                             <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
@@ -433,7 +420,7 @@
                     @if (!empty($asset))
                         @foreach ($asset as $item)
                             @if ($item->deleted == 0)
-                                <tr class="bg-rose-100 text-black dark:bg-black dark:text-white border-b  dark:border-gray-700">
+                                <tr class="bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
                                     <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
 
                                         <input onchange="printable()" data-id="{{ $item->assets_id }}"
@@ -442,7 +429,7 @@
 
                                     </td>
                                 @else
-                                <tr class="bg-white text-black dark:bg-black dark:text-white border-b  dark:border-gray-700">
+                                <tr class="bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
 
                                     <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                         <input onchange="printable()" data-id="{{ $item->assets_id }}"
@@ -533,10 +520,13 @@
                                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                             aria-labelledby="dropdownMenuIconHorizontalButton_view2_{{ $item->assets_id }}">
                                             @if (Auth::user()->Permission->transfer_write == 1)
+                                                @if ($item->deleted == 0)
                                                 <li>
                                                     <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
                                                         class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">Movement</a>
                                                 </li>
+                                                @endif
+
                                             @endif
 
                                             @if (Auth::user()->Permission->assets_read == 1)

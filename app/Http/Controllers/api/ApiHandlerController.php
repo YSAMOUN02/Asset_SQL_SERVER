@@ -12,6 +12,7 @@ use App\Models\New_assets;
 use App\Models\Limit;
 use App\Models\movement;
 use App\Models\User;
+use App\Models\User_property;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Mail_data;
+
 use Exception;
 
 class ApiHandlerController extends Controller
@@ -136,7 +138,8 @@ class ApiHandlerController extends Controller
             }
         }
 
-        $limit = 150;
+        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
+        $limit = $viewpoint->value ?? 50;
         $offset = 0;
         if ($page != 0) {
             $offset = ($page - 1) * $limit;
@@ -239,8 +242,8 @@ class ApiHandlerController extends Controller
         }
 
 
-        $viewpoint = Limit::first();
-        $limit = $viewpoint->limit ?? 50;
+        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
+        $limit = $viewpoint->value ?? 50;
 
         $offet = 0;
         if ($page != 0) {
@@ -327,8 +330,6 @@ class ApiHandlerController extends Controller
                 $data->where("status", 0);
             } elseif ($state == 1) {
                 $data->where("status", 1);
-            } elseif ($state == 2) {
-                $data->where("status", 2);
             }
         }
 
@@ -336,9 +337,8 @@ class ApiHandlerController extends Controller
             $data->where($type, 'LIKE', '%' . $value . '%');
         }
 
-
-        $viewpoint = Limit::first();
-        $limit = $viewpoint->limit ?? 50;
+        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
+        $limit = $viewpoint->value ?? 50;
 
         $offet = 0;
         if ($page != 0) {
@@ -348,6 +348,13 @@ class ApiHandlerController extends Controller
 
         $data->limit($limit);
         $data->offset($offet);
+
+        if (Auth::user()->role == 'admin') {
+            $data->where('deleted', 0);
+        }
+
+
+
         $asset_data = $data->get();
 
         $total_pages = ceil($count / $limit);
@@ -427,8 +434,8 @@ class ApiHandlerController extends Controller
         $count = count($data);
 
 
-        $viewpoint = Limit::first();
-        $limit = $viewpoint->limit ?? 50;
+        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
+        $limit = $viewpoint->value ?? 50;
 
         $total_pages = ceil($count / $limit);
         $offet = 0;
@@ -469,8 +476,8 @@ class ApiHandlerController extends Controller
         }
         $count_post =  $data->count();
 
-        $viewpoint = Limit::first();
-        $limit = $viewpoint->limit ?? 50;
+        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
+        $limit = $viewpoint->value ?? 50;
 
         $total_pages = ceil($count_post / $limit);
         $offet = 0;
@@ -577,20 +584,6 @@ class ApiHandlerController extends Controller
         }
     }
 
-    public function Change_viewpoint(Request $request)
-    {
-        $limit = $request->limit ?? 50;
-        $viewpoint = Limit::first();
-        if (empty($viewpoint)) {
-            $viewpoint = new Limit();
-        }
-        $viewpoint->limit = $limit;
-        $viewpoint->save();
-
-
-        return response()->json(["Success."], 200);
-    }
-
 
 
 
@@ -619,7 +612,7 @@ class ApiHandlerController extends Controller
 
 
         $data =  New_assets::orderBy('transaction_date', 'desc')
-            ->orderBy('assets1', 'desc')->where('deleted','<>',1);
+            ->orderBy('assets1', 'desc')->where('deleted', '<>', 1);
 
 
         if ($id != "NA") {
@@ -660,8 +653,6 @@ class ApiHandlerController extends Controller
                 $data->where("status", 0);
             } elseif ($state == 1) {
                 $data->where("status", 1);
-            } elseif ($state == 2) {
-                $data->where("status", 2);
             }
         }
 
@@ -670,8 +661,8 @@ class ApiHandlerController extends Controller
         }
 
 
-        $viewpoint = Limit::first();
-        $limit = $viewpoint->limit ?? 50;
+        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
+        $limit = $viewpoint->value ?? 50;
 
         $offet = 0;
         if ($page != 0) {
@@ -681,6 +672,9 @@ class ApiHandlerController extends Controller
 
         $data->limit($limit);
         $data->offset($offet);
+        if (Auth::user()->role == 'admin') {
+            $data->where('deleted', 0);
+        }
         $asset_data = $data->get();
 
         $total_pages = ceil($count / $limit);
@@ -700,6 +694,30 @@ class ApiHandlerController extends Controller
         } else {
             return response()->json([]);
         }
+    }
+
+
+    public function updateToggle(Request $request)
+    {
+        $userId = $request->id; // make sure you trust this or validate
+        $type = $request->type; // should be 'minimize'
+        $value = $request->value; // 0 or 1
+
+        if (!$userId || $type !== 'minimize') {
+            return response()->json(['error' => 'Invalid request'], 400);
+        }
+
+        // Find or create the record
+        $property = User_property::firstOrNew([
+            'user_id' => $userId,
+            'type' => 'minimize'
+        ]);
+
+        // Update value
+        $property->value = $value;
+        $property->save();
+
+        return response()->json($value); // returns 0 or 1
     }
 }
 

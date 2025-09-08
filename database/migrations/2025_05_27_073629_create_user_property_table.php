@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('viewpoint', function (Blueprint $table) {
+        Schema::create('user_property', function (Blueprint $table) {
             $table->id();
-            $table->integer('limit')->default(100);
+            $table->bigInteger('user_id');
+            $table->string('type');
+            $table->integer('value');
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('viewpoint');
+        Schema::dropIfExists('user_property');
     }
 };

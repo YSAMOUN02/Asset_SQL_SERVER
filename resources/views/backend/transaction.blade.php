@@ -317,20 +317,7 @@
                             class="text-white  hidden update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                             <i class="fa-solid fa-download"></i>
                         </button>
-                        <select name="" id="change_limit" onchange="chang_viewpoint(0,'assets')"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-0 mx-2  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            @if ($limit)
-                                <!-- Selected/current limit option at the top -->
-                                <option value="{{ $limit }}" selected>{{ $limit }} Row</option>
 
-                                <!-- Other options excluding the current limit -->
-                                @foreach ([25, 50, 75, 100, 125, 150, 175, 200, 250,300, 500] as $option)
-                                    @if ($limit != $option)
-                                        <option value="{{ $option }}">{{ $option }} Row</option>
-                                    @endif
-                                @endforeach
-                            @endif
-                        </select>
                         <button type="button" onclick="search_movement(0)" id="search_item"
                             class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                             <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>

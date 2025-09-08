@@ -35,12 +35,13 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/search/mobile', [ApiHandlerController::class, 'mobile_search']);
 
 
-    Route::post('/change/viewpoint', [ApiHandlerController::class, 'Change_viewpoint']);
 
     Route::post('/add/department', [ApiHandlerController::class, 'add_department']);
 
 
      Route::post('/delete/department', [ApiHandlerController::class, 'delete_department']);
+
+     Route::post('/fect/assets/new/data', [ApiHandlerController::class, 'updateToggle']);
 
 });
 

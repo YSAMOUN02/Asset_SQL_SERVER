@@ -4,15 +4,12 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\File;
-use App\Models\FileUser;
 use App\Models\Fix_assets;
 use App\Models\Image;
-use App\Models\ImageUser;
 use App\Models\RawFixAssets;
 use App\Models\StoredAssets;
 use App\Models\movement;
-use App\Models\QuickData;
-use App\Models\Limit;
+use App\Models\User_property;
 use App\Models\Asset_variant;
 use App\Models\New_assets;
 
@@ -40,15 +37,18 @@ class AssetsController extends Controller
     // Turn to Asset Add View
     public function assetes_add()
     {
-        $this->permission_alert('Assets Write');
+        if(Auth::user()->permission->assets_write != 1){
+
+            return redirect('/')->with('error','You do not has permission Assets write.');
+        }
         return view('backend.add-assets');
     }
     public function list_transaction($page)
     {
-        $viewpoint = Limit::first();
-        $limit = $viewpoint->limit ?? 50;
+       $viewpoint = User_property::where('user_id',Auth::user()->id)->where('type','viewpoint')->first();
+        $limit = $viewpoint->value ?? 50;
 
-        // if(Auth::user()->permission->assets_read == 1 && Auth::user()->role == 'admin'){
+
 
         $count_post = movement::count();
         $total_page = ceil($count_post / $limit);
@@ -57,11 +57,17 @@ class AssetsController extends Controller
             $offset = ($page - 1) * $limit;
         }
 
-        $asset =  movement::orderBy('assets_id', 'desc')
-            ->limit($limit)
-            ->offset($offset)
+        $sql =  movement::orderBy('assets_id', 'desc');
 
-            ->get();
+        if(Auth::user()->role == 'admin'){
+            $sql->where('deleted',0);
+
+        }
+
+            $sql->limit($limit);
+            $sql->offset($offset);
+
+            $asset = $sql->get();
 
         return view('backend.transaction', [
             'asset' => $asset,
@@ -73,31 +79,6 @@ class AssetsController extends Controller
         ]);
 
 
-        // }elseif(Auth::user()->permission->assets_read == 1 && Auth::user()->role == 'staff'){
-
-        //     $count_post = movement::where("last_varaint", 1)->count();
-        //     $total_page = ceil($count_post/$limit);
-        //     $offset = 0;
-        //     if($page != 0){
-        //         $offset = ($page - 1) * $limit;
-        //     }
-
-        //     $asset =  movement::orderBy('assets_id', 'desc')
-        //         ->limit($limit)
-        //         ->offset($offset)
-        //         ->where("last_varaint", 1)
-        //         ->where('status','<>',1)
-        //         ->get();
-
-        //     return view('backend.transaction', [
-        //         'asset' => $asset,
-        //         'total_page' => $total_page,
-        //         'page' => $page,
-        //         'total_assets' =>$count_post,
-        //         'total_page' => $total_page
-        //     ]);
-        // }
-
 
     }
 
@@ -105,8 +86,8 @@ class AssetsController extends Controller
 
     public function list_assets($page)
     {
-        $viewpoint = Limit::first();
-        $limit = $viewpoint->limit ?? 50;
+      $viewpoint = User_property::where('user_id',Auth::user()->id)->where('type','viewpoint')->first();
+        $limit = $viewpoint->value ?? 50;
 
         // if(Auth::user()->permission->assets_read == 1 && Auth::user()->role == 'admin'){
 
@@ -175,8 +156,7 @@ class AssetsController extends Controller
                 $item->is_registered = in_array($item->assets, $registeredAssets);
                 return $item;
             });
-            // return $datas;
-            // return $data;
+
             return view('backend.list-select', [
                 'data' => $datas,
                 'total_page' => $total_page,
@@ -193,7 +173,12 @@ class AssetsController extends Controller
     // Add New Asset Via Selet on List Invoice
     public function assets_add($assets, $invoice)
     {
-                $this->permission_alert('Assets Write');
+
+        if(Auth::user()->permission->assets_write != 1){
+
+            return redirect('/')->with('error','You do not has permission Assets write.');
+        }
+
         if (Auth::user()->permission->assets_write == 1) {
             if ($invoice != "NA") {
                 $modifiedString = str_replace('-', '/', $invoice);
@@ -228,6 +213,7 @@ class AssetsController extends Controller
     }
     public function assets_add_submit(Request $request)
     {
+
         // ✅ Validate required fields
         $request->validate([
             'assets1' => 'required|string|max:255',
@@ -388,9 +374,12 @@ class AssetsController extends Controller
             // 4. Update main asset (assign new values + increment variant)
             $newVariant = $asset->variant + 1;
             $asset->fill($request->all());
-
+            if ($request->filled('transaction_date')) {
+                $asset->transaction_date = Carbon::parse($request->transaction_date)->format('Y-m-d');
+            }
             $asset->variant = $newVariant; // ✅ now bump main asset to new variant
             $asset->deleted = 0; //prevent new deleted
+            // return $asset;
             $asset->save();
 
             // 5. Detect changes per column
@@ -575,172 +564,6 @@ class AssetsController extends Controller
             return redirect()->back()->with('fail', "Opps. Something went wrong.");
         }
     }
-
-
-    // public function initailize_record($id)
-    // {
-
-    //     $File = File::where('asset_id', $id)->get();
-    //     $Image = Image::where('asset_id', $id)->get();
-
-    //     if ($Image) {
-
-    //         foreach ($Image as $item) {
-
-    //             $filePath = public_path("uploads/image/" . $item->image);
-
-    //             if (file_exists($filePath)) {
-
-    //                 unlink($filePath);
-    //             }
-    //         }
-    //     }
-    //     $filePath = null;
-    //     if ($File) {
-    //         foreach ($File as $item) {
-    //             $filePath = public_path("uploads/files/" . $item->file);
-
-    //             if (file_exists($filePath)) {
-
-    //                 unlink($filePath);
-    //             }
-    //         }
-    //     }
-    // }
-    // Not work
-    // public function restore(request $request)
-    // {
-    //     if (Auth::user()->permission->assets_update == 1 && Auth::user()->role == 'admin') {
-
-    //         // Update Existing Last Varaint
-    //         $last_varaint = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->select("varaint", "assets_id")->first();
-    //         if (!empty($last_varaint)) {
-
-    //             // Update Last Varaint to old
-    //             $modify_last = StoredAssets::where("assets_id", $request->id)->where("last_varaint", 1)->first();
-    //             $modify_last->last_varaint = 0;
-    //             $modify_last->save();
-    //             $var = $last_varaint->varaint += 1;
-
-    //             // Create New Record as Last Varaint
-    //             $asset = new StoredAssets();
-    //             $asset->assets_id = $modify_last->assets_id;
-    //             $asset->varaint = $var;
-    //             $asset->document = $request->document ?? "";
-    //             $asset->assets1 = $request->asset_code1 ?? "";
-    //             $asset->assets2 = $request->asset_code2 ?? "";
-    //             $asset->fa_no = $request->fa_no ?? "";
-    //             $asset->item = $request->item ?? "";
-    //             $asset->transaction_date = $request->transaction_date ? Carbon::parse($request->transaction_date)->format('Y-m-d H:i:s') : null;
-    //             $asset->initial_condition = $request->intail_condition ?? "";
-    //             $asset->specification = $request->specification ?? "";
-    //             $asset->item_description = $request->item_description ?? "";
-    //             $asset->asset_group = $request->asset_group ?? "";
-    //             $asset->remark_assets = $request->remark_assets ?? "";
-
-    //             // Asset Holder
-    //             $asset->asset_holder = $request->asset_holder ?? "";
-    //             $asset->holder_name = $request->holder_name ?? "";
-    //             $asset->position = $request->position ?? "";
-    //             $asset->location = $request->location ?? "";
-    //             $asset->department = $request->department ?? "";
-    //             $asset->company = $request->company ?? "";
-    //             $asset->remark_holder = $request->remark_holder ?? "";
-
-    //             // Internal Document
-    //             $asset->grn = $request->grn ?? "";
-    //             $asset->po = $request->po ?? "";
-    //             $asset->pr = $request->pr ?? "";
-    //             $asset->dr = $request->dr ?? "";
-    //             $asset->dr_requested_by = $request->dr_requested_by ?? "";
-    //             $asset->dr_date = $request->dr_date ? Carbon::parse($request->dr_date)->format('Y-m-d H:i:s') : null;
-    //             $asset->remark_internal_doc = $request->remark_internal_doc ?? "";
-
-    //             // ERP Invoice
-    //             $asset->asset_code_account = $request->asset_code_account ?? "";
-    //             $asset->invoice_date = $request->invoice_posting_date ? Carbon::parse($request->invoice_posting_date)->format('Y-m-d H:i:s') : null;
-    //             $asset->invoice_no = $request->invoice ?? "";
-    //             $asset->fa = $request->fa ?? "";
-    //             $asset->fa_class = $request->fa_class ?? "";
-    //             $asset->fa_subclass = $request->fa_subclass ?? "";
-    //             $asset->depreciation = $request->depreciation_book_code ?? "";
-    //             $asset->fa_type = $request->fa_type ?? "";
-    //             $asset->fa_location = $request->fa_location ?? "";
-    //             $asset->cost = $request->cost ?? "";
-    //             $asset->currency = $request->currency ?? "";
-    //             $asset->vat = $request->vat ?? "";
-    //             $asset->description = $request->description ?? "";
-    //             $asset->invoice_description = $request->invoice_description ?? "";
-
-    //             // Vendor
-    //             $asset->vendor = $request->vendor ?? "";
-    //             $asset->vendor_name = $request->vendor_name ?? "";
-    //             $asset->address = $request->address ?? "";
-    //             $asset->address2 = $request->address2 ?? "";
-    //             $asset->contact = $request->contact ?? "";
-    //             $asset->phone = $request->phone ?? "";
-    //             $asset->email = $request->email ?? "";
-    //             $asset->save();
-    //         } else {
-    //             return redirect('/admin/assets/list/1')->with('fail', 'Record Not Found.');
-    //         }
-    //         // Add New FIle
-    //         if ($request->file_state > 0) {
-    //             for ($i = 1; $i <= $request->file_state; $i++) {  // Start from 1
-    //                 $fileKey = 'file_doc' . $i;  // Dynamic file input key
-
-    //                 if ($request->hasFile($fileKey)) {
-    //                     $file = $request->file($fileKey);
-    //                     $fileName = $this->upload_file($file);
-
-    //                     $file = new File();
-    //                     $file->asset_id = $last_varaint->assets_id;
-    //                     $file->varaint = $var;
-    //                     $file->file = $fileName;
-    //                     $file->save();
-    //                     $file = new FileUser();
-    //                     $file->asset_id = $last_varaint->assets_id;
-    //                     $file->file = $fileName;
-    //                     $file->save();
-    //                 }
-    //             }
-    //         }
-    //         // Add New Image
-    //         if ($request->image_state > 0) {
-    //             for ($i = 1; $i <= $request->image_state; $i++) {  // Start from 1
-    //                 $imageKey = 'image' . $i;  // Dynamic image input key
-    //                 if ($request->hasFile($imageKey)) {
-    //                     $file = $request->file($imageKey);
-    //                     $thumbnail = $this->upload_image($file);
-
-    //                     $image = new Image();
-    //                     $image->asset_id = $last_varaint->assets_id;
-    //                     $image->varaint = $var;
-    //                     $image->image = $thumbnail;
-    //                     $image->save();  // Don't forget to save the image
-    //                     $image = new ImageUser();
-    //                     $image->asset_id = $last_varaint->assets_id;
-    //                     $image->image = $thumbnail;
-    //                     $image->save();  // Don't forget to save the image
-    //                     // return 1;
-    //                 }
-    //             }
-    //         }
-
-
-    //         $this->Change_log($asset->assets_id, $asset->varaint, "Restore", "Asset Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
-
-    //         $this->update_existing_to_new_varaint($request, $last_varaint->assets_id, $var);
-
-    //         if ($last_varaint) {
-    //             return redirect('/admin/assets/list/1')->with('success', 'Restore Success.');
-    //         } else {
-    //             return redirect('/admin/assets/list/1')->with('fail', 'Opp!. Something when wronge.');
-    //         }
-    //     } else {
-    //         return redirect('/')->with('fail', 'You do not have permission Update to Restore Old Assets and Role: admin .');
-    //     }
-    // }
     public function print_qr($assets)
     {
 
@@ -1327,7 +1150,7 @@ class AssetsController extends Controller
 
     public function assets_import()
     {
-        if(Auth::user()->permission->assets_write){
+        if(Auth::user()->permission->assets_write != 1){
             return redirect()->back()->with('error','You do not has permission');
         }
 
@@ -1337,7 +1160,7 @@ class AssetsController extends Controller
 
     public function downloadAssetsTemplate()
     {
-           if(Auth::user()->permission->assets_write){
+        if(Auth::user()->permission->assets_write != 1){
             return redirect()->back()->with('error','You do not has permission');
         }
         $spreadsheet = new Spreadsheet();
@@ -1693,10 +1516,10 @@ class AssetsController extends Controller
         }
 
 
-      $viewpoint = Limit::first();
-        $limit = $viewpoint->limit ?? 50;
+        $viewpoint = User_property::where('user_id',Auth::user()->id)->where('type','viewpoint')->first();
+        $limit = $viewpoint->value ?? 50;
 
-        // if(Auth::user()->permission->assets_read == 1 && Auth::user()->role == 'admin'){
+
 
         $count_post = New_assets::count();
         $total_page = ceil($count_post / $limit);
@@ -1705,11 +1528,16 @@ class AssetsController extends Controller
             $offset = ($page - 1) * $limit;
         }
 
-        $asset =  New_assets::orderBy('assets1', 'desc')->where('deleted','<>',1)
+        $sql =  New_assets::orderBy('assets1', 'desc')->where('deleted','<>',1)
             ->limit($limit)
-            ->offset($offset)
-            ->get();
+            ->offset($offset);
 
+            // Filter Deleted data  if not super admin
+            if(Auth::user()->role == 'admin'){
+                $sql->where('deleted',0);
+            }
+
+        $asset = $sql->get();
         return view('backend.assets_new_list', [
             'asset' => $asset,
             'total_page' => $total_page,
