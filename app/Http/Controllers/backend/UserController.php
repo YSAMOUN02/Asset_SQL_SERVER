@@ -120,7 +120,12 @@ class UserController extends Controller
         $new_viewpoint->save();
 
 
-
+        // New View point
+        $new_viewpoint = new User_property();
+        $new_viewpoint->user_id = $user->id;
+        $new_viewpoint->type = 'minimize';
+        $new_viewpoint->value = 1;
+        $new_viewpoint->save();
 
 
 
