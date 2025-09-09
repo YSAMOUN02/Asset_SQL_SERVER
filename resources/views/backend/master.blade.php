@@ -236,10 +236,10 @@
                                     <i class="fa-solid fa-chart-pie"></i>
                                     <span class="ml-3">Overview</span>
                                 </a>
-                              <button id="sidebarToggle" onclick="toggleFullScreen()"
-                            class="flex items-center justify-center w-10 h-10 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200">
-                    <i class="fa-solid fa-angles-left" style="color: #0041b3;"></i>
-                    </button>
+                                <button id="sidebarToggle" onclick="toggleFullScreen()"
+                                    class="flex items-center justify-center w-10 h-10 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200">
+                                    <i class="fa-solid fa-angles-left" style="color: #0041b3;"></i>
+                                </button>
 
                             </li>
                             @if (Auth::user()->Permission->assets_write == 1)
@@ -305,7 +305,8 @@
                                     </a>
 
                                 </li>
-
+                            @endif
+                            @if (Auth::user()->Permission->transfer_read == 1)
                                 <li>
                                     <a href="/admin/assets/transaction/1">
                                         <button type="button"
@@ -318,8 +319,6 @@
 
                                 </li>
                             @endif
-
-
                             @if (Auth::user()->Permission->user_write == 1 || Auth::user()->Permission->user_read == 1)
                                 <li>
                                     <button type="button"
@@ -432,7 +431,7 @@
             $auth_toggle = App\Models\User_property::where('type', 'minimize')
                 ->where('user_id', Auth::user()->id)
                 ->first();
-            $shouldMinimize = $auth_toggle->value??0; // adjust "value" to your column
+            $shouldMinimize = $auth_toggle->value ?? 0; // adjust "value" to your column
         @endphp
         <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
         <!-- Your custom chart/backend JS -->
@@ -449,7 +448,7 @@
 
             document.addEventListener("DOMContentLoaded", async () => {
                 try {
-                     @if ($shouldMinimize)
+                    @if ($shouldMinimize)
                         toggleFullScreen(); // Call your JS function automatically
                     @endif
                     const data = await showLoader(async () => {
@@ -495,6 +494,16 @@
 
                 change_toggle(state_toggle);
             }
+
+
+
+
+
+
+
+
+
+
 
 
             let auth = @json(Auth::user());

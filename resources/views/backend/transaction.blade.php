@@ -400,7 +400,10 @@
                         <th scope="col"
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
                             style="  position: sticky; right: 0;">
-                            Action
+
+                            <button id="sidebarToggle" onclick="adjustLayout()"
+                                class="flex items-center justify-center p-1 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200">
+                                <i id="toggleIcon" class="fa-solid fa-maximize"></i></button>
                         </th>
                     </tr>
                 </thead>
@@ -412,7 +415,8 @@
                         @endphp
                         @foreach ($asset as $item)
                             @if ($item->deleted == 0)
-                                <tr class="  bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
+                                <tr
+                                    class="  bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
                                     <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                         <input onchange="printable()" data-id="{{ $item->assets_id }}"
                                             id="green-checkbox{{ $item->id }}" type="checkbox" value=""
@@ -603,6 +607,15 @@
     let page_view = @json($page);
 
     let sort_state = 0;
+
+
+
+
+
+
+
+
+
 
 
     const button = document.querySelector('#search_item');

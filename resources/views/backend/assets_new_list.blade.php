@@ -408,7 +408,9 @@
                         <th scope="col"
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
                             style="  position: sticky; right: 0;">
-                            Action
+                            <button id="sidebarToggle" onclick="adjustLayout()"
+                                class="flex items-center justify-center p-1 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200">
+                                <i id="toggleIcon" class="fa-solid fa-maximize"></i></button>
                         </th>
                     </tr>
                 </thead>
@@ -434,14 +436,14 @@
                                             class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                         <span class="px-2 ">Deleted</span>
                             @endif
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
 
                                 {{ $item->assets_id }}
 
 
                             </td>
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ \Carbon\Carbon::parse($item->transaction_date)->format('d-M-Y') }}
 
                             </td>
@@ -451,7 +453,7 @@
                                 class="table_float_left_td  px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   bg-white dark:bg-gray-700 dark:border-gray-700">
                                 {{ $item->assets1 . $item->assets2 ?? '' }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 @if ($item->status == 0)
                                     <span
                                         class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -466,38 +468,38 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->status_recieved }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->item }}
                             </td>
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->specification }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->initial_condition }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->holder_name ?? '' }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->department ?? '' }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->company ?? '' }}
                             </td>
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->old_code ?? '' }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->reference ?? '' }}
                             </td>
 
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ \Carbon\Carbon::parse($item->created_at)->format('d-M-Y') ?? '' }}
 
                             </td>

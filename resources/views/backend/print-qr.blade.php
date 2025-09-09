@@ -360,30 +360,30 @@
                             <tr id="td" class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
 
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td >
 
                                     {{ $item->id }}
 
 
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td >
                                     {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
 
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td >
                                     {{ $item->document }}
                                 </td>
 
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td >
                                     {{ $item->assets1 . $item->assets2??'' }}
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td >
                                     {{ $item->fa }}
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td >
                                     {{ $item->fa_type }}
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td >
                                     @if ($item->status == 0)
                                         <span
                                             class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
@@ -398,25 +398,25 @@
                                         </span>
                                     @endif
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td >
                                     {{ $item->fa_class }}
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td >
                                     {{ $item->fa_subclass }}
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td >
                                     {{ $item->depreciation }}
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td >
                                     {{ $item->dr }}
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td >
                                     {{ $item->pr }}
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td >
                                     {{ $item->invoice_no }}
                                 </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td >
                                     {{ $item->description }}
                                 </td>
 

@@ -213,24 +213,24 @@
                         onclick="dynamic_sort('assets_date','date','raw_assets')">
                         Invoice Date &ensp;
                     </th>
-                    <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  "
+                    <th scope="col"
                         onclick="dynamic_sort('assets','string','raw_assets')">
                         Assets Code&ensp;
                     </th>
-                    <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  "
+                    <th scope="col"
                         onclick="dynamic_sort('fa','string','raw_assets')">
                         Fix Assets&ensp;
                     </th>
-                    <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  "
+                    <th scope="col"
                         onclick="dynamic_sort('invoice_no','string','raw_assets')">
                         Invoice&ensp;
                     </th>
-                    <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  "
+                    <th scope="col"
                         onclick="dynamic_sort('description','string','raw_assets')">
                         Description&ensp;
                     </th>
 
-                    <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                    <th scope="col" >
                         Action
                     </th>
 
@@ -273,7 +273,7 @@
 
 
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{-- /admin/assets/add/assets=P-F-AMM-0577/invoice_no=FAF24/0103 --}}
 
                                 @php

@@ -2976,18 +2976,18 @@ async function search_mobile(asset) {
                 data.data.map((item, index) => {
                     custom += `
                         <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                            <td >
                                                 <a href="/admin/assets/edit/id=${item.id
                         }"> <button>View</button></a>
 
                                              </td>
-                                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                             <td >
                                                 ${item.assets1 + item.assets2}
                                              </td>
-                                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                             <td >
                                                 ${item.invoice_no}
                                              </td>
-                                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                                    <td >
                                                 ${item.description}
                                              </td>
                          </tr>`;
@@ -3365,4 +3365,39 @@ async function change_toggle(state) {
     } catch (error) {
         console.error("Error saving toggle state:", error);
     }
+}
+
+
+let state_toggle_table = 1; // 0 = collapsed, 1 = expanded
+
+function adjustLayout() {
+    // 🔹 Toggle search bar
+    let searchBar = document.querySelector(".search-bar");
+    searchBar?.classList.toggle("hidden");
+
+    // 🔹 Adjust scroll container & table height
+    let scrollContainer = document.querySelector(".scroll-container");
+    if (scrollContainer) {
+        scrollContainer.style.height = state_toggle_table ? "80vh" : "60vh";
+    }
+
+    let tableData = document.querySelector(".table-data");
+    if (tableData) {
+        tableData.style.height = state_toggle_table ? "90vh" : "60vh";
+    }
+
+    // 🔹 Switch icon
+    let icon = document.getElementById("toggleIcon"); // make sure your <i> has this id
+    if (icon) {
+        if (state_toggle_table) {
+            icon.classList.remove("fa-maximize");
+            icon.classList.add("fa-minimize");
+        } else {
+            icon.classList.remove("fa-minimize");
+            icon.classList.add("fa-maximize");
+        }
+    }
+
+    // 🔹 Toggle state for next click
+    state_toggle_table = state_toggle_table === 0 ? 1 : 0;
 }

@@ -43,9 +43,38 @@
   font-family: 'Noto Serif Khmer', serif;
 }
 
-.scroll-container{
-  scroll-behavior: smooth;
+
+
+.scroll-container {
+    scroll-behavior: smooth;  /* smooth scrolling */
+    height: 60vh;             /* fixed container height */
+    overflow-y: auto;         /* vertical scroll */
+    padding-bottom: 0.5rem;   /* prevent last row being cut off */
 }
+
+
+/* Optional: styled scrollbar */
+.scroll-container::-webkit-scrollbar {
+    width: 14px;
+}
+.scroll-container::-webkit-scrollbar-track {
+    background: #f0f9f9;
+}
+.scroll-container::-webkit-scrollbar-thumb {
+    background: rgb(204, 150, 0);
+    border-radius: 10px;
+    border: 3px solid #f0f9f9;
+}
+.scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #d4a200;
+}
+.scroll-container,
+.table-data {
+    transition: height 0.4s ease; /* smooth height animation */
+}
+
+
+
 
 body{
   position: relative;
@@ -58,7 +87,7 @@ body{
   overflow: hidden;
 }
 .table-data{
-  height: 65vh ;
+  height: 60vh ;
   min-width: 100%;
   overflow: auto !important;
 }
@@ -69,7 +98,10 @@ body{
   top: 0;
 
 
+}
 
+table td{
+    padding: 3px 7px;
 }
 /* Table list Select  */
 .resultList{
@@ -648,19 +680,8 @@ main{
 }
 
 
-.fade1{
-    animation: fadeInLeft 3s forwards;
-}
-@keyframes fadeInLeft {
-    0% {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
+
+
     /* Faster spin */
 @keyframes spin-fast {
   to {
@@ -775,7 +796,7 @@ main{
 @media (min-width: 431px) and (max-width: 999px) {
 
   .table-data button{
-    padding: 5px  10px!important;
+    padding: 2px  5px!important;
   }
 
   .fix_button{
@@ -812,7 +833,7 @@ main{
 }
 @media (min-width: 1000px) and (max-width: 1400px) {
   .table-data{
-    height: 50vh;
+    height: 65vh;
 
   }
   .table-data button{
@@ -830,4 +851,11 @@ main{
   .chart_cont{
     height: 400px;
   }
+  .table-data{
+  height: 70vh ;
+
+}
+table td{
+    padding: 2px 3px;
+}
 }

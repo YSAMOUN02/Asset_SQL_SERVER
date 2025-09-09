@@ -1,13 +1,13 @@
 @extends('backend.master')
 @section('content')
 @section('header')
-   Last Active Assets Management
+    Last Active Assets Management
 @endsection
 @section('style')
     <span class="fade1 ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
-            class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">Last Active Assets Management</span>
+            class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">Last Active Assets
+            Management</span>
     </span>
-
 @endsection
 <link rel="stylesheet" href="{{ asset('assets/css/flatpickr.min.css') }}">
 <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
@@ -411,7 +411,10 @@
                         <th scope="col"
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 bg-gray-100 dark:bg-black  text-gray-900 whitespace-nowrap dark:text-white"
                             style="  position: sticky; right: 0;">
-                            Action
+
+                                 <button id="sidebarToggle" onclick="adjustLayout()"
+                                class="flex items-center justify-center p-1 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200">
+                                <i id="toggleIcon" class="fa-solid fa-maximize"></i></button>
                         </th>
                     </tr>
                 </thead>
@@ -420,7 +423,8 @@
                     @if (!empty($asset))
                         @foreach ($asset as $item)
                             @if ($item->deleted == 0)
-                                <tr class="bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
+                                <tr
+                                    class="bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
                                     <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
 
                                         <input onchange="printable()" data-id="{{ $item->assets_id }}"
@@ -437,14 +441,14 @@
                                             class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                         <span class="px-2 ">Deleted</span>
                             @endif
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
 
                                 {{ $item->assets_id }}
 
 
                             </td>
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ \Carbon\Carbon::parse($item->transaction_date)->format('d-M-Y') }}
 
                             </td>
@@ -454,7 +458,7 @@
                                 class="table_float_left_td  px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   bg-white dark:bg-gray-700 dark:border-gray-700">
                                 {{ $item->assets1 . $item->assets2 ?? '' }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 @if ($item->status == 0)
                                     <span
                                         class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -469,38 +473,38 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->status_recieved }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->item }}
                             </td>
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->specification }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->initial_condition }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->holder_name ?? '' }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->department ?? '' }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->company ?? '' }}
                             </td>
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->old_code ?? '' }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ $item->reference ?? '' }}
                             </td>
 
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td >
                                 {{ \Carbon\Carbon::parse($item->created_at)->format('d-M-Y') ?? '' }}
 
                             </td>
@@ -521,12 +525,11 @@
                                             aria-labelledby="dropdownMenuIconHorizontalButton_view2_{{ $item->assets_id }}">
                                             @if (Auth::user()->Permission->transfer_write == 1)
                                                 @if ($item->deleted == 0)
-                                                <li>
-                                                    <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
-                                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">Movement</a>
-                                                </li>
+                                                    <li>
+                                                        <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
+                                                            class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">Movement</a>
+                                                    </li>
                                                 @endif
-
                                             @endif
 
                                             @if (Auth::user()->Permission->assets_read == 1)
@@ -583,17 +586,37 @@
     let page_view = @json($page);
     let sort_state = 0;
 
-    // function exportToExcel() {
-    //     // Convert JSON to worksheet
-    //     let worksheet = XLSX.utils.json_to_sheet(array);
 
-    //     // Create a new workbook and append worksheet
-    //     let workbook = XLSX.utils.book_new();
-    //     XLSX.utils.book_append_sheet(workbook, worksheet, "Assets");
 
-    //     // Export as Excel file
-    //     XLSX.writeFile(workbook, "assets.xlsx");
-    // }
+
+    let toggle_state = false;
+
+function hide_search() {
+    document.querySelector(".search-bar")?.classList.toggle("hidden");
+
+    let table = document.querySelector(".table-data");
+    if (table) {
+        toggle_state = !toggle_state;
+        table.style.minHeight = toggle_state ? "90vh" : "60vh";
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     const button = document.querySelector('#search_item');

@@ -406,7 +406,7 @@ class AssetsController extends Controller
                         $column . ': ' . $oldValue,
                         $column . ': ' . $newValue,
                         'update',
-                        'assets_transaction',
+                        'Assets Variant',
                         $request->reason ?? 'Asset updated'
                     );
                 }
@@ -547,13 +547,13 @@ class AssetsController extends Controller
         }
 
         // Capture old values before change
-        $oldValues = 'deleted = ' . $asset_delete->deleted . ', status = ' . $asset_delete->status . ', deleted_at = ' . (($asset_delete->deleted_at)->format('d-M-Y') ?? '01-01-1900');
+        $oldValues = 'deleted = ' . $asset_delete->deleted . ', status = ' . $asset_delete->status . ', deleted_at = ' . $asset_delete->deleted_at;
         // return $request->reason;
         // Soft delete
         $asset_delete->deleted = 1;
         $asset_delete->deleted_at = now();
         $deleted = $asset_delete->save();
-        $newValues = 'deleted = ' . $asset_delete->deleted . ', status = ' . $asset_delete->status . ', deleted_at = ' . (($asset_delete->deleted_at)->format('d-M-Y') ?? '01-01-1900');
+        $newValues = 'deleted = ' . $asset_delete->deleted . ', status = ' . $asset_delete->status . ', deleted_at = ' .$asset_delete->deleted_at;
         if ($deleted) {
 
             // storeChangeLog($record_id,$record_no, $oldValues, $newValues, $action, $table, $reason)
@@ -1357,7 +1357,7 @@ class AssetsController extends Controller
     }
     public function import_submit(Request $request)
     {
-          if(Auth::user()->permission->assets_write){
+          if(Auth::user()->permission->assets_write != 1){
             return redirect()->back()->with('error','You do not has permission');
         }
 
