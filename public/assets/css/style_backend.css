@@ -72,15 +72,10 @@
 .table-data {
     transition: height 0.4s ease; /* smooth height animation */
 }
-
-
-
-
 body{
   position: relative;
   min-width: 100vw !important;
   overflow-x: hidden;
-
 }
 .container-height{
   width: auto !important;
@@ -96,12 +91,12 @@ body{
   border-radius: 0 !important;
   position: sticky;
   top: 0;
-
-
 }
-
 table td{
     padding: 3px 7px;
+}
+td:first-child{
+    padding-left: 20px;
 }
 /* Table list Select  */
 .resultList{
@@ -171,8 +166,31 @@ table td{
     animation: fade_out 20s forwards;
     display: none;
   }
-
-#toast_red{
+#toast_red {
+  position: fixed; /* changed from absolute */
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  background: red;
+  color: white;
+  border-radius: 6px;
+  display: none;
+  opacity: 1;
+  z-index: 9999;
+}
+#toast_green{
+  position: absolute;
+ display: none;
+  top: 40px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  visibility: visible;
+  animation: fadeOut2 4s forwards;
+  z-index: 9999;
+}
+#toast_yellow{
   position: absolute;
  display: none;
   top: 40px;
@@ -615,6 +633,8 @@ z-index: 99;
   animation: progress-shimmer 1.2s infinite linear;
 }
 main{
+    min-height: 100vh;
+    overflow: hidden;
     position: relative;
 }
 #loading {

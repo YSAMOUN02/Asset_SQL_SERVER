@@ -55,7 +55,7 @@
             </div>
             <div>
                 <label for="start_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Start
-                    from date</label>
+                    from date (Posting Date)</label>
 
                         <input type="text" id="start_date" name="start_date"  name="start_date"    onchange="check_date()"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -65,7 +65,7 @@
             </div>
             <div>
                 <label for="end_date" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">To
-                    date</label>
+                    date (Posting Date)</label>
 
                 <input type="date" id="end_date" name="end_date"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -287,8 +287,8 @@
                                     @if ($item->is_registered == true)
 
                                       <span
-                                        class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                        <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                        class="inline-flex items-center  text-green-800 text-xs font-medium px-2.5 py-2 rounded-full dark:bg-green-900 dark:text-green-300">
+                                       <i class="fa-solid fa-circle-check mx-2" style="color: #369900;"></i>
                                        Registerd
                                     </span>
                                     @else

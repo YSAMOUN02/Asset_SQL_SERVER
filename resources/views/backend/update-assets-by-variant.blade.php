@@ -188,7 +188,8 @@
                         class="text-rose-500">*</span></label>
                 <input type="text" id="reference"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="reference" value="{{ old('reference', $asset->reference ?? '') }}" required />
+                    name="reference" value="{{ old('reference', $asset->reference ?? '') }}" required
+                    oninput="validateInputField(this,50)" />
                 <input type="text" class="hidden" name="assets_id" value="{{ $asset->assets_id }}">
                 <input type="text" class="hidden" name="state" value="{{ $state }}">
             </div>
@@ -235,11 +236,11 @@
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset Code <span
                         class="text-rose-500" id="assets12">*</span> </label>
                 <div class="flex w-full">
-                    <input type="text" id="asset_Code1" name="asset1" readonly
+                    <input type="text" id="asset_Code1" name="asset1" readonly oninput="validateInputField(this,30)"
                         class="percent70 bg-gray-50 border border-gray-300 p-2.5 text-gray-900 text-sm focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value="{{ old('assets1', $asset->assets1 ?? '') }}" />
 
-                    <select name="assets2" required onchange=""
+                    <select name="assets2" required oninput="validateInputField(this,10)"
                         class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value=""></option>
                         @foreach ($codes as $code => $key)
@@ -253,14 +254,15 @@
 
             <div>
                 <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">FA-No</label>
-                <input type="text" id="fa_no"
+                <input type="text" id="fa_no" oninput="validateInputField(this,100)"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="fa_no" value="{{ old('fa_no', $asset->fa_no ?? '') }}" />
             </div>
 
             <div>
-                <label for="item" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item</label>
-                <input type="text" id="item"
+                <label for="item" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item <span
+                        class="text-rose-500">*</span></label>
+                <input type="text" id="item" oninput="validateInputField(this,255)" required
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="item" value="{{ old('item', $asset->item ?? '') }}" />
             </div>
@@ -277,9 +279,23 @@
                 <label for="initial_condition"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Initial
                     Conditions <span class="text-rose-500">*</span></label>
-                <input type="text" id="initial_condition" required
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="initial_condition" value="{{ old('initial_condition', $asset->initial_condition ?? '') }}" />
+
+
+                <select required id="Initial_Condition" name="initial_condition" oninput="validateInputField(this,255)"
+                    required
+                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="New" @if (($asset->$asset->initial_condition ?? '') == 'New') selected @endif>New</option>
+                    <option value="Good" @if (($asset->$asset->initial_condition ?? '') == 'Good') selected @endif>Good</option>
+                    <option value="Very good" @if (($asset->$asset->initial_condition ?? '') == 'Very good') selected @endif>Very good</option>
+                    <option value="Low" @if (($asset->$asset->initial_condition ?? '') == 'Low') selected @endif>Low</option>
+                    <option value="Second hand" @if (($asset->$asset->initial_condition ?? '') == 'Second hand') selected @endif>Second hand</option>
+                    <option value="Medium" @if (($asset->$asset->initial_condition ?? '') == 'Medium') selected @endif>Medium</option>
+                    <option value="Old" @if (($asset->$asset->initial_condition ?? '') == 'Old') selected @endif>Old</option>
+                    <option value="Very old" @if (($asset->$asset->initial_condition ?? '') == 'Very old') selected @endif>Very old</option>
+                    <option value="Broken" @if (($asset->$asset->initial_condition ?? '') == 'Broken') selected @endif>Broken</option>
+                    <option value=""></option>
+                </select>
+
             </div>
 
             <div>

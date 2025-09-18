@@ -59,7 +59,7 @@
         <div>
             <label for="Reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference <span
                     class="text-rose-500">*</span></label>
-            <input type="text" id="Reference"
+            <input type="text" id="Reference" oninput="validateInputField(this,50)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="reference" required />
         </div>
@@ -70,11 +70,11 @@
                 Code <span class="text-rose-500">*</span></label>
             <div class="flex w-full">
                 @if (!empty($asset->assets))
-                    <input type="text" id="asset_Code1" name="assets1" readonly
+                    <input type="text" id="asset_Code1" name="assets1" readonly oninput="validateInputField(this,30)"
                         class="p-2.5 percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value="{{ $asset->assets }}" />
                 @else
-                    <input type="text" id="asset_Code1" name="assets1" required
+                    <input type="text" id="asset_Code1" name="assets1" required oninput="validateInputField(this,30)"
                         class="p-2.5 percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 @endif
 
@@ -108,34 +108,34 @@
                         'SA' => 'Sales Adminstration',
                         'SL' => 'Sales',
                         'ST' => 'Stock/Warehouse',
-                        'C'	 => 'Confirel',
-                        'D'	 =>  'Depomex',
-                        'E'	 =>  'External Project',
-                        'I'  => 'Investco',
-                        'P'  => 'PPM'
-
+                        'C' => 'Confirel',
+                        'D' => 'Depomex',
+                        'E' => 'External Project',
+                        'I' => 'Investco',
+                        'P' => 'PPM',
                     ];
                 @endphp
 
                 <select type="text" name="assets2" required placeholder="Department Code" required
+                    oninput="validateInputField(this,10)"
                     class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value="" selected></option>
                     @foreach ($codes as $code => $key)
-                        <option value="{{ '-'.$code }}">{{ $code . ' : ' . $key }}</option>
+                        <option value="{{ '-' . $code }}">{{ $code . ' : ' . $key }}</option>
                     @endforeach
                 </select>
             </div>
         </div>
         <div>
             <label for="fa_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">FA-No</label>
-            <input type="text" id="fa_no"
+            <input type="text" id="fa_no" oninput="validateInputField(this,100)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="fa_no" />
         </div>
         <div>
             <label for="item" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item <span
                     class="text-rose-500">*</span></label>
-            <input type="text" id="item"
+            <input type="text" id="item" oninput="validateInputField(this,255)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="item" required />
         </div>
@@ -150,18 +150,29 @@
 
         </div>
         <div>
-            <label for="Initial_Conditions" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Initial
+            <label for="Initial_Condition" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Initial
                 Conditions <span class="text-rose-500">*</span></label>
-            <input type="text" id="Initial_Conditions"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                name="initial_condition" required />
+            <select required id="Initial_Condition" name="initial_condition" oninput="validateInputField(this,255)"
+             class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option value="New" selected>New</option>
+                <option value="Good">Good</option>
+                <option value="Very good">Very good</option>
+                <option value="Low">Low</option>
+                <option value="Second hand">Second hand</option>
+                <option value="Medium">Medium</option>
+                <option value="Old">Old</option>
+                <option value="Very old">Very old</option>
+                <option value="Broken">Broken</option>
+            </select>
+
+
         </div>
 
         <div>
             <label for="Specifications"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Specifications <span
                     class="text-rose-500">*</span></label>
-            <input type="text" id="Specifications"
+            <input type="text" id="Specifications" oninput="validateInputField(this,255)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="specification" required />
         </div>
@@ -171,6 +182,7 @@
                     Description <span class="text-rose-500">*</span></label>
 
                 <input type="text" id="item_description" name="item_description" required
+                    oninput="validateInputField(this,255)"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
 
@@ -179,21 +191,21 @@
         <div>
             <label for="asset_group" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
                 Group</label>
-            <input type="text" id="asset_group"
+            <input type="text" id="asset_group" oninput="validateInputField(this,50)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="asset_group" />
         </div>
         <div>
             <label for="old_code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Old Code
                 (Optional)</label>
-            <input type="text" id="old_code"
+            <input type="text" id="old_code" oninput="validateInputField(this,100)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="old_code" />
         </div>
         <div>
             <label for="remark_assets"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark</label>
-            <input type="text" id="remark_assets"
+            <input type="text" id="remark_assets" oninput="validateInputField(this,255)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="remark_assets" />
         </div>
@@ -206,27 +218,27 @@
             <label for="Asset_Holder" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
                 Holder
                 ID</label>
-            <input type="text" id="Asset_Holder"
+            <input type="text" id="Asset_Holder" oninput="validateInputField(this,100)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="asset_holder" placeholder="INV-90.." />
         </div>
         <div>
             <label for="holder_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-            <input type="text" id="holder_name"
+            <input type="text" id="holder_name" oninput="validateInputField(this,100)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="holder_name" />
         </div>
         <div>
             <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position/
                 Title</label>
-            <input type="text" id="Asset_Holder"
+            <input type="text" id="Asset_Holder" oninput="validateInputField(this,100)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="position" />
         </div>
         <div>
             <label for="Location"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
-            <input type="text" id="Location"
+            <input type="text" id="Location" oninput="validateInputField(this,100)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="location" />
         </div>
@@ -237,6 +249,7 @@
             </label>
 
             <input list="departments_list" id="department" name="department" required
+                oninput="validateInputField(this,100)"
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Start typing department...">
             @php $departments = [ 'Accounting & Finance', 'Administration & HR', 'Management', 'Maintenance', 'Planning', 'Purchase', 'Regulatory Affairs', 'External Project & Special Project', 'Warehouse', 'Logistic', 'MIS', 'Consultant', 'Accounting & Finance', 'Research & Development', 'Commercial', 'Regulatory Affairs', 'Production', 'Quality Control', 'Maintenance', 'Warehouse', 'Management', 'Quality Assurance', 'Pizza Project', 'Kitchen Center', 'Consultant', 'Commercial', 'Production', 'Export and Marketing', 'Quality Assurance', 'Quality Control', 'Research & Development', 'Quality Production', 'Order', ]; @endphp
@@ -249,7 +262,7 @@
         <div>
             <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company <span
                     class="text-rose-500">*</span></label>
-            <select id="company" name="company" required
+            <select id="company" name="company" required oninput="validateInputField(this,100)"
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value="" selected></option>
                 <option value="CFR">CFR</option>
@@ -263,7 +276,7 @@
         <div>
             <label for="remark_holder"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark</label>
-            <input type="text" id="remark_holder"
+            <input type="text" id="remark_holder" oninput="validateInputField(this,255)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="remark_holder" />
         </div>
@@ -272,33 +285,33 @@
     <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
         <div>
             <label for="grn" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">GRN No</label>
-            <input type="text" id="grn"
+            <input type="text" id="grn" oninput="validateInputField(this,50)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="grn" />
         </div>
         <div>
             <label for="PO" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PO No</label>
-            <input type="text" id="PO"
+            <input type="text" id="PO" oninput="validateInputField(this,50)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="po" />
         </div>
         <div>
             <label for="PR" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PR (Purchase
                 Request)</label>
-            <input type="text" id="PR"
+            <input type="text" id="PR" oninput="validateInputField(this,50)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="pr" />
         </div>
         <div>
             <label for="dr" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DR (Department
                 Request)</label>
-            <input type="text" id="dr" name="dr"
+            <input type="text" id="dr" name="dr" oninput="validateInputField(this,50)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
         </div>
         <div>
             <label for="dr_requested_by" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DR
                 (Requested by)</label>
-            <input type="text" id="dr_requested_by" name="dr_requested_by"
+            <input type="text" id="dr_requested_by" name="dr_requested_by" oninput="validateInputField(this,50)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
         </div>
 
@@ -309,7 +322,7 @@
             <div>
                 <label for="dr_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DR Request
                     Date</label>
-                <input type="datetime-local" id="dr_date" name="dr_date"
+                <input type="text" id="dr_date" name="dr_date"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
             </div>
         </div>
@@ -317,7 +330,7 @@
         <div>
             <label for="remark_internal_doc"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark</label>
-            <input type="text" id="remark_internal_doc"
+            <input type="text" id="remark_internal_doc" oninput="validateInputField(this,255)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="remark_internal_doc" />
         </div>
@@ -687,18 +700,14 @@
             class="text-white update_btn hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Search
             Invoice
         </button>
-        <button type="button"
-        onclick="append_img()"
-        {{-- onclick="{alert('Under maintenance')}" --}}
+        <button type="button" onclick="append_img()" {{-- onclick="{alert('Under maintenance')}" --}}
             class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
             <i class="fa-solid fa-image" style="color: #ffffff;"></i>
         </button>
-        <button type="button"
-        onclick="append_file()"
-         {{-- onclick="{alert('Under maintenance')}" --}}
+        {{-- <button type="button" onclick="append_file()"
             class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
             <i class="fa-solid fa-file"></i>
-        </button>
+        </button> --}}
         <button type="submit"
             class="text-white mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             Submit

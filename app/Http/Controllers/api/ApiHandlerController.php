@@ -96,80 +96,65 @@ class ApiHandlerController extends Controller
         $end = $request->end_val ?? 'NA';
         $state = $request->state_val ?? 'NA';
         $page = $request->page ?? 0;
+        $is_registered = $request->is_registered ?? 'NA';
 
-        $sql = RawFixAssets::orderBy("assets_date", "desc");
+        $viewpoint = User_property::where('user_id', Auth::user()->id)
+            ->where('type', 'viewpoint')->first();
+        $limit = $viewpoint->value ?? 50;
+        $offset = $page > 0 ? ($page - 1) * $limit : 0;
 
-        if (strtolower($assets) !== "na") {
-            $sql->whereRaw("LOWER(assets) LIKE ?", ['%' . strtolower($assets) . '%']);
-        }
+        // Base query: join Raw Fix Assets view with assets_transaction table
+        $sql = DB::table('Raw Fix Assets as r')
+            ->leftJoin('assets_transaction as m', function ($join) {
+                $join->on(DB::raw('r.assets COLLATE SQL_Latin1_General_CP1_CI_AS'), '=', 'm.assets1');
+            })
+            ->select(
+                'r.*',
+                DB::raw('CASE WHEN m.assets1 IS NULL THEN 0 ELSE 1 END as is_registered'),
+                DB::raw("FORMAT(r.posting_date, 'yyyy-MM-dd') as assets_date")
+            );
 
-        if (strtolower($fa) !== "na") {
-            $sql->whereRaw("LOWER(fa) LIKE ?", ['%' . strtolower($fa) . '%']);
-        }
+        // Filters
+        if (strtolower($assets) !== 'na') $sql->whereRaw('LOWER(r.assets) LIKE ?', ['%' . strtolower($assets) . '%']);
+        if (strtolower($fa) !== 'na') $sql->whereRaw('LOWER(r.fa) LIKE ?', ['%' . strtolower($fa) . '%']);
+        if (strtolower($invoice) !== 'na') $sql->whereRaw('LOWER(r.invoice_no) LIKE ?', ['%' . strtolower($invoice) . '%']);
+        if (strtolower($description) !== 'na') $sql->whereRaw('LOWER(r.description) LIKE ?', ['%' . strtolower($description) . '%']);
 
-        if (strtolower($invoice) !== "na") {
-            $sql->whereRaw("LOWER(invoice_no) LIKE ?", ['%' . strtolower($invoice) . '%']);
-        }
-
-        if (strtolower($description) !== "na") {
-            $sql->whereRaw("LOWER(description) LIKE ?", ['%' . strtolower($description) . '%']);
-        }
-
-        if ($state != "NA") {
-            if ($state == "All") {
-                if ($start != "NA" && $end != "NA") {
-                    $sql->whereBetween('posting_date', [$start, $end]);
-                } elseif ($start != "NA") {
-                    $sql->where('posting_date', ">=", $start);
-                } elseif ($end != "NA") {
-                    $sql->where('posting_date', "<=", $end);
-                }
-            } elseif ($state == "invoice") {
-                if ($start != "NA" && $end != "NA") {
-                    $sql->whereBetween('posting_date', [$start, $end]);
-                } elseif ($start != "NA") {
-                    $sql->where('posting_date', ">=", $start);
-                } elseif ($end != "NA") {
-                    $sql->where('posting_date', "<", $end);
-                }
-                $sql->where('state', 'like', ["%" . $state . "%"]);
-            } elseif ($state == "no_invoice") {
-                $sql->where("state", $state);
+        if ($state != 'NA') {
+            if ($state == 'All') {
+                if ($start != 'NA' && $end != 'NA') $sql->whereBetween('r.posting_date', [$start, $end]);
+                elseif ($start != 'NA') $sql->where('r.posting_date', '>=', $start);
+                elseif ($end != 'NA') $sql->where('r.posting_date', '<=', $end);
+            } elseif ($state == 'invoice') {
+                if ($start != 'NA' && $end != 'NA') $sql->whereBetween('r.posting_date', [$start, $end]);
+                elseif ($start != 'NA') $sql->where('r.posting_date', '>=', $start);
+                elseif ($end != 'NA') $sql->where('r.posting_date', '<', $end);
+                $sql->where('r.state', 'like', '%invoice%');
+            } elseif ($state == 'no_invoice') {
+                $sql->where('r.state', 'no_invoice');
             }
         }
 
-        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
-        $limit = $viewpoint->value ?? 50;
-        $offset = 0;
-        if ($page != 0) {
-            $offset = ($page - 1) * $limit;
+        // Get all results first (filtering by is_registered in PHP)
+        $all_data = $sql->orderBy('r.posting_date', 'desc')->get();
+
+        if ($is_registered !== 'NA') {
+            $all_data = $all_data->filter(function ($item) use ($is_registered) {
+                return intval($item->is_registered) == intval($is_registered);
+            })->values();
         }
 
-        $count = $sql->count();
-        $sql->limit($limit)->offset($offset);
-        $asset_data = $sql->get();
+        $total_count = $all_data->count();
+        $asset_data = $all_data->slice($offset, $limit)->values();
+        $total_pages = ceil($total_count / $limit);
 
-        // ✅ Add is_registered using movement model
-        $registeredAssets = movement::pluck('assets1')->toArray();
-        $asset_data->each(function ($item) use ($registeredAssets) {
-            $item->is_registered = in_array($item->assets, $registeredAssets);
-        });
-
-        $total_pages = ceil($count / $limit);
-
-        $arr = new \stdClass();
-        $arr->page = $page;
-        $arr->total_page = $total_pages;
-        $arr->total_record = $count;
-        $arr->data = $asset_data;
-
-        if ($count > 0) {
-            return response()->json($arr);
-        } else {
-            return response()->json([]);
-        }
+        return response()->json($total_count > 0 ? (object)[
+            'page' => $page,
+            'total_page' => $total_pages,
+            'total_record' => $total_count,
+            'data' => $asset_data
+        ] : []);
     }
-
 
 
 

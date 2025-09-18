@@ -89,9 +89,8 @@ class AssetsController extends Controller
       $viewpoint = User_property::where('user_id',Auth::user()->id)->where('type','viewpoint')->first();
         $limit = $viewpoint->value ?? 50;
 
-        // if(Auth::user()->permission->assets_read == 1 && Auth::user()->role == 'admin'){
 
-        $count_post = StoredAssets::where("last_varaint", 1)->count();
+        $count_post = StoredAssets::count();
         $total_page = ceil($count_post / $limit);
         $offset = 0;
         if ($page != 0) {

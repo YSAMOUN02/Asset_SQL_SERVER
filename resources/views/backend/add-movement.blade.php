@@ -21,8 +21,8 @@
                         Movement</label>
                     <input type="text" id="ref_movement" name="ref_movement"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                        <input type="text" name="last_assets_id" value="{{$asset->assets_id}}" class="hidden">
-                    </div>
+                    <input type="text" name="last_assets_id" value="{{ $asset->assets_id }}" class="hidden">
+                </div>
 
                 <div class="flex flex-col w-full">
                     <label for="no" id="assets1"
@@ -98,7 +98,7 @@
                 </div>
                 <div>
                     <label for="holder_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To
-                        Holder</label>
+                        Holder ID</label>
                     <input type="text" id="holder_id" name="holder"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </div>
@@ -188,12 +188,25 @@
                 <div>
                     <label for="Initail" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current
                         Initail
-                        Condition</label>
-                    <input type="text" id="Initail" name="initial_condition"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        Condition <span class="text-rose-500">*</span></label>
+                    <select name="" id="" required id="Initail" name="initial_condition" required
+                        class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="" selected></option>
+                        <option value="New" >New</option>
+                        <option value="Good">Good</option>
+                        <option value="Very good">Very good</option>
+                        <option value="Low">Low</option>
+                        <option value="Second hand">Second hand</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Old">Old</option>
+                        <option value="Very old">Very old</option>
+                        <option value="Broken">Broken</option>
+                    </select>
+
                 </div>
                 <div>
-                    <label for="status_recieved" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status
+                    <label for="status_recieved"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status
                         Recieved</label>
                     <select id="status_recieved" name="status_recieved"
                         class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -205,11 +218,12 @@
                         <option value="Medium">Medium</option>
                         <option value="Other">Other</option>
                     </select>
-                      <div class="btn_float_right">
+                    <div class="btn_float_right">
 
-                    <button  class="text-white update_btn hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Submit</button>
+                        <button
+                            class="text-white update_btn hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Submit</button>
+                    </div>
                 </div>
-            </div>
         </form>
     </div>
     </div>

@@ -34,24 +34,24 @@ function form_submit() {
     }
 }
 
-if (localStorage.getItem("theme") === "dark") {
-    document.documentElement.classList.add("dark");
-}
+// if (localStorage.getItem("theme") === "dark") {
+//     document.documentElement.classList.add("dark");
+// }
 
-const toggleDarkMode = () => {
-    const htmlElement = document.documentElement;
-    htmlElement.classList.toggle("dark");
+// const toggleDarkMode = () => {
+//     const htmlElement = document.documentElement;
+//     htmlElement.classList.toggle("dark");
 
-    if (htmlElement.classList.contains("dark")) {
-        localStorage.setItem("theme", "dark");
-    } else {
-        localStorage.setItem("theme", "light");
-    }
-};
+//     if (htmlElement.classList.contains("dark")) {
+//         localStorage.setItem("theme", "dark");
+//     } else {
+//         localStorage.setItem("theme", "light");
+//     }
+// };
 
-document
-    .getElementById("dark-mode-toggle")
-    .addEventListener("click", toggleDarkMode);
+// document
+//     .getElementById("dark-mode-toggle")
+//     .addEventListener("click", toggleDarkMode);
 
 function delete_value(btn_delete, toast, toast_input) {
     let id = document.querySelector("#" + btn_delete).getAttribute("data-id");
@@ -486,22 +486,23 @@ async function search_assets() {
                         </thead>
                   <tbody class="sticky top-0">
     ${data
-                            .map(
-                                (item, index) => `
+        .map(
+            (item, index) => `
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
                 <td class="px-1 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
-                    ${item.posting_date
-                                        ? new Date(item.posting_date).toLocaleDateString(
-                                            "en-US",
-                                            {
-                                                year: "numeric",
-                                                month: "short",
-                                                day: "numeric",
-                                            }
-                                        )
-                                        : ""
-                                    }
+                    ${
+                        item.posting_date
+                            ? new Date(item.posting_date).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                      year: "numeric",
+                                      month: "short",
+                                      day: "numeric",
+                                  }
+                              )
+                            : ""
+                    }
                 </td>
 
                 <td class="px-1 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 no_wrap">
@@ -525,10 +526,11 @@ async function search_assets() {
                 </td>
 
                 <td class="px-1 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
-                    ${item.cost !== undefined && item.cost !== null
-                                        ? parseFloat(item.cost)
-                                        : ""
-                                    }
+                    ${
+                        item.cost !== undefined && item.cost !== null
+                            ? parseFloat(item.cost)
+                            : ""
+                    }
                 </td>
 
                 <td class="px-1 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
@@ -546,8 +548,8 @@ async function search_assets() {
 
             </tr>
         `
-                            )
-                            .join("")}
+        )
+        .join("")}
 </tbody>
 
                     </table>
@@ -1140,8 +1142,9 @@ async function search_asset(no) {
                         }
                         if (page != 1 && totalPage != 1) {
                             paginationHtml += `
-                                    <li onclick="search_asset(${page - 1
-                                })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                    <li onclick="search_asset(${
+                                        page - 1
+                                    })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
 
 
                                             <i class="fa-solid fa-angle-left"></i>
@@ -1178,8 +1181,9 @@ async function search_asset(no) {
 
                         if (page != totalPage) {
                             paginationHtml += `
-                                    <li  onclick="search_asset(${page + 1
-                                })" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                    <li  onclick="search_asset(${
+                                        page + 1
+                                    })" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
 
 
                                             <i class="fa-solid fa-chevron-right"></i>
@@ -1232,11 +1236,12 @@ async function search_asset(no) {
                 body_change.innerHTML = ``;
                 data.data.map((item, index) => {
                     let custom = ``;
-                    if(item.deleted == 1){
-                        custom+= `<tr class="bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
+                    if (item.deleted == 1) {
+                        custom += `<tr class="bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
                                      <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                <input onchange="printable()" data-id="${item.assets_id || ""
-                            }" id="green-checkbox${item.id}"
+                                                <input onchange="printable()" data-id="${
+                                                    item.assets_id || ""
+                                                }" id="green-checkbox${item.id}"
                                                     type="checkbox" value=""
                                                     class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 Deleted
@@ -1244,11 +1249,12 @@ async function search_asset(no) {
 
 
                         `;
-                    }else{
-                        custom+= `<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    } else {
+                        custom += `<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                  <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                <input onchange="printable()" data-id="${item.assets_id || ""
-                            }" id="green-checkbox${item.id}"
+                                                <input onchange="printable()" data-id="${
+                                                    item.assets_id || ""
+                                                }" id="green-checkbox${item.id}"
                                                     type="checkbox" value=""
                                                     class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                             </td>
@@ -1264,48 +1270,52 @@ async function search_asset(no) {
                                                     ${item.assets_id || ""}
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                               ${item.transaction_date
-                            ? new Date(
-                                item.transaction_date
-                            ).toLocaleDateString(
-                                "en-US",
-                                {
-                                    year: "numeric",
-                                    month: "short",
-                                    day: "numeric",
-                                }
-                            )
-                            : ""
-                        }
+                                               ${
+                                                   item.transaction_date
+                                                       ? new Date(
+                                                             item.transaction_date
+                                                         ).toLocaleDateString(
+                                                             "en-US",
+                                                             {
+                                                                 year: "numeric",
+                                                                 month: "short",
+                                                                 day: "numeric",
+                                                             }
+                                                         )
+                                                       : ""
+                                               }
 
                                                 </td>
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                ${item.assets1 || ""}${item.assets2 || ""
-                        }
+                                                ${item.assets1 || ""}${
+                        item.assets2 || ""
+                    }
                                                 </td>
                                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                       ${item.status == 1
-                            ? `
+                                       ${
+                                           item.status == 1
+                                               ? `
                                                 <span
                                                 class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                                                 <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
                                                 Active
                                                 </span>
                                             `
-                            : `
+                                               : `
                                                 <span
                                                 class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                                                 <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
                                                 Inactive
                                                 </span>
                                             `
-                        }
+                                       }
                                                 </td>
 
                                                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                        ${item.status_recieved ||
-                        ""
-                        }
+                                                        ${
+                                                            item.status_recieved ||
+                                                            ""
+                                                        }
                                                         </td>
 
 
@@ -1319,9 +1329,10 @@ async function search_asset(no) {
 
 
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                  ${item.initial_condition ||
-                        ""
-                        }
+                                                  ${
+                                                      item.initial_condition ||
+                                                      ""
+                                                  }
                                                 </td>
 
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
@@ -1342,42 +1353,50 @@ async function search_asset(no) {
                                                       ${item.document || ""}
                                                 </td>
                                                      <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                               ${item.created_at
-                            ? new Date(
-                                item.created_at
-                            ).toLocaleDateString(
-                                "en-US",
-                                {
-                                    year: "numeric",
-                                    month: "short",
-                                    day: "numeric",
-                                }
-                            )
-                            : ""
-                        }
+                                               ${
+                                                   item.created_at
+                                                       ? new Date(
+                                                             item.created_at
+                                                         ).toLocaleDateString(
+                                                             "en-US",
+                                                             {
+                                                                 year: "numeric",
+                                                                 month: "short",
+                                                                 day: "numeric",
+                                                             }
+                                                         )
+                                                       : ""
+                                               }
 
 
                                                 <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
                                                 <div class="option">
-                                                    <button id="dropdownMenuIconHorizontalButton${item.assets_id
-                        }"
-                                                        data-dropdown-toggle="dropdownDotsHorizontal${item.assets_id
-                        }"
+                                                    <button id="dropdownMenuIconHorizontalButton${
+                                                        item.assets_id
+                                                    }"
+                                                        data-dropdown-toggle="dropdownDotsHorizontal${
+                                                            item.assets_id
+                                                        }"
                                                         class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                                                         type="button">
                                                    <i class="fa-solid fa-gear"></i>
                                                     </button>
 
                                                     <!-- Dropdown menu -->
-                                                    <div id="dropdownDotsHorizontal${item.assets_id
-                        }"
+                                                    <div id="dropdownDotsHorizontal${
+                                                        item.assets_id
+                                                    }"
                                                         class=" hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
 
                                                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                                            aria-labelledby="dropdownMenuIconHorizontalButton${item.assets_id
-                        }">
+                                                            aria-labelledby="dropdownMenuIconHorizontalButton${
+                                                                item.assets_id
+                                                            }">
                                                 `;
-                    if (auth?.permission?.transfer_write == 1 && item.deleted != 1) {
+                    if (
+                        auth?.permission?.transfer_write == 1 &&
+                        item.deleted != 1
+                    ) {
                         custom += `
 
                                                                 <li>
@@ -1405,7 +1424,10 @@ async function search_asset(no) {
 
                                                     `;
                     }
-                    if (auth?.permission?.assets_delete == 1 && item.deleted != 1) {
+                    if (
+                        auth?.permission?.assets_delete == 1 &&
+                        item.deleted != 1
+                    ) {
                         custom += `
 
                                                     <li class="block px-4 py-2 hover:bg-gray-200  bg-white text-black"
@@ -1608,8 +1630,9 @@ async function search_movement(no) {
                         }
                         if (page != 1 && totalPage != 1) {
                             paginationHtml += `
-                                    <li onclick="search_movement(${page - 1
-                                })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                    <li onclick="search_movement(${
+                                        page - 1
+                                    })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
 
 
                                             <i class="fa-solid fa-angle-left"></i>
@@ -1646,8 +1669,9 @@ async function search_movement(no) {
 
                         if (page != totalPage) {
                             paginationHtml += `
-                                    <li  onclick="search_movement(${page + 1
-                                })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                    <li  onclick="search_movement(${
+                                        page + 1
+                                    })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
 
 
                                             <i class="fa-solid fa-chevron-right"></i>
@@ -1716,10 +1740,12 @@ async function search_movement(no) {
                            <tr class="bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
                             <!-- Checkbox -->
                             <td class="print_val px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
-                                <input onchange="printable()" data-id="${item.assets_id || ""
-                            }"
-                                    id="green-checkbox${item.id
-                            }" type="checkbox" value=""
+                                <input onchange="printable()" data-id="${
+                                    item.assets_id || ""
+                                }"
+                                    id="green-checkbox${
+                                        item.id
+                                    }" type="checkbox" value=""
                                     class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded
                                     focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800
                                     focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -1735,17 +1761,18 @@ async function search_movement(no) {
 
         <!-- Transaction Date -->
         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
-            ${item.transaction_date
-                            ? new Date(item.transaction_date).toLocaleDateString(
-                                "en-US",
-                                {
-                                    year: "numeric",
-                                    month: "short",
-                                    day: "numeric",
-                                }
-                            )
-                            : ""
-                        }
+            ${
+                item.transaction_date
+                    ? new Date(item.transaction_date).toLocaleDateString(
+                          "en-US",
+                          {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                          }
+                      )
+                    : ""
+            }
         </td>
 
         <!-- Assets Code -->
@@ -1755,67 +1782,78 @@ async function search_movement(no) {
 
         <!-- Status -->
         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
-            ${item.status == 0
-                            ? `
+            ${
+                item.status == 0
+                    ? `
                         <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium
                         px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
                             <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>Inactive
                         </span>`
-                            : `
+                    : `
                         <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium
                         px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                             <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>Active
                         </span>`
-                        }
+            }
         </td>
   <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                        ${item.status_recieved ||
-                        ""
-                        }
+                                                        ${
+                                                            item.status_recieved ||
+                                                            ""
+                                                        }
                                                         </td>
 
         <!-- Item -->
-        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${item.item || ""
-                        }</td>
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.item || ""
+        }</td>
 
         <!-- Specification -->
-        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${item.specification || ""
-                        }</td>
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.specification || ""
+        }</td>
 
         <!-- Initial Condition -->
-        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${item.initial_condition || ""
-                        }</td>
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.initial_condition || ""
+        }</td>
 
         <!-- Holder -->
-        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${item.holder_name || ""
-                        }</td>
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.holder_name || ""
+        }</td>
 
         <!-- Department -->
-        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${item.department || ""
-                        }</td>
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.department || ""
+        }</td>
 
         <!-- Company -->
-        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${item.company || ""
-                        }</td>
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.company || ""
+        }</td>
 
         <!-- Old Code -->
-        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${item.old_code || ""
-                        }</td>
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.old_code || ""
+        }</td>
 
         <!-- Reference -->
-        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${item.reference || ""
-                        }</td>
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.reference || ""
+        }</td>
 
         <!-- Created Date -->
         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
-            ${item.created_at
-                            ? new Date(item.created_at).toLocaleDateString("en-US", {
-                                year: "numeric",
-                                month: "short",
-                                day: "numeric",
-                            })
-                            : ""
-                        }
+            ${
+                item.created_at
+                    ? new Date(item.created_at).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                      })
+                    : ""
+            }
         </td>
         <!-- Actions -->
         <td class="bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">`;
@@ -2114,34 +2152,37 @@ async function raw_assets(no) {
         }
     }
     // Loading label
-    document.querySelector("#loading").style.display = "block";
     let url = `/api/raw/assets`;
+    let data;
+    try {
+        // Run loader while fetching
 
-    let data = await showLoader(async () => {
-        const response = await fetch(url, {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                asset_val: assets_value,
-                fa_val: fa_value,
-                invoice_val: invoice_value,
-                description_val: description_value,
-                start_val: startDateValue,
-                end_val: endDateValue,
-                state_val: state_value,
-                page: page,
-            }),
+        data = await showLoader(async () => {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    asset_val: assets_value,
+                    fa_val: fa_value,
+                    invoice_val: invoice_value,
+                    description_val: description_value,
+                    start_val: startDateValue,
+                    end_val: endDateValue,
+                    state_val: state_value,
+                    page: page,
+                }),
+            });
+
+            return await response.json(); // return the fetched data
         });
 
-        // Optional: simulate network progress
-        // You can remove if you just want percentage simulation
-        await new Promise((resolve) => setTimeout(resolve, 200));
-
-        return await response.json(); // the JSON result is returned from showLoader
-    });
+        console.log(data); // JSON response is now available
+    } catch (error) {
+        alert(error);
+    }
 
     let body_table = document.querySelector("#table_raw_body");
 
@@ -2179,7 +2220,8 @@ async function raw_assets(no) {
                         }
                         if (page != 1 && totalPage != 1) {
                             paginationHtml += `
-                                <li onclick="raw_assets(${page - 1
+                                <li onclick="raw_assets(${
+                                    page - 1
                                 })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
 
 
@@ -2280,31 +2322,27 @@ async function raw_assets(no) {
                 }
                 body_table.innerHTML = `
             ${data.data
-                        .map((item, index) => {
-                            // ✅ Set row background based on registration
-                            const trClass = item.is_registered
-                                ? "bg-green-100 border-b dark:bg-green-900 dark:border-gray-700"
-                                : "bg-white border-b dark:bg-gray-800 dark:border-gray-700";
-
-                            return `
-        <tr class="${trClass}">
+                .map((item, index) => {
+                    return `
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"">
             <td scope="row"
                 class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 ${index + 1}
             </td>
             <td scope="row"
                 class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                ${item.posting_date
-                                    ? new Date(item.posting_date).toLocaleDateString(
-                                        "en-US",
-                                        {
-                                            year: "numeric",
-                                            month: "short",
-                                            day: "numeric",
-                                        }
-                                    )
-                                    : ""
-                                }
+                ${
+                    item.posting_date
+                        ? new Date(item.posting_date).toLocaleDateString(
+                              "en-US",
+                              {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                              }
+                          )
+                        : ""
+                }
             </td>
             <td scope="row"
                 class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -2322,15 +2360,23 @@ async function raw_assets(no) {
                 class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 ${item.description}
             </td>
-            <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
-                ${item.is_registered
-                                    ? `<span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                               <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                               Registered
-                           </span>`
-                                    : `<a href="/admin/assets/add/assets=${item.assets
-                                    }/invoice_no=${item.fa ? item.fa.replace(/\//g, "-") : "NA"
-                                    }">
+            <td>
+                ${
+                    item.is_registered
+                        ? `
+                          <span
+                                        class="inline-flex items-center  text-green-800 text-xs font-medium px-2.5 py-2 rounded-full dark:bg-green-900 dark:text-green-300">
+                                       <i class="fa-solid fa-circle-check mx-2" style="color: #369900;"></i>
+                                       Registerd
+                                    </span>
+
+
+                        `
+                        : `<a href="/admin/assets/add/assets=${
+                              item.assets
+                          }/invoice_no=${
+                              item.fa ? item.fa.replace(/\//g, "-") : "NA"
+                          }">
                                <button data-popover-target="popover-default${index}" type="button"
                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                    <i class="fa-solid fa-square-plus" style="font-size:25px"></i>
@@ -2346,11 +2392,11 @@ async function raw_assets(no) {
                                </div>
                                <div data-popper-arrow></div>
                           </div>`
-                                }
+                }
             </td>
         </tr>`;
-                        })
-                        .join("")}
+                })
+                .join("")}
         `;
                 array = data.data;
             }
@@ -2493,8 +2539,9 @@ async function search_change_log(no) {
                         }
                         if (page != 1 && totalPage != 1) {
                             paginationHtml += `
-                                    <li onclick="search_change_log(${page - 1
-                                })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                    <li onclick="search_change_log(${
+                                        page - 1
+                                    })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
 
 
                                             <i class="fa-solid fa-angle-left"></i>
@@ -2606,16 +2653,17 @@ async function search_change_log(no) {
                                </td>
 
                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                  ${item.created_at
-                            ? new Date(
-                                item.created_at
-                            ).toLocaleDateString("en-US", {
-                                year: "numeric",
-                                month: "short",
-                                day: "numeric",
-                            })
-                            : ""
-                        }
+                                  ${
+                                      item.created_at
+                                          ? new Date(
+                                                item.created_at
+                                            ).toLocaleDateString("en-US", {
+                                                year: "numeric",
+                                                month: "short",
+                                                day: "numeric",
+                                            })
+                                          : ""
+                                  }
 
                                </td>
 
@@ -2763,8 +2811,9 @@ async function search_quick_data(no) {
                         }
                         if (page != 1 && totalPage != 1) {
                             paginationHtml += `
-                                     <li onclick="search_quick_data(${page - 1
-                                })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                     <li onclick="search_quick_data(${
+                                         page - 1
+                                     })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
 
 
                                              <i class="fa-solid fa-angle-left"></i>
@@ -2811,8 +2860,9 @@ async function search_quick_data(no) {
                         }
                         if (page != totalPage) {
                             paginationHtml += `
-                                     <li onclick="search_quick_data(${page + 1
-                                })" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                     <li onclick="search_quick_data(${
+                                         page + 1
+                                     })" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                              <i class="fa-solid fa-chevron-right"></i>
 
                                      </li>
@@ -2887,8 +2937,9 @@ async function search_quick_data(no) {
 
                                         <button type="button" data-id="{{ $item->id }}"
                                             id="btn_delete{{ $item->id }}"
-                                            onclick="delete_value('btn_delete'+${item.id
-                        },'delete_data','delete_data_value')"
+                                            onclick="delete_value('btn_delete'+${
+                                                item.id
+                                            },'delete_data','delete_data_value')"
                                             class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                             <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
                                </td>
@@ -2977,8 +3028,9 @@ async function search_mobile(asset) {
                     custom += `
                         <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                             <td >
-                                                <a href="/admin/assets/edit/id=${item.id
-                        }"> <button>View</button></a>
+                                                <a href="/admin/assets/edit/id=${
+                                                    item.id
+                                                }"> <button>View</button></a>
 
                                              </td>
                                              <td >
@@ -3021,8 +3073,6 @@ function close_search() {
     let panel_list = document.querySelector("#show_list");
     panel_list.style.display = "none";
 }
-
-
 
 async function search_asset_new(no) {
     const fa = document.querySelector("#fa");
@@ -3103,7 +3153,8 @@ async function search_asset_new(no) {
                     if (left_val < 1) left_val = 1;
                     if (page != 1 && totalPage != 1) {
                         paginationHtml += `
-                            <li onclick="search_asset_new(${page - 1
+                            <li onclick="search_asset_new(${
+                                page - 1
                             })" class="flex items-center justify-center px-1 h-4 lg:px-3 lg:h-8 md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                 <i class="fa-solid fa-angle-left"></i>
                             </li>`;
@@ -3118,8 +3169,9 @@ async function search_asset_new(no) {
                         }
                     }
                     if (page != totalPage) {
-                        paginationHtml += `<li onclick="search_asset_new(${page + 1
-                            })" class="flex items-center justify-center px-1 h-4 lg:px-3 lg:h-8 md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        paginationHtml += `<li onclick="search_asset_new(${
+                            page + 1
+                        })" class="flex items-center justify-center px-1 h-4 lg:px-3 lg:h-8 md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                             <i class="fa-solid fa-chevron-right"></i>
                         </li>`;
                     }
@@ -3150,14 +3202,22 @@ async function search_asset_new(no) {
                     custom += `
                        <tr class="bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
                         <td class="print_val px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">
-                            <input onchange="printable()" data-id="${item.assets_id || ""}" id="green-checkbox${item.id}" type="checkbox" class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input onchange="printable()" data-id="${
+                                item.assets_id || ""
+                            }" id="green-checkbox${
+                        item.id
+                    }" type="checkbox" class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     `;
                 } else {
                     custom += `
                        <tr class="bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
 
                         <td class="print_val px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">
-                            <input onchange="printable()" data-id="${item.assets_id || ""}" id="green-checkbox${item.id}" type="checkbox" class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input onchange="printable()" data-id="${
+                                item.assets_id || ""
+                            }" id="green-checkbox${
+                        item.id
+                    }" type="checkbox" class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
 
 
                     `;
@@ -3165,90 +3225,113 @@ async function search_asset_new(no) {
                 custom += `
 
                         </td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${item.assets_id || ""
-                    }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${item.transaction_date
-                        ? new Date(
+                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
+                            item.assets_id || ""
+                        }</td>
+                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
                             item.transaction_date
-                        ).toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                        })
-                        : ""
-                    }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${item.assets1 || ""
-                    }${item.assets2 || ""}</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${item.status == 1
-                        ? `<span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"><span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>Active</span>`
-                        : `<span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300"><span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>Inactive</span>`
-                    }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${item.status_recieved || ""
-                    }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${item.item || ""
-                    }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${item.specification || ""
-                    }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${item.initial_condition || ""
-                    }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${item.holder_name || ""
-                    }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${item.department || ""
-                    }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${item.company || ""
-                    }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${item.old_code || ""
-                    }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${item.document || ""
-                    }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${item.created_at
-                        ? new Date(item.created_at).toLocaleDateString(
-                            "en-US",
-                            {
-                                year: "numeric",
-                                month: "short",
-                                day: "numeric",
-                            }
-                        )
-                        : ""
-                    }</td>
+                                ? new Date(
+                                      item.transaction_date
+                                  ).toLocaleDateString("en-US", {
+                                      year: "numeric",
+                                      month: "short",
+                                      day: "numeric",
+                                  })
+                                : ""
+                        }</td>
+                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
+                            item.assets1 || ""
+                        }${item.assets2 || ""}</td>
+                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
+                            item.status == 1
+                                ? `<span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"><span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>Active</span>`
+                                : `<span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300"><span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>Inactive</span>`
+                        }</td>
+                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
+                            item.status_recieved || ""
+                        }</td>
+                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
+                            item.item || ""
+                        }</td>
+                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
+                            item.specification || ""
+                        }</td>
+                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
+                            item.initial_condition || ""
+                        }</td>
+                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
+                            item.holder_name || ""
+                        }</td>
+                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
+                            item.department || ""
+                        }</td>
+                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
+                            item.company || ""
+                        }</td>
+                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
+                            item.old_code || ""
+                        }</td>
+                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
+                            item.document || ""
+                        }</td>
+                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
+                            item.created_at
+                                ? new Date(item.created_at).toLocaleDateString(
+                                      "en-US",
+                                      {
+                                          year: "numeric",
+                                          month: "short",
+                                          day: "numeric",
+                                      }
+                                  )
+                                : ""
+                        }</td>
                         <td class="bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
                             <div class="option">
-                                <button id="dropdownMenuIconHorizontalButton${item.assets_id
-                    }" data-dropdown-toggle="dropdownDotsHorizontal${item.assets_id
-                    }" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
+                                <button id="dropdownMenuIconHorizontalButton${
+                                    item.assets_id
+                                }" data-dropdown-toggle="dropdownDotsHorizontal${
+                    item.assets_id
+                }" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
                                     <i class="fa-solid fa-gear"></i>
                                 </button>
-                                <div id="dropdownDotsHorizontal${item.assets_id
-                    }" class="hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton${item.assets_id
-                    }">
-                                        ${auth?.permission?.transfer_write ==
-                        1
-                        ? `<li><a href="/admin/movement/add/detail/id=${item.assets_id}" class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Movement</a></li>
+                                <div id="dropdownDotsHorizontal${
+                                    item.assets_id
+                                }" class="hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton${
+                                        item.assets_id
+                                    }">
+                                        ${
+                                            auth?.permission?.transfer_write ==
+                                            1
+                                                ? `<li><a href="/admin/movement/add/detail/id=${item.assets_id}" class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Movement</a></li>
 <li><a href="/admin/assets/data/view/id=${item.assets_id}/variant=${item.variant}" class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Movement</a></li>
                         `
-                        : ""
-                    }
+                                                : ""
+                                        }
 
-                                        ${auth?.permission?.assets_read == 1
-                        ? `<li><a href="${auth?.permission
-                            ?.assets_update == 0
-                            ? "/admin/assets/view/id=" +
-                            item.assets_id
-                            : "/admin/assets/edit/id="+
-                            item.assets_id
-                        }" class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">${auth?.permission
-                            ?.assets_update == 0
-                            ? "Detail"
-                            : "Update"
-                        }</a></li>`
-                        : ""
-                    }
-                                        ${auth?.permission?.assets_delete == 1
-                        ? `<li class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white" data-id="${item.assets_id}" id="btn_delete_asset${item.assets_id}" onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')">Delete</li>`
-                        : ""
-                    }
+                                        ${
+                                            auth?.permission?.assets_read == 1
+                                                ? `<li><a href="${
+                                                      auth?.permission
+                                                          ?.assets_update == 0
+                                                          ? "/admin/assets/view/id=" +
+                                                            item.assets_id
+                                                          : "/admin/assets/edit/id=" +
+                                                            item.assets_id
+                                                  }" class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">${
+                                                      auth?.permission
+                                                          ?.assets_update == 0
+                                                          ? "Detail"
+                                                          : "Update"
+                                                  }</a></li>`
+                                                : ""
+                                        }
+                                        ${
+                                            auth?.permission?.assets_delete == 1
+                                                ? `<li class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white" data-id="${item.assets_id}" id="btn_delete_asset${item.assets_id}" onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')">Delete</li>`
+                                                : ""
+                                        }
                                     </ul>
                                 </div>
                             </div>
@@ -3336,10 +3419,7 @@ async function showLoader(asyncTask) {
     return result;
 }
 
-
-
 async function change_toggle(state) {
-
     const url = `/api/fect/assets/new/data`;
 
     try {
@@ -3354,8 +3434,8 @@ async function change_toggle(state) {
             body: JSON.stringify({
                 type: "minimize",
                 value: state, // 1 or 0
-                id: auth.id,  // send current user id
-                _t: Date.now() // cache buster
+                id: auth.id, // send current user id
+                _t: Date.now(), // cache buster
             }),
         });
 
@@ -3366,7 +3446,6 @@ async function change_toggle(state) {
         console.error("Error saving toggle state:", error);
     }
 }
-
 
 let state_toggle_table = 1; // 0 = collapsed, 1 = expanded
 
@@ -3400,4 +3479,24 @@ function adjustLayout() {
 
     // 🔹 Toggle state for next click
     state_toggle_table = state_toggle_table === 0 ? 1 : 0;
+}
+function showToastRed(message) {
+    let toast = document.getElementById('toast_red');
+    toast.innerText = message;
+    toast.style.display = "block";
+    toast.style.opacity = "1";
+
+    if (toast.timer) clearTimeout(toast.timer);
+
+    toast.timer = setTimeout(() => {
+        toast.style.opacity = "0";
+        setTimeout(() => toast.style.display = "none", 500);
+    }, 3000);
+}
+
+function validateInputField(field, maxLength) {
+    if (field.value.length > maxLength) {
+        field.value = field.value.substring(0, maxLength);
+        showToastRed("Maximum " + maxLength + " characters allowed!");
+    }
 }
