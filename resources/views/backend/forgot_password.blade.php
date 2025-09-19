@@ -281,7 +281,7 @@
     let name = document.getElementById('name_email');
     // Live update while typing
     name.addEventListener("input", preventEnter);
-
+    let blockEnter = true; // initially block Enter
     function preventEnter(e) {
         if (blockEnter && e.key === 'Enter') e.preventDefault();
     }
