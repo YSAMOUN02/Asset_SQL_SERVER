@@ -6,13 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Fix_assets;
 use App\Models\Register_assets;
 use App\Models\StoredAssets;
-use App\Models\StoredAssetsUser;
+use App\Models\TempCode;
+use App\Models\User;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\movement;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -285,5 +287,77 @@ class AdminController extends Controller
     {
 
         return view('backend.forgot_password');
+    }
+
+
+
+
+
+
+
+
+    public function login_submit_code_to_reset(Request $request)
+    {
+
+        $code = $request->code;
+        $name_email = $request->user_name;
+        //  return $name_email ;
+        $tempCode = TempCode::where('code', $code)
+            ->where('user_name', $name_email)
+            ->first();
+
+
+        if (!$tempCode) {
+            $tempCode = TempCode::where('code', $code)
+                ->where('user_email', $name_email)
+                ->first();
+        }
+
+        if (!$tempCode) {
+            return redirect()->back()->with('error', 'Code Not Found, Try again.');
+        }
+        // Compare current time with expire_at
+        if (Carbon::now()->gt(Carbon::parse($tempCode->expire_at))) {
+            return redirect('/forgot/password')->with('error', 'Code expired, try again.');
+        }
+        $user = User::where('id', $tempCode->user_id)
+            ->first();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'User Not Found.');
+        }
+
+        return view('backend.reset_password', [
+            'user' => $user,
+            'tempCode' => $tempCode
+        ]);
+    }
+    public function reset_submit(request $request)
+    {
+
+        $tempCode = TempCode::where('code', $request->temp_code)
+            ->where('user_id', $request->user_id)
+            ->first();
+
+        if (!$tempCode) {
+            return redirect('/forgot/password')->with('error', 'Invalid code.');
+        }
+
+        // Compare current time with expire_at
+        if (Carbon::now()->gt(Carbon::parse($tempCode->expire_at))) {
+            return redirect('/forgot/password')->with('error', 'Code expired, try again.');
+        }
+        $user = User::where('id', $request->user_id)->first();
+        if (!$user) {
+            return redirect('/forgot/password')->with('error', 'User Not Found.');
+        }
+        $user->password = Hash::make($request->password);
+        $save = $user->save();
+
+        if ($save) {
+            return redirect('/login')->with('success', 'Reseted Passowrd Success.');
+        } else {
+            return redirect('/forgot/password')->with('error', 'Operation Fail');
+        }
     }
 }

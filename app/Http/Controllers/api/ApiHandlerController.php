@@ -9,7 +9,8 @@ use App\Models\QuickData;
 use App\Models\RawFixAssets;
 use App\Models\StoredAssets;
 use App\Models\New_assets;
-use App\Models\Limit;
+use App\Models\TempCode;
+
 use App\Models\movement;
 use App\Models\User;
 use App\Models\User_property;
@@ -544,22 +545,31 @@ class ApiHandlerController extends Controller
             return response()->json(["Invalid Name or Email."], 200);
         } else {
 
-            $temp_password = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 6);
-            $user->temp_password =  Hash::make($temp_password);
-            $user->temp_password_expires_at = Carbon::now()->addMinutes(15); // Password expires in 15 minutes
-            $user->save();
 
+
+
+            $code = str_pad(rand(0, 99999), 10, '0', STR_PAD_LEFT);
+
+            $new_code = new TempCode();
+            $new_code->code = $code;
+            $new_code->expire_at = Carbon::now()->addMinutes(15); // ✅ expires in 15 minutes
+            $new_code->user_id = $user->id;
+            $new_code->user_name = $user->name;
+            $new_code->user_email = $user->email;
+            $new_code->save();
 
 
 
             $fullname = $user->fname . ' ' . $user->lname;
+
+
 
             $mailData = [
                 'fullName' => $fullname,
                 'company' => $user->company,
                 'department' => $user->department,
                 'email' => $user->email,
-                'temp_password' => $temp_password,
+                'temp_password' => $code,
                 'phone' => $user->phone,
 
             ];

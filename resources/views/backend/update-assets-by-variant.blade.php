@@ -302,7 +302,7 @@
                 <label for="Specifications"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Specifications <span
                         class="text-rose-500">*</span></label>
-                <input type="text" id="Specifications" required
+                <input type="text" id="Specifications" required oninput="validateInputField(this,255)"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="specification" value="{{ old('specification', $asset->specification ?? '') }}" />
             </div>
@@ -310,7 +310,7 @@
             <div>
                 <label for="item_description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item
                     Description <span class="text-rose-500">*</span></label>
-                <input type="text" id="item_description" name="item_description" required
+                <input type="text" id="item_description" name="item_description" required   oninput="validateInputField(this,255)"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     value="{{ old('item_description', $asset->item_description ?? '') }}" />
             </div>
@@ -318,7 +318,7 @@
             <div>
                 <label for="asset_group" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
                     Group</label>
-                <input type="text" id="asset_group"
+                <input type="text" id="asset_group"  oninput="validateInputField(this,255)"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="asset_group" value="{{ old('asset_group', $asset->asset_group ?? '') }}" />
             </div>
@@ -326,14 +326,14 @@
             <div>
                 <label for="old_code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Old Code
                     (Optional)</label>
-                <input type="text" id="old_code"
+                <input type="text" id="old_code" oninput="validateInputField(this,100)"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="old_code" value="{{ old('old_code', $asset->old_code ?? '') }}" />
             </div>
             <div>
                 <label for="remark_assets"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark</label>
-                <input type="text" id="remark_assets"
+                <input type="text" id="remark_assets" oninput="validateInputField(this,255)"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="remark_assets" value="{{ old('remark_assets', $asset->remark_assets ?? '') }}" />
             </div>
@@ -346,28 +346,28 @@
             <div>
                 <label for="asset_holder" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
                     Holder ID</label>
-                <input type="text" id="asset_holder"
+                <input type="text" id="asset_holder" oninput="validateInputField(this,100)"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="asset_holder" value="{{ old('asset_holder', $asset->asset_holder ?? '') }}"
                     placeholder="INV-90.." />
             </div>
             <div>
                 <label for="holder_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                <input type="text" id="holder_name"
+                <input type="text" id="holder_name" oninput="validateInputField(this,100)"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="holder_name" value="{{ old('holder_name', $asset->holder_name ?? '') }}" />
             </div>
             <div>
                 <label for="position"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position/Title</label>
-                <input type="text" id="position"
+                <input type="text" id="position" oninput="validateInputField(this,100)"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="position" value="{{ old('position', $asset->position ?? '') }}" />
             </div>
             <div>
                 <label for="location"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
-                <input type="text" id="location"
+                <input type="text" id="location" oninput="validateInputField(this,255)"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="location" value="{{ old('location', $asset->location ?? '') }}" />
             </div>

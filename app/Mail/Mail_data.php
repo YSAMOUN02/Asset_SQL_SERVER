@@ -29,7 +29,7 @@ class Mail_data extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Temporary Code Login to System Assets', // Customize the subject as needed
+            subject: 'Temporary Code Reset Password', // Customize the subject as needed
         );
     }
 

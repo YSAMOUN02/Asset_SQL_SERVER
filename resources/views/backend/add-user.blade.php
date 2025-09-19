@@ -24,7 +24,8 @@
 
     </ul>
 </div>
-<form id="user_form" action="/admin/user/add/submit" method="POST" class="bg-white text-black dark:bg-black dark:text-white p-2.5 rounded-sm">
+<form id="user_form" action="/admin/user/add/submit" method="POST"
+    class="bg-white text-black dark:bg-black dark:text-white p-2.5 rounded-sm">
     @csrf
     <div class="h-max grid grid-cols-2 px-2 mt-5 gap-6 mb-6 md:grid-cols-2">
         <div>
@@ -49,6 +50,8 @@
                 name="" id="">
                 <option value="super_admin">Super Admin</option>
                 <option value="admin">Admin</option>
+                <option value="super_normal">Super Normal</option>
+                <option value="user">User</option>
             </select>
         </div>
         <div>
@@ -61,7 +64,8 @@
         <div>
             <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
 
-            <select  id="company" name="company" required class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <select id="company" name="company" required
+                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value="" selected></option>
                 <option value="CFR">CFR</option>
                 <option value="Depomex">Depomex</option>
@@ -108,6 +112,30 @@
             <datalist id="departments_list">
                 @foreach ($departments as $department)
                     <option value="{{ $department }}"></option>
+                @endforeach
+            </datalist>
+
+        </div>
+        <div>
+
+            <label for="devision"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Devision</label>
+            <input type="text" list="departments_list" id="devision" name="devision"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+
+            @php
+                $devisions = array_unique([
+                    '',
+                    'Accounting',
+                    'Finance',
+                    'Administration',
+                    'HR'
+                ]);
+            @endphp
+
+            <datalist id="departments_list">
+                @foreach ($devisions as $devision)
+                    <option value="{{ $devision }}"></option>
                 @endforeach
             </datalist>
 
@@ -315,7 +343,8 @@
 
         <div>
 
-            <label class="label_user ml-5 bg-white dark:bg-gray-700 text-gray-900 rounded dark:text-gray-300">Data Setup
+            <label class="label_user ml-5 bg-white dark:bg-gray-700 text-gray-900 rounded dark:text-gray-300">Data
+                Setup
             </label>
             <ul class="h-56 px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
                 aria-labelledby="dropdownSearchButton">

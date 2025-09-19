@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('temp_code', function (Blueprint $table) {
+        Schema::create('unit_relationships', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
-            
-            $table->string('user_id');
-            $table->string('user_name');
-            $table->string('user_email');
+            $table->unsignedBigInteger('unit_id');   // child
+            $table->unsignedBigInteger('parent_id'); // parent
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('temp_code');
+           Schema::dropIfExists('unit');
     }
 };

@@ -51,9 +51,11 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="" id="">
                 @if (!empty($user->role))
-                    <option value="{{ $user->role }}">{{ $user->role }}</option>
-                    <option value="admin">Admin</option>
-                    <option value="super_admin">Super Admin</option>
+
+                    <option value="admin" @if ($user->role=="dmin") selected   @endif>Admin</option>
+                    <option value="super_admin"  @if ($user->role=="super_admin") selected   @endif>Super Admin</option>
+                    <option value="super_normal"  @if ($user->role=="super_normal") selected   @endif>Super Normal</option>
+                    <option value="user"  @if ($user->role=="user") selected   @endif>User</option>
                 @endif
 
 
@@ -387,7 +389,8 @@
             </ul>
         </div>
         <div>
-            <label class="label_user ml-5 bg-white dark:bg-gray-700 text-gray-900 rounded dark:text-gray-300">Data Setup
+            <label class="label_user ml-5 bg-white dark:bg-gray-700 text-gray-900 rounded dark:text-gray-300">Data
+                Setup
                 Section</label>
             <ul class="h-56 px-2 py-2 ml-5 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
                 aria-labelledby="dropdownSearchButton">
