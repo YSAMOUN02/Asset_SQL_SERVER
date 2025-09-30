@@ -45,4 +45,33 @@ class User extends Authenticatable
         return $this->hasOne(Permission::class, 'user_id');
     }
 
+    public function userUnit()
+    {
+        return $this->hasOne(UserUnit::class);
+    }
+
+    public function company()
+    {
+        return $this->hasOneThrough(Company::class, UserUnit::class, 'user_id', 'id', 'id', 'company_id');
+    }
+
+    public function department()
+    {
+        return $this->hasOneThrough(Department::class, UserUnit::class, 'user_id', 'id', 'id', 'department_id');
+    }
+
+    public function division()
+    {
+        return $this->hasOneThrough(Division::class, UserUnit::class, 'user_id', 'id', 'id', 'division_id');
+    }
+
+    public function section()
+    {
+        return $this->hasOneThrough(Section::class, UserUnit::class, 'user_id', 'id', 'id', 'section_id');
+    }
+
+    public function group()
+    {
+        return $this->hasOneThrough(Group::class, UserUnit::class, 'user_id', 'id', 'id', 'group_id');
+    }
 }

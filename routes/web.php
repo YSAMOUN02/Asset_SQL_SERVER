@@ -28,7 +28,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/logout', [AdminController::class, 'logout']);
 
-
+    Route::get('/units/{type}/{parent}', [UserController::class, 'getChildUnits']);
     // Asset----------------------------------------------------------------------------------------------------
     // Raw Select
     Route::get('/admin/assets/add/{page}', [AssetsController::class, 'list_select']);
@@ -55,7 +55,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/qr/code/print/assets', [AssetsController::class, 'multi_print']);
     // Export
     Route::post('/admin/export/excel/assets', [AssetsController::class, 'multi_export']);
-     Route::post('/admin/export/excel/movement', [AssetsController::class, 'multi_export_movement']);
+    Route::post('/admin/export/excel/movement', [AssetsController::class, 'multi_export_movement']);
 
     // Import
     Route::get('/admin/import/assets/template', [AssetsController::class, 'downloadAssetsTemplate']);
@@ -74,8 +74,8 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Movement
-      Route::get('/admin/movement/add/detail/id={id}', [MovementController::class, 'movement']);
-      Route::post('/admin/movement/add/submit', [MovementController::class, 'movement_add_submit']);
+    Route::get('/admin/movement/add/detail/id={id}', [MovementController::class, 'movement']);
+    Route::post('/admin/movement/add/submit', [MovementController::class, 'movement_add_submit']);
 
 
 
@@ -85,12 +85,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/change/log/search', [ChangeLogController::class, 'searchChangeLog']);
 
 
-   // USER----------------------------------------------------------------------------------------------------
+    // USER----------------------------------------------------------------------------------------------------
     // ADD
     Route::get('/admin/user/add', [UserController::class, 'add_user']);
     Route::POST('/admin/user/add/submit', [UserController::class, 'add_submit']);
     // LIST
-    Route::get('/admin/user/list', [UserController::class, 'list_user']);
+    Route::get('/admin/user/list/{page}', [UserController::class, 'list_user']);
     // View
     Route::get('/admin/user/view/id={id}', [UserController::class, 'view_user']);
     // Update
@@ -98,4 +98,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/user/update/submit', [UserController::class, 'update_user_submit']);
     // Delete
     Route::post('/admin/user/delete/submit', [UserController::class, 'delete_user']);
+
+
+    Route::get('/users/search', [UserController::class, 'search']);
 });

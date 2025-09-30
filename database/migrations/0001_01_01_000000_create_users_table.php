@@ -16,16 +16,14 @@ return new class extends Migration
             $table->string('name');
             $table->string('fname');
             $table->string('lname');
+            $table->string('id_card')->nullable();
             $table->string('email')->nullable();
             $table->string('role')->nullable();
-            $table->string('department')->nullable();
-            $table->string('company')->nullable();
+            $table->string('position')->nullable();
             $table->string('phone')->nullable();
             $table->smallInteger('status')->default(1);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('temp_password')->nullable();
-            $table->timestamp('temp_password_expires_at')->nullable(); // Expiration timestamp
             $table->rememberToken();
             $table->timestamps();
         });

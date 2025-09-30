@@ -6,15 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\locations;
 use Illuminate\Support\Facades\DB;
+use App\Models\Company;
 class Department extends Model
 {
     use HasFactory;
-    protected $table = 'department';
+      protected $table = 'department';
+    protected $fillable = ['company_id', 'code', 'name'];
 
-
- public function departments()
+    public function company()
     {
-        return $this->hasMany(Department::class, 'company_id', 'id');
+        return $this->belongsTo(Company::class);
+    }
+
+    public function divisions()
+    {
+        return $this->hasMany(Division::class);
     }
 
 

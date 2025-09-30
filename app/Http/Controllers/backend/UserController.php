@@ -9,14 +9,44 @@ use App\Models\User_property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Company;
+use App\Models\Department;
+use App\Models\Division;
+use App\Models\Section;
+use App\Models\Group;
+use App\Models\UserUnit;
 
 class UserController extends Controller
 {
-    public function list_user()
+    public function list_user($page)
     {
-        $user = User::orderby('id', 'desc')->get();
+        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
+        $limit = $viewpoint->value ?? 50;
 
-        return view('backend.list-user', ['user' => $user]);
+
+
+        $count_post = User::count();
+        $total_page = ceil($count_post / $limit);
+        $offset = 0;
+        if ($page != 0) {
+            $offset = ($page - 1) * $limit;
+        }
+
+
+        $user = User::with(['Company', 'Department', 'Division', 'Section', 'Group'])
+            ->limit($limit)
+            ->offset($offset)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('backend.list-user', [
+            'user' => $user,
+            'total_page' => $total_page,
+            'page' => $page,
+            'total_record' => $count_post,
+            'total_page' => $total_page,
+            'limit' =>  $limit
+        ]);
     }
 
     public function add_user()
@@ -26,7 +56,9 @@ class UserController extends Controller
                 'User Write.'
             );
         }
-        return view('backend.add-user');
+
+        $companies = Company::all();
+        return view('backend.add-user', compact('companies'));
     }
 
 
@@ -34,31 +66,21 @@ class UserController extends Controller
     {
         // 1️⃣ Create new user
         $user = new User();
-        $user->role       = $request->role;
-        $user->name       = $request->login_name;
-        $user->email      = $request->email;
-        $user->fname      = $request->fname;
-        $user->lname      = $request->lname;
-        $user->phone      = $request->phone;
-        $user->company    = $request->company;
-        $user->department = $request->department;
-        $user->password   = Hash::make($request->password);
+        $user->role      = $request->role;
+        $user->name      = $request->login_name;
+        $user->email     = $request->email;
+        $user->fname     = $request->fname;
+        $user->lname     = $request->lname;
+        $user->phone     = $request->phone;
+        $user->id_card   = $request->id_card;
+        $user->position  = $request->position;
+        $user->password  = Hash::make($request->password);
         $user->save();
 
         // 2️⃣ Log user fields individually
-        $userColumns = [
-            'role',
-            'name',
-            'email',
-            'fname',
-            'lname',
-            'phone',
-            'company',
-            'department'
-        ];
-
+        $userColumns = ['role', 'name', 'email', 'fname', 'lname', 'phone', 'company', 'department'];
         foreach ($userColumns as $col) {
-            $oldValue = null; // new record, so old is null
+            $oldValue = null; // new record
             $newValue = $col . ': ' . $user->$col;
 
             $this->storeChangeLog(
@@ -72,7 +94,7 @@ class UserController extends Controller
             );
         }
 
-        // 3️⃣ Attach permissions and log each
+        // 3️⃣ Attach permissions (single row)
         $permissions = [
             'user_read',
             'user_write',
@@ -91,13 +113,17 @@ class UserController extends Controller
             'quick_update',
             'quick_delete'
         ];
+
         $permission = new Permission();
+        $permission->user_id = $user->id;
+
         foreach ($permissions as $perm) {
-
-            $permission->user_id = $user->id;
             $permission->$perm = $request->has($perm) ? 1 : 0;
-            $permission->save();
+        }
+        $permission->save();
 
+        // 3️⃣b Log each permission individually
+        foreach ($permissions as $perm) {
             $oldValue = null;
             $newValue = $perm . ': ' . $permission->$perm;
 
@@ -112,26 +138,24 @@ class UserController extends Controller
             );
         }
 
-        // New View point
-        $new_viewpoint = new User_property();
-        $new_viewpoint->user_id = $user->id;
-        $new_viewpoint->type = 'viewpoint';
-        $new_viewpoint->value = 50;
-        $new_viewpoint->save();
+        // 4️⃣ Create default user properties
+        User_property::insert([
+            ['user_id' => $user->id, 'type' => 'viewpoint', 'value' => 50],
+            ['user_id' => $user->id, 'type' => 'minimize', 'value' => 1],
+        ]);
 
+        // 5️⃣ Add user unit
+        $userUnit = new UserUnit();
+        $userUnit->user_id       = $user->id;
+        $userUnit->company_id    = $request->company_id;
+        $userUnit->department_id = $request->department_id;
+        $userUnit->division_id   = $request->division_id;
+        $userUnit->section_id    = $request->section_id;
+        $userUnit->group_id      = $request->group_id;
+        $userUnit->save();
 
-        // New View point
-        $new_viewpoint = new User_property();
-        $new_viewpoint->user_id = $user->id;
-        $new_viewpoint->type = 'minimize';
-        $new_viewpoint->value = 1;
-        $new_viewpoint->save();
-
-
-
-        return redirect('/admin/user/list')->with('success', 'Added 1 user and logged all fields.');
+        return redirect('/admin/user/list')->with('success', 'Added 1 user, logged all fields, and saved user unit.');
     }
-
 
     public function delete_user(Request $request)
     {
@@ -157,15 +181,17 @@ class UserController extends Controller
 
 
         $edit_able = 1;
-        $user = User::with(['Permission'])
+        $user = User::with(['Permission', 'Company', 'Department', 'Division', 'Section', 'Group'])
 
             ->where('id', $id)
             ->first();
-
+        // return $user;
+        $companies = Company::all();
 
         return view('backend.user-update', [
             'user' => $user,
-            'edit_able' => $edit_able
+            'edit_able' => $edit_able,
+            'companies' => $companies
         ]);
     }
 
@@ -299,16 +325,69 @@ class UserController extends Controller
     public function view_user($id)
     {
 
-        $edit_able = 0;
         $user = User::with(['Permission'])
 
             ->where('id', $id)
             ->first();
 
-        // return $user;
+        $companies = Company::all();
+
+
         return view('backend.user-update', [
             'user' => $user,
-            'edit_able' => $edit_able
+            'edit_able' => 0,
+            'companies' => $companies
         ]);
+    }
+
+    public function getChildUnits($type, $parent_id)
+    {
+        $parent_id = (int) $parent_id; // cast to integer
+
+        switch ($type) {
+            case 'department':
+                $units = Department::where('company_id', $parent_id)->orderBy('name')->get(['id', 'name']);
+                break;
+
+            case 'division':
+                $units = Division::where('department_id', $parent_id)->orderBy('name')->get(['id', 'name']);
+                break;
+
+            case 'section':
+                $units = Section::where('division_id', $parent_id)->orderBy('name')->get(['id', 'name']);
+                break;
+
+            case 'group':
+                $units = Group::where('section_id', $parent_id)->orderBy('name')->get(['id', 'name']);
+                break;
+
+            default:
+                $units = collect(); // empty collection if type is wrong
+                break;
+        }
+
+        return response()->json($units);
+    }
+    public function search(Request $request)
+    {
+        $query = User::with(['Company', 'Department']);
+
+        if ($request->filled('company')) {
+            $query->whereHas('Company', fn($q) => $q->where('code', 'like', "%{$request->company}%"));
+        }
+
+        if ($request->filled('department')) {
+            $query->whereHas('Department', fn($q) => $q->where('name', 'like', "%{$request->department}%"));
+        }
+
+        if ($request->filled('name')) {
+            $query->whereRaw("CONCAT(fname, ' ', lname) LIKE ?", ["%{$request->name}%"]);
+        }
+
+        if ($request->filled('id')) {
+            $query->where('id_card', 'like', "%{$request->id}%");
+        }
+
+        return response()->json($query->limit(50)->get());
     }
 }

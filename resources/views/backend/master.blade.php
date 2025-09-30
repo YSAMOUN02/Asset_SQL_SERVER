@@ -343,7 +343,7 @@
                                         @endif
                                         @if (Auth::user()->Permission->user_read == 1)
                                             <li>
-                                                <a href="/admin/user/list"
+                                                <a href="/admin/user/list/1"
                                                     class="toggle_li flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"><i
                                                         class="fa-solid fa-users-rectangle mx-2"></i><span
                                                         class="li-text">List Users</span></a>

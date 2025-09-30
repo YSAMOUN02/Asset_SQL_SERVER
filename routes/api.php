@@ -44,6 +44,8 @@ Route::middleware('auth:api')->group(function () {
      Route::post('/fect/assets/new/data', [ApiHandlerController::class, 'updateToggle']);
 
 });
+// route to fetch immediate children of a unit
+
 
 Route::post('/login/submit', [ApiHandlerController::class, 'login_submit']);
 

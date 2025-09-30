@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit_relationships', function (Blueprint $table) {
+        Schema::create('company', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('unit_id');   // child
-            $table->unsignedBigInteger('parent_id'); // parent
+            $table->string('code')->unique();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-           Schema::dropIfExists('unit');
+        Schema::dropIfExists('company');
     }
 };

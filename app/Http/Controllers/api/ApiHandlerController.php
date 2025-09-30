@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\ChangeLog;
 use App\Models\Fix_assets;
 use App\Models\QuickData;
-use App\Models\RawFixAssets;
+use App\Models\Unit;
 use App\Models\StoredAssets;
 use App\Models\New_assets;
 use App\Models\TempCode;
-
+use App\Models\User_property;
 use App\Models\movement;
 use App\Models\User;
-use App\Models\User_property;
+
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -89,6 +89,8 @@ class ApiHandlerController extends Controller
 
     public function Search_Raw_assets(Request $request)
     {
+
+        
         $assets = $request->asset_val ?? 'NA';
         $fa = $request->fa_val ?? 'NA';
         $invoice = $request->invoice_val ?? 'NA';
@@ -714,6 +716,15 @@ class ApiHandlerController extends Controller
 
         return response()->json($value); // returns 0 or 1
     }
+    public function children($id)
+{
+    $unit = Unit::findOrFail($id);
+
+    // get immediate children (id, name, type)
+    $children = $unit->children()->select('id','name','type')->get();
+
+    return response()->json($children);
+}
 }
 
 

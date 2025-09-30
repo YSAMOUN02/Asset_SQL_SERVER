@@ -930,11 +930,11 @@ function print_group() {
         form.submit();
     }
 }
-
+let id_for_export = [];
 function export_group() {
     let li_print = document.querySelectorAll(".print_val");
     let li_print_array = Array.from(li_print);
-    let id_for_export = [];
+
     li_print_array.map((data) => {
         let input = data.querySelector("input");
         if (input.checked == true) {
@@ -1000,6 +1000,19 @@ const token = localStorage.getItem("token");
 
 let other_search = 0;
 async function search_asset(no) {
+
+    // Prevent multiple click
+    id_for_export = [];
+    let select_all_v = document.querySelector("#select_all");
+    select_all_v.checked =false;
+ print.style.display = "none";
+        export_excel.style.display = "none";
+
+
+
+
+
+
     let fa = document.querySelector("#fa");
     let asset_input = document.querySelector("#assets");
     let invoice = document.querySelector("#invoice");
@@ -1478,6 +1491,19 @@ async function search_asset(no) {
     }
 }
 async function search_movement(no) {
+
+    // Prevent multiple click
+    id_for_export = [];
+    let select_all_v = document.querySelector("#select_all");
+    select_all_v.checked = false;
+print.style.display = "none";
+        export_excel.style.display = "none";
+
+
+
+
+
+
     let fa = document.querySelector("#fa");
     let asset_input = document.querySelector("#assets");
     let invoice = document.querySelector("#invoice");
@@ -1987,6 +2013,7 @@ function set_page_dynamic() {
         }
     }
 }
+-
 function set_page_movement() {
     let select = document.querySelector("#select_page_dynamic");
     if (select) {
@@ -3075,6 +3102,15 @@ function close_search() {
 }
 
 async function search_asset_new(no) {
+
+    // Prevent multiple click
+    id_for_export = [];
+    let select_all_v = document.querySelector("#select_all");
+    select_all_v.checked = false;
+print.style.display = "none";
+        export_excel.style.display = "none";
+
+
     const fa = document.querySelector("#fa");
     const asset_input = document.querySelector("#assets");
     const invoice = document.querySelector("#invoice");

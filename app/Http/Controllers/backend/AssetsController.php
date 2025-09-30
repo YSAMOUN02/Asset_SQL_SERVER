@@ -11,8 +11,10 @@ use App\Models\StoredAssets;
 use App\Models\movement;
 use App\Models\User_property;
 use App\Models\Asset_variant;
+use App\Models\Company;
+use App\Models\Department;
 use App\Models\New_assets;
-
+use App\Models\Unit;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -37,15 +39,17 @@ class AssetsController extends Controller
     // Turn to Asset Add View
     public function assetes_add()
     {
-        if(Auth::user()->permission->assets_write != 1){
 
-            return redirect('/')->with('error','You do not has permission Assets write.');
+        if (Auth::user()->permission->assets_write != 1) {
+
+            return redirect('/')->with('error', 'You do not has permission Assets write.');
         }
+
         return view('backend.add-assets');
     }
     public function list_transaction($page)
     {
-       $viewpoint = User_property::where('user_id',Auth::user()->id)->where('type','viewpoint')->first();
+        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
         $limit = $viewpoint->value ?? 50;
 
 
@@ -59,15 +63,14 @@ class AssetsController extends Controller
 
         $sql =  movement::orderBy('assets_id', 'desc');
 
-        if(Auth::user()->role == 'admin'){
-            $sql->where('deleted',0);
-
+        if (Auth::user()->role == 'admin') {
+            $sql->where('deleted', 0);
         }
 
-            $sql->limit($limit);
-            $sql->offset($offset);
+        $sql->limit($limit);
+        $sql->offset($offset);
 
-            $asset = $sql->get();
+        $asset = $sql->get();
 
         return view('backend.transaction', [
             'asset' => $asset,
@@ -77,16 +80,13 @@ class AssetsController extends Controller
             'total_page' => $total_page,
             'limit' =>  $limit
         ]);
-
-
-
     }
 
 
 
     public function list_assets($page)
     {
-      $viewpoint = User_property::where('user_id',Auth::user()->id)->where('type','viewpoint')->first();
+        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
         $limit = $viewpoint->value ?? 50;
 
 
@@ -121,7 +121,8 @@ class AssetsController extends Controller
     {
 
         if (Auth::user()->permission->assets_write == 1) {
-            $limit = 150;
+            $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
+            $limit = $viewpoint->value ?? 50;
             $data = RawFixAssets::select(
                 'assets',
                 'invoice_no',
@@ -173,9 +174,9 @@ class AssetsController extends Controller
     public function assets_add($assets, $invoice)
     {
 
-        if(Auth::user()->permission->assets_write != 1){
+        if (Auth::user()->permission->assets_write != 1) {
 
-            return redirect('/')->with('error','You do not has permission Assets write.');
+            return redirect('/')->with('error', 'You do not has permission Assets write.');
         }
 
         if (Auth::user()->permission->assets_write == 1) {
@@ -202,9 +203,19 @@ class AssetsController extends Controller
                 $no_invoice = 0;
             }
 
+
+            // return $units;
+
+
+
+            $company = Company::all();
+            $departments = Department::all();
             return view('backend.add-assets', [
                 'asset' => $asset,
-                'no_invoice' => $no_invoice
+                'no_invoice' => $no_invoice,
+                'company' => $company,
+                'departments' => $departments,
+                // 'units' => $units
             ]);
         } else {
             return redirect('/')->with('fail', 'You do not have permission Assets Write.');
@@ -552,7 +563,7 @@ class AssetsController extends Controller
         $asset_delete->deleted = 1;
         $asset_delete->deleted_at = now();
         $deleted = $asset_delete->save();
-        $newValues = 'deleted = ' . $asset_delete->deleted . ', status = ' . $asset_delete->status . ', deleted_at = ' .$asset_delete->deleted_at;
+        $newValues = 'deleted = ' . $asset_delete->deleted . ', status = ' . $asset_delete->status . ', deleted_at = ' . $asset_delete->deleted_at;
         if ($deleted) {
 
             // storeChangeLog($record_id,$record_no, $oldValues, $newValues, $action, $table, $reason)
@@ -1149,8 +1160,8 @@ class AssetsController extends Controller
 
     public function assets_import()
     {
-        if(Auth::user()->permission->assets_write != 1){
-            return redirect()->back()->with('error','You do not has permission');
+        if (Auth::user()->permission->assets_write != 1) {
+            return redirect()->back()->with('error', 'You do not has permission');
         }
 
         return view('backend.import');
@@ -1159,8 +1170,8 @@ class AssetsController extends Controller
 
     public function downloadAssetsTemplate()
     {
-        if(Auth::user()->permission->assets_write != 1){
-            return redirect()->back()->with('error','You do not has permission');
+        if (Auth::user()->permission->assets_write != 1) {
+            return redirect()->back()->with('error', 'You do not has permission');
         }
         $spreadsheet = new Spreadsheet();
         $lastRowImport = 1000; // max rows in Sheet1
@@ -1356,8 +1367,8 @@ class AssetsController extends Controller
     }
     public function import_submit(Request $request)
     {
-          if(Auth::user()->permission->assets_write != 1){
-            return redirect()->back()->with('error','You do not has permission');
+        if (Auth::user()->permission->assets_write != 1) {
+            return redirect()->back()->with('error', 'You do not has permission');
         }
 
         $request->validate([
@@ -1508,14 +1519,15 @@ class AssetsController extends Controller
 
 
     // No Deleted Allow  and Only 1 Record of new Register
-    public function assets_new($page){
+    public function assets_new($page)
+    {
         // return Auth::user()->Permission;
-        if(Auth::user()->permission->assets_read != 1){
-            return redirect()->back()->with('error','You do not has permission');
+        if (Auth::user()->permission->assets_read != 1) {
+            return redirect()->back()->with('error', 'You do not has permission');
         }
 
 
-        $viewpoint = User_property::where('user_id',Auth::user()->id)->where('type','viewpoint')->first();
+        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
         $limit = $viewpoint->value ?? 50;
 
 
@@ -1527,14 +1539,14 @@ class AssetsController extends Controller
             $offset = ($page - 1) * $limit;
         }
 
-        $sql =  New_assets::orderBy('assets1', 'desc')->where('deleted','<>',1)
+        $sql =  New_assets::orderBy('assets1', 'desc')->where('deleted', '<>', 1)
             ->limit($limit)
             ->offset($offset);
 
-            // Filter Deleted data  if not super admin
-            if(Auth::user()->role == 'admin'){
-                $sql->where('deleted',0);
-            }
+        // Filter Deleted data  if not super admin
+        if (Auth::user()->role == 'admin') {
+            $sql->where('deleted', 0);
+        }
 
         $asset = $sql->get();
         return view('backend.assets_new_list', [

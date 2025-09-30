@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit', function (Blueprint $table) {
+        Schema::create('user_unit', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->enum('type', ['company', 'department', 'division', 'section', 'group']);
+            $table->string('user_id');
+            $table->string('company_id');
+            $table->string('department_id');
+            $table->string('division_id')->nullable();
+            $table->string('section_id')->nullable();
+            $table->string('group_id')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('unit');
+        Schema::dropIfExists('user_unit');
     }
 };

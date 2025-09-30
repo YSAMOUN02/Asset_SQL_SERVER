@@ -51,7 +51,7 @@
                 <option value="super_admin">Super Admin</option>
                 <option value="admin">Admin</option>
                 <option value="super_normal">Super Normal</option>
-                <option value="user">User</option>
+                <option value="user">User Normal</option>
             </select>
         </div>
         <div>
@@ -62,84 +62,82 @@
                 required />
         </div>
         <div>
-            <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
-
-            <select id="company" name="company" required
-                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option value="" selected></option>
-                <option value="CFR">CFR</option>
-                <option value="Depomex">Depomex</option>
-                <option value="INV">INV</option>
-                <option value="Other">Other</option>
-                <option value="PPM">PPM</option>
-
-            </select>
+            <label for="id_card" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Card</label>
+            <input type="text" name="id_card" id="id_card"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="INV0001" />
         </div>
         <div>
-
-            <label for="department"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-            <input type="text" list="departments_list" id="department" name="department"
+            <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position</label>
+            <input type="text" name="position" id="position"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-
-            @php
-                $departments = array_unique([
-                    'Accounting & Finance',
-                    'Administration & HR',
-                    'Management',
-                    'Maintenance',
-                    'Planning',
-                    'Purchase',
-                    'Regulatory Affairs',
-                    'External Project & Special Project',
-                    'Warehouse',
-                    'Logistic',
-                    'MIS',
-                    'Consultant',
-                    'Research & Development',
-                    'Commercial',
-                    'Production',
-                    'Quality Control',
-                    'Quality Assurance',
-                    'Pizza Project',
-                    'Kitchen Center',
-                    'Export and Marketing',
-                    'Quality Production',
-                    'Order',
-                ]);
-            @endphp
-
-            <datalist id="departments_list">
-                @foreach ($departments as $department)
-                    <option value="{{ $department }}"></option>
-                @endforeach
-            </datalist>
-
         </div>
         <div>
-
-            <label for="devision"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Devision</label>
-            <input type="text" list="departments_list" id="devision" name="devision"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-
-            @php
-                $devisions = array_unique([
-                    '',
-                    'Accounting',
-                    'Finance',
-                    'Administration',
-                    'HR'
-                ]);
-            @endphp
-
-            <datalist id="departments_list">
-                @foreach ($devisions as $devision)
-                    <option value="{{ $devision }}"></option>
+            <!-- Company -->
+            <label>Company</label>
+            <input list="companies_list" id="company" name="company_name" autocomplete="off"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <input type="hidden" id="company_id" name="company_id">
+            <datalist id="companies_list">
+                @foreach ($companies as $company)
+                    <option value="{{ $company->name }}" data-id="{{ $company->id }}"></option>
                 @endforeach
             </datalist>
-
         </div>
+
+        <div>
+            <!-- Department -->
+            <label>Department</label>
+            <input list="departments_list" id="department" name="department_name" autocomplete="off"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <input type="hidden" id="department_id" name="department_id">
+            <datalist id="departments_list"></datalist>
+        </div>
+
+        <div>
+            <!-- Division -->
+            <label>Division</label>
+            <input list="divisions_list" id="division" name="division_name" autocomplete="off"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <input type="hidden" id="division_id" name="division_id">
+            <datalist id="divisions_list"></datalist>
+        </div>
+
+        <div>
+            <!-- Section -->
+            <label>Section</label>
+            <input list="sections_list" id="section" name="section_name" autocomplete="off"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <input type="hidden" id="section_id" name="section_id">
+            <datalist id="sections_list"></datalist>
+        </div>
+
+        <div>
+            <!-- Group -->
+            <label>Group</label>
+            <input list="groups_list" id="group" name="group_name" autocomplete="off"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <input type="hidden" id="group_id" name="group_id">
+            <datalist id="groups_list"></datalist>
+        </div>
+
+
+
         <div>
             <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone
                 number</label>
@@ -150,18 +148,21 @@
 
     </div>
     <div class="px-2">
+
+
         <div class="mb-6">
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email
                 address</label>
             <input type="email" name="email" id="email"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="john.doe@company.com" />
+                placeholder="admin@ppmpharma.com" />
         </div>
         <div class="mb-6">
-            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+            <label for="password"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
             <input type="password" name="password" id="password"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="•••••••••" required />
+                required />
         </div>
         <div class="mb-6">
             <label for="">Preview Password</label>&ensp;
@@ -335,7 +336,8 @@
                     </div>
                 </li>
                 <li>
-                    <button type="button" class="p-2" onclick="set_permission('transfer')">Select All</button>
+                    <button type="button" class="p-2" onclick="set_permission('transfer')">Select
+                        All</button>
 
                 </li>
             </ul>
@@ -409,24 +411,105 @@
 
 
 
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const departmentInput = document.getElementById('department');
-        const validDepartments = @json($departments);
+    function show_password() {
+        const passInput = document.getElementById('password');
+        const checkbox = document.getElementById('show_pass');
 
-        // When the input loses focus, validate
-        departmentInput.addEventListener('blur', function() {
-            const value = this.value.trim();
-            const isValid = validDepartments.some(dep => dep.toLowerCase() === value.toLowerCase());
+        if (checkbox.checked) {
+            passInput.type = 'text'; // show password
+        } else {
+            passInput.type = 'password'; // hide password
+        }
+    }
 
-            if (!isValid && value !== '') {
-                alert("Please select a department from the list!");
-                this.value = '';
-            } else if (isValid) {
-                otherSearch(); // ✅ only trigger when valid
+    // Update datalist dynamically
+    function updateDatalist(type, parentId, datalistId, inputId, hiddenId, label) {
+        if (!parentId) {
+            $('#' + datalistId).empty();
+            $('#' + inputId).val('');
+            $('#' + hiddenId).val('');
+            toast_red.querySelector("p").textContent = `Please select a ${label} first`;
+            toast_red.style.display = "block";
+            return;
+        }
+
+        $.get('/units/' + type + '/' + parentId, function(data) {
+            if (data.length === 0) {
+                $('#' + datalistId).empty();
+                $('#' + inputId).val('');
+                $('#' + hiddenId).val('');
+                toast_red.querySelector("p").textContent = `No ${label} found for selected parent`;
+                toast_red.style.display = "block";
+                return;
             }
+
+            let options = '';
+            $.each(data, function(i, unit) {
+                options += `<option value="${unit.name}" data-id="${unit.id}"></option>`;
+            });
+            $('#' + datalistId).html(options);
+            toast_red.style.display = "none";
         });
+    }
+
+    // Validate input & store ID in hidden field
+    function saveSelectedId(inputId, hiddenId, datalistId, label) {
+        let input = document.getElementById(inputId);
+        let datalist = document.getElementById(datalistId);
+
+        let selectedOption = Array.from(datalist.options).find(opt => opt.value === input.value);
+
+        if (!selectedOption) {
+            toast_red.querySelector("p").textContent = `Invalid ${label}, please select from list`;
+            toast_red.style.display = "block";
+            $('#' + inputId).val('');
+            $('#' + hiddenId).val('');
+            return;
+        }
+
+        $('#' + hiddenId).val(selectedOption.dataset.id);
+        toast_red.style.display = "none";
+    }
+
+    // Cascading events
+    $('#company').on('change', function() {
+        saveSelectedId('company', 'company_id', 'companies_list', 'Company');
+        let companyId = $('#company_id').val();
+        updateDatalist('department', companyId, 'departments_list', 'department', 'department_id', 'Company');
+
+        // clear children
+        $('#department, #department_id, #division, #division_id, #section, #section_id, #group, #group_id').val(
+            '');
+    });
+
+    $('#department').on('change', function() {
+        saveSelectedId('department', 'department_id', 'departments_list', 'Department');
+        let departmentId = $('#department_id').val();
+        updateDatalist('division', departmentId, 'divisions_list', 'division', 'division_id', 'Department');
+
+        $('#division, #division_id, #section, #section_id, #group, #group_id').val('');
+    });
+
+    $('#division').on('change', function() {
+        saveSelectedId('division', 'division_id', 'divisions_list', 'Division');
+        let divisionId = $('#division_id').val();
+        updateDatalist('section', divisionId, 'sections_list', 'section', 'section_id', 'Division');
+
+        $('#section, #section_id, #group, #group_id').val('');
+    });
+
+    $('#section').on('change', function() {
+        saveSelectedId('section', 'section_id', 'sections_list', 'Section');
+        let sectionId = $('#section_id').val();
+        updateDatalist('group', sectionId, 'groups_list', 'group', 'group_id', 'Section');
+
+        $('#group, #group_id').val('');
+    });
+
+    $('#group').on('change', function() {
+        saveSelectedId('group', 'group_id', 'groups_list', 'Group');
     });
 </script>
 @endsection

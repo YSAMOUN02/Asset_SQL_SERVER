@@ -153,7 +153,7 @@
             <label for="Initial_Condition" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Initial
                 Conditions <span class="text-rose-500">*</span></label>
             <select required id="Initial_Condition" name="initial_condition" oninput="validateInputField(this,255)"
-             class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value="New" selected>New</option>
                 <option value="Good">Good</option>
                 <option value="Very good">Very good</option>
@@ -214,65 +214,71 @@
 
     <h1 class="mb-2 title_base text-black dark:text-blue-100">Asset Holder Info</h1>
     <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
+
         <div>
-            <label for="Asset_Holder" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
-                Holder
-                ID</label>
-            <input type="text" id="Asset_Holder" oninput="validateInputField(this,100)"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                name="asset_holder" placeholder="INV-90.." />
+            <label for="asset_holder">Asset Holder ID</label>
+            <input type="text" id="asset_holder" name="asset_holder" list="asset_list" placeholder="INV-90.."
+                autocomplete="off"
+                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
+       focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
+       dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <datalist id="asset_list"></datalist>
+        </div>
+
+        <div>
+            <label for="holder_name">Name</label>
+            <input type="text" id="holder_name" name="holder_name" list="users_list" autocomplete="off"
+                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
+       focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
+       dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Start typing name...">
+            <datalist id="users_list"></datalist>
         </div>
         <div>
-            <label for="holder_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-            <input type="text" id="holder_name" oninput="validateInputField(this,100)"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                name="holder_name" />
-        </div>
-        <div>
-            <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position/
-                Title</label>
-            <input type="text" id="Asset_Holder" oninput="validateInputField(this,100)"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                name="position" />
+            <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Position/Title
+            </label>
+            <input type="text" id="position" name="position"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+        focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
         </div>
         <div>
             <label for="Location"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
-            <input type="text" id="Location" oninput="validateInputField(this,100)"
+            <input type="text" id="Location" oninput="validateInputField(this,100)" autocomplete="off"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="location" />
         </div>
+
         <div>
-
-            <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Department <span class="text-rose-500">*</span>
-            </label>
-
-            <input list="departments_list" id="department" name="department" required
-                oninput="validateInputField(this,100)"
-                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            <label for="department">Department</label>
+            <input list="departments_list" id="department" name="department" autocomplete="off" required
+                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
+            focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
+            dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Start typing department...">
-            @php $departments = [ 'Accounting & Finance', 'Administration & HR', 'Management', 'Maintenance', 'Planning', 'Purchase', 'Regulatory Affairs', 'External Project & Special Project', 'Warehouse', 'Logistic', 'MIS', 'Consultant', 'Accounting & Finance', 'Research & Development', 'Commercial', 'Regulatory Affairs', 'Production', 'Quality Control', 'Maintenance', 'Warehouse', 'Management', 'Quality Assurance', 'Pizza Project', 'Kitchen Center', 'Consultant', 'Commercial', 'Production', 'Export and Marketing', 'Quality Assurance', 'Quality Control', 'Research & Development', 'Quality Production', 'Order', ]; @endphp
             <datalist id="departments_list">
-                @foreach ($departments as $department)
-                    <option value="{{ $department }}"></option>
+                @foreach ($departments as $dept)
+                    <option value="{{ $dept->name }}"></option>
                 @endforeach
             </datalist>
         </div>
+
         <div>
-            <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company <span
-                    class="text-rose-500">*</span></label>
-            <select id="company" name="company" required oninput="validateInputField(this,100)"
-                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option value="" selected></option>
-                <option value="CFR">CFR</option>
-                <option value="Depomex">Depomex</option>
-                <option value="INV">INV</option>
-                <option value="Other">Other</option>
-                <option value="PPM">PPM</option>
-                <option value="PPM&Confirel">PPM&Confirel</option>
-            </select>
+            <label for="company">Company</label>
+            <input list="company_list" id="company" name="company" autocomplete="off" required
+                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
+       focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
+       dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Start typing company...">
+            <datalist id="company_list">
+                @foreach ($company as $comp)
+                    <option value="{{ $comp->code }}"></option>
+                @endforeach
+            </datalist>
         </div>
+
         <div>
             <label for="remark_holder"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark</label>
@@ -280,6 +286,13 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="remark_holder" />
         </div>
+        <div>
+            <label for="clear_user" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Clear Holder
+                Data</label>
+            <button id="clear_user"
+                class="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Clear</button>
+        </div>
+
     </div>
     <h1 class="mb-2 title_base text-black dark:text-blue-100">Internal Document</h1>
     <div class="grid  gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
@@ -737,17 +750,131 @@
         defaultDate: "{{ $defaultDate }}",
         clickOpens: false
     });
-    const departmentInput = document.getElementById('department');
-    const validDepartments = @json($departments);
 
-    departmentInput.addEventListener('change', function() {
-        if (!validDepartments.includes(this.value)) {
-            alert("Please select a department from the list!");
-            this.value = ""; // clear invalid input
-        } else {
-            // Trigger your search function here
-            otherSearch();
+
+    let usersCache = [];
+
+    async function fetchUsers() {
+        let companyCode = document.getElementById('company').value.trim();
+        let departmentName = document.getElementById('department').value.trim();
+        let name = document.getElementById('holder_name').value.trim();
+        let id = document.getElementById('asset_holder').value.trim();
+
+        let url = `/users/search?company=${companyCode}&department=${departmentName}&name=${name}&id=${id}`;
+        let response = await fetch(url);
+        if (!response.ok) return;
+
+        let users = await response.json();
+        usersCache = users;
+
+        // Populate Name datalist
+        let nameList = document.getElementById('users_list');
+        nameList.innerHTML = "";
+        users.forEach(user => {
+            let option = document.createElement('option');
+            option.value = `${user.fname} ${user.lname}`;
+            nameList.appendChild(option);
+        });
+
+        // Populate ID datalist
+        let idList = document.getElementById('asset_list');
+        idList.innerHTML = "";
+        users.forEach(user => {
+            let option = document.createElement('option');
+            option.value = user.id_card || user.id;
+            idList.appendChild(option);
+        });
+    }
+
+    // Fill all fields from a user object
+    function fillFields(user) {
+        document.getElementById('holder_name').value = `${user.fname} ${user.lname}`;
+        document.getElementById('asset_holder').value = user.id_card || user.id || '';
+        document.getElementById('company').value = user.company?.code || '';
+        document.getElementById('department').value = user.department?.name || '';
+        document.getElementById('position').value = user.position || '';
+    }
+
+    // Select by Name
+    function fillUserDetailsByName() {
+        let input = document.getElementById('holder_name').value.trim();
+        let user = usersCache.find(u => (u.fname + " " + u.lname).trim() === input);
+        if (!user) return;
+        fillFields(user);
+    }
+
+    // Select by ID
+    function fillUserDetailsById() {
+        let input = document.getElementById('asset_holder').value.trim();
+        let user = usersCache.find(u => ((u.id_card || u.id || '').toString().trim() === input));
+        if (!user) return;
+        fillFields(user);
+    }
+
+    // Attach listeners
+    ['company', 'department', 'holder_name', 'asset_holder'].forEach(id => {
+        document.getElementById(id).addEventListener('input', fetchUsers);
+    });
+
+    document.getElementById('holder_name').addEventListener('change', fillUserDetailsByName);
+    document.getElementById('asset_holder').addEventListener('change', fillUserDetailsById);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    document.getElementById('clear_user').addEventListener('click', function(e) {
+        e.preventDefault(); // prevent any default button behavior
+
+        // Clear all user-related inputs
+        document.getElementById('holder_name').value = '';
+        document.getElementById('asset_holder').value = '';
+        document.getElementById('company').value = '';
+        document.getElementById('department').value = '';
+        document.getElementById('position').value = '';
+
+        // Clear datalists
+        document.getElementById('users_list').innerHTML = '';
+        document.getElementById('asset_list').innerHTML = '';
+
+        // Clear cached users
+        usersCache = [];
+    });
+    // Prepare arrays from Blade variables
+const validCompanies = @json($company->pluck('code'));       // Array of valid company codes
+const validDepartments = @json($departments->pluck('name')); // Array of valid department names
+
+// Function to validate inputs
+function validateInputList(inputId, validList) {
+    const input = document.getElementById(inputId);
+    input.addEventListener('blur', () => {
+        if (!validList.includes(input.value.trim())) {
+            input.value = ''; // clear if not in valid list
         }
     });
+}
+
+// Apply validation
+validateInputList('company', validCompanies);
+validateInputList('department', validDepartments);
+
 </script>
 @endsection
