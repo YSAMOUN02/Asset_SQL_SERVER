@@ -14,7 +14,7 @@ use App\Models\Asset_variant;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\New_assets;
-use App\Models\Unit;
+use App\Models\Asset_code;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -210,11 +210,13 @@ class AssetsController extends Controller
 
             $company = Company::all();
             $departments = Department::all();
+            $assets2 = Asset_code::all();
             return view('backend.add-assets', [
                 'asset' => $asset,
                 'no_invoice' => $no_invoice,
                 'company' => $company,
                 'departments' => $departments,
+                'assets2' => $assets2,
                 // 'units' => $units
             ]);
         } else {

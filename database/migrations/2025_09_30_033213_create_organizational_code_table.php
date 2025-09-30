@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('quick_data', function (Blueprint $table) {
+        Schema::create('organizational_code', function (Blueprint $table) {
             $table->id();
-            $table->string('content')->nullable();
-            $table->string('type')->nullable();
-            $table->string('created_by');
+            $table->string('code')->unique();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('quick_data');
+        Schema::dropIfExists('organizational_code');
     }
 };

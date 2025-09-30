@@ -1,0 +1,289 @@
+<?php
+
+namespace App\Http\Controllers\backend;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Company;
+use App\Models\Department;
+use App\Models\Division;
+use App\Models\Section;
+use App\Models\Group;
+use App\Models\User;
+use App\Models\UserUnit;
+
+class Data_setupController extends Controller
+{
+
+
+    public function hierarchical()
+    {
+
+        $company = Company::all();
+        return view('backend.hierarchical', ['company' => $company]);
+    }
+
+    public function children($type, $id)
+    {
+        try {
+            $data = collect();
+
+            switch ($type) {
+                case 'company':
+                    $departments = \App\Models\Department::where('company_id', $id)->get();
+                    $data = $departments->map(fn($d) => [
+                        'id' => $d->id,
+                        'code' => $d->code,
+                        'name' => $d->name,
+                        'type' => 'department',
+                        'total_users' => UserUnit::where('department_id', $d->id)->count()
+                    ]);
+                    break;
+
+                case 'department':
+                    $divisions = \App\Models\Division::where('department_id', $id)->get();
+                    $data = $divisions->map(fn($d) => [
+                        'id' => $d->id,
+                        'code' => $d->code,
+                        'name' => $d->name,
+                        'type' => 'division',
+                        'total_users' => UserUnit::where('division_id', $d->id)->count()
+                    ]);
+                    break;
+
+                case 'division':
+                    $sections = \App\Models\Section::where('division_id', $id)->get();
+                    $data = $sections->map(fn($s) => [
+                        'id' => $s->id,
+                        'code' => $s->code,
+                        'name' => $s->name,
+                        'type' => 'section',
+                        'total_users' => UserUnit::where('section_id', $s->id)->count()
+                    ]);
+                    break;
+
+                case 'section':
+                    $groups = \App\Models\Group::where('section_id', $id)->get();
+                    $data = $groups->map(fn($g) => [
+                        'id' => $g->id,
+                        'code' => $g->code,
+                        'name' => $g->name,
+                        'type' => 'group',
+                        'total_users' => UserUnit::where('group_id', $g->id)->count()
+                    ]);
+                    break;
+            }
+
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    // Fetch users for any node
+    public function users($type, $id)
+    {
+        try {
+            $query = UserUnit::query();
+
+            switch ($type) {
+                case 'company':
+                    $query->where('company_id', $id);
+                    break;
+                case 'department':
+                    $query->where('department_id', $id);
+                    break;
+                case 'division':
+                    $query->where('division_id', $id);
+                    break;
+                case 'section':
+                    $query->where('section_id', $id);
+                    break;
+                case 'group':
+                    $query->where('group_id', $id);
+                    break;
+            }
+
+            $users = $query->with('user:id,name,email')
+                ->get()
+                ->map(fn($u) => $u->user)
+                ->filter()
+                ->unique('id')
+                ->values();
+
+            return response()->json($users);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    public function moveUser(Request $request)
+    {
+        $request->validate([
+            'userId' => 'required|integer|exists:user_unit,user_id',
+            'targetType' => 'required|string|in:company,department,division,section,group',
+            'targetId' => 'required|integer'
+        ]);
+
+        $userUnit = \DB::table('user_unit')->where('user_id', $request->userId)->first();
+
+        if (!$userUnit) {
+            return response()->json(['success' => false, 'message' => 'User unit not found']);
+        }
+
+        $data = [
+            'company_id' => null,
+            'department_id' => null,
+            'division_id' => null,
+            'section_id' => null,
+            'group_id' => null,
+        ];
+
+        switch ($request->targetType) {
+            case 'company':
+                $data['company_id'] = $request->targetId;
+                break;
+            case 'department':
+                $dept = \DB::table('department')->where('id', $request->targetId)->first();
+                $data['company_id'] = $dept->company_id;
+                $data['department_id'] = $dept->id;
+                break;
+            case 'division':
+                $div = \DB::table('division')->where('id', $request->targetId)->first();
+                if (!$div) return response()->json(['success' => false, 'message' => 'Division not found']);
+
+                $dept = \DB::table('department')->where('id', $div->department_id)->first();
+                if (!$dept) return response()->json(['success' => false, 'message' => 'Department not found']);
+
+                $data['company_id'] = $dept->company_id; // get from department
+                $data['department_id'] = $div->department_id;
+                $data['division_id'] = $div->id;
+                break;
+
+            case 'section':
+                $sec = \DB::table('section')->where('id', $request->targetId)->first();
+                if (!$sec) return response()->json(['success' => false, 'message' => 'Section not found']);
+
+                $div = \DB::table('division')->where('id', $sec->division_id)->first();
+                if (!$div) return response()->json(['success' => false, 'message' => 'Division not found']);
+
+                $dept = \DB::table('department')->where('id', $div->department_id)->first();
+                if (!$dept) return response()->json(['success' => false, 'message' => 'Department not found']);
+
+                $data['company_id'] = $dept->company_id;
+                $data['department_id'] = $dept->id;
+                $data['division_id'] = $div->id;
+                $data['section_id'] = $sec->id;
+                break;
+
+            case 'group':
+                $grp = \DB::table('group')->where('id', $request->targetId)->first();
+                if (!$grp) return response()->json(['success' => false, 'message' => 'Group not found']);
+
+                $sec = \DB::table('section')->where('id', $grp->section_id)->first();
+                $div = \DB::table('division')->where('id', $sec->division_id)->first();
+                $dept = \DB::table('department')->where('id', $div->department_id)->first();
+
+                $data['company_id'] = $dept->company_id;
+                $data['department_id'] = $dept->id;
+                $data['division_id'] = $div->id;
+                $data['section_id'] = $sec->id;
+                $data['group_id'] = $grp->id;
+                break;
+        }
+
+        \DB::table('user_unit')->where('user_id', $request->userId)->update($data);
+
+        return response()->json(['success' => true]);
+    }
+    // Add child node
+    public function addChild(Request $request, $type, $parentId)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'code' => 'required|string'
+        ]);
+
+        switch ($type) {
+            case 'company':
+                $child = Department::create([
+                    'company_id' => $parentId,
+                    'name' => $request->name,
+                    'code' => $request->code
+                ]);
+                break;
+
+            case 'department':
+                $child = Division::create([
+                    'department_id' => $parentId,
+                    'name' => $request->name,
+                    'code' => $request->code
+                ]);
+                break;
+
+            case 'division':
+                $child = Section::create([
+                    'division_id' => $parentId,
+                    'name' => $request->name,
+                    'code' => $request->code
+                ]);
+                break;
+
+            case 'section':
+                $child = Group::create([
+                    'section_id' => $parentId,
+                    'name' => $request->name,
+                    'code' => $request->code
+                ]);
+                break;
+
+            default:
+                return response()->json(['success' => false, 'message' => 'Cannot add child here']);
+        }
+
+        return response()->json(['success' => true, 'child' => $child]);
+    }
+    // Data_setupController.php
+
+    public function updateNode(Request $request, $type, $id)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'code' => 'required|string',
+        ]);
+
+        try {
+            switch ($type) {
+                case 'company':
+                    $node = \App\Models\Company::findOrFail($id);
+                    break;
+
+                case 'department':
+                    $node = \App\Models\Department::findOrFail($id);
+                    break;
+
+                case 'division':
+                    $node = \App\Models\Division::findOrFail($id);
+                    break;
+
+                case 'section':
+                    $node = \App\Models\Section::findOrFail($id);
+                    break;
+
+                case 'group':
+                    $node = \App\Models\Group::findOrFail($id);
+                    break;
+
+                default:
+                    return response()->json(['success' => false, 'message' => 'Invalid type']);
+            }
+
+            $node->name = $request->name;
+            $node->code = $request->code;
+            $node->save();
+
+            return response()->json(['success' => true, 'node' => $node]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+}

@@ -119,7 +119,7 @@
         <div>
             <!-- Division -->
             <label>Division</label>
-            <input list="divisions_list" id="division" name="division_name" autocomplete="off"
+            <input list="divisions_list" id="division" name="division_name" autocomplete="off" value="{{ $user->division->name }}"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
                focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
@@ -139,7 +139,7 @@
         <div>
             <!-- Section -->
             <label>Section</label>
-            <input list="sections_list" id="section" name="section_name" autocomplete="off"
+            <input list="sections_list" id="section" name="section_name" autocomplete="off" value="{{ $user->section->name }}"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
                focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
@@ -159,7 +159,7 @@
         <div>
             <!-- Group -->
             <label>Group</label>
-            <input list="groups_list" id="group" name="group_name" autocomplete="off"
+            <input list="groups_list" id="group" name="group_name" autocomplete="off" value="{{ $user->group->name }}"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
                focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400

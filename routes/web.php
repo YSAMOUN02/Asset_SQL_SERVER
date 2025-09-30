@@ -4,7 +4,7 @@ use App\Http\Controllers\backend\AssetsController;
 use App\Http\Controllers\backend\AdminController;
 use App\Http\Controllers\backend\UserController;
 use App\Http\Controllers\backend\ChangeLogController;
-use App\Http\Controllers\backend\QuickDataController;
+use App\Http\Controllers\backend\Data_setupController;
 use App\Http\Controllers\backend\MovementController;
 use Illuminate\Support\Facades\Route;
 
@@ -62,15 +62,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/assets/import/submit', [AssetsController::class, 'import_submit']);
 
 
-    // QUICK DATA----------------------------------------------------------------------------------------------------
-    // LIST
-    Route::get('/quick/data/{page}', [QuickDataController::class, 'control_quick_data']);
-    // ADD
-    Route::post('/quick/data/add', [QuickDataController::class, 'add_submit_quick_data']);
-    // Delete
-    Route::post('/admin/quick/data/delete/submit', [QuickDataController::class, 'delete_quick_data']);
-    // Update
-    Route::post('/admin/quick/data/update/submit', [QuickDataController::class, 'update_quick_data']);
+
 
 
     // Movement
@@ -101,4 +93,15 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/users/search', [UserController::class, 'search']);
+
+
+    // Data Set up----------------------------------------------------------------------------------------------------
+    Route::get('/hierarchical', [Data_setupController::class, 'hierarchical']);
+    Route::get('/hierarchy/{type}/{id}/children', [Data_setupController::class, 'children']);
+    Route::get('/hierarchy/{type}/{id}/users', [Data_setupController::class, 'users']);
+    Route::post('/hierarchy/{type}/{parentId}/add-child', [Data_setupController::class, 'addChild']);
+
+    Route::get('/hierarchy/can-delete/{type}/{id}', [Data_setupController::class, 'canDeleteNodeApi']);
+    Route::post('/hierarchy/move-user', [Data_setupController::class, 'moveUser']);
+    Route::post('/hierarchy/{type}/{id}/update', [Data_setupController::class, 'updateNode']);
 });

@@ -78,50 +78,14 @@
                         class="p-2.5 percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 @endif
 
-                @php
-                    $codes = [
-                        'PD' => 'Production',
-                        'CM' => 'Commercial',
-                        '34' => 'Project at 34A',
-                        'AG' => 'Administation and General Affairs',
-                        'CP' => 'Confnirel Factory',
-                        'EX' => 'Export',
-                        'FD' => 'Accounting and Finance',
-                        'HR' => 'Human Resource',
-                        'IA' => 'Inernal Audit',
-                        'IT' => 'Management of Information System',
-                        'KA' => 'Project in Kampot',
-                        'KE' => 'Project in Kep',
-                        'LO' => 'Logistic',
-                        'MG' => 'Management',
-                        'MK' => 'Marketing',
-                        'MT' => 'Maitenance',
-                        'PN' => 'Planing',
-                        'PP' => 'PPM Factory',
-                        'PU' => 'Purchase',
-                        'PV' => 'Project Prek Phnov',
-                        'QA' => 'Quality Assurance',
-                        'QM' => 'Quality Management',
-                        'RD' => 'Research and Development',
-                        'RP' => 'Registration and New Product',
-                        'RT' => 'Project in Ratanakiri',
-                        'SA' => 'Sales Adminstration',
-                        'SL' => 'Sales',
-                        'ST' => 'Stock/Warehouse',
-                        'C' => 'Confirel',
-                        'D' => 'Depomex',
-                        'E' => 'External Project',
-                        'I' => 'Investco',
-                        'P' => 'PPM',
-                    ];
-                @endphp
+
 
                 <select type="text" name="assets2" required placeholder="Department Code" required
                     oninput="validateInputField(this,10)"
                     class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value="" selected></option>
-                    @foreach ($codes as $code => $key)
-                        <option value="{{ '-' . $code }}">{{ $code . ' : ' . $key }}</option>
+                    @foreach ($assets2 as $asset2)
+                        <option value="{{ '-' . $asset2->code }}">{{$asset2->code. ' : ' . $asset2->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -212,7 +176,8 @@
     </div>
 
 
-    <h1 class="mb-2 title_base text-black dark:text-blue-100">Asset Holder Info</h1>
+    <h1 class="mb-2 title_base text-black dark:text-blue-100">Asset Holder Info  <button type="button" id="clear_user"
+                class="text-white  bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-2 py-1 ext-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"><i class="fa-regular fa-trash-can"></i></button></h1>
     <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
 
         <div>
@@ -252,7 +217,8 @@
         </div>
 
         <div>
-            <label for="department">Department</label>
+            <label for="department">Department <span
+                    class="text-rose-500">*</span></label>
             <input list="departments_list" id="department" name="department" autocomplete="off" required
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
             focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
@@ -266,7 +232,8 @@
         </div>
 
         <div>
-            <label for="company">Company</label>
+            <label for="company">Company <span
+                    class="text-rose-500">*</span></label>
             <input list="company_list" id="company" name="company" autocomplete="off" required
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
        focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
@@ -286,12 +253,7 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="remark_holder" />
         </div>
-        <div>
-            <label for="clear_user" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Clear Holder
-                Data</label>
-            <button id="clear_user"
-                class="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Clear</button>
-        </div>
+
 
     </div>
     <h1 class="mb-2 title_base text-black dark:text-blue-100">Internal Document</h1>
@@ -862,19 +824,30 @@
 const validCompanies = @json($company->pluck('code'));       // Array of valid company codes
 const validDepartments = @json($departments->pluck('name')); // Array of valid department names
 
-// Function to validate inputs
-function validateInputList(inputId, validList) {
+// Function to validate inputs with toast
+function validateInputList(inputId, validList, label) {
     const input = document.getElementById(inputId);
     input.addEventListener('blur', () => {
         if (!validList.includes(input.value.trim())) {
             input.value = ''; // clear if not in valid list
+
+            // Show toast
+            const toast_red = document.getElementById('toast_red'); // make sure this exists in your HTML
+            toast_red.querySelector("p").textContent = `Invalid ${label}, please select from list`;
+            toast_red.style.display = "block";
+
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast_red.style.display = "none";
+            }, 3000);
         }
     });
 }
 
 // Apply validation
-validateInputList('company', validCompanies);
-validateInputList('department', validDepartments);
+validateInputList('company', validCompanies, 'Company');
+validateInputList('department', validDepartments, 'Department');
+
 
 </script>
 @endsection
