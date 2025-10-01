@@ -100,8 +100,22 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/hierarchy/{type}/{id}/children', [Data_setupController::class, 'children']);
     Route::get('/hierarchy/{type}/{id}/users', [Data_setupController::class, 'users']);
     Route::post('/hierarchy/{type}/{parentId}/add-child', [Data_setupController::class, 'addChild']);
-
     Route::get('/hierarchy/can-delete/{type}/{id}', [Data_setupController::class, 'canDeleteNodeApi']);
     Route::post('/hierarchy/move-user', [Data_setupController::class, 'moveUser']);
     Route::post('/hierarchy/{type}/{id}/update', [Data_setupController::class, 'updateNode']);
+
+
+    Route::get('/code/setup', [Data_setupController::class, 'code_setup']);
+    Route::post('/code/add/submit', [Data_setupController::class, 'code_new_submit']);
+     Route::post('/code/update/submit', [Data_setupController::class, 'code_update_submit']);
+    Route::post('/code/delete/submit', [Data_setupController::class, 'code_delete_submit']);
+
+
+
+
+
+    Route::get('/reference/setup', [Data_setupController::class, 'reference_setup']);
+    Route::post('/reference/add/submit', [Data_setupController::class, 'reference_new_submit']);
+     Route::post('/reference/update/submit', [Data_setupController::class, 'reference_update_submit']);
+    Route::post('/reference/delete/submit', [Data_setupController::class, 'reference_delete_submit']);
 });

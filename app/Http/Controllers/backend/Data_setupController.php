@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Asset_code;
 use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Models\Department;
@@ -285,5 +286,105 @@ class Data_setupController extends Controller
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
+    }
+    public function code_setup()
+    {
+        $Asset_code = Asset_code::all();
+        return view('backend.oganization_code', ['Asset_code' => $Asset_code]);
+    }
+    public function code_new_submit(Request $request)
+    {
+
+        $assetCode = new Asset_code();
+        $assetCode->code = $request->code;
+        $assetCode->name = $request->name;
+        $assetCode->save();
+
+        return redirect()->back()->with('success', 'New asset code added successfully.');
+    }
+    public function code_update_submit(Request $request)
+    {
+        // return $request->all();
+
+        $assetCode = Asset_code::where('id', ($request->id))->first();
+        if ($assetCode) {
+            $assetCode->name = $request->name;
+            $assetCode->code = $request->code;
+            $assetCode->save();
+
+            return redirect()->back()->with('success', 'Asset code updated successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Asset code not found.');
+        }
+    }
+    public function code_delete_submit(Request $request)
+    {
+
+        $assetCode = Asset_code::where('id', ($request->id))->first();
+        if ($assetCode) {
+            $assetCode->delete();
+            return redirect()->back()->with('success', 'Asset code deleted successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Asset code not found.');
+        }
+    }
+
+    public function reference_setup()
+    {
+        $references = \App\Models\Reference::all();
+
+        return view('backend.reference', ['references' => $references]);
+    }
+
+    public function reference_new_submit(Request $request)
+    {
+        // return $request->all();
+
+
+        $reference = new \App\Models\Reference();
+        $reference->code = $request->code;
+        $reference->no = $request->no;
+        $reference->name = $request->name;
+        $reference->type = $request->type;
+        $reference->start = $request->start;
+        $reference->end = $request->end;
+        $reference->save();
+
+        return redirect()->back()->with('success', 'New reference added successfully.');
+    }
+
+    public function reference_update_submit(Request $request)
+    {
+        $request->validate([
+            'id'    => 'required|exists:references,id',
+            'code'  => 'required|string|max:50',
+            'no'    => 'required|integer',
+            'name'  => 'required|string|max:100',
+            'type'  => 'required|string|max:50',
+            'start' => 'required|date',
+            'end'   => 'required|date|after_or_equal:start',
+            ]);
+
+        $reference = \App\Models\Reference::findOrFail($request->id);
+
+        $reference->code  = $request->code;
+        $reference->no    = $request->no;
+        $reference->name  = $request->name;
+        $reference->type  = $request->type;
+        $reference->start = $request->start;
+        $reference->end   = $request->end;
+
+        $reference->save();
+
+        return redirect()->back()->with('success', 'Reference updated successfully.');
+    }
+    public function reference_delete_submit(Request $request)
+    {
+
+
+        $reference = \App\Models\Reference::where('id',$request->id)->first();
+        $reference->delete();
+
+        return redirect()->back()->with('success', 'Reference deleted successfully.');
     }
 }

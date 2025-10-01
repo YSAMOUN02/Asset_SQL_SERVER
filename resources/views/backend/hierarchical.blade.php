@@ -1,13 +1,13 @@
 @extends('backend.master')
 @section('content')
 @section('header')
-    Asset Add Form
+    Hierachical Organization & User Management
 @endsection
 
 @section('style')
     <span class="ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl">
         <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">
-            Form Assets Registration
+         Hierachical Organization & User Management
         </span>
     </span>
 @endsection
@@ -56,13 +56,13 @@
         </nav>
 
         <div class="overflow-auto max-h-[80vh]">
-            <table class="min-w-full border-collapse table-auto">
+            <table id="table_user" class="min-w-full border-collapse table-auto">
                 <thead class="bg-gray-200 dark:bg-gray-800 sticky top-0">
                     <tr>
                         <th class="px-4 py-2 text-left text-gray-900 dark:text-white">#</th>
                         <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Name</th>
                         <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Email</th>
-                        <th
+                        <th  id="actionHeader"
                             class="px-4 py-2 text-left text-gray-900 dark:text-white sticky right-0 bg-gray-200 dark:bg-gray-800">
                             Action</th>
                     </tr>

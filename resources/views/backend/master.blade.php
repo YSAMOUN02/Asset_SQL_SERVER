@@ -386,14 +386,14 @@
                                             <span class="li-text text-sm">Asset Code Mamnual</span></a>
                                     </li>
                                     <li>
-                                        <a href=""
+                                        <a href="/code/setup"
                                             class="toggle_li flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
 
                                             <i class="fa-regular fa-file-code mx-2"></i>
                                             <span class="li-text text-sm">Organizational code</span></a>
                                     </li>
                                     <li>
-                                        <a href=""
+                                        <a href="/reference/setup"
                                             class="toggle_li flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
 
                                             <i class="fa-regular fa-file-zipper mx-2"></i>

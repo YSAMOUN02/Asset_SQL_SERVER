@@ -15,6 +15,7 @@ use App\Models\Company;
 use App\Models\Department;
 use App\Models\New_assets;
 use App\Models\Asset_code;
+use App\Models\Reference;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -33,6 +34,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
+use function Laravel\Prompts\select;
 
 class AssetsController extends Controller
 {
@@ -204,19 +206,25 @@ class AssetsController extends Controller
             }
 
 
-            // return $units;
-
-
-
             $company = Company::all();
             $departments = Department::all();
             $assets2 = Asset_code::all();
+            $today = Carbon::today()->toDateString();
+
+            $references = \App\Models\Reference::where('type', 'Assets')
+                ->whereDate('start', '<=', $today)
+                ->whereDate('end', '>=', $today)
+                ->select('code', 'no', 'name', 'id')
+                ->get();
+
+            // return $references;
             return view('backend.add-assets', [
                 'asset' => $asset,
                 'no_invoice' => $no_invoice,
                 'company' => $company,
                 'departments' => $departments,
                 'assets2' => $assets2,
+                'references' => $references,
                 // 'units' => $units
             ]);
         } else {
@@ -225,6 +233,12 @@ class AssetsController extends Controller
     }
     public function assets_add_submit(Request $request)
     {
+
+        $refernece = Reference::where('id', $request->reference_id)->first();
+        if ($refernece) {
+            $refernece->no = $refernece->no + 1;
+            $refernece->save();
+        }
 
         // ✅ Validate required fields
         $request->validate([
@@ -277,6 +291,11 @@ class AssetsController extends Controller
                 ->update(['status' => 0]);
         }
         $newAssetId = $asset->assets_id;
+
+
+
+
+
 
         // ✅ Insert into change log
         foreach ($asset->getAttributes() as $column => $value) {
@@ -359,11 +378,25 @@ class AssetsController extends Controller
         if (!$asset_main) {
             return  redirect()->back()->with('error', 'Not Found!');
         }
+        $company = Company::all();
+        $departments = Department::all();
+        $assets2 = Asset_code::all();
+        $today = Carbon::today()->toDateString();
+
+        $references = \App\Models\Reference::where('type', 'Assets')
+            ->whereDate('start', '<=', $today)
+            ->whereDate('end', '>=', $today)
+            ->select('code', 'no', 'name', 'id')
+            ->get();
+
         return view('backend.update-assets-by-variant', [
             'asset_main' => $asset_main,
             'variant' => $variant,
-            // 'qr_code' => $qr_code,
-            'state' => $state
+            'state' => $state,
+            'company' => $company,
+            'departments' => $departments,
+            'assets2' => $assets2,
+            'references' => $references,
         ]);
     }
     public function update_submit(Request $request)

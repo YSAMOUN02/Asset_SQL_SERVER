@@ -115,7 +115,7 @@ td:first-child{
 #list_assets thead{
   position: sticky;
   top: 0px;
-    z-index: 99;
+    z-index: 1;
 }
 #table_user thead{
   position: sticky;

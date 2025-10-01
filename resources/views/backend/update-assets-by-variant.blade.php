@@ -184,53 +184,29 @@
 
         <div class="grid gap-6 mb-6 md:grid-cols-2 mt-5">
             <div>
-                <label for="Reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference <span
-                        class="text-rose-500">*</span></label>
-                <input type="text" id="reference"
+                <label for="">Reference<span class="text-rose-500">*</span></label>
+                <input type="text" list="references_list" id="ReferenceInput" onchange="setReferenceId(this)" oninput="validateInputField(this,30)"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="reference" value="{{ old('reference', $asset->reference ?? '') }}" required
-                    oninput="validateInputField(this,50)" />
+                    name="reference" required autocomplete="off"
+                value="{{ old('reference', $asset->reference ?? '') }}"
+                    />
+
+                <input type="hidden" id="ReferenceId" name="reference_id" />
+
+                <datalist id="references_list">
+                    @foreach ($references as $item)
+                        <option data-id="{{ $item->id }}"
+                            value="{{ $item->code . str_pad($item->no, 5, '0', STR_PAD_LEFT) }}">
+                            {{ $item->name }}
+                        </option>
+                    @endforeach
+                </datalist>
                 <input type="text" class="hidden" name="assets_id" value="{{ $asset->assets_id }}">
                 <input type="text" class="hidden" name="state" value="{{ $state }}">
             </div>
 
-            @php
-                $codes = [
-                    'PD' => 'Production',
-                    'CM' => 'Commercial',
-                    '34' => 'Project at 34A',
-                    'AG' => 'Administation and General Affairs',
-                    'CP' => 'Confnirel Factory',
-                    'EX' => 'Export',
-                    'FD' => 'Accounting and Finance',
-                    'HR' => 'Human Resource',
-                    'IA' => 'Inernal Audit',
-                    'IT' => 'Management of Information System',
-                    'KA' => 'Project in Kampot',
-                    'KE' => 'Project in Kep',
-                    'LO' => 'Logistic',
-                    'MG' => 'Management',
-                    'MK' => 'Marketing',
-                    'MT' => 'Maitenance',
-                    'PN' => 'Planing',
-                    'PP' => 'PPM Factory',
-                    'PU' => 'Purchase',
-                    'PV' => 'Project Prek Phnov',
-                    'QA' => 'Quality Assurance',
-                    'QM' => 'Quality Management',
-                    'RD' => 'Research and Development',
-                    'RP' => 'Registration and New Product',
-                    'RT' => 'Project in Ratanakiri',
-                    'SA' => 'Sales Adminstration',
-                    'SL' => 'Sales',
-                    'ST' => 'Stock/Warehouse',
-                    'C' => 'Confirel',
-                    'D' => 'Depomex',
-                    'E' => 'External Project',
-                    'I' => 'Investco',
-                    'P' => 'PPM',
-                ];
-            @endphp
+
+
             <div class="flex flex-col w-full">
                 <label for="no" id="assets_label"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset Code <span
@@ -243,10 +219,14 @@
                     <select name="assets2" required oninput="validateInputField(this,10)"
                         class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value=""></option>
-                        @foreach ($codes as $code => $key)
-                            <option value="{{ '-' . $code }}" {{ $asset->assets2 == '-' . $code ? 'selected' : '' }}>
-                                {{ $code }}&ensp; ({{ $key }})
-                            </option>
+                        @foreach ($assets2 as $asset2)
+                            @if (($asset->assets2 ?? '') == '-' . $asset2->code)
+                                <option value="{{ $asset->assets2 }}" selected>
+                                    {{ str_replace('-', '', $asset2->code) . ' : ' . $asset2->name }}</option>
+                            @else
+                                <option value="{{ '-' . $asset2->code }}">{{ $asset2->code . ' : ' . $asset2->name }}
+                                </option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
@@ -310,7 +290,8 @@
             <div>
                 <label for="item_description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item
                     Description <span class="text-rose-500">*</span></label>
-                <input type="text" id="item_description" name="item_description" required   oninput="validateInputField(this,255)"
+                <input type="text" id="item_description" name="item_description" required
+                    oninput="validateInputField(this,255)"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     value="{{ old('item_description', $asset->item_description ?? '') }}" />
             </div>
@@ -318,7 +299,7 @@
             <div>
                 <label for="asset_group" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
                     Group</label>
-                <input type="text" id="asset_group"  oninput="validateInputField(this,255)"
+                <input type="text" id="asset_group" oninput="validateInputField(this,255)"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="asset_group" value="{{ old('asset_group', $asset->asset_group ?? '') }}" />
             </div>
@@ -341,66 +322,81 @@
 
 
 
-        <h1 class="mb-2 title_base text-black dark:text-blue-100">Asset Holder Info</h1>
+        <h1 class="mb-2 title_base text-black dark:text-blue-100">Asset Holder Info <button type="button"
+                id="clear_user"
+                class="text-white  bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-2 py-1 ext-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"><i
+                    class="fa-regular fa-trash-can"></i></button></h1>
         <div class="grid gap-6 mb-6 md:grid-cols-2">
+
             <div>
-                <label for="asset_holder" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
-                    Holder ID</label>
-                <input type="text" id="asset_holder" oninput="validateInputField(this,100)"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="asset_holder" value="{{ old('asset_holder', $asset->asset_holder ?? '') }}"
-                    placeholder="INV-90.." />
+                <label for="asset_holder">Asset Holder ID</label>
+                <input type="text" id="asset_holder" name="asset_holder" list="asset_list" placeholder="INV-90.."
+                    autocomplete="off" value="{{ old('asset_holder', $asset->asset_holder ?? '') }}"
+                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
+       focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
+       dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <datalist id="asset_list"></datalist>
+            </div>
+
+            <div>
+                <label for="holder_name">Name</label>
+                <input type="text" id="holder_name" name="holder_name" list="users_list" autocomplete="off"
+                    value="{{ old('holder_name', $asset->holder_name ?? '') }}"
+                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
+       focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
+       dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Start typing name...">
+                <datalist id="users_list"></datalist>
             </div>
             <div>
-                <label for="holder_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                <input type="text" id="holder_name" oninput="validateInputField(this,100)"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="holder_name" value="{{ old('holder_name', $asset->holder_name ?? '') }}" />
-            </div>
-            <div>
-                <label for="position"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position/Title</label>
-                <input type="text" id="position" oninput="validateInputField(this,100)"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="position" value="{{ old('position', $asset->position ?? '') }}" />
-            </div>
-            <div>
-                <label for="location"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
-                <input type="text" id="location" oninput="validateInputField(this,255)"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="location" value="{{ old('location', $asset->location ?? '') }}" />
-            </div>
-            <div>
-                <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Department <span class="text-rose-500">*</span>
+                <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Position/Title
                 </label>
-                <input list="departments_list" id="department" name="department" required
-                    value="{{ $asset->department }}"
-                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                <input type="text" id="position" name="position"
+                    value="{{ old('position', $asset->position ?? '') }}"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+        focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+            </div>
+            <div>
+                <label for="Location"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
+                <input type="text" id="Location" oninput="validateInputField(this,100)" autocomplete="off"
+                    value="{{ old('location', $asset->location ?? '') }}"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    name="location" />
+            </div>
+
+            <div>
+                <label for="department">Department <span class="text-rose-500">*</span></label>
+                <input list="departments_list" id="department" name="department" autocomplete="off" required
+                    value="{{ old('department', $asset->department ?? '') }}"
+                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
+            focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
+            dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Start typing department...">
-                @php $departments = [ 'Accounting & Finance', 'Administration & HR', 'Management', 'Maintenance', 'Planning', 'Purchase', 'Regulatory Affairs', 'External Project & Special Project', 'Warehouse', 'Logistic', 'MIS', 'Consultant', 'Accounting & Finance', 'Research & Development', 'Commercial', 'Regulatory Affairs', 'Production', 'Quality Control', 'Maintenance', 'Warehouse', 'Management', 'Quality Assurance', 'Pizza Project', 'Kitchen Center', 'Consultant', 'Commercial', 'Production', 'Export and Marketing', 'Quality Assurance', 'Quality Control', 'Research & Development', 'Quality Production', 'Order', ]; @endphp
                 <datalist id="departments_list">
-                    @foreach ($departments as $department)
-                        <option value="{{ $department }}"></option>
+                    @foreach ($departments as $dept)
+                        <option value="{{ $dept->name }}"></option>
                     @endforeach
                 </datalist>
             </div>
+
             <div>
-                <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company <span
-                        class="text-rose-500">*</span></label>
-                <select id="company" name="company" required
-                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-
-                    <option value="CFR" @if (($asset->company ?? '') == 'CFR') selected @endif>CFR</option>
-                    <option value="Depomex" @if (($asset->company ?? '') == 'Depomex') selected @endif>Depomex</option>
-                    <option value="INV" @if (($asset->company ?? '') == 'INV') selected @endif>INV</option>
-                    <option value="Other" @if (($asset->company ?? '') == 'Other') selected @endif>Other</option>
-                    <option value="PPM" @if (($asset->company ?? '') == 'PPM') selected @endif>PPM</option>
-                    <option value="PPM&Confirel" @if (($asset->company ?? '') == 'PPM&Confirel') selected @endif>PPM&Confirel</option>
-
-                </select>
+                <label for="company">Company <span class="text-rose-500">*</span></label>
+                <input list="company_list" id="company" name="company" autocomplete="off" required
+                    value="{{ old('company', $asset->company ?? '') }}"
+                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
+       focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
+       dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Start typing company...">
+                <datalist id="company_list">
+                    @foreach ($company as $comp)
+                        <option value="{{ $comp->code }}"></option>
+                    @endforeach
+                </datalist>
             </div>
+
             <div>
                 <label for="remark_holder"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remark</label>
@@ -940,18 +936,7 @@
             defaultDate: "{{ $defaultDate_invoice }}",
             clickOpens: false
         });
-        const departmentInput = document.getElementById('department');
-        const validDepartments = @json($departments);
 
-        departmentInput.addEventListener('change', function() {
-            if (!validDepartments.includes(this.value)) {
-                alert("Please select a department from the list!");
-                this.value = ""; // clear invalid input
-            } else {
-                // Trigger your search function here
-                otherSearch();
-            }
-        });
 
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -1027,6 +1012,131 @@
             e.preventDefault(); // prevent vertical scroll
             tabs.scrollLeft += e.deltaY; // use vertical scroll to scroll horizontally
         });
+
+
+
+
+
+
+
+        let usersCache = [];
+
+        async function fetchUsers() {
+            let companyCode = document.getElementById('company').value.trim();
+            let departmentName = document.getElementById('department').value.trim();
+            let name = document.getElementById('holder_name').value.trim();
+            let id = document.getElementById('asset_holder').value.trim();
+
+            let url = `/users/search?company=${companyCode}&department=${departmentName}&name=${name}&id=${id}`;
+            let response = await fetch(url);
+            if (!response.ok) return;
+
+            let users = await response.json();
+            usersCache = users;
+
+            // Populate Name datalist
+            let nameList = document.getElementById('users_list');
+            nameList.innerHTML = "";
+            users.forEach(user => {
+                let option = document.createElement('option');
+                option.value = `${user.fname} ${user.lname}`;
+                nameList.appendChild(option);
+            });
+
+            // Populate ID datalist
+            let idList = document.getElementById('asset_list');
+            idList.innerHTML = "";
+            users.forEach(user => {
+                let option = document.createElement('option');
+                option.value = user.id_card || user.id;
+                idList.appendChild(option);
+            });
+        }
+
+        // Fill all fields from a user object
+        function fillFields(user) {
+            document.getElementById('holder_name').value = `${user.fname} ${user.lname}`;
+            document.getElementById('asset_holder').value = user.id_card || user.id || '';
+            document.getElementById('company').value = user.company?.code || '';
+            document.getElementById('department').value = user.department?.name || '';
+            document.getElementById('position').value = user.position || '';
+        }
+
+        // Select by Name
+        function fillUserDetailsByName() {
+            let input = document.getElementById('holder_name').value.trim();
+            let user = usersCache.find(u => (u.fname + " " + u.lname).trim() === input);
+            if (!user) return;
+            fillFields(user);
+        }
+
+        // Select by ID
+        function fillUserDetailsById() {
+            let input = document.getElementById('asset_holder').value.trim();
+            let user = usersCache.find(u => ((u.id_card || u.id || '').toString().trim() === input));
+            if (!user) return;
+            fillFields(user);
+        }
+
+        // Attach listeners
+        ['company', 'department', 'holder_name', 'asset_holder'].forEach(id => {
+            document.getElementById(id).addEventListener('input', fetchUsers);
+        });
+
+        document.getElementById('holder_name').addEventListener('change', fillUserDetailsByName);
+        document.getElementById('asset_holder').addEventListener('change', fillUserDetailsById);
+
+
+
+
+
+
+
+        document.getElementById('clear_user').addEventListener('click', function(e) {
+            e.preventDefault(); // prevent any default button behavior
+
+            // Clear all user-related inputs
+            document.getElementById('holder_name').value = '';
+            document.getElementById('asset_holder').value = '';
+            document.getElementById('company').value = '';
+            document.getElementById('department').value = '';
+            document.getElementById('position').value = '';
+
+            // Clear datalists
+            document.getElementById('users_list').innerHTML = '';
+            document.getElementById('asset_list').innerHTML = '';
+
+            // Clear cached users
+            usersCache = [];
+        });
+        // Prepare arrays from Blade variables
+
+        const validCompanies = @json($company->pluck('code')); // Array of valid company codes
+        const validDepartments = @json($departments->pluck('name')); // Array of valid department names
+
+        // Function to validate inputs with toast
+        function validateInputList(inputId, validList, label) {
+            const input = document.getElementById(inputId);
+            input.addEventListener('blur', () => {
+                if (!validList.includes(input.value.trim())) {
+                    input.value = ''; // clear if not in valid list
+
+                    // Show toast
+                    const toast_red = document.getElementById('toast_red'); // make sure this exists in your HTML
+                    toast_red.querySelector("p").textContent = `Invalid ${label}, please select from list`;
+                    toast_red.style.display = "block";
+
+                    // Hide toast after 3 seconds
+                    setTimeout(() => {
+                        toast_red.style.display = "none";
+                    }, 3000);
+                }
+            });
+        }
+
+        // Apply validation
+        validateInputList('company', validCompanies, 'Company');
+        validateInputList('department', validDepartments, 'Department');
     </script>
 
 @endsection

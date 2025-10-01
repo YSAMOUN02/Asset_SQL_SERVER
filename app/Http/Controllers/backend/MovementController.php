@@ -3,17 +3,14 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Asset_code;
+use App\Models\Company;
+use App\Models\Department;
 use App\Models\movement;
-use App\Models\QuickData;
-use App\Models\StoredAssets;
-use App\Models\StoredAssetsUser;
-use App\Models\User;
-
-
+use App\Models\Reference;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+
 
 class MovementController extends Controller
 {
@@ -28,8 +25,23 @@ class MovementController extends Controller
         if (!$last_assets) {
             return redirect()->back()->with('error', 'Asset can not be movement.');
         }
+
+        $company = Company::all();
+        $departments = Department::all();
+        $assets2 = Asset_code::all();
+        $today = Carbon::today()->toDateString();
+
+        $references = Reference::where('type', 'Movement')
+            ->whereDate('start', '<=', $today)
+            ->whereDate('end', '>=', $today)
+            ->select('code', 'no', 'name', 'id')
+            ->get();
         return view('backend.add-movement', [
-            'asset' => $last_assets
+            'asset' => $last_assets,
+            'company' => $company,
+            'departments' => $departments,
+            'assets2' => $assets2,
+            'references' => $references,
         ]);
     }
     public function movement_add_submit(Request $request)

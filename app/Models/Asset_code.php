@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Asset_code extends Model
 {
     use HasFactory;
-    protected $table = 'organizational_code';
+
+    protected $table = 'organizational_code'; // <-- real table in DB
     protected $primaryKey = 'id';
 
-    protected $fillable = [ 'code','name'];
+    protected $fillable = ['code','name'];
 }

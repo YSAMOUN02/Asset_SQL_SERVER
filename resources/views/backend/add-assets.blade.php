@@ -57,13 +57,22 @@
     <h1 class="title_base text-black dark:text-blue-100">Asset Info</h1>
     <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2 lg:grid-cols-2 md:grid-cols-2">
         <div>
-            <label for="Reference" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference <span
-                    class="text-rose-500">*</span></label>
-            <input type="text" id="Reference" oninput="validateInputField(this,50)"
+            <label for="">Reference<span class="text-rose-500">*</span></label>
+            <input type="text" list="references_list" id="ReferenceInput" onchange="setReferenceId(this)" oninput="validateInputField(this,30)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                name="reference" required />
-        </div>
+                name="reference" required autocomplete="off" />
 
+            <input type="hidden" id="ReferenceId" name="reference_id" />
+
+            <datalist id="references_list">
+                @foreach ($references as $item)
+                    <option data-id="{{ $item->id }}"
+                        value="{{ $item->code . str_pad($item->no, 5, '0', STR_PAD_LEFT) }}">
+                        {{ $item->name }}
+                    </option>
+                @endforeach
+            </datalist>
+        </div>
         <div class="flex flex-col w-full">
             <label for="no" id="assets_label"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset
@@ -85,7 +94,7 @@
                     class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value="" selected></option>
                     @foreach ($assets2 as $asset2)
-                        <option value="{{ '-' . $asset2->code }}">{{$asset2->code. ' : ' . $asset2->name }}</option>
+                        <option value="{{ '-' . $asset2->code }}">{{ $asset2->code . ' : ' . $asset2->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -176,8 +185,10 @@
     </div>
 
 
-    <h1 class="mb-2 title_base text-black dark:text-blue-100">Asset Holder Info  <button type="button" id="clear_user"
-                class="text-white  bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-2 py-1 ext-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"><i class="fa-regular fa-trash-can"></i></button></h1>
+    <h1 class="mb-2 title_base text-black dark:text-blue-100">Asset Holder Info <button type="button"
+            id="clear_user"
+            class="text-white  bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-2 py-1 ext-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"><i
+                class="fa-regular fa-trash-can"></i></button></h1>
     <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2">
 
         <div>
@@ -217,8 +228,7 @@
         </div>
 
         <div>
-            <label for="department">Department <span
-                    class="text-rose-500">*</span></label>
+            <label for="department">Department <span class="text-rose-500">*</span></label>
             <input list="departments_list" id="department" name="department" autocomplete="off" required
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
             focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
@@ -232,8 +242,7 @@
         </div>
 
         <div>
-            <label for="company">Company <span
-                    class="text-rose-500">*</span></label>
+            <label for="company">Company <span class="text-rose-500">*</span></label>
             <input list="company_list" id="company" name="company" autocomplete="off" required
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
        focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
@@ -713,6 +722,19 @@
         clickOpens: false
     });
 
+    function setReferenceId(input) {
+        const value = input.value;
+        const options = document.getElementById('references_list').options;
+        let hiddenField = document.getElementById('ReferenceId');
+
+        hiddenField.value = ''; // reset first
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].value === value) {
+                hiddenField.value = options[i].dataset.id;
+                break;
+            }
+        }
+    }
 
     let usersCache = [];
 
@@ -787,22 +809,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     document.getElementById('clear_user').addEventListener('click', function(e) {
         e.preventDefault(); // prevent any default button behavior
 
@@ -821,33 +827,31 @@
         usersCache = [];
     });
     // Prepare arrays from Blade variables
-const validCompanies = @json($company->pluck('code'));       // Array of valid company codes
-const validDepartments = @json($departments->pluck('name')); // Array of valid department names
+    const validCompanies = @json($company->pluck('code')); // Array of valid company codes
+    const validDepartments = @json($departments->pluck('name')); // Array of valid department names
 
-// Function to validate inputs with toast
-function validateInputList(inputId, validList, label) {
-    const input = document.getElementById(inputId);
-    input.addEventListener('blur', () => {
-        if (!validList.includes(input.value.trim())) {
-            input.value = ''; // clear if not in valid list
+    // Function to validate inputs with toast
+    function validateInputList(inputId, validList, label) {
+        const input = document.getElementById(inputId);
+        input.addEventListener('blur', () => {
+            if (!validList.includes(input.value.trim())) {
+                input.value = ''; // clear if not in valid list
 
-            // Show toast
-            const toast_red = document.getElementById('toast_red'); // make sure this exists in your HTML
-            toast_red.querySelector("p").textContent = `Invalid ${label}, please select from list`;
-            toast_red.style.display = "block";
+                // Show toast
+                const toast_red = document.getElementById('toast_red'); // make sure this exists in your HTML
+                toast_red.querySelector("p").textContent = `Invalid ${label}, please select from list`;
+                toast_red.style.display = "block";
 
-            // Hide toast after 3 seconds
-            setTimeout(() => {
-                toast_red.style.display = "none";
-            }, 3000);
-        }
-    });
-}
+                // Hide toast after 3 seconds
+                setTimeout(() => {
+                    toast_red.style.display = "none";
+                }, 3000);
+            }
+        });
+    }
 
-// Apply validation
-validateInputList('company', validCompanies, 'Company');
-validateInputList('department', validDepartments, 'Department');
-
-
+    // Apply validation
+    validateInputList('company', validCompanies, 'Company');
+    validateInputList('department', validDepartments, 'Department');
 </script>
 @endsection
