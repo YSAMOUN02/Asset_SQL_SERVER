@@ -82,12 +82,12 @@
             <!-- Company -->
             <label>Company</label>
             <input list="companies_list" id="company" name="company_name" autocomplete="off"
-                value="{{ $user->company->name }}"
+                value="{{ $user->company?->name ?? '' }}"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <input type="hidden" id="company_id" name="company_id" value="{{ $user->company->id }}">
+        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+        dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <input type="hidden" id="company_id" name="company_id" value="{{ $user->company?->id ?? '' }}">
             <datalist id="companies_list">
                 @foreach ($companies as $company)
                     <option value="{{ $company->name }}" data-id="{{ $company->id }}"></option>
@@ -99,15 +99,16 @@
             <!-- Department -->
             <label>Department</label>
             <input list="departments_list" id="department" name="department_name" autocomplete="off"
-                value="{{ $user->department->name }}"
+                value="{{ $user->department?->name ?? '' }}"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <input type="hidden" id="department_id" name="department_id" value="{{ $user->department->id }}">
+        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+        dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <input type="hidden" id="department_id" name="department_id" value="{{ $user->department?->id ?? '' }}">
             @php
-                $departments = DB::table('department')->where('company_id', $user->company->id??'')->get();
-
+                $departments = DB::table('department')
+                    ->where('company_id', $user->company?->id ?? '')
+                    ->get();
             @endphp
             <datalist id="departments_list">
                 @foreach ($departments as $department)
@@ -119,15 +120,17 @@
         <div>
             <!-- Division -->
             <label>Division</label>
-            <input list="divisions_list" id="division" name="division_name" autocomplete="off" value="{{ $user->division->name }}"
+            <input list="divisions_list" id="division" name="division_name" autocomplete="off"
+                value="{{ $user->division?->name ?? '' }}"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <input type="hidden" id="division_id" name="division_id">
+        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+        dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <input type="hidden" id="division_id" name="division_id" value="{{ $user->division?->id ?? '' }}">
             @php
-                $divisions = DB::table('division')->where('department_id', $user->department->id??'')->get();
-
+                $divisions = DB::table('division')
+                    ->where('department_id', $user->department?->id ?? '')
+                    ->get();
             @endphp
             <datalist id="divisions_list">
                 @foreach ($divisions as $division)
@@ -139,15 +142,17 @@
         <div>
             <!-- Section -->
             <label>Section</label>
-            <input list="sections_list" id="section" name="section_name" autocomplete="off" value="{{ $user->section->name }}"
+            <input list="sections_list" id="section" name="section_name" autocomplete="off"
+                value="{{ $user->section?->name ?? '' }}"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <input type="hidden" id="section_id" name="section_id">
+        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+        dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <input type="hidden" id="section_id" name="section_id" value="{{ $user->section?->id ?? '' }}">
             @php
-                $sections = DB::table('section')->where('division_id', $user->division->id??'')->get();
-
+                $sections = DB::table('section')
+                    ->where('division_id', $user->division?->id ?? '')
+                    ->get();
             @endphp
             <datalist id="sections_list">
                 @foreach ($sections as $section)
@@ -159,23 +164,24 @@
         <div>
             <!-- Group -->
             <label>Group</label>
-            <input list="groups_list" id="group" name="group_name" autocomplete="off" value="{{ $user->group->name }}"
+            <input list="groups_list" id="group" name="group_name" autocomplete="off"
+                value="{{ $user->group?->name ?? '' }}"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <input type="hidden" id="group_id" name="group_id">
+        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+        dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <input type="hidden" id="group_id" name="group_id" value="{{ $user->group?->id ?? '' }}">
             @php
-                $groups = DB::table('group')->where('section_id', $user->section->id??'')->get();
+                $groups = DB::table('group')
+                    ->where('section_id', $user->section?->id ?? '')
+                    ->get();
             @endphp
-
             <datalist id="groups_list">
                 @foreach ($groups as $group)
                     <option value="{{ $group->name }}" data-id="{{ $group->id }}"></option>
                 @endforeach
             </datalist>
         </div>
-
 
         <div>
             <!-- Phone -->
@@ -614,7 +620,8 @@
     $('#company').on('change', function() {
         saveSelectedId('company', 'company_id', 'companies_list', 'Company');
         let companyId = $('#company_id').val();
-        updateDatalist('department', companyId, 'departments_list', 'department', 'department_id', 'Department');
+        updateDatalist('department', companyId, 'departments_list', 'department', 'department_id',
+        'Department');
 
         // clear children
         $('#department, #department_id, #division, #division_id, #section, #section_id, #group, #group_id').val(

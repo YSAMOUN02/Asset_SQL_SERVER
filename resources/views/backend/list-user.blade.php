@@ -12,70 +12,169 @@
 @endsection
 <div class="container-height   shadow-md sm:rounded-lg dark:bg-gray-800">
     <div class="search-bar bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-        <form action="/admin/assets/add/search" method="POST">
+        <form action="/admin/user/search" method="POST">
             @csrf
-            <div class="max-w-full min-h-full grid px-2 py-1 gap-1 lg:gap-2  grid-cols-3 lg:grid-cols-4 md:grid-cols-2">
+            <div class="max-w-full min-h-full grid px-2 py-1 gap-1 lg:gap-2  grid-cols-3 lg:grid-cols-6 md:grid-cols-4">
+                <!-- ID -->
                 <div>
-                    <label for="id_asset" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">ID</label>
-
-                    <input type="number" id="id_asset" name="assets"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-
+                    <label for="id" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">ID</label>
+                    <input type="number" id="id" name="id" value="{{ old('id', $request->id ?? '') }}"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2
+                dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                 </div>
+
+                <!-- Name -->
                 <div>
-                    <label for="assets" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">User
+                    <label for="name" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">User
                         Name</label>
-
-                    <input type="text" id="assets" name="assets"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-
+                    <input type="text" id="name" name="name" value="{{ old('name', $request->name ?? '') }}"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2
+                dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                 </div>
+
+                <!-- ID Card -->
                 <div>
-                    <label for="fa" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">ID
+                    <label for="id_card" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">ID
                         Card</label>
-
-                    <input type="text" id="fa" name="fa"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-
+                    <input type="text" id="id_card" name="id_card"
+                        value="{{ old('id_card', $request->id_card ?? '') }}"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2
+                dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                 </div>
+
+                <!-- Position -->
                 <div>
-                    <label for="invoice"
+                    <label for="position"
                         class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Position</label>
-
-                    <input type="text" id="invoice" name="invoice"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-
+                    <input type="text" id="position" name="position"
+                        value="{{ old('position', $request->position ?? '') }}"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2
+                dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                 </div>
+
+                <!-- Email -->
                 <div>
-                    <label for="description"
-                        class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-
-                    <input type="text" id="description" name="description"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-
+                    <label for="email"
+                        class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                    <input type="text" id="email" name="email"
+                        value="{{ old('email', $request->email ?? '') }}"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2
+                dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                 </div>
+
+                <!-- Role -->
                 <div>
-                    <label for="state"
+                    <label for="role"
                         class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Role</label>
-                    <select id="state" name="state"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option value="All">All</option>
-                        <option value="1">Active</option>
-                        <option value="0">Inactive</option>
-
+                    <select id="role" name="role"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2
+                dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        <option value="All" {{ ($request->role ?? '') == 'All' ? 'selected' : '' }}>All</option>
+                        <option value="super_admin" {{ ($request->role ?? '') == 'super_admin' ? 'selected' : '' }}>
+                            Super Admin</option>
+                        <option value="admin" {{ ($request->role ?? '') == 'admin' ? 'selected' : '' }}>Admin</option>
+                        <option value="super_normal" {{ ($request->role ?? '') == 'super_normal' ? 'selected' : '' }}>
+                            Super Normal</option>
+                        <option value="user" {{ ($request->role ?? '') == 'user' ? 'selected' : '' }}>User Normal
+                        </option>
                     </select>
                 </div>
+
+                <!-- Status -->
                 <div>
-                    <label for="state"
+                    <label for="status"
                         class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Status</label>
-                    <select id="state" name="state"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option value="All">All</option>
-                        <option value="1">Active</option>
-                        <option value="0">Inactive</option>
-
+                    <select id="status" name="status"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2
+                dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        <option value="All" {{ ($request->status ?? '') == 'All' ? 'selected' : '' }}>All</option>
+                        <option value="1" {{ ($request->status ?? '') == '1' ? 'selected' : '' }}>Active</option>
+                        <option value="0" {{ ($request->status ?? '') == '0' ? 'selected' : '' }}>Inactive
+                        </option>
                     </select>
                 </div>
+
+                <!-- Company -->
+                <div>
+                    <label for="company"
+                        class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Company</label>
+                    <input list="companies_list" id="company" name="company_name" autocomplete="off"
+                        value="{{ old('company_name', $request->company_name ?? '') }}"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2
+                dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <input type="hidden" id="company_id" name="company_id"
+                        value="{{ old('company_id', $request->company_id ?? '') }}">
+                    <datalist id="companies_list">
+                        @foreach ($companies as $item)
+                            <option value="{{ $item->code }}" data-id="{{ $item->id }}"></option>
+                        @endforeach
+                    </datalist>
+                </div>
+
+                <!-- Department -->
+                <div>
+                    <label for="department"
+                        class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Department</label>
+                    <input list="departments_list" id="department" name="department_name" autocomplete="off"
+                        value="{{ old('department_name', $request->department_name ?? '') }}"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2
+                dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <input type="hidden" id="department_id" name="department_id"
+                        value="{{ old('department_id', $request->department_id ?? '') }}">
+                    <datalist id="departments_list"></datalist>
+                </div>
+
+                <!-- Division -->
+                <div>
+                    <label for="division"
+                        class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Division</label>
+                    <input list="divisions_list" id="division" name="division_name" autocomplete="off"
+                        value="{{ old('division_name', $request->division_name ?? '') }}"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+        focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2
+        dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <input type="hidden" id="division_id" name="division_id"
+                        value="{{ old('division_id', $request->division_id ?? '') }}">
+                    <datalist id="divisions_list"></datalist>
+                </div>
+
+                <!-- Section -->
+                <div>
+                    <label for="section"
+                        class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Section</label>
+                    <input list="sections_list" id="section" name="section_name" autocomplete="off"
+                        value="{{ old('section_name', $request->section_name ?? '') }}"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+        focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2
+        dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <input type="hidden" id="section_id" name="section_id"
+                        value="{{ old('section_id', $request->section_id ?? '') }}">
+                    <datalist id="sections_list"></datalist>
+                </div>
+
+                <!-- Group -->
+                <div>
+                    <label for="group"
+                        class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Group</label>
+                    <input list="groups_list" id="group" name="group_name" autocomplete="off"
+                        value="{{ old('group_name', $request->group_name ?? '') }}"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+        focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2
+        dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <input type="hidden" id="group_id" name="group_id"
+                        value="{{ old('group_id', $request->group_id ?? '') }}">
+                    <datalist id="groups_list"></datalist>
+                </div>
+
             </div>
             <div
                 class="max-w-full items-center flex  justify-between px-2 mt-1 lg:mt-2 py-1 lg:py-2 sm:grid sm:grid-cols-1">
@@ -129,11 +228,15 @@
 
                                     </ul>
                                 </nav>
+                                <span class="font-bold flex justify-center items-center dark:text-slate-50">Page
+                                    :{{ $total_page }} Pages
+                                    &ensp;Total Users: {{ $total_record }} Records</span>
+                            @else
+                                <span class="font-bold flex justify-center items-center dark:text-slate-50">
+                                    Total Users: {{ $total_record }} Records</span>
                             @endif
-                       
-                            <span class="font-bold flex justify-center items-center dark:text-slate-50">Page
-                                :{{ $total_page }} Pages
-                                &ensp;Total Transaction: {{ $total_record }} Records</span>
+
+
                         </div>
 
                     </div>
@@ -143,9 +246,7 @@
 
 
 
-                        <button type="button"
-                        {{-- onclick="search_asset(0)" --}}
-                         id="search_item" onclick="{alert('New Feature Under Development')}"
+                        <button type="submit" id="search_item"
                             class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                             <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
                         </button>
@@ -447,10 +548,90 @@
             </table>
         </div>
     </div>
-    <script>
-        //   let array = @json($user);
-        //   let sort_state = 0;
-    </script>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Update datalist dynamically
+        function updateDatalist(type, parentId, datalistId, inputId, hiddenId, label) {
+            if (!parentId) {
+                $('#' + datalistId).empty();
+                $('#' + inputId).val('');
+                $('#' + hiddenId).val('');
+                return;
+            }
+
+            $.get('/units/' + type + '/' + parentId, function(data) {
+                console.log('Data for', type, parentId, data); // 👀 debug line
+
+                if (!data || data.length === 0) {
+                    $('#' + datalistId).empty();
+                    $('#' + inputId).val('');
+                    $('#' + hiddenId).val('');
+                    return;
+                }
+
+                let options = '';
+                $.each(data, function(i, unit) {
+                    const label = unit.code || unit.name || unit.title || 'Unnamed';
+                    options += `<option value="${label}" data-id="${unit.id}"></option>`;
+                });
+
+                $('#' + datalistId).html(options);
+            });
+        }
+
+        // Validate input & store ID in hidden field
+        function saveSelectedId(inputId, hiddenId, datalistId) {
+            let input = document.getElementById(inputId);
+            let datalist = document.getElementById(datalistId);
+            let selectedOption = Array.from(datalist.options).find(opt => opt.value === input.value);
+
+            if (!selectedOption) {
+                $('#' + inputId).val('');
+                $('#' + hiddenId).val('');
+                return;
+            }
+
+            $('#' + hiddenId).val(selectedOption.dataset.id);
+        }
+
+        // Cascading events
+        $('#company').on('change', function() {
+            saveSelectedId('company', 'company_id', 'companies_list');
+            let companyId = $('#company_id').val();
+            updateDatalist('department', companyId, 'departments_list', 'department', 'department_id', 'Company');
+
+            $('#department, #department_id, #division, #division_id, #section, #section_id, #group, #group_id').val(
+                '');
+        });
+
+        $('#department').on('change', function() {
+            saveSelectedId('department', 'department_id', 'departments_list');
+            let departmentId = $('#department_id').val();
+            updateDatalist('division', departmentId, 'divisions_list', 'division', 'division_id', 'Department');
+
+            $('#division, #division_id, #section, #section_id, #group, #group_id').val('');
+        });
+
+        $('#division').on('change', function() {
+            saveSelectedId('division', 'division_id', 'divisions_list');
+            let divisionId = $('#division_id').val();
+            updateDatalist('section', divisionId, 'sections_list', 'section', 'section_id', 'Division');
+
+            $('#section, #section_id, #group, #group_id').val('');
+        });
+
+        $('#section').on('change', function() {
+            saveSelectedId('section', 'section_id', 'sections_list');
+            let sectionId = $('#section_id').val();
+            updateDatalist('group', sectionId, 'groups_list', 'group', 'group_id', 'Section');
+
+            $('#group, #group_id').val('');
+        });
+
+        $('#group').on('change', function() {
+            saveSelectedId('group', 'group_id', 'groups_list');
+        });
+    </script>
 
 @endsection

@@ -15,6 +15,7 @@ use App\Models\Division;
 use App\Models\Section;
 use App\Models\Group;
 use App\Models\UserUnit;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -39,13 +40,18 @@ class UserController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
+        $companies = Company::all();
+
         return view('backend.list-user', [
             'user' => $user,
             'total_page' => $total_page,
             'page' => $page,
             'total_record' => $count_post,
             'total_page' => $total_page,
-            'limit' =>  $limit
+            'limit' =>  $limit,
+
+            'companies' => $companies,
+
         ]);
     }
 
@@ -154,7 +160,7 @@ class UserController extends Controller
         $userUnit->group_id      = $request->group_id;
         $userUnit->save();
 
-        return redirect('/admin/user/list')->with('success', 'Added 1 user, logged all fields, and saved user unit.');
+        return redirect('/admin/user/list/1')->with('success', 'Added 1 user, logged all fields, and saved user unit.');
     }
 
     public function delete_user(Request $request)
@@ -163,16 +169,16 @@ class UserController extends Controller
         $auth  = Auth::user()->id;
 
         if ($request->id == $auth) {
-            return redirect('/admin/user/list')->with('fail', 'You can not delete your user. change to another user to delete your user');
+            return redirect('/admin/user/list/1')->with('fail', 'You can not delete your user. change to another user to delete your user');
         }
 
         $user = User::where('id', $request->id)->first();
         // $this->Change_log($user->id, "", "Delete", "User Record", Auth::user()->fname . " " . Auth::user()->lname, Auth::user()->id);
         $user->delete();
         if ($user) {
-            return redirect('/admin/user/list')->with('success', 'Deleted User.');
+            return redirect('/admin/user/list/1')->with('success', 'Deleted User.');
         } else {
-            return redirect('/admin/user/list')->with('fail', 'Opp. Operation fail.');
+            return redirect('/admin/user/list/1')->with('fail', 'Opp. Operation fail.');
         }
     }
     public function update_user($id)
@@ -368,6 +374,7 @@ class UserController extends Controller
 
         return response()->json($units);
     }
+
     public function search(Request $request)
     {
         $query = User::with(['Company', 'Department']);
@@ -389,5 +396,233 @@ class UserController extends Controller
         }
 
         return response()->json($query->limit(50)->get());
+    }
+
+
+
+    public function search_user(Request $request)
+    {
+
+        // Start with base User query and eager load user_unit relation
+        $query = User::with('unit');
+
+        // Filter by user table fields
+        if ($request->filled('id')) {
+            $query->where('id', $request->id);
+        }
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        if ($request->filled('id_card')) {
+            $query->where('id_card', 'like', '%' . $request->id_card . '%');
+        }
+
+        if ($request->filled('position')) {
+            $query->where('position', 'like', '%' . $request->position . '%');
+        }
+
+        if ($request->filled('email')) {
+            $query->where('email', 'like', '%' . $request->email . '%');
+        }
+
+        if ($request->filled('role') && $request->role !== 'All') {
+            $query->where('role', $request->role);
+        }
+
+        if ($request->filled('status') && $request->status !== 'All') {
+            $query->where('status', $request->status);
+        }
+
+        // ====== Filters from user_unit table ======
+        $query->whereHas('unit', function ($q) use ($request) {
+            if ($request->filled('company_id')) {
+                $q->where('company_id', $request->company_id);
+            }
+            if ($request->filled('department_id')) {
+                $q->where('department_id', $request->department_id);
+            }
+            if ($request->filled('division_id')) {
+                $q->where('division_id', $request->division_id);
+            }
+            if ($request->filled('section_id')) {
+                $q->where('section_id', $request->section_id);
+            }
+            if ($request->filled('group_id')) {
+                $q->where('group_id', $request->group_id);
+            }
+        });
+
+
+        $count_post = $query->count();
+
+
+
+        $users = $query->orderBy('id', 'desc')->get();
+
+        $companies = Company::all();
+
+        return view('backend.list-user', [
+            'user' => $users,
+            'total_record' => $count_post,
+            'companies' => $companies,
+            'request' => $request, // 👈 Add this line
+        ]);
+    }
+
+
+
+
+    public function deleteNode(Request $request, $type, $id)
+    {
+
+        $model = null;
+
+        // Determine model
+        switch ($type) {
+            case 'company':
+                $model = Company::find($id);
+                break;
+            case 'department':
+                $model = Department::find($id);
+                break;
+            case 'division':
+                $model = Division::find($id);
+                break;
+            case 'section':
+                $model = Section::find($id);
+                break;
+            case 'group':
+                $model = Group::find($id);
+                break;
+            default:
+                return response()->json(['success' => false, 'message' => 'Invalid type']);
+        }
+
+        if (!$model) {
+            return response()->json(['success' => false, 'message' => 'Node not found']);
+        }
+
+        // Check if any user exists in this node or its children
+        $hasUsers = $this->nodeHasUsers($type, $id);
+
+        if ($hasUsers) {
+            return response()->json(['success' => false, 'message' => 'Cannot delete node with users']);
+        }
+
+        // If no users, delete the node and all child nodes recursively
+        DB::transaction(function () use ($type, $id) {
+            $this->deleteNodeRecursive($type, $id);
+        });
+
+        return response()->json(['success' => true, 'message' => 'Deleted successfully']);
+    }
+    protected function nodeHasUsers($type, $id)
+    {
+        switch ($type) {
+            case 'company':
+                return UserUnit::where('company_id', $id)->exists();
+            case 'department':
+                return UserUnit::where('department_id', $id)->exists();
+            case 'division':
+                return UserUnit::where('division_id', $id)->exists();
+            case 'section':
+                return UserUnit::where('section_id', $id)->exists();
+            case 'group':
+                return UserUnit::where('group_id', $id)->exists();
+        }
+        return false;
+    }
+    protected function deleteNodeRecursive($type, $id)
+    {
+        switch ($type) {
+            case 'company':
+                $departments = Department::where('company_id', $id)->get();
+                foreach ($departments as $dep) {
+                    $this->deleteNodeRecursive('department', $dep->id);
+                }
+                Company::where('id', $id)->delete();
+                break;
+
+            case 'department':
+                $divisions = Division::where('department_id', $id)->get();
+                foreach ($divisions as $div) {
+                    $this->deleteNodeRecursive('division', $div->id);
+                }
+                Department::where('id', $id)->delete();
+                break;
+
+            case 'division':
+                $sections = Section::where('division_id', $id)->get();
+                foreach ($sections as $sec) {
+                    $this->deleteNodeRecursive('section', $sec->id);
+                }
+                Division::where('id', $id)->delete();
+                break;
+
+            case 'section':
+                $groups = Group::where('section_id', $id)->get();
+                foreach ($groups as $grp) {
+                    $this->deleteNodeRecursive('group', $grp->id);
+                }
+                Section::where('id', $id)->delete();
+                break;
+
+            case 'group':
+                Group::where('id', $id)->delete();
+                break;
+        }
+    }
+    // UserController.php
+    public function deleteUser($id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['success' => false, 'message' => 'User not found']);
+        }
+
+        try {
+            $user->delete();
+            return response()->json(['success' => true, 'message' => 'User deleted successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function searchUsers(Request $request)
+    {
+        $type = $request->query('type');
+        $query = $request->query('query');
+
+        $users = User::with(['company', 'department', 'division', 'section', 'group']);
+
+        if ($type === 'name') {
+            $users->whereRaw("CONCAT(fname, ' ', lname) LIKE ?", ["%$query%"]);
+        } elseif (in_array($type, ['id_card', 'email', 'role', 'position', 'phone'])) {
+            $users->where($type, 'like', "%$query%");
+        } elseif (in_array($type, ['company', 'department', 'division', 'section', 'group'])) {
+            $users->whereHas($type, function ($q) use ($query) {
+                $q->where('name', 'like', "%$query%");
+            });
+        }
+
+        $users = $users->get();
+
+        // Append readable location for each user
+        $users->transform(function ($user) {
+            $parts = [];
+            if ($user->company) $parts[] = $user->company->name;
+            if ($user->department) $parts[] = $user->department->name;
+            if ($user->division) $parts[] = $user->division->name;
+            if ($user->section) $parts[] = $user->section->name;
+            if ($user->group) $parts[] = $user->group->name;
+
+            $user->location_path = implode(' / ', $parts);
+            $user->full_name = trim($user->fname . ' ' . $user->lname);
+            return $user;
+        });
+
+        return response()->json($users);
     }
 }

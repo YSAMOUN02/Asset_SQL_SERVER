@@ -117,11 +117,7 @@ td:first-child{
   top: 0px;
     z-index: 1;
 }
-#table_user thead{
-  position: sticky;
-  top: 0px;
-    z-index: 99;
-}
+
 .table_respond{
   width: 100%;
 }
@@ -706,8 +702,33 @@ main{
 }
 
 
+#table_user thead{
+  position: sticky;
+  top: 0px;
+  z-index: 99;
+}
+#table_user thead{
+  position: sticky;
+  top: 0px;
+  z-index: 99;
+}
+#searchUsersTable thead th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #e5e7eb; /* bg-gray-200 fallback for light mode */
+    color: #111827; /* text-gray-900 fallback */
+}
 
+/* Dark mode */
+.dark #searchUsersTable thead th {
+    background-color: #1f2937; /* bg-gray-800 */
+    color: #ffffff; /* text-white */
+}
+.modal_z_hight_index{
+    z-index: 999 !important;
 
+}
     /* Faster spin */
 @keyframes spin-fast {
   to {

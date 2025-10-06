@@ -12,18 +12,53 @@ use App\Models\Section;
 use App\Models\Group;
 use App\Models\User;
 use App\Models\UserUnit;
-
+use Illuminate\Support\Facades\DB;
 class Data_setupController extends Controller
 {
 
 
     public function hierarchical()
     {
+        $companies = Company::with('departments.divisions.sections.groups')->get();
 
-        $company = Company::all();
-        return view('backend.hierarchical', ['company' => $company]);
+        $companies->map(function ($comp) {
+            $comp->canDelete = $this->isNodeDeletable('company', $comp->id);
+            return $comp;
+        });
+        $departments = Department::all();
+        $divisions = Division::all();
+        $sections = Section::all();
+        $groups = Group::all();
+
+        return view('backend.hierarchical', ['company' => $companies, 'departments' => $departments, 'divisions' => $divisions, 'sections' => $sections, 'groups' => $groups]);
     }
 
+    /**
+     * Check recursively if a node and its subtree has no users.
+     */
+    private function isNodeDeletable($type, $id)
+    {
+        // Check if this node has any users
+        $hasUsers = UserUnit::where("{$type}_id", $id)->exists();
+        if ($hasUsers) return false;
+
+        // Get children depending on type
+        $children = match ($type) {
+            'company'    => Department::where('company_id', $id)->get(),
+            'department' => Division::where('department_id', $id)->get(),
+            'division'   => Section::where('division_id', $id)->get(),
+            'section'    => Group::where('section_id', $id)->get(),
+            default      => collect(),
+        };
+
+        foreach ($children as $child) {
+            if (!$this->isNodeDeletable($child->getTable(), $child->id)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
     public function children($type, $id)
     {
         try {
@@ -105,12 +140,34 @@ class Data_setupController extends Controller
                     break;
             }
 
+
+
             $users = $query->with('user:id,name,email')
                 ->get()
                 ->map(fn($u) => $u->user)
                 ->filter()
                 ->unique('id')
                 ->values();
+
+
+            // Append readable location for each user
+            $users->transform(function ($user) {
+                $parts = [];
+                if ($user->company) $parts[] = $user->company->name;
+                if ($user->department) $parts[] = $user->department->name;
+                if ($user->division) $parts[] = $user->division->name;
+                if ($user->section) $parts[] = $user->section->name;
+                if ($user->group) $parts[] = $user->group->name;
+
+                $user->location_path = implode(' / ', $parts);
+                $user->full_name = trim($user->fname . ' ' . $user->lname);
+                return $user;
+            });
+
+
+
+
+
 
             return response()->json($users);
         } catch (\Exception $e) {
@@ -125,7 +182,7 @@ class Data_setupController extends Controller
             'targetId' => 'required|integer'
         ]);
 
-        $userUnit = \DB::table('user_unit')->where('user_id', $request->userId)->first();
+        $userUnit = DB::table('user_unit')->where('user_id', $request->userId)->first();
 
         if (!$userUnit) {
             return response()->json(['success' => false, 'message' => 'User unit not found']);
@@ -144,15 +201,15 @@ class Data_setupController extends Controller
                 $data['company_id'] = $request->targetId;
                 break;
             case 'department':
-                $dept = \DB::table('department')->where('id', $request->targetId)->first();
+                $dept = DB::table('department')->where('id', $request->targetId)->first();
                 $data['company_id'] = $dept->company_id;
                 $data['department_id'] = $dept->id;
                 break;
             case 'division':
-                $div = \DB::table('division')->where('id', $request->targetId)->first();
+                $div = DB::table('division')->where('id', $request->targetId)->first();
                 if (!$div) return response()->json(['success' => false, 'message' => 'Division not found']);
 
-                $dept = \DB::table('department')->where('id', $div->department_id)->first();
+                $dept = DB::table('department')->where('id', $div->department_id)->first();
                 if (!$dept) return response()->json(['success' => false, 'message' => 'Department not found']);
 
                 $data['company_id'] = $dept->company_id; // get from department
@@ -161,13 +218,13 @@ class Data_setupController extends Controller
                 break;
 
             case 'section':
-                $sec = \DB::table('section')->where('id', $request->targetId)->first();
+                $sec = DB::table('section')->where('id', $request->targetId)->first();
                 if (!$sec) return response()->json(['success' => false, 'message' => 'Section not found']);
 
-                $div = \DB::table('division')->where('id', $sec->division_id)->first();
+                $div = DB::table('division')->where('id', $sec->division_id)->first();
                 if (!$div) return response()->json(['success' => false, 'message' => 'Division not found']);
 
-                $dept = \DB::table('department')->where('id', $div->department_id)->first();
+                $dept = DB::table('department')->where('id', $div->department_id)->first();
                 if (!$dept) return response()->json(['success' => false, 'message' => 'Department not found']);
 
                 $data['company_id'] = $dept->company_id;
@@ -177,12 +234,12 @@ class Data_setupController extends Controller
                 break;
 
             case 'group':
-                $grp = \DB::table('group')->where('id', $request->targetId)->first();
+                $grp = DB::table('group')->where('id', $request->targetId)->first();
                 if (!$grp) return response()->json(['success' => false, 'message' => 'Group not found']);
 
-                $sec = \DB::table('section')->where('id', $grp->section_id)->first();
-                $div = \DB::table('division')->where('id', $sec->division_id)->first();
-                $dept = \DB::table('department')->where('id', $div->department_id)->first();
+                $sec = DB::table('section')->where('id', $grp->section_id)->first();
+                $div = DB::table('division')->where('id', $sec->division_id)->first();
+                $dept = DB::table('department')->where('id', $div->department_id)->first();
 
                 $data['company_id'] = $dept->company_id;
                 $data['department_id'] = $dept->id;
@@ -192,7 +249,7 @@ class Data_setupController extends Controller
                 break;
         }
 
-        \DB::table('user_unit')->where('user_id', $request->userId)->update($data);
+        DB::table('user_unit')->where('user_id', $request->userId)->update($data);
 
         return response()->json(['success' => true]);
     }
@@ -242,6 +299,20 @@ class Data_setupController extends Controller
         }
 
         return response()->json(['success' => true, 'child' => $child]);
+    }
+    public function addCompany(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'code' => 'required|string'
+        ]);
+
+        $company = Company::create([
+            'name' => $request->name,
+            'code' => $request->code
+        ]);
+
+        return response()->json(['success' => true, 'node' => $company]);
     }
     // Data_setupController.php
 
@@ -363,7 +434,7 @@ class Data_setupController extends Controller
             'type'  => 'required|string|max:50',
             'start' => 'required|date',
             'end'   => 'required|date|after_or_equal:start',
-            ]);
+        ]);
 
         $reference = \App\Models\Reference::findOrFail($request->id);
 
@@ -382,9 +453,69 @@ class Data_setupController extends Controller
     {
 
 
-        $reference = \App\Models\Reference::where('id',$request->id)->first();
+        $reference = \App\Models\Reference::where('id', $request->id)->first();
         $reference->delete();
 
         return redirect()->back()->with('success', 'Reference deleted successfully.');
+    }
+
+    public function search_user_hierarchy(Request $request)
+    {
+        $type = $request->query('type');  // from dropdown
+        $query = $request->query('query');
+
+        $users = User::query()
+            ->when($type === 'name', fn($q) => $q->whereRaw("CONCAT(fname,' ',lname) LIKE ?", ["%{$query}%"]))
+            ->when($type === 'id_card', fn($q) => $q->where('id_card', 'like', "%{$query}%"))
+            ->when($type === 'email', fn($q) => $q->where('email', 'like', "%{$query}%"))
+            ->when($type === 'role', fn($q) => $q->where('role', 'like', "%{$query}%"))
+            ->when($type === 'position', fn($q) => $q->where('position', 'like', "%{$query}%"))
+            ->when($type === 'phone', fn($q) => $q->where('phone', 'like', "%{$query}%"))
+            ->when(
+                in_array($type, ['company', 'department', 'division', 'section', 'group']),
+                fn($q) =>
+                $q->whereHas($type, fn($q2) => $q2->where('name', 'like', "%{$query}%"))
+            )
+            ->limit(20)
+            ->get(['id', 'fname', 'lname', 'email']);
+
+        return response()->json($users);
+    }
+    public function searchDatalist(Request $request)
+    {
+        $type = $request->query('type');
+        $query = $request->query('query', '');
+
+        $options = [];
+
+        if (in_array($type, ['company', 'department', 'division', 'section', 'group'])) {
+            $modelMap = [
+                'company' => Company::class,
+                'department' => Department::class,
+                'division' => Division::class,
+                'section' => Section::class,
+                'group' => Group::class,
+            ];
+
+            $options = $modelMap[$type]::where('name', 'like', "%{$query}%")
+                ->limit(10)
+                ->pluck('name')
+                ->toArray();
+        } elseif (in_array($type, ['id_card', 'email', 'role', 'position', 'phone'])) {
+            $options = User::where($type, 'like', "%{$query}%")
+                ->limit(10)
+                ->pluck($type)
+                ->filter() // remove nulls
+                ->unique()
+                ->toArray();
+        } elseif ($type == 'user') {
+            // Search by full name (fname + lname)
+            $options = User::whereRaw("CONCAT(fname,' ',lname) LIKE ?", ["%{$query}%"])
+                ->limit(10)
+                ->pluck(DB::raw("CONCAT(fname,' ',lname) AS full_name"))
+                ->toArray();
+        }
+
+        return response()->json($options);
     }
 }

@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [AdminController::class, 'logout']);
 
     Route::get('/units/{type}/{parent}', [UserController::class, 'getChildUnits']);
+    Route::post('/hierarchy/{type}/{id}/delete', [UserController::class, 'deleteNode']);
     // Asset----------------------------------------------------------------------------------------------------
     // Raw Select
     Route::get('/admin/assets/add/{page}', [AssetsController::class, 'list_select']);
@@ -90,24 +91,28 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/user/update/submit', [UserController::class, 'update_user_submit']);
     // Delete
     Route::post('/admin/user/delete/submit', [UserController::class, 'delete_user']);
-
+    Route::post('/admin/user/search', [UserController::class, 'search_user']);
+    Route::post('/admin/user/delete/{id}', [UserController::class, 'deleteUser']);
 
     Route::get('/users/search', [UserController::class, 'search']);
-
+    Route::get('/search-users', [UserController::class, 'searchUsers']);
 
     // Data Set up----------------------------------------------------------------------------------------------------
     Route::get('/hierarchical', [Data_setupController::class, 'hierarchical']);
     Route::get('/hierarchy/{type}/{id}/children', [Data_setupController::class, 'children']);
     Route::get('/hierarchy/{type}/{id}/users', [Data_setupController::class, 'users']);
     Route::post('/hierarchy/{type}/{parentId}/add-child', [Data_setupController::class, 'addChild']);
+    Route::post('/hierarchy/add-company', [Data_setupController::class, 'addCompany']);
     Route::get('/hierarchy/can-delete/{type}/{id}', [Data_setupController::class, 'canDeleteNodeApi']);
     Route::post('/hierarchy/move-user', [Data_setupController::class, 'moveUser']);
     Route::post('/hierarchy/{type}/{id}/update', [Data_setupController::class, 'updateNode']);
+    Route::get('/search-datalist', [Data_setupController::class, 'searchDatalist'])->name('search.datalist');
 
+    Route::get('/hierarchy/search', [Data_setupController::class, 'search_user_hierarchy']);
 
     Route::get('/code/setup', [Data_setupController::class, 'code_setup']);
     Route::post('/code/add/submit', [Data_setupController::class, 'code_new_submit']);
-     Route::post('/code/update/submit', [Data_setupController::class, 'code_update_submit']);
+    Route::post('/code/update/submit', [Data_setupController::class, 'code_update_submit']);
     Route::post('/code/delete/submit', [Data_setupController::class, 'code_delete_submit']);
 
 
@@ -116,6 +121,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/reference/setup', [Data_setupController::class, 'reference_setup']);
     Route::post('/reference/add/submit', [Data_setupController::class, 'reference_new_submit']);
-     Route::post('/reference/update/submit', [Data_setupController::class, 'reference_update_submit']);
+    Route::post('/reference/update/submit', [Data_setupController::class, 'reference_update_submit']);
     Route::post('/reference/delete/submit', [Data_setupController::class, 'reference_delete_submit']);
 });

@@ -1000,18 +1000,12 @@ const token = localStorage.getItem("token");
 
 let other_search = 0;
 async function search_asset(no) {
-
     // Prevent multiple click
     id_for_export = [];
     let select_all_v = document.querySelector("#select_all");
-    select_all_v.checked =false;
- print.style.display = "none";
-        export_excel.style.display = "none";
-
-
-
-
-
+    select_all_v.checked = false;
+    print.style.display = "none";
+    export_excel.style.display = "none";
 
     let fa = document.querySelector("#fa");
     let asset_input = document.querySelector("#assets");
@@ -1491,18 +1485,12 @@ async function search_asset(no) {
     }
 }
 async function search_movement(no) {
-
     // Prevent multiple click
     id_for_export = [];
     let select_all_v = document.querySelector("#select_all");
     select_all_v.checked = false;
-print.style.display = "none";
-        export_excel.style.display = "none";
-
-
-
-
-
+    print.style.display = "none";
+    export_excel.style.display = "none";
 
     let fa = document.querySelector("#fa");
     let asset_input = document.querySelector("#assets");
@@ -2013,15 +2001,14 @@ function set_page_dynamic() {
         }
     }
 }
--
-function set_page_movement() {
+-function set_page_movement() {
     let select = document.querySelector("#select_page_dynamic");
     if (select) {
         if (select.value != "") {
             search_movement(parseInt(select.value));
         }
     }
-}
+};
 
 function set_page_dynamic_admin() {
     let select = document.querySelector("#select_page_dynamic");
@@ -3102,14 +3089,12 @@ function close_search() {
 }
 
 async function search_asset_new(no) {
-
     // Prevent multiple click
     id_for_export = [];
     let select_all_v = document.querySelector("#select_all");
     select_all_v.checked = false;
-print.style.display = "none";
-        export_excel.style.display = "none";
-
+    print.style.display = "none";
+    export_excel.style.display = "none";
 
     const fa = document.querySelector("#fa");
     const asset_input = document.querySelector("#assets");
@@ -3517,7 +3502,7 @@ function adjustLayout() {
     state_toggle_table = state_toggle_table === 0 ? 1 : 0;
 }
 function showToastRed(message) {
-    let toast = document.getElementById('toast_red');
+    let toast = document.getElementById("toast_red");
     toast.innerText = message;
     toast.style.display = "block";
     toast.style.opacity = "1";
@@ -3526,10 +3511,40 @@ function showToastRed(message) {
 
     toast.timer = setTimeout(() => {
         toast.style.opacity = "0";
-        setTimeout(() => toast.style.display = "none", 500);
+        setTimeout(() => (toast.style.display = "none"), 500);
     }, 3000);
 }
+function showSuccessToast(message = 'Success') {
+    const toast = document.getElementById('toast_green');
+    const label = document.getElementById('toast_green_label');
 
+    label.innerText = message;
+
+    toast.style.display = 'block';
+    toast.style.opacity = 1;
+    toast.style.visibility = 'visible';
+    toast.style.animation = 'none';
+    void toast.offsetWidth; // trigger reflow
+    toast.style.animation = 'fadeOut2 4s forwards';
+
+    setTimeout(() => toast.style.display = 'none', 4000);
+}
+
+function showErrorToast(message = 'Error') {
+    const toast = document.getElementById('toast_red');
+    const label = document.getElementById('toast_red_label');
+
+    label.innerText = message;
+
+    toast.style.display = 'block';
+    toast.style.opacity = 1;
+    toast.style.visibility = 'visible';
+    toast.style.animation = 'none';
+    void toast.offsetWidth; // trigger reflow
+    toast.style.animation = 'fadeOut2 4s forwards';
+
+    setTimeout(() => toast.style.display = 'none', 4000);
+}
 function validateInputField(field, maxLength) {
     if (field.value.length > maxLength) {
         field.value = field.value.substring(0, maxLength);

@@ -90,7 +90,7 @@ class ApiHandlerController extends Controller
     public function Search_Raw_assets(Request $request)
     {
 
-        
+
         $assets = $request->asset_val ?? 'NA';
         $fa = $request->fa_val ?? 'NA';
         $invoice = $request->invoice_val ?? 'NA';
@@ -161,10 +161,8 @@ class ApiHandlerController extends Controller
 
 
 
-
-    public function search_list_asset_more(request $request)
+    public function search_list_asset_more(Request $request)
     {
-
         $fa = $request->fa ?? "";
         $invoice = $request->invoice ?? "";
         $assets = $request->asset ?? "";
@@ -177,11 +175,37 @@ class ApiHandlerController extends Controller
         $id = $request->id ?? "NA";
         $page = $request->page ?? 1;
 
+        // ✅ Base fields to always return
+        $selectFields = [
+            'assets_id',
+            'reference',
+            'assets1',
+            'assets2',
+            'item',
+            'transaction_date',
+            'initial_condition',
+            'specification',
+            'holder_name',
+            'department',
+            'company',
+            'status_recieved',
+            'old_code',
+            'status',
+            'deleted',
+            'created_at'
+        ];
 
-        $data =  StoredAssets::orderBy('transaction_date', 'desc')
+        // Add dynamic $type field if needed
+        if ($type != "NA" && !in_array($type, $selectFields)) {
+            $selectFields[] = $type;
+        }
+
+        // Build query
+        $data = StoredAssets::select($selectFields)
+            ->orderBy('transaction_date', 'desc')
             ->orderBy('assets1', 'desc');
 
-
+        // Filters
         if ($id != "NA") {
             $data->where("assets_id", 'LIKE', "%" . $id . "%");
         }
@@ -198,12 +222,10 @@ class ApiHandlerController extends Controller
             $data->where("description", 'LIKE', "%" . $description . "%");
         }
 
-        // Check if start and end are provided and not "NA"
-
+        // Date filters
         if ($start != "NA" && $end != "NA") {
             $startDate = Carbon::parse($start)->startOfDay();
             $endDate = Carbon::parse($end)->endOfDay();
-
             $data->whereBetween('transaction_date', [$startDate, $endDate]);
         } elseif ($start != "NA") {
             $startDate = Carbon::parse($start)->startOfDay();
@@ -213,10 +235,9 @@ class ApiHandlerController extends Controller
             $data->where('transaction_date', '<=', $endDate);
         }
 
-
+        // Status filter
         if ($state != "NA") {
-            if ($state == "All") {
-            } elseif ($state == 0) {
+            if ($state == 0) {
                 $data->where("status", 0);
             } elseif ($state == 1) {
                 $data->where("status", 1);
@@ -225,33 +246,31 @@ class ApiHandlerController extends Controller
             }
         }
 
+        // Dynamic $type filter
         if ($type != "NA" && $value != "NA") {
             $data->where($type, 'LIKE', '%' . $value . '%');
         }
 
-
-        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
+        // Pagination
+        $viewpoint = User_property::where('user_id', Auth::user()->id)
+            ->where('type', 'viewpoint')
+            ->first();
         $limit = $viewpoint->value ?? 50;
-
-        $offet = 0;
-        if ($page != 0) {
-            $offet = ($page - 1) * $limit;
-        }
+        $offset = ($page != 0) ? ($page - 1) * $limit : 0;
         $count = $data->count();
 
-        $data->limit($limit);
-        $data->offset($offet);
-        $asset_data = $data->get();
+        $asset_data = $data->limit($limit)
+            ->offset($offset)
+            ->get();
 
         $total_pages = ceil($count / $limit);
 
-        // return response()->json($count);
+        // Response
         $arr = new arr();
         $arr->page = $page;
         $arr->total_page = $total_pages;
         $arr->total_record = $count;
         $arr->data = $asset_data;
-
 
         if ($count > 0) {
             return response()->json($arr)
@@ -262,9 +281,9 @@ class ApiHandlerController extends Controller
         }
     }
 
-    public function search_list_movement_more(request $request)
-    {
 
+    public function search_list_movement_more(Request $request)
+    {
         $fa = $request->fa ?? "";
         $invoice = $request->invoice ?? "";
         $assets = $request->asset ?? "";
@@ -277,10 +296,36 @@ class ApiHandlerController extends Controller
         $id = $request->id ?? "NA";
         $page = $request->page ?? 1;
 
+        // Base fields to always return
+        $selectFields = [
+            'assets_id',
+            'reference',
+            'assets1',
+            'assets2',
+            'item',
+            'transaction_date',
+            'initial_condition',
+            'specification',
+            'holder_name',
+            'department',
+            'company',
+            'status_recieved',
+            'old_code',
+            'status',
+            'deleted',
+            'created_at'
+        ];
 
-        $data =  movement::orderBy('transaction_date', 'desc');
+        // Add dynamic $type field if needed
+        if ($type != "NA" && !in_array($type, $selectFields)) {
+            $selectFields[] = $type;
+        }
 
+        // Build query
+        $data = movement::select($selectFields)
+            ->orderBy('transaction_date', 'desc');
 
+        // Filters
         if ($id != "NA") {
             $data->where("assets_id", 'LIKE', "%" . $id . "%");
         }
@@ -297,12 +342,10 @@ class ApiHandlerController extends Controller
             $data->where("description", 'LIKE', "%" . $description . "%");
         }
 
-        // Check if start and end are provided and not "NA"
-
+        // Date filters
         if ($start != "NA" && $end != "NA") {
             $startDate = Carbon::parse($start)->startOfDay();
             $endDate = Carbon::parse($end)->endOfDay();
-
             $data->whereBetween('transaction_date', [$startDate, $endDate]);
         } elseif ($start != "NA") {
             $startDate = Carbon::parse($start)->startOfDay();
@@ -312,48 +355,46 @@ class ApiHandlerController extends Controller
             $data->where('transaction_date', '<=', $endDate);
         }
 
+        // Status filter
         if ($state != "NA") {
-            if ($state == "All") {
-            } elseif ($state == 0) {
+            if ($state == 0) {
                 $data->where("status", 0);
             } elseif ($state == 1) {
                 $data->where("status", 1);
             }
         }
 
+        // Dynamic $type filter
         if ($type != "NA" && $value != "NA") {
             $data->where($type, 'LIKE', '%' . $value . '%');
         }
 
-        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
+        // Pagination
+        $viewpoint = User_property::where('user_id', Auth::user()->id)
+            ->where('type', 'viewpoint')
+            ->first();
         $limit = $viewpoint->value ?? 50;
+        $offset = ($page != 0) ? ($page - 1) * $limit : 0;
 
-        $offet = 0;
-        if ($page != 0) {
-            $offet = ($page - 1) * $limit;
-        }
         $count = $data->count();
 
-        $data->limit($limit);
-        $data->offset($offet);
-
+        // Filter deleted only for admin
         if (Auth::user()->role == 'admin') {
             $data->where('deleted', 0);
         }
 
-
-
-        $asset_data = $data->get();
+        $asset_data = $data->limit($limit)
+            ->offset($offset)
+            ->get();
 
         $total_pages = ceil($count / $limit);
 
-        // return response()->json($count);
+        // Response
         $arr = new arr();
         $arr->page = $page;
         $arr->total_page = $total_pages;
         $arr->total_record = $count;
         $arr->data = $asset_data;
-
 
         if ($count > 0) {
             return response()->json($arr)
@@ -363,6 +404,7 @@ class ApiHandlerController extends Controller
             return response()->json([]);
         }
     }
+
 
     public function seach_changeLog(Request $request)
     {
@@ -582,19 +624,8 @@ class ApiHandlerController extends Controller
     }
 
 
-
-
-
-
-
-
-
-
-
-
-    public function search_list_asset_new_more(request $request)
+    public function search_list_asset_new_more(Request $request)
     {
-
         $fa = $request->fa ?? "";
         $invoice = $request->invoice ?? "";
         $assets = $request->asset ?? "";
@@ -607,11 +638,38 @@ class ApiHandlerController extends Controller
         $id = $request->id ?? "NA";
         $page = $request->page ?? 1;
 
+        // Base fields to always return
+        $selectFields = [
+            'assets_id',
+            'reference',
+            'assets1',
+            'assets2',
+            'item',
+            'transaction_date',
+            'initial_condition',
+            'specification',
+            'holder_name',
+            'department',
+            'company',
+            'status_recieved',
+            'old_code',
+            'status',
+            'deleted',
+            'created_at'
+        ];
 
-        $data =  New_assets::orderBy('transaction_date', 'desc')
-            ->orderBy('assets1', 'desc')->where('deleted', '<>', 1);
+        // Add dynamic $type field if needed
+        if ($type != "NA" && !in_array($type, $selectFields)) {
+            $selectFields[] = $type;
+        }
 
+        // Build query
+        $data = New_assets::select($selectFields)
+            ->orderBy('transaction_date', 'desc')
+            ->orderBy('assets1', 'desc')
+            ->where('deleted', '<>', 1);
 
+        // Filters
         if ($id != "NA") {
             $data->where("assets_id", 'LIKE', "%" . $id . "%");
         }
@@ -628,12 +686,10 @@ class ApiHandlerController extends Controller
             $data->where("description", 'LIKE', "%" . $description . "%");
         }
 
-        // Check if start and end are provided and not "NA"
-
+        // Date filters
         if ($start != "NA" && $end != "NA") {
             $startDate = Carbon::parse($start)->startOfDay();
             $endDate = Carbon::parse($end)->endOfDay();
-
             $data->whereBetween('transaction_date', [$startDate, $endDate]);
         } elseif ($start != "NA") {
             $startDate = Carbon::parse($start)->startOfDay();
@@ -643,46 +699,45 @@ class ApiHandlerController extends Controller
             $data->where('transaction_date', '<=', $endDate);
         }
 
-
+        // Status filter
         if ($state != "NA") {
-            if ($state == "All") {
-            } elseif ($state == 0) {
+            if ($state == 0) {
                 $data->where("status", 0);
             } elseif ($state == 1) {
                 $data->where("status", 1);
             }
         }
 
+        // Dynamic $type filter
         if ($type != "NA" && $value != "NA") {
             $data->where($type, 'LIKE', '%' . $value . '%');
         }
 
-
-        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
+        // Pagination
+        $viewpoint = User_property::where('user_id', Auth::user()->id)
+            ->where('type', 'viewpoint')
+            ->first();
         $limit = $viewpoint->value ?? 50;
-
-        $offet = 0;
-        if ($page != 0) {
-            $offet = ($page - 1) * $limit;
-        }
+        $offset = ($page != 0) ? ($page - 1) * $limit : 0;
         $count = $data->count();
 
-        $data->limit($limit);
-        $data->offset($offet);
+        // Filter deleted only for admin
         if (Auth::user()->role == 'admin') {
             $data->where('deleted', 0);
         }
-        $asset_data = $data->get();
+
+        $asset_data = $data->limit($limit)
+            ->offset($offset)
+            ->get();
 
         $total_pages = ceil($count / $limit);
 
-        // return response()->json($count);
+        // Response
         $arr = new arr();
         $arr->page = $page;
         $arr->total_page = $total_pages;
         $arr->total_record = $count;
         $arr->data = $asset_data;
-
 
         if ($count > 0) {
             return response()->json($arr)
@@ -692,6 +747,7 @@ class ApiHandlerController extends Controller
             return response()->json([]);
         }
     }
+
 
 
     public function updateToggle(Request $request)
@@ -717,14 +773,14 @@ class ApiHandlerController extends Controller
         return response()->json($value); // returns 0 or 1
     }
     public function children($id)
-{
-    $unit = Unit::findOrFail($id);
+    {
+        $unit = Unit::findOrFail($id);
 
-    // get immediate children (id, name, type)
-    $children = $unit->children()->select('id','name','type')->get();
+        // get immediate children (id, name, type)
+        $children = $unit->children()->select('id', 'name', 'type')->get();
 
-    return response()->json($children);
-}
+        return response()->json($children);
+    }
 }
 
 

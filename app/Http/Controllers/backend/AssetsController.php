@@ -51,36 +51,49 @@ class AssetsController extends Controller
     }
     public function list_transaction($page)
     {
-        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
+        $viewpoint = User_property::where('user_id', Auth::user()->id)
+            ->where('type', 'viewpoint')
+            ->first();
         $limit = $viewpoint->value ?? 50;
-
-
 
         $count_post = movement::count();
         $total_page = ceil($count_post / $limit);
-        $offset = 0;
-        if ($page != 0) {
-            $offset = ($page - 1) * $limit;
-        }
+        $offset = ($page != 0) ? ($page - 1) * $limit : 0;
 
-        $sql =  movement::orderBy('assets_id', 'desc');
+        $sql = movement::select([
+            'assets_id',
+            'reference',
+            'assets1',
+            'assets2',
+            'item',
+            'transaction_date',
+            'initial_condition',
+            'specification',
+            'holder_name',
+            'department',
+            'company',
+            'status_recieved',
+            'old_code',
+            'status',
+            'deleted',
+            'created_at'
+        ])
+            ->orderBy('assets_id', 'desc');
 
         if (Auth::user()->role == 'admin') {
             $sql->where('deleted', 0);
         }
 
-        $sql->limit($limit);
-        $sql->offset($offset);
-
-        $asset = $sql->get();
+        $asset = $sql->limit($limit)
+            ->offset($offset)
+            ->get();
 
         return view('backend.transaction', [
             'asset' => $asset,
             'total_page' => $total_page,
             'page' => $page,
             'total_assets' => $count_post,
-            'total_page' => $total_page,
-            'limit' =>  $limit
+            'limit' => $limit
         ]);
     }
 
@@ -88,9 +101,10 @@ class AssetsController extends Controller
 
     public function list_assets($page)
     {
-        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
+        $viewpoint = User_property::where('user_id', Auth::user()->id)
+            ->where('type', 'viewpoint')
+            ->first();
         $limit = $viewpoint->value ?? 50;
-
 
         $count_post = StoredAssets::count();
         $total_page = ceil($count_post / $limit);
@@ -99,11 +113,28 @@ class AssetsController extends Controller
             $offset = ($page - 1) * $limit;
         }
 
-        $asset =  StoredAssets::orderBy('assets_id', 'desc')
+        $asset = StoredAssets::select([
+            'assets_id',
+            'reference',
+            'assets1',
+            'assets2',
+            'item',
+            'transaction_date',
+            'initial_condition',
+            'specification',
+            'holder_name',
+            'department',
+            'company',
+            'status_recieved',
+            'old_code',
+            'status',
+            'deleted',
+            'created_at'
+        ])
+            ->where("status", 1)
+            ->orderBy('assets_id', 'desc')
             ->limit($limit)
             ->offset($offset)
-            ->where("status", 1)
-
             ->get();
 
         return view('backend.assets_list', [
@@ -111,11 +142,9 @@ class AssetsController extends Controller
             'total_page' => $total_page,
             'page' => $page,
             'total_assets' => $count_post,
-            'total_page' => $total_page,
             'limit' =>  $limit
         ]);
     }
-
 
 
     // Select Raw
@@ -1131,64 +1160,6 @@ class AssetsController extends Controller
 
 
 
-    // public function view_asset($id)
-    // {
-    //     if (Auth::user()->permission->assets_read == 1) {
-    //         $asset = StoredAssets::with(['images', 'files'])
-    //             ->where('assets_id', $id)
-    //             ->Orderby('varaint', 'asc')
-    //             ->get();
-    //         $count = count($asset);
-    //         $count -= 1;
-    //         $current_varaint = $count;
-    //         $qr_code = "No QR Code Generated";
-
-
-
-    //         if ($asset[$count]->assets1 . $asset[$count]->assets2 != "") {
-    //             $qr_code = QrCode::size(300)->format('svg')->generate($asset[$count]->assets1 . $asset[$count]->assets2);
-    //         }
-    //         // Save the SVG to temporary storage
-    //         $svgContent = $qr_code;
-    //         if ($svgContent) {
-    //             Storage::disk('public')->put('qrcodes/my-qrcode.svg', $svgContent);
-    //         }
-
-    //         $update_able = 0;
-
-    //         $department = QuickData::where('type', 'department')->select('content')->orderby('id', 'desc')->get();
-    //         $company = QuickData::where('type', 'company')->select('content')->orderby('id', 'desc')->get();
-    //         // return $count;
-    //         if (Auth::user()->role == "admin") {
-
-    //             // return $asset;
-    //             return view('backend.update-assets-by-variant', [
-    //                 'asset' => $asset,
-    //                 'total_varaint' => $count,
-    //                 'current_varaint' => $current_varaint,
-    //                 'department' => $department,
-    //                 'company' => $company,
-    //                 'qr_code' => $qr_code,
-    //                 'update_able' =>  $update_able
-
-    //             ]);
-    //         } elseif (Auth::user()->role == "staff") {
-
-    //             return view('backend.update-assets', [
-    //                 'asset' => $asset[$count],
-    //                 'department' => $department,
-    //                 'company' => $company,
-    //                 'qr_code' => $qr_code,
-    //                 'update_able' =>  $update_able
-
-    //             ]);
-    //         } else {
-    //             return view('backend.dashboard')->with('fail', "You do not have permission on this function.");
-    //         }
-    //     } else {
-    //         return redirect('/')->with('fail', 'You do not have permission Assets Update.');
-    //     }
-    // }
 
 
 
@@ -1556,41 +1527,56 @@ class AssetsController extends Controller
     // No Deleted Allow  and Only 1 Record of new Register
     public function assets_new($page)
     {
-        // return Auth::user()->Permission;
+        // Check permission
         if (Auth::user()->permission->assets_read != 1) {
             return redirect()->back()->with('error', 'You do not has permission');
         }
 
-
-        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
+        $viewpoint = User_property::where('user_id', Auth::user()->id)
+            ->where('type', 'viewpoint')
+            ->first();
         $limit = $viewpoint->value ?? 50;
-
-
 
         $count_post = New_assets::count();
         $total_page = ceil($count_post / $limit);
-        $offset = 0;
-        if ($page != 0) {
-            $offset = ($page - 1) * $limit;
-        }
+        $offset = ($page != 0) ? ($page - 1) * $limit : 0;
 
-        $sql =  New_assets::orderBy('assets1', 'desc')->where('deleted', '<>', 1)
+        $sql = New_assets::select([
+            'assets_id',
+            'reference',
+            'assets1',
+            'assets2',
+            'item',
+            'transaction_date',
+            'initial_condition',
+            'specification',
+            'holder_name',
+            'department',
+            'company',
+            'status_recieved',
+            'old_code',
+            'status',
+            'deleted',
+            'created_at'
+        ])
+            ->orderBy('assets1', 'desc')
+            ->where('deleted', '<>', 1)
             ->limit($limit)
             ->offset($offset);
 
-        // Filter Deleted data  if not super admin
+        // Filter Deleted data if not super admin
         if (Auth::user()->role == 'admin') {
             $sql->where('deleted', 0);
         }
 
         $asset = $sql->get();
+
         return view('backend.assets_new_list', [
             'asset' => $asset,
             'total_page' => $total_page,
             'page' => $page,
             'total_assets' => $count_post,
-            'total_page' => $total_page,
-            'limit' =>  $limit
+            'limit' => $limit
         ]);
     }
 }
