@@ -479,6 +479,8 @@ class Data_setupController extends Controller
             ->limit(20)
             ->get(['id', 'fname', 'lname', 'email']);
 
+
+
         return response()->json($users);
     }
     public function searchDatalist(Request $request)
@@ -517,5 +519,50 @@ class Data_setupController extends Controller
         }
 
         return response()->json($options);
+    }
+
+
+
+    
+     public function code_mamnual_setup()
+    {
+        $Asset_code = Asset_code::all();
+        return view('backend.oganization_code', ['Asset_code' => $Asset_code]);
+    }
+    public function code_mamnual_new_submit(Request $request)
+    {
+
+        $assetCode = new Asset_code();
+        $assetCode->code = $request->code;
+        $assetCode->name = $request->name;
+        $assetCode->save();
+
+        return redirect()->back()->with('success', 'New asset code added successfully.');
+    }
+    public function code_mamnual_update_submit(Request $request)
+    {
+        // return $request->all();
+
+        $assetCode = Asset_code::where('id', ($request->id))->first();
+        if ($assetCode) {
+            $assetCode->name = $request->name;
+            $assetCode->code = $request->code;
+            $assetCode->save();
+
+            return redirect()->back()->with('success', 'Asset code updated successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Asset code not found.');
+        }
+    }
+    public function code_mamnual_delete_submit(Request $request)
+    {
+
+        $assetCode = Asset_code::where('id', ($request->id))->first();
+        if ($assetCode) {
+            $assetCode->delete();
+            return redirect()->back()->with('success', 'Asset code deleted successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Asset code not found.');
+        }
     }
 }

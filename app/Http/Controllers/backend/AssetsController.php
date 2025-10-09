@@ -76,7 +76,8 @@ class AssetsController extends Controller
             'old_code',
             'status',
             'deleted',
-            'created_at'
+            'created_at',
+            'variant'
         ])
             ->orderBy('assets_id', 'desc');
 
@@ -129,7 +130,8 @@ class AssetsController extends Controller
             'old_code',
             'status',
             'deleted',
-            'created_at'
+            'created_at',
+            'variant'
         ])
             ->where("status", 1)
             ->orderBy('assets_id', 'desc')
@@ -1557,7 +1559,8 @@ class AssetsController extends Controller
             'old_code',
             'status',
             'deleted',
-            'created_at'
+            'created_at',
+            'variant'
         ])
             ->orderBy('assets1', 'desc')
             ->where('deleted', '<>', 1)

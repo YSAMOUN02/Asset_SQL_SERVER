@@ -192,7 +192,8 @@ class ApiHandlerController extends Controller
             'old_code',
             'status',
             'deleted',
-            'created_at'
+            'created_at',
+            'variant'
         ];
 
         // Add dynamic $type field if needed
@@ -313,7 +314,8 @@ class ApiHandlerController extends Controller
             'old_code',
             'status',
             'deleted',
-            'created_at'
+            'created_at',
+            'variant'
         ];
 
         // Add dynamic $type field if needed
@@ -655,7 +657,8 @@ class ApiHandlerController extends Controller
             'old_code',
             'status',
             'deleted',
-            'created_at'
+            'created_at',
+            'variant'
         ];
 
         // Add dynamic $type field if needed

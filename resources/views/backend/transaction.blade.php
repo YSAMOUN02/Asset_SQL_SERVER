@@ -302,7 +302,7 @@
                             </select>
                             <span class="font-bold flex justify-center items-center dark:text-slate-50">Page
                                 :{{ $total_page }} Pages
-                                &ensp;Total Transaction: {{ $total_assets }} Records</span>
+                                &ensp;Total Transaction: {{ $total_assets }} Records </span>
                         </div>
 
                     </div>
@@ -636,5 +636,8 @@
         dateFormat: "d-M-Y",
         defaultDate: null
     });
+
+  
+
 </script>
 @endsection

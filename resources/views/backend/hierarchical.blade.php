@@ -71,7 +71,7 @@
     <div>
         <div class="overflow-auto mb-4  max-h-[35vh] min-h-[35vh]">
             <div class="flex justify-between items-center mb-2 ">
-                <span class="text-xl font-semibold text-gray-900 dark:text-white">Search User</span>
+                <span class="text-xl font-semibold text-gray-900 dark:text-white">Entire Directory</span>
                 <div class="flex space-x-2">
                     <select id="searchType" class="border rounded px-2 py-1 dark:bg-gray-700 dark:text-white bg-white">
 
@@ -93,29 +93,29 @@
                 </div>
             </div>
 
-                <table id="searchUsersTable" class="min-w-full border-collapse table-auto">
-                    <thead class="bg-gray-200 dark:bg-gray-800">
-                        <tr>
-                            <th class="px-4 py-2 text-left text-gray-900 dark:text-white">#</th>
-                            <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Name</th>
-                            <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Email</th>
-                            <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Current Location</th>
-                            <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="searchUsersBody"
-                        class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700 text-nowrap">
-                        <tr>
-                            <td colspan="5" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-center">No users
-                                found</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <table id="searchUsersTable" class="min-w-full border-collapse table-auto">
+                <thead class="bg-gray-200 dark:bg-gray-800">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-gray-900 dark:text-white">#</th>
+                        <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Name</th>
+                        <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Email</th>
+                        <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Current Location</th>
+                        <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="searchUsersBody"
+                    class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700 text-nowrap">
+                    <tr>
+                        <td colspan="5" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-center">No users
+                            found</td>
+                    </tr>
+                </tbody>
+            </table>
 
         </div>
         <div class="overflow-auto min-h-[45vh] max-h-[45vh]">
             <div class="flex justify-between items-center ">
-                <span class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Users</span>
+                <span class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Selected Directory</span>
 
 
                 <div>
@@ -335,17 +335,37 @@
         const type = element.dataset.type;
         const id = element.dataset.id;
 
-        // Collapse if already open and not forced reload
+        // ===== Handle collapse first (before highlight) =====
         if (!reload && !childrenContainer.classList.contains('hidden')) {
             childrenContainer.classList.add('hidden');
             childrenContainer.innerHTML = '';
             document.getElementById('users').innerHTML =
                 `<tr><td colspan="5" class="text-center text-gray-500 dark:text-gray-400 px-4 py-2">No users selected</td></tr>`;
             updateBreadcrumb([]);
+            element.classList.remove('active');
             return;
         }
+
+        // ===== Highlight / focus selected node + its parents =====
+        document.querySelectorAll('.node-row.active').forEach(node => node.classList.remove('active'));
+
+        let currentNode = element;
+        while (currentNode) {
+            if (currentNode.classList.contains('node-row')) {
+                currentNode.classList.add('active');
+            }
+            currentNode = currentNode.closest('.hierarchy-node')
+                ?.parentElement?.closest('.hierarchy-node')
+                ?.querySelector('.node-row');
+        }
+
+        element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+
         try {
-            // Fetch children with loader
+            // ===== Fetch children =====
             const res = await showLoader(async () => {
                 const response = await fetch(`/hierarchy/${type}/${id}/children`, {
                     method: "GET",
@@ -361,154 +381,162 @@
             const children = res;
             childrenContainer.innerHTML = '';
 
-            let canDeleteParent = false; // check if parent can be deleted
-            if (Array.isArray(children) && children.length > 0) {
-                let hasValidChild = false;
+            // 🟡 If no children, auto-collapse and stop here
+            if (!Array.isArray(children) || children.length === 0) {
+                childrenContainer.classList.add('hidden');
+                element.classList.remove('active');
+                updateBreadcrumb(getNodePath(element));
+                // Still fetch users, but no subnodes
+                const users = await fetchUsersForNode(type, id);
+                renderUsers(users);
+                return;
+            }
 
-                children.forEach(child => {
-                    if (child.code && child.name) {
-                        hasValidChild = true;
 
-                        const childWrap = document.createElement('div');
-                        childWrap.className = 'hierarchy-node';
+            // ===== Build child nodes =====
+            let hasValidChild = false;
 
-                        const row = document.createElement('div');
-                        row.className =
-                            'node-row flex items-center justify-between bg-white dark:bg-gray-700 shadow rounded p-2 ml-4 cursor-pointer';
-                        row.dataset.id = child.id;
-                        row.dataset.type = child.type;
-                        row.dataset.name = child.name || '';
-                        row.dataset.code = child.code || '';
 
-                        enableDrop(row);
+            children.forEach(child => {
+                if (child.code && child.name) {
+                    hasValidChild = true;
+                    const childWrap = document.createElement('div');
+                    childWrap.className = 'hierarchy-node';
 
-                        // Determine if child can be deleted (no child & no users)
-                        const canDelete = child.total_users === 0 && !child.hasChildren;
+                    const row = document.createElement('div');
+                    row.className =
+                        'node-row flex items-center justify-between bg-white dark:bg-gray-700 shadow rounded p-2 ml-4 cursor-pointer';
+                    row.dataset.id = child.id;
+                    row.dataset.type = child.type;
+                    row.dataset.name = child.name || '';
+                    row.dataset.code = child.code || '';
 
-                        row.innerHTML = `
+                    enableDrop(row);
+
+                    const canDelete = child.total_users === 0 && !child.hasChildren;
+
+                    row.innerHTML = `
                     <div class="min-w-0">
                         <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
                             ${child.code} - ${child.name}
                         </p>
                     </div>
-                    ${
-                        canDelete
-                            ? `
-                                <div class="flex space-x-2 rtl:space-x-reverse">
-                                    <button class="text-green-600 hover:text-green-800 text-sm font-medium"
-                                        onclick="event.stopPropagation(); openAddModal('${child.type}','${child.id}','${child.name}','${child.code}')">
-                                        + Add
-                                    </button>
-                                    <button class="text-red-600 hover:text-red-800 text-sm font-medium"
-                                        onclick="event.stopPropagation(); openDeleteModal('${child.type}','${child.id}','${child.name}', this)">
-                                        Delete
-                                    </button>
-                            `
-                            : `<button class="text-green-600 hover:text-green-800 text-sm font-medium ml-3"
-                                    onclick="event.stopPropagation(); openAddModal('${child.type}','${child.id}','${child.name}','${child.code}')">
-                                    + Add
+                    <div class="flex space-x-2 rtl:space-x-reverse">
+                        <button class="text-green-600 hover:text-green-800 text-sm font-medium"
+                            onclick="event.stopPropagation(); openAddModal('${child.type}','${child.id}','${child.name}','${child.code}')">
+                            + Add
+                        </button>
+                        ${canDelete
+                            ? `<button class="text-red-600 hover:text-red-800 text-sm font-medium"
+                                  onclick="event.stopPropagation(); openDeleteModal('${child.type}','${child.id}','${child.name}', this)">
+                                  Delete
                                </button>`
-                    }
-                `;
+                            : ''}
+                    </div>`;
 
-                        // Single click to toggle children
-                        row.addEventListener('click', function() {
-                            toggleChildren(this);
-                        });
+                    row.addEventListener('click', function() {
+                        toggleChildren(this);
+                    });
 
-                        // Double-click to update
-                        row.addEventListener('dblclick', function(e) {
-                            if (!e.target.closest('button')) {
-                                e.stopPropagation();
-                                openUpdateModal(
-                                    row.dataset.type,
-                                    row.dataset.id,
-                                    row.dataset.name,
-                                    row.dataset.code
-                                );
-                            }
-                        });
+                    row.addEventListener('dblclick', function(e) {
+                        if (!e.target.closest('button')) {
+                            e.stopPropagation();
+                            openUpdateModal(row.dataset.type, row.dataset.id, row.dataset.name, row
+                                .dataset.code);
+                        }
+                    });
 
-                        const childChildrenContainer = document.createElement('div');
-                        childChildrenContainer.className = 'children-container ml-4 mt-2 space-y-2 hidden';
+                    const childChildrenContainer = document.createElement('div');
+                    childChildrenContainer.className = 'children-container ml-4 mt-2 space-y-2 hidden';
 
-                        childWrap.appendChild(row);
-                        childWrap.appendChild(childChildrenContainer);
-                        childrenContainer.appendChild(childWrap);
-                    }
-                });
-
-                if (!hasValidChild) {
-                    childrenContainer.innerHTML =
-                        `<div class="flex items-center justify-between bg-white dark:bg-gray-700 shadow rounded p-2 ml-4 cursor-pointer text-gray-500 italic">No data</div>`;
+                    childWrap.appendChild(row);
+                    childWrap.appendChild(childChildrenContainer);
+                    childrenContainer.appendChild(childWrap);
                 }
-            }
-
-            childrenContainer.classList.remove('hidden');
-            updateBreadcrumb(getNodePath(element));
-
-            // Fetch users with loader
-            const userRes = await showLoader(async () => {
-                const response = await fetch(`/hierarchy/${type}/${id}/users`, {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Cache-Control": "no-cache",
-                        Pragma: "no-cache",
-                    },
-                });
-                return await response.json();
             });
 
-            const users = userRes;
-            const usersTbody = document.getElementById('users');
-            let userHtml = '';
-            users_for_search = users;
-
-            if (Array.isArray(users) && users.length) {
-                users.forEach((u, idx) => {
-                    userHtml += `
-                <tr draggable="true" data-user-id="${u.id}" class="hover:bg-gray-50 dark:hover:bg-gray-700 text-sm">
-                    <td class="px-1 py-0 ">${idx + 1}</td>
-                    <td class="px-1 py-0 text-gray-900 dark:text-white">${escapeHtml(u.name)}</td>
-                    <td class="px-1 py-0 text-gray-900 dark:text-white">${escapeHtml(u.email || '-')}</td>
-                    <td class="px-1 py-0 text-gray-900 dark:text-white">${escapeHtml(u.location_path || '-')}</td>
-                    <td class="px-1 py-0 sticky right-0 bg-white dark:bg-gray-800">
-                        <a href="/admin/user/update/id=${u.id}" target="_blank" rel="noopener noreferrer">
-                            <button class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-1 py-1 rounded shadow">
-                                <i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-                            </button>
-                        </a>
-                        <button class="bg-red-500 hover:bg-red-600 text-white text-sm px-1 py-1 rounded shadow"
-                            onclick="openDeleteUserModal(${u.id}, '${escapeHtml(u.name)}')">
-                            <i class="fa-solid fa-trash" style="color: #ffffff;"></i>
-                        </button>
-                    </td>
-                </tr>`;
-                });
+            if (!hasValidChild) {
+                // Auto-collapse if all invalid
+                childrenContainer.classList.add('hidden');
+                element.classList.remove('active');
             } else {
-                userHtml =
-                    `<tr><td colspan="5" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-center">No users found</td></tr>`;
+                childrenContainer.classList.remove('hidden');
             }
 
-            usersTbody.innerHTML = userHtml;
+            updateBreadcrumb(getNodePath(element));
+
+            // ===== Fetch and render users =====
+            const users = await fetchUsersForNode(type, id);
+            renderUsers(users);
 
         } catch (error) {
             alert(error);
         }
-
     }
+
+    /* ===== Helpers for users ===== */
+    async function fetchUsersForNode(type, id) {
+        const response = await fetch(`/hierarchy/${type}/${id}/users`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Cache-Control": "no-cache",
+                Pragma: "no-cache",
+            },
+        });
+        return await response.json();
+    }
+
+
+    function renderUsers(users) {
+        const usersTbody = document.getElementById('users');
+        let html = '';
+        users_for_search = users;
+
+        if (Array.isArray(users) && users.length) {
+            users.forEach((u, idx) => {
+                html += `
+            <tr draggable="true" data-user-id="${u.id}" class="hover:bg-gray-50 dark:hover:bg-gray-700 text-sm">
+                <td class="px-1 py-0">${idx + 1}</td>
+                <td class="px-1 py-0 text-gray-900 dark:text-white">${escapeHtml(u.name)}</td>
+                <td class="px-1 py-0 text-gray-900 dark:text-white">${escapeHtml(u.email || '-')}</td>
+                <td class="px-1 py-0 text-gray-900 dark:text-white">${escapeHtml(u.location_path || '-')}</td>
+                <td class="px-1 py-0 sticky right-0 bg-white dark:bg-gray-800">
+                    <a href="/admin/user/update/id=${u.id}" target="_blank" rel="noopener noreferrer">
+                        <button class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-1 py-1 rounded shadow">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                    </a>
+                    <button class="bg-red-500 hover:bg-red-600 text-white text-sm px-1 py-1 rounded shadow"
+                        onclick="openDeleteUserModal(${u.id}, '${escapeHtml(u.name)}')">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
+            </tr>`;
+            });
+        } else {
+            html =
+                `<tr><td colspan="5" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-center">No users found</td></tr>`;
+        }
+
+        usersTbody.innerHTML = html;
+    }
+
 
 
     /* ===== Drag & Drop ===== */
     function enableDrop(row) {
+        // Highlight when dragging over
         row.addEventListener('dragover', (e) => {
             e.preventDefault();
             row.classList.add('ring-2', 'ring-blue-400');
         });
+
         row.addEventListener('dragleave', () => {
             row.classList.remove('ring-2', 'ring-blue-400');
         });
+
+        // Handle drop
         row.addEventListener('drop', async (e) => {
             e.preventDefault();
             row.classList.remove('ring-2', 'ring-blue-400');
@@ -534,59 +562,34 @@
                 });
 
                 const data = await res.json();
+
                 if (data.success) {
                     showSuccessToast('User moved successfully');
 
-                    // Remove the row from the old location
+                    // ✅ Remove user row from current table only
                     const draggedRow = document.querySelector(`tr[data-user-id="${userId}"]`);
                     if (draggedRow) draggedRow.remove();
 
-                    // Fetch new users for target node without reloading
-                    const usersRes = await fetch(`/hierarchy/${targetType}/${targetId}/users`);
-                    const users = await usersRes.json();
+                    // ✅ If table now empty, show placeholder
                     const usersTbody = document.getElementById('users');
-                    usersTbody.innerHTML = '';
-
-                    if (Array.isArray(users) && users.length) {
-                        users.forEach((u, idx) => {
-
-                            const tr = document.createElement('tr');
-                            tr.setAttribute('draggable', 'true');
-                            tr.dataset.userId = u.id;
-                            tr.className = 'hover:bg-gray-50 dark:hover:bg-gray-700';
-                            tr.innerHTML = `
-                        <td class="px-4 py-2">${idx + 1}</td>
-                        <td class="px-4 py-2 text-gray-900 dark:text-white">${escapeHtml(u.name)}</td>
-                        <td class="px-4 py-2 text-gray-900 dark:text-white">${escapeHtml(u.email || '-')}</td>
-                        <td class="px-4 py-2 text-gray-900 dark:text-white">${escapeHtml(u.location_path || '-')}</td>
-
-                        <td class="px-4 py-2 sticky right-0 bg-white dark:bg-gray-800">
-                            <a href="/admin/user/update/id=${u.id}">
-                                <button class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded shadow">Edit</button>
-                            </a>
-                             <button class="bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1 rounded shadow"
-                                onclick="openDeleteUserModal(${u.id}, '${escapeHtml(u.name)}')">
-                                Delete
-                            </button>
-                        </td>
-                    `;
-                            usersTbody.appendChild(tr);
-                        });
-                    } else {
-                        usersTbody.innerHTML =
-                            `<tr><td colspan="5" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-center">No users found</td></tr>`;
+                    const hasUsers = usersTbody.querySelector('tr');
+                    if (!hasUsers) {
+                        usersTbody.innerHTML = `
+                        <tr>
+                            <td colspan="5" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-center">
+                                No users found
+                            </td>
+                        </tr>`;
                     }
 
                 } else {
                     showErrorToast(data.message || 'Move failed');
                 }
-
             } catch (err) {
                 console.error(err);
                 showErrorToast('Move failed');
             }
         });
-
     }
 
     document.addEventListener('dragstart', function(e) {
@@ -1027,8 +1030,5 @@
     // Trigger search on input
     document.getElementById('searchInput').addEventListener('input', searchUsers);
     document.getElementById('searchType').addEventListener('change', searchUsers);
-
-
-  
 </script>
 @endsection

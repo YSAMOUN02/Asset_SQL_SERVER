@@ -115,6 +115,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/code/update/submit', [Data_setupController::class, 'code_update_submit']);
     Route::post('/code/delete/submit', [Data_setupController::class, 'code_delete_submit']);
 
+    Route::get('/code_mamnual/setup', [Data_setupController::class, 'code_mamnual_setup']);
 
 
 
