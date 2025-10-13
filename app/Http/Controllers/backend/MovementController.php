@@ -46,12 +46,22 @@ class MovementController extends Controller
     }
     public function movement_add_submit(Request $request)
     {
+
+        // return $request;
         $request->validate([
             'last_assets_id' => 'required|integer',
             'assets2'        => 'nullable|string',
             'department'     => 'required|string',
             'company'        => 'required|string',
         ]);
+
+        if (!empty($request->input('reference_id'))) {
+            $refernece = Reference::where('id', $request->reference_id)->first();
+            if ($refernece) {
+                $refernece->no = $refernece->no + 1;
+                $refernece->save();
+            }
+        }
 
         $lastAsset = movement::where('assets_id', $request->last_assets_id)
             ->where('status', 1)

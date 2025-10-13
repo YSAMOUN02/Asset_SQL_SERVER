@@ -21,7 +21,7 @@
                         Movement <span class="text-rose-500">*</span></label>
 
                     <input type="text" list="references_list" id="ReferenceInput" onchange="setReferenceId(this)"
-                        oninput="validateInputField(this,30)"
+                        oninput="validateInputField(this,30)" onchange="setReferenceId(this)"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         name="reference" required autocomplete="off" value="{{ old('reference') }}" />
 
@@ -86,7 +86,7 @@
                             class="text-white  bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-2 py-0 ext-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"><i
                                 class="fa-regular fa-trash-can"></i></button></label>
                     <input type="text" id="asset_holder" name="asset_holder" list="asset_list" placeholder="INV-90.."
-                        autocomplete="off" 
+                        autocomplete="off"
                         class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
        focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -96,7 +96,6 @@
                 <div>
                     <label for="holder_name">Name</label>
                     <input type="text" id="holder_name" name="holder_name" list="users_list" autocomplete="off"
-
                         class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
        focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -108,7 +107,6 @@
                         Position/Title
                     </label>
                     <input type="text" id="position" name="position"
-
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
         focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
         dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -117,7 +115,6 @@
                     <label for="Location"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
                     <input type="text" id="Location" autocomplete="off"
-
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         name="location" />
                 </div>
@@ -446,5 +443,19 @@
         // Apply validation
         validateInputList('company', validCompanies, 'Company');
         validateInputList('department', validDepartments, 'Department');
+
+        function setReferenceId(input) {
+            const value = input.value;
+            const options = document.getElementById('references_list').options;
+            let hiddenField = document.getElementById('ReferenceId');
+
+            hiddenField.value = ''; // reset first
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].value === value) {
+                    hiddenField.value = options[i].dataset.id;
+                    break;
+                }
+            }
+        }
     </script>
 @endsection

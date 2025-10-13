@@ -185,11 +185,10 @@
         <div class="grid gap-6 mb-6 md:grid-cols-2 mt-5">
             <div>
                 <label for="">Reference<span class="text-rose-500">*</span></label>
-                <input type="text" list="references_list" id="ReferenceInput" onchange="setReferenceId(this)" oninput="validateInputField(this,30)"
+                <input type="text" list="references_list" id="ReferenceInput" onchange="setReferenceId(this)"
+                    oninput="validateInputField(this,30)"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="reference" required autocomplete="off"
-                value="{{ old('reference', $asset->reference ?? '') }}"
-                    />
+                    name="reference" required autocomplete="off" value="{{ old('reference', $asset->reference ?? '') }}" />
 
                 <input type="hidden" id="ReferenceId" name="reference_id" />
 
@@ -263,18 +262,22 @@
 
                 <select required id="Initial_Condition" name="initial_condition" oninput="validateInputField(this,255)"
                     required
-                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="New" @if (($asset->$asset->initial_condition ?? '') == 'New') selected @endif>New</option>
-                    <option value="Good" @if (($asset->$asset->initial_condition ?? '') == 'Good') selected @endif>Good</option>
-                    <option value="Very good" @if (($asset->$asset->initial_condition ?? '') == 'Very good') selected @endif>Very good</option>
-                    <option value="Low" @if (($asset->$asset->initial_condition ?? '') == 'Low') selected @endif>Low</option>
-                    <option value="Second hand" @if (($asset->$asset->initial_condition ?? '') == 'Second hand') selected @endif>Second hand</option>
-                    <option value="Medium" @if (($asset->$asset->initial_condition ?? '') == 'Medium') selected @endif>Medium</option>
-                    <option value="Old" @if (($asset->$asset->initial_condition ?? '') == 'Old') selected @endif>Old</option>
-                    <option value="Very old" @if (($asset->$asset->initial_condition ?? '') == 'Very old') selected @endif>Very old</option>
-                    <option value="Broken" @if (($asset->$asset->initial_condition ?? '') == 'Broken') selected @endif>Broken</option>
-                    <option value=""></option>
+                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
+           focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
+           dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                    <option value="New" @if (($asset->initial_condition ?? '') == 'New') selected @endif>New</option>
+                    <option value="Good" @if (($asset->initial_condition ?? '') == 'Good') selected @endif>Good</option>
+                    <option value="Very good" @if (($asset->initial_condition ?? '') == 'Very good') selected @endif>Very good</option>
+                    <option value="Low" @if (($asset->initial_condition ?? '') == 'Low') selected @endif>Low</option>
+                    <option value="Second hand" @if (($asset->initial_condition ?? '') == 'Second hand') selected @endif>Second hand</option>
+                    <option value="Medium" @if (($asset->initial_condition ?? '') == 'Medium') selected @endif>Medium</option>
+                    <option value="Old" @if (($asset->initial_condition?? '') == 'Old') selected @endif>Old</option>
+                    <option value="Very old" @if (($asset->initial_condition ?? '') == 'Very old') selected @endif>Very old</option>
+                    <option value="Broken" @if (($asset->initial_condition ?? '') == 'Broken') selected @endif>Broken</option>
+
                 </select>
+
 
             </div>
 
@@ -331,7 +334,7 @@
             <div>
                 <label for="asset_holder">Asset Holder ID</label>
                 <input type="text" id="asset_holder" name="asset_holder" list="asset_list" placeholder="INV-90.."
-                    autocomplete="off" value="{{ old('asset_holder', $asset->asset_holder ?? '') }}"
+                    autocomplete="off" value="{{ old('asset_holder', $asset->asset_holder ?? '') }}" oninput="validateInputField(this,30)"
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
        focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -341,7 +344,7 @@
             <div>
                 <label for="holder_name">Name</label>
                 <input type="text" id="holder_name" name="holder_name" list="users_list" autocomplete="off"
-                    value="{{ old('holder_name', $asset->holder_name ?? '') }}"
+                    value="{{ old('holder_name', $asset->holder_name ?? '') }}" oninput="validateInputField(this,80)"
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
        focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -352,7 +355,7 @@
                 <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Position/Title
                 </label>
-                <input type="text" id="position" name="position"
+                <input type="text" id="position" name="position" 
                     value="{{ old('position', $asset->position ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
         focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
