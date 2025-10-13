@@ -10,6 +10,7 @@ use App\Models\Department;
 use App\Models\Division;
 use App\Models\Section;
 use App\Models\Group;
+use App\Models\Mamnual_code;
 use App\Models\User;
 use App\Models\UserUnit;
 use Illuminate\Support\Facades\DB;
@@ -523,46 +524,59 @@ class Data_setupController extends Controller
 
 
 
-    
+
      public function code_mamnual_setup()
     {
-        $Asset_code = Asset_code::all();
-        return view('backend.oganization_code', ['Asset_code' => $Asset_code]);
+        $mamnual_code = Mamnual_code::all();
+
+
+        return view('backend.mamnual-code', [
+            'mamnual_code' => $mamnual_code
+
+
+        ]);
     }
-    public function code_mamnual_new_submit(Request $request)
+    public function code_mamnual_submit(Request $request)
     {
+    // return $request->all();
 
-        $assetCode = new Asset_code();
-        $assetCode->code = $request->code;
-        $assetCode->name = $request->name;
-        $assetCode->save();
 
-        return redirect()->back()->with('success', 'New asset code added successfully.');
+        $Mamnual_code = new Mamnual_code();
+        $Mamnual_code->code = $request->code;
+        $Mamnual_code->no = $request->no;
+        $Mamnual_code->name = $request->name;
+        $Mamnual_code->type = "Assets";
+        $Mamnual_code->start = $request->start;
+        $Mamnual_code->end = $request->end;
+        $Mamnual_code->save();
+
+        return redirect()->back()->with('success', 'New Mamnual Code added successfully.');
     }
     public function code_mamnual_update_submit(Request $request)
     {
-        // return $request->all();
 
-        $assetCode = Asset_code::where('id', ($request->id))->first();
-        if ($assetCode) {
-            $assetCode->name = $request->name;
-            $assetCode->code = $request->code;
-            $assetCode->save();
 
-            return redirect()->back()->with('success', 'Asset code updated successfully.');
-        } else {
-            return redirect()->back()->with('error', 'Asset code not found.');
-        }
+        $Mamnual_code = Mamnual_code::where('id',$request->id)->first();
+
+        $Mamnual_code->code  = $request->code;
+        $Mamnual_code->no    = $request->no;
+        $Mamnual_code->name  = $request->name;
+        $Mamnual_code->start = $request->start;
+        $Mamnual_code->end   = $request->end;
+
+        $Mamnual_code->save();
+
+        return redirect()->back()->with('success', 'Mamnual code updated successfully.');
     }
     public function code_mamnual_delete_submit(Request $request)
     {
 
-        $assetCode = Asset_code::where('id', ($request->id))->first();
+        $assetCode = Mamnual_code::where('id', ($request->id))->first();
         if ($assetCode) {
             $assetCode->delete();
-            return redirect()->back()->with('success', 'Asset code deleted successfully.');
+            return redirect()->back()->with('success', 'Mamnual code deleted successfully.');
         } else {
-            return redirect()->back()->with('error', 'Asset code not found.');
+            return redirect()->back()->with('error', 'Mamnual code not found.');
         }
     }
 }

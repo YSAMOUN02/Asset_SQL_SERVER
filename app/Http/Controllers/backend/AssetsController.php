@@ -15,6 +15,7 @@ use App\Models\Company;
 use App\Models\Department;
 use App\Models\New_assets;
 use App\Models\Asset_code;
+use App\Models\Mamnual_code;
 use App\Models\Reference;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
@@ -213,8 +214,13 @@ class AssetsController extends Controller
         }
 
         if (Auth::user()->permission->assets_write == 1) {
-            if ($invoice != "NA") {
+            $mamnual = [];
+            if ($invoice != "NEW") {
                 $modifiedString = str_replace('-', '/', $invoice);
+            }else{
+                $modifiedString = str_replace('-', '/', $invoice);
+                $mamnual = Mamnual_code::orderby('id','desc')->get();
+
             }
 
 
@@ -240,9 +246,13 @@ class AssetsController extends Controller
             $company = Company::all();
             $departments = Department::all();
             $assets2 = Asset_code::all();
+
+
+
+
             $today = Carbon::today()->toDateString();
 
-            $references = \App\Models\Reference::where('type', 'Assets')
+            $references = Reference::where('type', 'Assets')
                 ->whereDate('start', '<=', $today)
                 ->whereDate('end', '>=', $today)
                 ->select('code', 'no', 'name', 'id')
@@ -256,7 +266,7 @@ class AssetsController extends Controller
                 'departments' => $departments,
                 'assets2' => $assets2,
                 'references' => $references,
-                // 'units' => $units
+                 'mamnual' => $mamnual
             ]);
         } else {
             return redirect('/')->with('fail', 'You do not have permission Assets Write.');

@@ -212,12 +212,12 @@ class UserController extends Controller
         }
 
         // 🔎 Find user
-        $user = User::find($request->id);
+        $user = User::with('Permission')->find($request->id);
         if (!$user) {
             return redirect()->back()->with('fail', 'User not found.');
         }
 
-        // Collect old values for logging
+        // 🔹 Collect old values for logging
         $oldUserValues = $user->only([
             'name',
             'role',
@@ -225,8 +225,8 @@ class UserController extends Controller
             'fname',
             'lname',
             'phone',
-            'company',
-            'department',
+            'id_card',
+            'position',
             'status'
         ]);
 
@@ -249,16 +249,26 @@ class UserController extends Controller
             'quick_delete'
         ]);
 
+        // 🔹 Collect old user unit
+        $userUnit = UserUnit::where('user_id', $user->id)->first();
+        $oldUnitValues = $userUnit ? $userUnit->only([
+            'company_id',
+            'department_id',
+            'division_id',
+            'section_id',
+            'group_id'
+        ]) : [];
+
         // ✅ Update user info
-        $user->name       = $request->login_name;
-        $user->role       = $request->role;
-        $user->email      = $request->email;
-        $user->fname      = $request->fname;
-        $user->lname      = $request->lname;
-        $user->phone      = $request->phone;
-        $user->company    = $request->company;
-        $user->department = $request->department;
-        $user->status     = $request->has('status') ? 1 : 0;
+        $user->role      = $request->role;
+        $user->name      = $request->login_name;
+        $user->email     = $request->email;
+        $user->fname     = $request->fname;
+        $user->lname     = $request->lname;
+        $user->phone     = $request->phone;
+        $user->id_card   = $request->id_card;
+        $user->position  = $request->position;
+        $user->status    = $request->has('status') ? 1 : 0;
 
         if (!empty($request->password)) {
             $user->password = Hash::make($request->password);
@@ -292,6 +302,19 @@ class UserController extends Controller
         }
         $permission->save();
 
+        // ✅ Update UserUnit
+        if (!$userUnit) {
+            $userUnit = new UserUnit();
+            $userUnit->user_id = $user->id;
+        }
+
+        $userUnit->company_id    = $request->company_id;
+        $userUnit->department_id = $request->department_id;
+        $userUnit->division_id   = $request->division_id;
+        $userUnit->section_id    = $request->section_id;
+        $userUnit->group_id      = $request->group_id;
+        $userUnit->save();
+
         // 🔹 Log User Changes
         foreach ($oldUserValues as $col => $old) {
             $new = $user->$col;
@@ -323,8 +346,24 @@ class UserController extends Controller
                 );
             }
         }
+        
+        // 🔹 Log UserUnit Changes
+        foreach ($oldUnitValues as $col => $old) {
+            $new = $userUnit->$col;
+            if ($old != $new) {
+                $this->storeChangeLog(
+                    $user->id,
+                    $user->name,
+                    "$col: $old",
+                    "$col: $new",
+                    'Updated',
+                    'user_units',
+                    "Unit $col changed"
+                );
+            }
+        }
 
-        return redirect('/admin/user/list')->with('success', 'Update success.');
+        return redirect('/admin/user/list/1')->with('success', 'User updated successfully with full logging.');
     }
 
 

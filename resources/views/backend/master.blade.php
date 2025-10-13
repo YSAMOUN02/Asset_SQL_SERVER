@@ -378,13 +378,13 @@
                                         </a>
                                     </li>
 
-                                    {{-- <li>
+                                    <li>
                                         <a href="/code_mamnual/setup"
                                             class="toggle_li flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
 
                                             <i class="fa-regular fa-rectangle-list mx-2"></i>
                                             <span class="li-text text-sm">Asset Code Mamnual</span></a>
-                                    </li> --}}
+                                    </li>
                                     <li>
                                         <a href="/code/setup"
                                             class="toggle_li flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">

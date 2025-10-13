@@ -1,13 +1,13 @@
 @extends('backend.master')
 @section('content')
 @section('header')
-    Reference Data
+    Mamnual Assets Code
 @endsection
 
 @section('style')
     <span class="ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl">
         <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">
-            Reference Management
+            Mamnual Assets Code
         </span>
     </span>
 @endsection
@@ -15,7 +15,7 @@
 <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
 
 <div class="bg-white p-4 rounded-lg shadow-md dark:bg-gray-800">
-    <form method="POST" action="/reference/add/submit" class="mb-4">
+    <form method="POST" action="/code_mamnual/add/submit" class="mb-4">
         @csrf
         <div class="grid gap-6 mb-6 md:grid-cols-6">
             <div>
@@ -43,15 +43,7 @@
                     required />
 
             </div>
-            <div>
-                <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
-                <select name="type" id="type" name="type"
-                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="Assets">Assets</option>
-                    <option value="Movement">Movement</option>
-                </select>
 
-            </div>
             <div>
                 <label for="start" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start</label>
                 <input type="text" id="start" name="start"
@@ -84,9 +76,7 @@
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             For
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
-                            Type
-                        </th>
+
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             Start Date
                         </th>
@@ -101,7 +91,7 @@
                 </thead>
 
                 <tbody id="assets_body">
-                    @foreach ($references as $item)
+                    @foreach ($mamnual_code as $item)
                         <tr
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
@@ -110,16 +100,14 @@
                             </td>
 
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
-                                {{ $item->code . str_pad($item->no, 5, '0', STR_PAD_LEFT) }}
+                                {{ $item->code . str_pad($item->no,3, '0', STR_PAD_LEFT) }}
                             </td>
 
 
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                                 {{ $item->name }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
-                                {{ $item->type }}
-                            </td>
+
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
 
                                 {{ \Carbon\Carbon::parse($item->start)->format('d-M-Y') ?? '' }}
@@ -150,13 +138,13 @@
                                 <div class="relative p-4 w-full max-w-2xl max-h-full">
                                     <!-- Modal content -->
                                     <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-                                        <form method="POST" action="/reference/update/submit">
+                                        <form method="POST" action="/code_mamnual/update/submit">
                                             @csrf
                                             <!-- Modal header -->
                                             <div
                                                 class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                                                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                                    Update Reference Code
+                                                    Update Code
                                                 </h3>
                                                 <button type="button"
                                                     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -204,24 +192,10 @@
                                                         <input type="text" id="name{{ $item->id }}"
                                                             value="{{ $item->name }}" name="name"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                            required oninput="validateInputField(this,50)" />
+                                                            required oninput="validateInputField(this,100)" />
 
                                                     </div>
-                                                    <div>
-                                                        <label for="type"
-                                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
-                                                        <select name="type" id="type" name="type"
-                                                            class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
-                                                            <option value="Assets" @if ($item->type == 'Assets') selected
-
-                                                            @endif>Assets</option>
-                                                            <option value="Movement" @if ($item->type == 'Movement') selected
-
-                                                            @endif>Movement</option>
-                                                        </select>
-
-                                                    </div>
                                                     <div>
                                                         <label for="start{{ $item->id }}"
                                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End</label>
@@ -286,8 +260,8 @@
                                                     d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                             </svg>
                                             <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                                Are you sure you want to delete this Reference?</h3>
-                                            <form action="/reference/delete/submit" method="POST">
+                                                Are you sure you want to delete this Code?</h3>
+                                            <form action="/code_mamnual/delete/submit" method="POST">
                                                 @csrf
                                                 <input type="text" class="hidden" value="{{ $item->id }}"
                                                     name="id" />

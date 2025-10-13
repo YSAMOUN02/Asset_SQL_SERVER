@@ -57,8 +57,9 @@
     <h1 class="title_base text-black dark:text-blue-100">Asset Info</h1>
     <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2 lg:grid-cols-2 md:grid-cols-2">
         <div>
-            <label for="">Reference<span class="text-rose-500">*</span></label>
-            <input type="text" list="references_list" id="ReferenceInput" onchange="setReferenceId(this)" oninput="validateInputField(this,30)"
+            <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference<span class="text-rose-500">*</span></label>
+            <input type="text" list="references_list" id="ReferenceInput" onchange="setReferenceId(this)"
+                oninput="validateInputField(this,30)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="reference" required autocomplete="off" />
 
@@ -83,8 +84,20 @@
                         class="p-2.5 percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value="{{ $asset->assets }}" />
                 @else
-                    <input type="text" id="asset_Code1" name="assets1" required oninput="validateInputField(this,30)"
-                        class="p-2.5 percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    <input type="text" list="assets1_list" id="ReferenceInput" name="assets1"
+                        onchange="setAsset1_Id(this)" oninput="validateInputField(this,30)"
+                        class="percent70 bg-gray-50 border border-gray-300 p-2.5 text-gray-900 text-sm focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                         required autocomplete="off" />
+                    <input type="hidden" id="assets1_id" name="assets1_id" />
+
+                    <datalist id="assets1_list">
+                        @foreach ($mamnual as $item)
+                            <option data-id="{{ $item->id }}"
+                                value="{{ $item->code . str_pad($item->no, 3, '0', STR_PAD_LEFT) }}">
+                                {{ $item->name }}
+                            </option>
+                        @endforeach
+                        </datalist>  <!-- ✅ You forgot this -->
                 @endif
 
 
@@ -151,7 +164,8 @@
         </div>
         <div>
             <div>
-                <label for="item_description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item
+                <label for="item_description"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item
                     Description <span class="text-rose-500">*</span></label>
 
                 <input type="text" id="item_description" name="item_description" required
@@ -736,6 +750,19 @@
         }
     }
 
+    function setAsset1_Id(input) {
+        const value = input.value;
+        const options = document.getElementById('assets1_list').options;
+        let hiddenField = document.getElementById('assets1_id');
+
+        hiddenField.value = ''; // reset first
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].value === value) {
+                hiddenField.value = options[i].dataset.id;
+                break;
+            }
+        }
+    }
     let usersCache = [];
 
     async function fetchUsers() {
