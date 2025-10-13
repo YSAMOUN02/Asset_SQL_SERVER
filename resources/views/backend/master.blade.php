@@ -349,59 +349,61 @@
                                                         class="li-text">List Users</span></a>
                                             </li>
                                         @endif
-
+                                        @if (Auth::user()->Permission->user_update == 1 && Auth::user()->Permission->user_read == 1 && Auth::user()->Permission->user_write == 1)
+                                            <li>
+                                                <a href="/hierarchical"
+                                                    class="toggle_li flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                                    <i class="fa-regular fa-building mx-2"></i>
+                                                    <span class="li-text text-sm">Organizational</span>
+                                                </a>
+                                            </li>
+                                        @endif
 
                                     </ul>
                                 </li>
                             @endif
                             @if (Auth::user()->Permission->quick_read == 1)
-                            <li>
-                                <button type="button"
-                                    class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                    aria-controls="dropdown-pages-data-setup"
-                                    data-collapse-toggle="dropdown-pages-data-setup">
-                                    <i class="fa-regular fa-newspaper"></i>
-                                    <span class="flex-1 ml-3 text-left whitespace-nowrap">Data Setup</span>
+                                <li>
+                                    <button type="button"
+                                        class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                        aria-controls="dropdown-pages-data-setup"
+                                        data-collapse-toggle="dropdown-pages-data-setup">
+                                        <i class="fa-regular fa-newspaper"></i>
+                                        <span class="flex-1 ml-3 text-left whitespace-nowrap">Data Setup</span>
 
-                                    <i class="fa-solid fa-chevron-down ml-1"></i>
-                                </button>
-                                <ul id="dropdown-pages-data-setup" class="hidden py-2 space-y-2"
-                                    aria-expanded="true">
+                                        <i class="fa-solid fa-chevron-down ml-1"></i>
+                                    </button>
+                                    <ul id="dropdown-pages-data-setup" class="hidden py-2 space-y-2"
+                                        aria-expanded="true">
 
 
 
-                                    <li>
-                                        <a href="/hierarchical"
-                                            class="toggle_li flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                                            <i class="fa-regular fa-building mx-2"></i>
-                                            <span class="li-text text-sm">Organizational</span>
-                                        </a>
-                                    </li>
 
-                                    <li>
-                                        <a href="/code_mamnual/setup"
-                                            class="toggle_li flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
 
-                                            <i class="fa-regular fa-rectangle-list mx-2"></i>
-                                            <span class="li-text text-sm">Asset Code Mamnual</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="/code/setup"
-                                            class="toggle_li flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                        <li>
+                                            <a href="/code_mamnual/setup"
+                                                class="toggle_li flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
 
-                                            <i class="fa-regular fa-file-code mx-2"></i>
-                                            <span class="li-text text-sm">Organizational code</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="/reference/setup"
-                                            class="toggle_li flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                                <i class="fa-regular fa-rectangle-list mx-2"></i>
+                                                <span class="li-text text-sm">Asset Code Mamnual</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="/code/setup"
+                                                class="toggle_li flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
 
-                                            <i class="fa-regular fa-file-zipper mx-2"></i>
-                                            <span class="li-text text-sm">Reference Doc</span></a>
-                                    </li>
+                                                <i class="fa-regular fa-file-code mx-2"></i>
+                                                <span class="li-text text-sm">Organizational code</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="/reference/setup"
+                                                class="toggle_li flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
 
-                                </ul>
-                            </li>
+                                                <i class="fa-regular fa-file-zipper mx-2"></i>
+                                                <span class="li-text text-sm">Reference Doc</span></a>
+                                        </li>
+
+                                    </ul>
+                                </li>
                             @endif
                             @if (Auth::user()->role == 'super_admin')
                                 <li>

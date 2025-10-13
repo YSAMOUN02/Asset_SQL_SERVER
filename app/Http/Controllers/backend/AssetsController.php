@@ -217,10 +217,9 @@ class AssetsController extends Controller
             $mamnual = [];
             if ($invoice != "NEW") {
                 $modifiedString = str_replace('-', '/', $invoice);
-            }else{
+            } else {
                 $modifiedString = str_replace('-', '/', $invoice);
-                $mamnual = Mamnual_code::orderby('id','desc')->get();
-
+                $mamnual = Mamnual_code::orderby('id', 'desc')->get();
             }
 
 
@@ -266,7 +265,7 @@ class AssetsController extends Controller
                 'departments' => $departments,
                 'assets2' => $assets2,
                 'references' => $references,
-                 'mamnual' => $mamnual
+                'mamnual' => $mamnual
             ]);
         } else {
             return redirect('/')->with('fail', 'You do not have permission Assets Write.');
@@ -274,11 +273,19 @@ class AssetsController extends Controller
     }
     public function assets_add_submit(Request $request)
     {
-
-        $refernece = Reference::where('id', $request->reference_id)->first();
-        if ($refernece) {
-            $refernece->no = $refernece->no + 1;
-            $refernece->save();
+        if (!empty($request->input('reference_id'))) {
+            $refernece = Reference::where('id', $request->reference_id)->first();
+            if ($refernece) {
+                $refernece->no = $refernece->no + 1;
+                $refernece->save();
+            }
+        }
+        if (!empty($request->input('assets1_id'))) {
+            $assets_mamnual = Mamnual_code::where('id', $request->assets1_id)->first();
+            if ($assets_mamnual) {
+                $assets_mamnual->no = $assets_mamnual->no + 1;
+                $assets_mamnual->save();
+            }
         }
 
         // ✅ Validate required fields
