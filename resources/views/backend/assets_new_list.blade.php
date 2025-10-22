@@ -91,14 +91,7 @@
         <form action="/admin/assets/add/search" method="POST">
             @csrf
             <div class="max-w-full min-h-full grid px-2 py-1 gap-1 lg:gap-2  grid-cols-3 lg:grid-cols-4 md:grid-cols-2">
-                <div>
-                    <label for="id_asset"
-                        class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">ID</label>
 
-                    <input type="number" id="id_asset" name="assets"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-
-                </div>
                 <div>
                     <label for="assets" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Assets
                         Code</label>
@@ -108,24 +101,42 @@
 
                 </div>
                 <div>
-                    <label for="fa" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">FIX
-                        Asset</label>
-
-                    <input type="text" id="fa" name="fa"
+                    <label for="company" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">
+                        Company
+                    </label>
+                    <input type="text" id="company" name="company" list="companyList" autocomplete="off"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-
+                    <datalist id="companyList">
+                        @foreach ($companies as $company)
+                            <option value="{{ $company }}">
+                        @endforeach
+                    </datalist>
                 </div>
                 <div>
-                    <label for="invoice"
-                        class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Invoice</label>
-
-                    <input type="text" id="invoice" name="invoice"
+                    <label for="department" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">
+                        Department
+                    </label>
+                    <input type="text" id="department" name="department" list="departmentList" autocomplete="off"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    <datalist id="departmentList">
+                        @foreach ($departments as $department)
+                            <option value="{{ $department }}">
+                        @endforeach
+                    </datalist>
+                </div>
 
+                <div>
+                    <label for="user" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Holder
+                        Name
+                    </label>
+
+                    <input type="text" id="user" name="user" list="userList" autocomplete="off"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    <datalist id="userList"></datalist>
                 </div>
                 <div>
                     <label for="description"
-                        class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                        class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Item</label>
 
                     <input type="text" id="description" name="description"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -419,7 +430,8 @@
                     @if (!empty($asset))
                         @foreach ($asset as $item)
                             @if ($item->deleted == 0)
-                                <tr class=" bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
+                                <tr
+                                    class=" bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
                                     <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
 
                                         <input onchange="printable()" data-id="{{ $item->assets_id }}"
@@ -436,14 +448,14 @@
                                             class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                         <span class="px-2 ">Deleted</span>
                             @endif
-                            <td >
+                            <td>
 
                                 {{ $item->assets_id }}
 
 
                             </td>
 
-                            <td >
+                            <td>
                                 {{ \Carbon\Carbon::parse($item->transaction_date)->format('d-M-Y') }}
 
                             </td>
@@ -453,7 +465,7 @@
                                 class="table_float_left_td  px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   bg-white dark:bg-gray-700 dark:border-gray-700">
                                 {{ $item->assets1 . $item->assets2 ?? '' }}
                             </td>
-                            <td >
+                            <td>
                                 @if ($item->status == 0)
                                     <span
                                         class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -468,38 +480,38 @@
                                     </span>
                                 @endif
                             </td>
-                            <td >
+                            <td>
                                 {{ $item->status_recieved }}
                             </td>
-                            <td >
+                            <td>
                                 {{ $item->item }}
                             </td>
 
-                            <td >
+                            <td>
                                 {{ $item->specification }}
                             </td>
-                            <td >
+                            <td>
                                 {{ $item->initial_condition }}
                             </td>
-                            <td >
+                            <td>
                                 {{ $item->holder_name ?? '' }}
                             </td>
-                            <td >
+                            <td>
                                 {{ $item->department ?? '' }}
                             </td>
-                            <td >
+                            <td>
                                 {{ $item->company ?? '' }}
                             </td>
 
-                            <td >
+                            <td>
                                 {{ $item->old_code ?? '' }}
                             </td>
-                            <td >
+                            <td>
                                 {{ $item->reference ?? '' }}
                             </td>
 
 
-                            <td >
+                            <td>
                                 {{ \Carbon\Carbon::parse($item->created_at)->format('d-M-Y') ?? '' }}
 
                             </td>
@@ -519,11 +531,11 @@
                                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                             aria-labelledby="dropdownMenuIconHorizontalButton_view2_{{ $item->assets_id }}">
                                             @if (Auth::user()->Permission->transfer_write == 1)
-                                                 @if ($item->deleted == 0)
-                                                <li>
-                                                    <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
-                                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">Movement</a>
-                                                </li>
+                                                @if ($item->deleted == 0)
+                                                    <li>
+                                                        <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
+                                                            class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">Movement</a>
+                                                    </li>
                                                 @endif
                                             @endif
 
@@ -601,6 +613,133 @@
     flatpickr("#end_date", {
         dateFormat: "d-M-Y",
         defaultDate: null
+    });
+
+
+
+
+
+
+
+    // ✅ Get valid lists from backend (passed as JSON)
+    const validDepartments = @json($departments);
+    const validCompanies = @json($companies);
+
+    // ✅ Helper to validate input
+    function validateInputList(inputId, validList, label) {
+        const input = document.getElementById(inputId);
+
+        input.addEventListener("blur", () => {
+            const value = input.value.trim();
+
+            if (value !== "" && !validList.includes(value)) {
+                input.value = ""; // clear input
+
+                // Show red toast
+                const toast_red = document.getElementById("toast_red");
+                toast_red.querySelector("p").innerHTML = `${label} not found.`;
+
+                toast_red.style.display = "block";
+                toast_red.style.animation = "none"; // reset animation
+                toast_red.offsetHeight; // trigger reflow
+                toast_red.style.animation = "fadeOut2 4s forwards"; // start fade animation
+
+                // Optional: Reset pagination or body
+                if (typeof pagination_search !== "undefined") {
+                    pagination_search.innerHTML = `
+                    <li class="mx-2" style="margin-left:10px;">
+                        <a href="0" aria-current="page"
+                            class="z-10 flex items-center justify-center px-1 h-4 lg:px-3 lg:h-8 md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                            <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;"></i>
+                        </a>
+                    </li>`;
+                }
+            }
+        });
+    }
+
+    // ✅ Apply validation to both fields
+    validateInputList("department", validDepartments, "Department");
+    validateInputList("company", validCompanies, "Company");
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const userInput = document.getElementById("user");
+        const userList = document.getElementById("userList");
+        const toast_red = document.getElementById("toast_red");
+
+
+        let fetching = false;
+
+        async function fetchUsers(query = "") {
+            if (fetching) return;
+            fetching = true;
+
+            try {
+                const response = await fetch(`/api/fetch-users?q=${encodeURIComponent(query)}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                        "Cache-Control": "no-cache",
+                        Pragma: "no-cache",
+                    },
+                });
+
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const users = await response.json();
+
+                // populate datalist
+                userList.innerHTML = "";
+                users.forEach(user => {
+                    const option = document.createElement("option");
+                    option.value = user.full_name;
+                    userList.appendChild(option);
+                });
+            } catch (error) {
+                console.warn("Could not fetch users:", error);
+            } finally {
+                fetching = false;
+            }
+        }
+
+        // fetch server-side as user types
+        userInput.addEventListener("input", () => {
+            const query = userInput.value.trim();
+            fetchUsers(query);
+        });
+
+        // ✅ Validate input on blur
+        userInput.addEventListener("blur", async () => {
+            const query = userInput.value.trim();
+            if (!query) return;
+
+            // Fetch filtered results to validate
+            try {
+                const response = await fetch(`/api/fetch-users?q=${encodeURIComponent(query)}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                        "Cache-Control": "no-cache",
+                        Pragma: "no-cache",
+                    },
+                });
+                const users = await response.json();
+                const validNames = users.map(u => u.full_name);
+                if (!validNames.includes(query)) {
+                    userInput.value = "";
+                    toast_red.querySelector("p").innerHTML = "User not found.";
+                    toast_red.style.display = "block";
+                    toast_red.style.animation = "none";
+                    toast_red.offsetHeight;
+                    toast_red.style.animation = "fadeOut2 4s forwards";
+                }
+            } catch (error) {
+                console.warn("Validation failed:", error);
+            }
+        });
+
+        // fetch initial list on focus
+        userInput.addEventListener("focus", () => fetchUsers());
     });
 </script>
 @endsection

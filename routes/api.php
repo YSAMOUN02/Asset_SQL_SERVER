@@ -41,7 +41,10 @@ Route::middleware('auth:api')->group(function () {
 
      Route::post('/delete/department', [ApiHandlerController::class, 'delete_department']);
 
-     Route::post('/fect/assets/new/data', [ApiHandlerController::class, 'updateToggle']);
+     Route::post('/fect/assets/toggle', [ApiHandlerController::class, 'updateToggle']);
+
+     Route::get('/fetch-users', [ApiHandlerController::class, 'fetchUsers']);
+
 
 });
 // route to fetch immediate children of a unit

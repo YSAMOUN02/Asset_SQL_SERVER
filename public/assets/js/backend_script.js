@@ -1007,21 +1007,21 @@ async function search_asset(no) {
     print.style.display = "none";
     export_excel.style.display = "none";
 
-    let fa = document.querySelector("#fa");
+    let department = document.querySelector("#department");
     let asset_input = document.querySelector("#assets");
-    let invoice = document.querySelector("#invoice");
+    let company = document.querySelector("#company");
     let description = document.querySelector("#description");
     let start = document.querySelector("#start_date");
     let end = document.querySelector("#end_date");
     let state = document.querySelector("#state");
-    let id_asset = document.querySelector("#id_asset");
+    let user = document.querySelector("#user");
     let other = document.querySelector("#other_search");
     let value = document.querySelector("#other_value");
 
-    let id_val = "NA";
-    let fa_val = "NA";
+    let user_val = "NA";
+    let department_val = "NA";
     let asset_val = "NA";
-    let invoice_val = "NA";
+    let company_val = "NA";
     let description_val = "NA";
     let start_val = "NA";
     let end_val = "NA";
@@ -1033,14 +1033,14 @@ async function search_asset(no) {
     if (no) {
         page = no;
     }
-    if (id_asset) {
-        if (id_asset.value != "") {
-            id_val = id_asset.value;
+    if (user) {
+        if (user.value != "") {
+            user_val = user.value;
         }
     }
-    if (fa) {
-        if (fa.value != "") {
-            fa_val = fa.value;
+    if (department) {
+        if (department.value != "") {
+            department_val = department.value;
         }
     }
     if (asset_input) {
@@ -1048,9 +1048,9 @@ async function search_asset(no) {
             asset_val = asset_input.value;
         }
     }
-    if (invoice) {
-        if (invoice.value != "") {
-            invoice_val = invoice.value;
+    if (company) {
+        if (company.value != "") {
+            company_val = company.value;
         }
     }
     if (description) {
@@ -1099,11 +1099,11 @@ async function search_asset(no) {
                 body: JSON.stringify({
                     type: type_val,
                     value: value_val,
-                    id: id_val,
+                    user: user_val,
                     state: state_val,
                     asset: asset_val,
-                    fa: fa_val,
-                    invoice: invoice_val,
+                    department: department_val,
+                    company: company_val,
                     end: end_val,
                     start: start_val,
                     description: description_val,
@@ -1121,12 +1121,10 @@ async function search_asset(no) {
     }
 
     let body_change = document.querySelector("#assets_body");
+    let pagination_search = document.querySelector(".pagination_by_search");
     if (data) {
         if (data.data) {
             if (data.data.length > 0) {
-                let pagination_search = document.querySelector(
-                    ".pagination_by_search"
-                );
                 if (pagination_search) {
                     pagination_search.style.display = "block";
 
@@ -1461,6 +1459,21 @@ async function search_asset(no) {
                 // array = data.data;
             } else {
                 toast_red.querySelector("p").innerHTML = "Data not Found.";
+                pagination_search.innerHTML = `
+                  <div class="flex main_page ">
+                                <span class="font-bold flex justify-center items-center dark:text-slate-50">Data Not Found</span>
+                                <ul class="flex items-center -space-x-px h-8 text-sm">
+                                    <li class="mx-2" style="margin-left:10px;">
+                                                <a href="0" aria-current="page"
+                                                class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                                <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;">
+                                                </i>
+                                            </a>
+                                        </li>
+                                </ul>
+                            </div>
+
+                `;
                 body_change.innerHTML = "";
                 toast_red.style.display = "block";
                 toast_red.style.animation = "none"; // reset animation
@@ -1469,6 +1482,21 @@ async function search_asset(no) {
             }
         } else {
             toast_red.querySelector("p").innerHTML = "Data not Found.";
+            pagination_search.innerHTML = `
+                  <div class="flex main_page ">
+                                <span class="font-bold flex justify-center items-center dark:text-slate-50">Data Not Found</span>
+                                <ul class="flex items-center -space-x-px h-8 text-sm">
+                                    <li class="mx-2" style="margin-left:10px;">
+                                                <a href="0" aria-current="page"
+                                                class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                                <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;">
+                                                </i>
+                                            </a>
+                                        </li>
+                                </ul>
+                            </div>
+
+                `;
             body_change.innerHTML = "";
             toast_red.style.display = "block";
             toast_red.style.animation = "none"; // reset animation
@@ -1478,6 +1506,7 @@ async function search_asset(no) {
     } else {
         toast_red.querySelector("p").innerHTML =
             "Problem on database connection.";
+        pagination_search.innerHTML = ``;
         toast_red.style.display = "block";
         toast_red.style.animation = "none"; // reset animation
         toast_red.offsetHeight; // trigger reflow to restart animation
@@ -1492,21 +1521,21 @@ async function search_movement(no) {
     print.style.display = "none";
     export_excel.style.display = "none";
 
-    let fa = document.querySelector("#fa");
     let asset_input = document.querySelector("#assets");
-    let invoice = document.querySelector("#invoice");
     let description = document.querySelector("#description");
     let start = document.querySelector("#start_date");
     let end = document.querySelector("#end_date");
     let state = document.querySelector("#state");
-    let id_asset = document.querySelector("#id_asset");
     let other = document.querySelector("#other_search");
     let value = document.querySelector("#other_value");
+    let department = document.querySelector("#department");
+    let user = document.querySelector("#user");
+    let company = document.querySelector("#company");
 
-    let id_val = "NA";
-    let fa_val = "NA";
+    let user_val = "NA";
+    let company_val = "NA";
+    let department_val = "NA";
     let asset_val = "NA";
-    let invoice_val = "NA";
     let description_val = "NA";
     let start_val = "NA";
     let end_val = "NA";
@@ -1518,14 +1547,14 @@ async function search_movement(no) {
     if (no) {
         page = no;
     }
-    if (id_asset) {
-        if (id_asset.value != "") {
-            id_val = id_asset.value;
+    if (user) {
+        if (user.value != "") {
+            user_val = user.value;
         }
     }
-    if (fa) {
-        if (fa.value != "") {
-            fa_val = fa.value;
+    if (company) {
+        if (company.value != "") {
+            company_val = company.value;
         }
     }
     if (asset_input) {
@@ -1533,9 +1562,9 @@ async function search_movement(no) {
             asset_val = asset_input.value;
         }
     }
-    if (invoice) {
-        if (invoice.value != "") {
-            invoice_val = invoice.value;
+    if (department) {
+        if (department.value != "") {
+            department_val = department.value;
         }
     }
     if (description) {
@@ -1594,11 +1623,11 @@ async function search_movement(no) {
                 body: JSON.stringify({
                     type: type_val,
                     value: value_val,
-                    id: id_val,
+                    user: user_val,
                     state: state_val,
                     asset: asset_val,
-                    fa: fa_val,
-                    invoice: invoice_val,
+                    department: department_val,
+                    company: company_val,
                     end: end_val,
                     start: start_val,
                     description: description_val,
@@ -1616,12 +1645,10 @@ async function search_movement(no) {
     }
 
     let body_change = document.querySelector("#assets_body");
+    let pagination_search = document.querySelector(".pagination_by_search");
     if (data) {
         if (data.data) {
             if (data.data.length > 0) {
-                let pagination_search = document.querySelector(
-                    ".pagination_by_search"
-                );
                 if (pagination_search) {
                     pagination_search.style.display = "block";
 
@@ -1967,6 +1994,20 @@ async function search_movement(no) {
                 // array = data.data;
             } else {
                 toast_red.querySelector("p").innerHTML = "Data not Found.";
+                pagination_search.innerHTML = `
+                            <div class="flex main_page ">
+                                <span class="font-bold flex justify-center items-center dark:text-slate-50">Data Not Found</span>
+                                <ul class="flex items-center -space-x-px h-8 text-sm">
+                                    <li class="mx-2" style="margin-left:10px;">
+                                                <a href="0" aria-current="page"
+                                                class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                                <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;">
+                                                </i>
+                                            </a>
+                                        </li>
+                                </ul>
+                            </div>
+                                `;
                 toast_red.style.display = "block";
                 toast_red.style.animation = "none"; // reset animation
                 body_change.innerHTML = "";
@@ -1975,6 +2016,20 @@ async function search_movement(no) {
             }
         } else {
             toast_red.querySelector("p").innerHTML = "Data not Found.";
+            pagination_search.innerHTML = `
+                            <div class="flex main_page ">
+                                <span class="font-bold flex justify-center items-center dark:text-slate-50">Data Not Found</span>
+                                <ul class="flex items-center -space-x-px h-8 text-sm">
+                                    <li class="mx-2" style="margin-left:10px;">
+                                                <a href="0" aria-current="page"
+                                                class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                                <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;">
+                                                </i>
+                                            </a>
+                                        </li>
+                                </ul>
+                            </div>
+                                `;
             toast_red.style.display = "block";
             toast_red.style.animation = "none"; // reset animation
             body_change.innerHTML = "";
@@ -3096,22 +3151,21 @@ async function search_asset_new(no) {
     print.style.display = "none";
     export_excel.style.display = "none";
 
-    const fa = document.querySelector("#fa");
+    let department = document.querySelector("#department");
+    let user = document.querySelector("#user");
+    let company = document.querySelector("#company");
     const asset_input = document.querySelector("#assets");
-    const invoice = document.querySelector("#invoice");
     const description = document.querySelector("#description");
     const start = document.querySelector("#start_date");
     const end = document.querySelector("#end_date");
     const state = document.querySelector("#state");
-    const id_asset = document.querySelector("#id_asset");
     const other = document.querySelector("#other_search");
     const value = document.querySelector("#other_value");
-    const progressBar = document.querySelector("#progress_bar");
 
-    let id_val = id_asset?.value || "NA";
-    let fa_val = fa?.value || "NA";
+    let user_val = user?.value || "NA";
+    let company_val = company?.value || "NA";
     let asset_val = asset_input?.value || "NA";
-    let invoice_val = invoice?.value || "NA";
+    let department_val = department?.value || "NA";
     let description_val = description?.value || "NA";
     let start_val = start?.value || "NA";
     let end_val = end?.value || "NA";
@@ -3136,11 +3190,11 @@ async function search_asset_new(no) {
                 body: JSON.stringify({
                     type: type_val,
                     value: value_val,
-                    id: id_val,
+                    user: user_val,
                     state: state_val,
                     asset: asset_val,
-                    fa: fa_val,
-                    invoice: invoice_val,
+                    company: company_val,
+                    department: department_val,
                     end: end_val,
                     start: start_val,
                     description: description_val,
@@ -3156,13 +3210,13 @@ async function search_asset_new(no) {
     } catch (error) {
         alert(error);
     }
-
-    const body_change = document.querySelector("#assets_body");
-    if (data) {
-        if (data.data && data.data.length > 0) {
-            const pagination_search = document.querySelector(
+ let pagination_search = document.querySelector(
                 ".pagination_by_search"
             );
+    let body_change = document.querySelector("#assets_body");
+    if (data) {
+        if (data.data && data.data.length > 0) {
+
             if (pagination_search) {
                 pagination_search.style.display = "block";
                 if (data.page != 0) {
@@ -3326,7 +3380,7 @@ async function search_asset_new(no) {
                                             auth?.permission?.transfer_write ==
                                             1
                                                 ? `<li><a href="/admin/movement/add/detail/id=${item.assets_id}" class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Movement</a></li>
-<li><a href="/admin/assets/data/view/id=${item.assets_id}/variant=${item.variant}" class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Movement</a></li>
+                                                        <li><a href="/admin/assets/data/view/id=${item.assets_id}/variant=${item.variant}" class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">View</a></li>
                         `
                                                 : ""
                                         }
@@ -3366,6 +3420,21 @@ async function search_asset_new(no) {
         } else {
             body_change.innerHTML = "";
             toast_red.querySelector("p").innerHTML = "Data not Found.";
+            pagination_search.innerHTML = `
+                  <div class="flex main_page ">
+                                <span class="font-bold flex justify-center items-center dark:text-slate-50">Data Not Found</span>
+                                <ul class="flex items-center -space-x-px h-8 text-sm">
+                                    <li class="mx-2" style="margin-left:10px;">
+                                                <a href="0" aria-current="page"
+                                                class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                                <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;">
+                                                </i>
+                                            </a>
+                                        </li>
+                                </ul>
+                            </div>
+
+                `;
             toast_red.style.display = "block";
             toast_red.style.animation = "none";
             toast_red.offsetHeight;
@@ -3374,6 +3443,21 @@ async function search_asset_new(no) {
     } else {
         toast_red.querySelector("p").innerHTML =
             "Problem on database connection.";
+        pagination_search.innerHTML = `
+                  <div class="flex main_page ">
+                                <span class="font-bold flex justify-center items-center dark:text-slate-50">Data Not Found</span>
+                                <ul class="flex items-center -space-x-px h-8 text-sm">
+                                    <li class="mx-2" style="margin-left:10px;">
+                                                <a href="0" aria-current="page"
+                                                class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+                                                <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;">
+                                                </i>
+                                            </a>
+                                        </li>
+                                </ul>
+                            </div>
+
+                `;
         toast_red.style.display = "block";
         toast_red.style.animation = "none";
         toast_red.offsetHeight;
@@ -3441,7 +3525,7 @@ async function showLoader(asyncTask) {
 }
 
 async function change_toggle(state) {
-    const url = `/api/fect/assets/new/data`;
+    const url = `/api/fect/assets/toggle`;
 
     try {
         const response = await fetch(url, {
@@ -3502,8 +3586,13 @@ function adjustLayout() {
     state_toggle_table = state_toggle_table === 0 ? 1 : 0;
 }
 function showToastRed(message) {
-    let toast = document.getElementById("toast_red");
-    toast.innerText = message;
+    const toast = document.getElementById("toast_red");
+    if (!toast) {
+        console.warn("Toast element not found");
+        return;
+    }
+
+    toast.textContent = message; // safer than innerText
     toast.style.display = "block";
     toast.style.opacity = "1";
 
@@ -3514,40 +3603,60 @@ function showToastRed(message) {
         setTimeout(() => (toast.style.display = "none"), 500);
     }, 3000);
 }
-function showSuccessToast(message = 'Success') {
-    const toast = document.getElementById('toast_green');
-    const label = document.getElementById('toast_green_label');
+
+function showSuccessToast(message = "Success") {
+    const toast = document.getElementById("toast_green");
+    const label = document.getElementById("toast_green_label");
 
     label.innerText = message;
 
-    toast.style.display = 'block';
+    toast.style.display = "block";
     toast.style.opacity = 1;
-    toast.style.visibility = 'visible';
-    toast.style.animation = 'none';
+    toast.style.visibility = "visible";
+    toast.style.animation = "none";
     void toast.offsetWidth; // trigger reflow
-    toast.style.animation = 'fadeOut2 4s forwards';
+    toast.style.animation = "fadeOut2 4s forwards";
 
-    setTimeout(() => toast.style.display = 'none', 4000);
+    setTimeout(() => (toast.style.display = "none"), 4000);
 }
 
-function showErrorToast(message = 'Error') {
-    const toast = document.getElementById('toast_red');
-    const label = document.getElementById('toast_red_label');
+function showErrorToast(message = "Error") {
+    const toast = document.getElementById("toast_red");
+    const label = document.getElementById("toast_red_label");
 
     label.innerText = message;
 
-    toast.style.display = 'block';
+    toast.style.display = "block";
     toast.style.opacity = 1;
-    toast.style.visibility = 'visible';
-    toast.style.animation = 'none';
+    toast.style.visibility = "visible";
+    toast.style.animation = "none";
     void toast.offsetWidth; // trigger reflow
-    toast.style.animation = 'fadeOut2 4s forwards';
+    toast.style.animation = "fadeOut2 4s forwards";
 
-    setTimeout(() => toast.style.display = 'none', 4000);
+    setTimeout(() => (toast.style.display = "none"), 4000);
 }
 function validateInputField(field, maxLength) {
     if (field.value.length > maxLength) {
         field.value = field.value.substring(0, maxLength);
         showToastRed("Maximum " + maxLength + " characters allowed!");
+    }
+}
+function validateInputField_assets(input, maxLength) {
+    // Allowed characters: English letters, digits, common symbols, spaces
+    const pattern = /^[A-Za-z0-9\s`~!@#$%^&*()_\-+={}[\]|\\:;"'<>,.?/]*$/;
+
+    // Trim input to max length
+    if (input.value.length > maxLength) {
+        input.value = input.value.slice(0, maxLength);
+    }
+
+    // Remove disallowed characters
+    if (!pattern.test(input.value)) {
+        // Replace invalid characters
+        input.value = input.value.replace(
+            /[^A-Za-z0-9\s`~!@#$%^&*()_\-+={}[\]|\\:;"'<>,.?/]/g,
+            ""
+        );
+        showToastRed("Other Scipt is not allowed on Assets Code!");
     }
 }

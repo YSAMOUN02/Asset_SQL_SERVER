@@ -163,16 +163,16 @@ class ApiHandlerController extends Controller
 
     public function search_list_asset_more(Request $request)
     {
-        $fa = $request->fa ?? "";
-        $invoice = $request->invoice ?? "";
+        $company = $request->company ?? "";
+        $department = $request->department ?? "";
         $assets = $request->asset ?? "";
-        $description = $request->description ?? "";
+        $item = $request->description ?? "";
         $start = $request->start ?? "";
         $end = $request->end ?? "";
         $state = $request->state ?? "NA";
         $type = $request->type ?? "NA";
         $value = $request->value ?? "NA";
-        $id = $request->id ?? "NA";
+        $user = $request->user ?? "NA";
         $page = $request->page ?? 1;
 
         // ✅ Base fields to always return
@@ -207,20 +207,20 @@ class ApiHandlerController extends Controller
             ->orderBy('assets1', 'desc');
 
         // Filters
-        if ($id != "NA") {
-            $data->where("assets_id", 'LIKE', "%" . $id . "%");
+        if ($user != "NA") {
+            $data->where("holder_name", 'LIKE', "%" . $user . "%");
         }
         if ($assets != "NA") {
             $data->where(DB::raw("CONCAT(assets1, assets2)"), 'LIKE', "%" . $assets . "%");
         }
-        if ($fa != "NA") {
-            $data->where("fa", 'LIKE', "%" . $fa . "%");
+        if ($company != "NA") {
+            $data->where("company", 'LIKE', "%" . $company . "%");
         }
-        if ($invoice != "NA") {
-            $data->where("invoice_no", 'LIKE', "%" . $invoice . "%");
+        if ($department != "NA") {
+            $data->where("department", 'LIKE', "%" . $department . "%");
         }
-        if ($description != "NA") {
-            $data->where("description", 'LIKE', "%" . $description . "%");
+        if ($item != "NA") {
+            $data->where("description", 'LIKE', "%" . $item . "%");
         }
 
         // Date filters
@@ -285,16 +285,16 @@ class ApiHandlerController extends Controller
 
     public function search_list_movement_more(Request $request)
     {
-        $fa = $request->fa ?? "";
-        $invoice = $request->invoice ?? "";
+        $company = $request->company ?? "";
+        $department = $request->department ?? "";
         $assets = $request->asset ?? "";
-        $description = $request->description ?? "";
+        $item = $request->description ?? "";
         $start = $request->start ?? "";
         $end = $request->end ?? "";
         $state = $request->state ?? "NA";
         $type = $request->type ?? "NA";
         $value = $request->value ?? "NA";
-        $id = $request->id ?? "NA";
+        $user = $request->user ?? "NA";
         $page = $request->page ?? 1;
 
         // Base fields to always return
@@ -328,20 +328,20 @@ class ApiHandlerController extends Controller
             ->orderBy('transaction_date', 'desc');
 
         // Filters
-        if ($id != "NA") {
-            $data->where("assets_id", 'LIKE', "%" . $id . "%");
+        if ($user != "NA") {
+            $data->where("holder_name", 'LIKE', "%" . $user . "%");
         }
         if ($assets != "NA") {
             $data->where(DB::raw("CONCAT(assets1, assets2)"), 'LIKE', "%" . $assets . "%");
         }
-        if ($fa != "NA") {
-            $data->where("fa", 'LIKE', "%" . $fa . "%");
+        if ($company != "NA") {
+            $data->where("company", 'LIKE', "%" . $company . "%");
         }
-        if ($invoice != "NA") {
-            $data->where("invoice_no", 'LIKE', "%" . $invoice . "%");
+        if ($department != "NA") {
+            $data->where("department", 'LIKE', "%" . $department . "%");
         }
-        if ($description != "NA") {
-            $data->where("description", 'LIKE', "%" . $description . "%");
+        if ($item != "NA") {
+            $data->where("item", 'LIKE', "%" . $item . "%");
         }
 
         // Date filters
@@ -496,46 +496,7 @@ class ApiHandlerController extends Controller
             return response()->json([]);
         }
     }
-    public function qucik_data_search(Request $request)
-    {
-        $type = $request->type ?? 'NA';
-        $content = $request->content ?? 'NA';
-        $page = $request->page ?? 1;
 
-        $data = QuickData::orderby('id', 'desc');
-        if ($type    != 'NA' && $content != 'NA') {
-            $data->where($type, 'LIKE', '%' . $content . '%');
-        }
-        $count_post =  $data->count();
-
-        $viewpoint = User_property::where('user_id', Auth::user()->id)->where('type', 'viewpoint')->first();
-        $limit = $viewpoint->value ?? 50;
-
-        $total_pages = ceil($count_post / $limit);
-        $offet = 0;
-        if ($page != 0) {
-            $offet = ($page - 1) * $limit;
-        }
-
-        $data->limit($limit);
-        $data->offset($offet);
-
-
-
-        $datas = $data->get();
-        $arr = new arr();
-
-        $arr->page = $page;
-        $arr->total_page = $total_pages;
-        $arr->total_record = $count_post;
-        $arr->data = $datas;
-
-        if ($count_post > 0) {
-            return response()->json($arr);
-        } else {
-            return response()->json([]);
-        }
-    }
 
     public function mobile_search(Request $request)
     {
@@ -628,16 +589,16 @@ class ApiHandlerController extends Controller
 
     public function search_list_asset_new_more(Request $request)
     {
-        $fa = $request->fa ?? "";
-        $invoice = $request->invoice ?? "";
+        $company = $request->company ?? "";
+        $department = $request->department ?? "";
         $assets = $request->asset ?? "";
-        $description = $request->description ?? "";
+        $item = $request->description ?? "";
         $start = $request->start ?? "";
         $end = $request->end ?? "";
         $state = $request->state ?? "NA";
         $type = $request->type ?? "NA";
         $value = $request->value ?? "NA";
-        $id = $request->id ?? "NA";
+        $user = $request->user ?? "NA";
         $page = $request->page ?? 1;
 
         // Base fields to always return
@@ -673,20 +634,20 @@ class ApiHandlerController extends Controller
             ->where('deleted', '<>', 1);
 
         // Filters
-        if ($id != "NA") {
-            $data->where("assets_id", 'LIKE', "%" . $id . "%");
+        if ($user != "NA") {
+            $data->where("holder_name", 'LIKE', "%" . $user . "%");
         }
         if ($assets != "NA") {
             $data->where(DB::raw("CONCAT(assets1, assets2)"), 'LIKE', "%" . $assets . "%");
         }
-        if ($fa != "NA") {
-            $data->where("fa", 'LIKE', "%" . $fa . "%");
+        if ($company != "NA") {
+            $data->where("company", 'LIKE', "%" . $company . "%");
         }
-        if ($invoice != "NA") {
-            $data->where("invoice_no", 'LIKE', "%" . $invoice . "%");
+        if ($department != "NA") {
+            $data->where("department", 'LIKE', "%" . $department . "%");
         }
-        if ($description != "NA") {
-            $data->where("description", 'LIKE', "%" . $description . "%");
+        if ($item != "NA") {
+            $data->where("item", 'LIKE', "%" . $item . "%");
         }
 
         // Date filters
@@ -783,6 +744,24 @@ class ApiHandlerController extends Controller
         $children = $unit->children()->select('id', 'name', 'type')->get();
 
         return response()->json($children);
+    }
+    public function fetchUsers(Request $request)
+    {
+        $q = $request->query('q', ''); // search term, default empty
+
+        $users = User::select('id', 'fname', 'lname')
+            ->when($q != '', function ($query) use ($q) {
+                $query->whereRaw("CONCAT(fname, ' ', lname) LIKE ?", ["%{$q}%"]);
+            })
+            ->where('status', 1)
+            ->take(20) // limit results
+            ->get()
+            ->map(function ($u) {
+                $u->full_name = trim($u->fname . ' ' . $u->lname);
+                return $u;
+            });
+
+        return response()->json($users);
     }
 }
 

@@ -183,9 +183,9 @@
                     <label for="status_recieved"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status
                         Recieved</label>
-                    <select id="status_recieved" name="status_recieved"
+                    <select id="status_recieved" name="status_recieved" required
                         class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-
+                        <option value=""></option>
                         <option value="Old">Old</option>
                         <option value="Good">Good</option>
                         <option value="Broken">Broken</option>
@@ -211,7 +211,12 @@
         <h1 class="title_base text-black dark:text-blue-100">Current Asset Info</h1>
 
         <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2 lg:grid-cols-2 md:grid-cols-2">
-
+            <div class="w-full">
+                    <label for="ref" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference</label>
+                          <input type="text" id="ref" disabled
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            value="{{ $asset->reference }}" />
+            </div>
 
             <div class="flex flex-col w-full">
                 <label for="no" id="assets_label"

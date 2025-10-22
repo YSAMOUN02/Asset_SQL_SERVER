@@ -57,7 +57,8 @@
     <h1 class="title_base text-black dark:text-blue-100">Asset Info</h1>
     <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2 lg:grid-cols-2 md:grid-cols-2">
         <div>
-            <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference<span class="text-rose-500">*</span></label>
+            <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference<span
+                    class="text-rose-500">*</span></label>
             <input type="text" list="references_list" id="ReferenceInput" onchange="setReferenceId(this)"
                 oninput="validateInputField(this,30)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -85,9 +86,9 @@
                         value="{{ $asset->assets }}" />
                 @else
                     <input type="text" list="assets1_list" id="ReferenceInput" name="assets1"
-                        onchange="setAsset1_Id(this)" oninput="validateInputField(this,30)"
+                        onchange="setAsset1_Id(this)" oninput="validateInputField_assets(this,30)"
                         class="percent70 bg-gray-50 border border-gray-300 p-2.5 text-gray-900 text-sm focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                         required autocomplete="off" />
+                        required autocomplete="off" />
                     <input type="hidden" id="assets1_id" name="assets1_id" />
 
                     <datalist id="assets1_list">
@@ -97,7 +98,9 @@
                                 {{ $item->name }}
                             </option>
                         @endforeach
-                        </datalist>  <!-- ✅ You forgot this -->
+                    </datalist>
+
+                    <!-- ✅ You forgot this -->
                 @endif
 
 
@@ -217,7 +220,8 @@
 
         <div>
             <label for="holder_name">Name</label>
-            <input type="text" id="holder_name" name="holder_name" list="users_list" autocomplete="off" oninput="validateInputField(this,80)"
+            <input type="text" id="holder_name" name="holder_name" list="users_list" autocomplete="off"
+                oninput="validateInputField(this,80)"
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
        focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -236,7 +240,8 @@
         <div>
             <label for="Location"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
-            <input type="text" id="Location" oninput="validateInputField(this,100)" autocomplete="off" oninput="validateInputField(this,100)"
+            <input type="text" id="Location" oninput="validateInputField(this,100)" autocomplete="off"
+                oninput="validateInputField(this,100)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="location" />
         </div>
@@ -862,15 +867,21 @@
         const input = document.getElementById(inputId);
         input.addEventListener('blur', () => {
             if (!validList.includes(input.value.trim())) {
-                input.value = ''; // clear if not in valid list
+                input.value = '';
 
-                // Show toast
-                const toast_red = document.getElementById('toast_red'); // make sure this exists in your HTML
-                toast_red.querySelector("p").textContent = `Invalid ${label}, please select from list`;
+                const toast_red = document.getElementById('toast_red');
+                if (!toast_red) {
+                    console.warn('Missing toast_red element in HTML');
+                    return;
+                }
+
+                const msgEl = toast_red.querySelector("p");
+                if (msgEl) msgEl.textContent = `Invalid ${label}, please select from list`;
+
                 toast_red.style.display = "block";
 
-                // Hide toast after 3 seconds
-                setTimeout(() => {
+                clearTimeout(toast_red.timer);
+                toast_red.timer = setTimeout(() => {
                     toast_red.style.display = "none";
                 }, 3000);
             }

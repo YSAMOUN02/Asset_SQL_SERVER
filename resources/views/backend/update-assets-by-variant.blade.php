@@ -332,7 +332,7 @@
         <div class="grid gap-6 mb-6 md:grid-cols-2">
 
             <div>
-                <label for="asset_holder">Asset Holder ID</label>
+                <label for="asset_holder">Asset Holder ID </label>
                 <input type="text" id="asset_holder" name="asset_holder" list="asset_list" placeholder="INV-90.."
                     autocomplete="off" value="{{ old('asset_holder', $asset->asset_holder ?? '') }}" oninput="validateInputField(this,30)"
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
@@ -343,7 +343,7 @@
 
             <div>
                 <label for="holder_name">Name</label>
-                <input type="text" id="holder_name" name="holder_name" list="users_list" autocomplete="off"
+                <input type="text" id="holder_name" name="holder_name" list="users_list" autocomplete="off" 
                     value="{{ old('holder_name', $asset->holder_name ?? '') }}" oninput="validateInputField(this,80)"
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
        focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
@@ -355,7 +355,7 @@
                 <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Position/Title
                 </label>
-                <input type="text" id="position" name="position" 
+                <input type="text" id="position" name="position"
                     value="{{ old('position', $asset->position ?? '') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
         focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600

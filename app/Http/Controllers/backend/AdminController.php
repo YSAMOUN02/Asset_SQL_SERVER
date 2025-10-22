@@ -240,35 +240,21 @@ class AdminController extends Controller
         $password = $request->password;
         $remember = $request->remember;
 
+        // Name
         if (Auth::attempt(['name' => $name_email, 'password' => $password], $remember)) {
             if (Auth::user()->status == 0) {
-                Auth::logout();
-
-                return redirect("/login")->with('fail', 'Your user has been disable from System.');
+                Auth::logout();   return redirect("/login")->with('fail', 'Your user has been disable from System.');
             }
             return redirect('/')->with('sucess', 'Login Success.');
+
+        // Email
         } elseif (Auth::attempt(['email' => $name_email, 'password' => $password], $remember)) {
             if (Auth::user()->status == 0) {
-                Auth::logout();
-
-                return redirect("/login")->with('fail', 'Your user has been disable from System.');
+                Auth::logout();   return redirect("/login")->with('fail', 'Your user has been disable from System.');
             }
+
             return redirect('/')->with('sucess', 'Login Success.');
-        } elseif (Auth::attempt(['name' => $name_email, 'temp_password' => $password], $remember)) {
-            if (Auth::user()->status == 0) {
-                Auth::logout();
-
-                return redirect("/login")->with('fail', 'Your user has been disable from System.');
-            }
-            return redirect('/')->with('sucess', 'Login Success.');
-        } elseif (Auth::attempt(['email' => $name_email, 'temp_password' => $password], $remember)) {
-            if (Auth::user()->status == 0) {
-                Auth::logout();
-
-                return redirect("/login")->with('fail', 'Your user has been disable from System.');
-            }
-            return view('backend.dashboard_sumarry')->with('sucess', 'Login Success.');
-        } else {
+        }else {
 
             return redirect('/login')->with('fail', 'Invalid Credential');
         }
