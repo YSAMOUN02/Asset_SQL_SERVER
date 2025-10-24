@@ -10,7 +10,7 @@
             </a>
             @else
              <a href="/admin/assets-ownership/1">
-                <div>Show All</div>
+                <div>Show Broken</div>
             </a>
             @endif
 
@@ -46,14 +46,14 @@
                 {{-- 🔹 Content section --}}
                 <div class="flex flex-col flex-grow justify-between p-5">
                     <div>
-
+                        <h5 class="mb-2 text-sm lg:text-xl md:text-xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
+                                {{$item->item}}
+                            </h5>
                             <h5 class="mb-2 text-sm lg:text-xl md:text-xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
                                 {{ $item->assets1 . $item->assets2 }}
                             </h5>
 
-                        <p class="text-gray-700 dark:text-gray-400 text-sm text-center line-clamp-2">
-                            {{ $item->item }}
-                        </p>
+
                         <p class="text-gray-700 dark:text-gray-400 text-sm text-center line-clamp-2">
                             {{ $item->item_description }}
                         </p>
@@ -67,6 +67,9 @@
                             @endif
 
                         </div>
+                         <p class="text-gray-700 mt-2 dark:text-gray-400 text-sm text-center line-clamp-2">
+                            Last Transaction : {{ \Carbon\Carbon::parse($item->transaction_date)->format('d-M-Y') }}
+                        </p>
                     </div>
 
                     {{-- 🔹 Button --}}
