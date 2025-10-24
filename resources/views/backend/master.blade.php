@@ -236,7 +236,7 @@
                             </div>
                         </form>
                         <ul class="space-y-2">
-                            @if (Auth::user()->role != 'user' || Auth::user()->role != 'super_normal')
+                            @if (Auth::user()->role == 'admin' || Auth::user()->role == 'super_admin')
                                 <li id="button_hover" class="flex justify-between">
                                     <a href="/"
                                         class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
