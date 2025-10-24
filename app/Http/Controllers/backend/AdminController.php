@@ -24,7 +24,7 @@ class AdminController extends Controller
         if(Auth::user()->role == 'user' || Auth::user()->role == 'super_normal'){
 
 
-            return redirect('/admin/assets-ownership');
+            return redirect('/admin/assets-ownership/0');
         }
         $report = $report ?? 1; // default to report 1 if null
         $year = $year ?? now()->year;   // default to current year if null
