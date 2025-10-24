@@ -687,18 +687,34 @@ class UserController extends Controller
 
         ]);
     }
-    public function assets_ownership()
+    public function assets_ownership($broken = null)
     {
+        // Not Allow See Broken Assets
+        if ($broken == 0) {
+               $assets = StoredAssets::where('asset_holder', Auth::user()->id_card)
+                ->with(['images'])
+                ->select('assets_id', 'assets1', 'assets2', 'item', 'item_description', 'transaction_date', 'initial_condition', 'variant')
+                ->where('deleted', 0)
+                ->where('initial_condition', '<>', 'Broken')
+                ->get();
+        } else {
+            // Allow See All Assets
+               $assets = StoredAssets::where('asset_holder', Auth::user()->id_card)
+                ->with(['images'])
+                ->select('assets_id', 'assets1', 'assets2', 'item', 'item_description', 'transaction_date', 'initial_condition', 'variant')
+                ->where('deleted', 0)
+                ->get();
 
-        $assets = StoredAssets::where('asset_holder', Auth::user()->id_card)
-        ->with(['images'])
-        ->select('assets_id','assets1','assets2','item','item_description','transaction_date','initial_condition','variant')
-        ->where('deleted', 0)
-        ->get();
+
+
+        }
+
+
 
         // return $assets
         return view('backend.assets-ownership', [
             'assets' => $assets,
+            'broken' => $broken
         ]);
     }
 }

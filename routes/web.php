@@ -98,7 +98,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/search-users', [UserController::class, 'searchUsers']);
     Route::get('/admin/profile', [UserController::class, 'myProfile']);
 
-    Route::get('/admin/assets-ownership', [UserController::class, 'assets_ownership']);
+    Route::get('/admin/assets-ownership/{broken}', [UserController::class, 'assets_ownership']);
 
 
     // Data Set up----------------------------------------------------------------------------------------------------

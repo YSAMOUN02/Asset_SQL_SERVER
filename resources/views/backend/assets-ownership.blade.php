@@ -1,11 +1,24 @@
 @extends('backend.master')
 @section('content')
     <div class="w-full  bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
-        <h1 class="mb-8 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"></h1>
+        <div class="flex justify-between">
+            <span class=" text-1xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-4xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-amber-600 from-orange-400">My Last Active Assets </span></span>
+            @if ($broken == 1)
 
-<h1 class="mb-4 text-1xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-4xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-amber-600 from-orange-400">My Last Active Assets </span></h1>
-<hr class="mb-4">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 z">
+             <a href="/admin/assets-ownership/0">
+                <div>Hide Broken</div>
+            </a>
+            @else
+             <a href="/admin/assets-ownership/1">
+                <div>Show All</div>
+            </a>
+            @endif
+
+        </div>
+
+
+<hr class="mb-4 mt-4">
+    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 z">
 
 
         @foreach ($assets as $item)
@@ -33,11 +46,11 @@
                 {{-- 🔹 Content section --}}
                 <div class="flex flex-col flex-grow justify-between p-5">
                     <div>
-                        <a href="/admin/assets/data/view/id={{ $item->assets_id }}/variant={{ $item->variant }}">
-                            <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
+
+                            <h5 class="mb-2 text-sm lg:text-xl md:text-xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
                                 {{ $item->assets1 . $item->assets2 }}
                             </h5>
-                        </a>
+
                         <p class="text-gray-700 dark:text-gray-400 text-sm text-center line-clamp-2">
                             {{ $item->item }}
                         </p>
@@ -46,10 +59,13 @@
                         </p>
 
                         <div class="flex justify-center mt-2">
-                            <span
+                            @if ($item->initial_condition<>'')
+                             <span
                                 class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800">
                                 {{ $item->initial_condition }}
                             </span>
+                            @endif
+
                         </div>
                     </div>
 
