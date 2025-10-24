@@ -3393,19 +3393,10 @@ async function search_asset_new(no) {
 
                                         ${
                                             auth?.permission?.assets_read == 1
-                                                ? `<li><a href="${
-                                                      auth?.permission
-                                                          ?.assets_update == 0
-                                                          ? "/admin/assets/view/id=" +
-                                                            item.assets_id
-                                                          : "/admin/assets/edit/id=" +
-                                                            item.assets_id
-                                                  }" class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">${
-                                                      auth?.permission
-                                                          ?.assets_update == 0
-                                                          ? "Detail"
-                                                          : "Update"
-                                                  }</a></li>`
+                                                ? `
+                                             <li><a href="/admin/assets/data/update/id=${item.assets_id}/variant=${item.variant}" class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Update</a></li>
+
+                                                `
                                                 : ""
                                         }
                                         ${

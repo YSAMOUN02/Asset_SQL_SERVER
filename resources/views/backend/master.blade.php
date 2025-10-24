@@ -191,10 +191,7 @@
 
 
                             </a>
-                            <button id="sidebarToggle" onclick="toggleFullScreen()"
-                                class="flex items-center justify-center w-10 h-10 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200">
-                                <i class="fa-solid fa-angles-left" style="color: #0041b3;"></i>
-                            </button>
+
                             @yield('style')
                         </div>
                         <div class="flex items-center lg:order-2">
@@ -243,17 +240,20 @@
                             </div>
                         </form>
                         <ul class="space-y-2">
-                            @if (Auth::user()->role == 'admin' || Auth::user()->role == 'super_admin')
+                            {{-- @if (Auth::user()->role == 'admin' || Auth::user()->role == 'super_admin') --}}
                                 <li id="button_hover" class="flex justify-between">
                                     <a href="/"
                                         class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                         <i class="fa-solid fa-chart-pie"></i>
                                         <span class="ml-3">Dashboard</span>
                                     </a>
-
+                                        <button id="sidebarToggle" onclick="toggleFullScreen()"
+                                class="flex items-center justify-center w-10 h-10 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200">
+                                <i class="fa-solid fa-angles-left" style="color: #0041b3;"></i>
+                            </button>
 
                                 </li>
-                            @endif
+                            {{-- @endif --}}
 
                             @if (Auth::user()->Permission->assets_write == 1)
                                 <li>
