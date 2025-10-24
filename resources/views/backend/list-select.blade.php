@@ -204,7 +204,7 @@
     <div class="table-data  max-w-full mt-2">
         <table id="resultList" class="table_respond text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
+                <tr   tabindex="0">
 
                     <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                         No
@@ -242,7 +242,7 @@
                         $no = 1;
                     @endphp
                     @foreach ($data as $item)
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <tr   tabindex="0" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
                             <td scope="row"
                                 class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">

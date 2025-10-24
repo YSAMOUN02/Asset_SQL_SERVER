@@ -472,7 +472,7 @@ async function search_assets() {
 
                     <table id="table_selec_asset" class="w-full overflow-auto  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
+                            <tr   tabindex="0">
                                 <th scope="col" class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">Posting Date</th>
                                 <th scope="col" class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">Assets</th>
                                 <th scope="col" class="px-1 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">FA</th>
@@ -488,7 +488,7 @@ async function search_assets() {
     ${data
         .map(
             (item, index) => `
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <tr   tabindex="0" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
                 <td class="px-1 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
                     ${
@@ -1242,7 +1242,7 @@ async function search_asset(no) {
                 data.data.map((item, index) => {
                     let custom = ``;
                     if (item.deleted == 1) {
-                        custom += `<tr class="bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
+                        custom += `<tr   tabindex="0" class="bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
                                      <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                 <input onchange="printable()" data-id="${
                                                     item.assets_id || ""
@@ -1255,7 +1255,7 @@ async function search_asset(no) {
 
                         `;
                     } else {
-                        custom += `<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        custom += `<tr   tabindex="0" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                  <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                 <input onchange="printable()" data-id="${
                                                     item.assets_id || ""
@@ -1417,14 +1417,14 @@ async function search_asset(no) {
                         custom += `
 
                                                             <li>
-                                                                    <a href="/admin/assets/view/id=${item.assets_id}"
+                                                                    <a href="/admin/assets/data/view/id=${item.assets_id}/variant=${item.variant}"
                                                                         class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">View</a>
                                                                 </li>
 
 
 
                                                                 <li>
-                                                                    <a href="/admin/assets/edit/id=${item.assets_id}"
+                                                                    <a href="/admin/assets/data/update/id=${item.assets_id}/variant=${item.variant}"
                                                                         class="block px-4 py-2 hover:bg-gray-200  bg-white text-black ">Update</a>
                                                                 </li>
 
@@ -1770,7 +1770,7 @@ async function search_movement(no) {
                     let custom = ``;
                     if (item.deleted == 1) {
                         custom += `
-                             <tr class=" bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
+                             <tr   tabindex="0" class=" bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
                                 <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     <input onchange="printable()" data-id="{{ $item->assets_id }}"
                                         id="green-checkbox{{ $item->id }}" type="checkbox" value=""
@@ -1780,7 +1780,7 @@ async function search_movement(no) {
                         `;
                     } else {
                         custom += `
-                           <tr class="bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
+                           <tr   tabindex="0" class="bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
                             <!-- Checkbox -->
                             <td class="print_val px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
                                 <input onchange="printable()" data-id="${
@@ -1882,8 +1882,8 @@ async function search_movement(no) {
             item.reference || ""
         }</td>
          <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
-            item.purpose || ""
-        }</td>
+             item.purpose || ""
+         }</td>
           <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                         ${
                                                             item.status_recieved ||
@@ -2399,7 +2399,7 @@ async function raw_assets(no) {
             ${data.data
                 .map((item, index) => {
                     return `
-        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"">
+        <tr   tabindex="0" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"">
             <td scope="row"
                 class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 ${index + 1}
@@ -2707,7 +2707,7 @@ async function search_change_log(no) {
                 data.data.map((item) => {
                     body_change.innerHTML += `
 
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <tr   tabindex="0" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                    ${item.id || ""}
                                </td>
@@ -2987,7 +2987,7 @@ async function search_quick_data(no) {
                 data.data.map((item, index) => {
                     body_change.innerHTML += `
 
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <tr   tabindex="0" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                     ${item.id}
                                </td>
@@ -3081,7 +3081,7 @@ async function search_mobile(asset) {
                       <table id="list_assets"
                             class="table_respond max-w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                              <tr>
+                              <tr   tabindex="0">
                                  <th scope="col" class="px-6 py-3">
                                     Action
                                     </th>
@@ -3101,7 +3101,7 @@ async function search_mobile(asset) {
 
                 data.data.map((item, index) => {
                     custom += `
-                        <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <tr   tabindex="0" class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                             <td >
                                                 <a href="/admin/assets/edit/id=${
                                                     item.id
@@ -3279,7 +3279,7 @@ async function search_asset_new(no) {
                 let custom = ``;
                 if (item.deleted == 1) {
                     custom += `
-                       <tr class="bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
+                       <tr   tabindex="0" class="bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
                         <td class="print_val px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">
                             <input onchange="printable()" data-id="${
                                 item.assets_id || ""
@@ -3289,7 +3289,7 @@ async function search_asset_new(no) {
                     `;
                 } else {
                     custom += `
-                       <tr class="bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
+                       <tr   tabindex="0" class="bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
 
                         <td class="print_val px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">
                             <input onchange="printable()" data-id="${
@@ -3539,14 +3539,12 @@ async function change_toggle(state) {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
-                "Cache-Control": "no-cache",
-                Pragma: "no-cache",
             },
             body: JSON.stringify({
                 type: "minimize",
-                value: state, // 1 or 0
-                id: auth.id, // send current user id
-                _t: Date.now(), // cache buster
+                value: state,
+                id: auth.id,
+                _t: Date.now(),
             }),
         });
 

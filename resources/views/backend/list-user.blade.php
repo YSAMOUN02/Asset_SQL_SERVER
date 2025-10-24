@@ -308,7 +308,7 @@
         <div class="scroll-container">
             <table id="table_user" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr id="user_th">
+                    <tr   tabindex="0" id="user_th">
                         <th scope="col"
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             ID
@@ -362,7 +362,7 @@
                     @if (!empty($user))
                         @foreach ($user as $item)
                             @if (Auth::user()->id == $item->id)
-                                <tr class="bg-green-300 border-b dark:bg-gray-800 dark:border-gray-700">
+                                <tr   tabindex="0" class="bg-green-300 border-b dark:bg-gray-800 dark:border-gray-700">
                                     <td scope="row"
                                         class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->id }}
@@ -446,7 +446,7 @@
 
                                 </tr>
                             @else
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <tr   tabindex="0" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <td scope="row"
                                         class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->id }}

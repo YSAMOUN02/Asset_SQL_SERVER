@@ -263,7 +263,7 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 
             <!-- Table Headers -->
-            <tr class="bg-gray-100 dark:bg-gray-700">
+            <tr   tabindex="0" class="bg-gray-100 dark:bg-gray-700">
                 <th class="px-3 py-2 text-left">ID</th>
                 <th class="px-3 py-2 text-left">Record ID</th>
                 <th class="px-3 py-2 text-left">Record NO.</th>
@@ -285,7 +285,7 @@
         </thead>
         <tbody id="table_body_change">
             @forelse($changeLog as $item)
-                <tr
+                <tr   tabindex="0"
                     class="items-start text-left bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition">
 
                     <!-- ID -->
@@ -330,7 +330,7 @@
 
                 </tr>
             @empty
-                <tr>
+                <tr   tabindex="0">
                     <td colspan="10" class="text-center py-4">No logs found</td>
                 </tr>
             @endforelse

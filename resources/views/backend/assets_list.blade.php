@@ -359,7 +359,7 @@
             <table id="list_assets"
                 class="table_respond max-w-full  mt-5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
+                    <tr   tabindex="0">
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             <input onchange="select_all()" type="checkbox" id="select_all"
                                 class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -433,7 +433,7 @@
                     @if (!empty($asset))
                         @foreach ($asset as $item)
                             @if ($item->deleted == 0)
-                                <tr
+                                <tr   tabindex="0"
                                     class="bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
                                     <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
 
@@ -443,7 +443,7 @@
 
                                     </td>
                                 @else
-                                <tr class="bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
+                                <tr   tabindex="0" class="bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
 
                                     <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                         <input onchange="printable()" data-id="{{ $item->assets_id }}"

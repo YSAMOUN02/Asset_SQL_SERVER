@@ -220,7 +220,7 @@ class ApiHandlerController extends Controller
             $data->where("department", 'LIKE', "%" . $department . "%");
         }
         if ($item != "NA") {
-            $data->where("description", 'LIKE', "%" . $item . "%");
+            $data->where("item", 'LIKE', "%" . $item . "%");
         }
 
         // Date filters
@@ -382,10 +382,10 @@ class ApiHandlerController extends Controller
         $limit = $viewpoint->value ?? 50;
         $offset = ($page != 0) ? ($page - 1) * $limit : 0;
 
-        $count = $data->where('deleted',0)->count();
+        $count = $data->where('deleted', 0)->count();
 
         // Filter deleted only for admin
-       if (Auth::user()->role == 'admin' || Auth::user()->role == 'user' || Auth::user()->role == 'super_normal') {
+        if (Auth::user()->role == 'admin' || Auth::user()->role == 'user' || Auth::user()->role == 'super_normal') {
             $data->where('deleted', 0);
         }
 
@@ -687,7 +687,7 @@ class ApiHandlerController extends Controller
             ->first();
         $limit = $viewpoint->value ?? 50;
         $offset = ($page != 0) ? ($page - 1) * $limit : 0;
-        $count = $data->where('deleted',0)->count();
+        $count = $data->where('deleted', 0)->count();
 
         // Filter deleted only for admin
         if (Auth::user()->role == 'admin' || Auth::user()->role == 'user' || Auth::user()->role == 'super_normal') {
@@ -720,25 +720,24 @@ class ApiHandlerController extends Controller
 
     public function updateToggle(Request $request)
     {
-        $userId = $request->id; // make sure you trust this or validate
-        $type = $request->type; // should be 'minimize'
-        $value = $request->value; // 0 or 1
+
+        $userId = $request->id;
+        $type = $request->type;
+        $value = $request->value;
 
         if (!$userId || $type !== 'minimize') {
             return response()->json(['error' => 'Invalid request'], 400);
         }
 
-        // Find or create the record
         $property = User_property::firstOrNew([
             'user_id' => $userId,
             'type' => 'minimize'
         ]);
 
-        // Update value
         $property->value = $value;
         $property->save();
 
-        return response()->json($value); // returns 0 or 1
+        return response()->json($value);
     }
     public function children($id)
     {

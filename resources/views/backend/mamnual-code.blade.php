@@ -71,7 +71,7 @@
             <table id="list_assets"
                 class="table_respond max-w-full  mt-5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
+                    <tr   tabindex="0">
 
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             ID &ensp;
@@ -100,7 +100,7 @@
 
                 <tbody id="assets_body">
                     @foreach ($mamnual_code as $item)
-                        <tr
+                        <tr   tabindex="0"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">

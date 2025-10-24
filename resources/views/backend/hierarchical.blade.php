@@ -95,7 +95,7 @@
 
             <table id="searchUsersTable" class="min-w-full border-collapse table-auto">
                 <thead class="bg-gray-200 dark:bg-gray-800">
-                    <tr>
+                    <tr   tabindex="0">
                         <th class="px-4 py-2 text-left text-gray-900 dark:text-white">#</th>
                         <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Name</th>
                         <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Email</th>
@@ -105,7 +105,7 @@
                 </thead>
                 <tbody id="searchUsersBody"
                     class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700 text-nowrap">
-                    <tr>
+                    <tr   tabindex="0">
                         <td colspan="5" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-center">No users
                             found</td>
                     </tr>
@@ -141,7 +141,7 @@
             <div class="overflow-auto max-h-[80vh]">
                 <table id="table_user" class="min-w-full border-collapse table-auto">
                     <thead class="bg-gray-200 dark:bg-gray-800 sticky top-0">
-                        <tr>
+                        <tr   tabindex="0">
                             <th class="px-4 py-2 text-left text-gray-900 dark:text-white">#</th>
                             <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Name</th>
                             <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Email</th>
@@ -153,7 +153,7 @@
                     </thead>
                     <tbody id="users"
                         class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700 text-nowrap">
-                        <tr>
+                        <tr   tabindex="0">
                             <td colspan="5" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-center">No users
                                 selected</td>
                         </tr>
@@ -281,7 +281,7 @@
         if (filtered.length > 0) {
             filtered.forEach((u, idx) => {
                 userHtml += `
-                <tr draggable="true" data-user-id="${u.id}" class="hover:bg-gray-50 dark:hover:bg-gray-700 text-sm">
+                <tr   tabindex="0" draggable="true" data-user-id="${u.id}" class="hover:bg-gray-50 dark:hover:bg-gray-700 text-sm">
                     <td class="px-1 py-0">${idx + 1}</td>
                     <td class="px-1 py-0 text-gray-900 dark:text-white">${escapeHtml(u.name)}</td>
                     <td class="px-1 py-0 text-gray-900 dark:text-white">${escapeHtml(u.email || '-')}</td>
@@ -301,7 +301,7 @@
             });
         } else {
             userHtml = `
-            <tr>
+            <tr   tabindex="0">
                 <td colspan="5" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-center">
                     No users found
                 </td>
@@ -340,7 +340,7 @@
             childrenContainer.classList.add('hidden');
             childrenContainer.innerHTML = '';
             document.getElementById('users').innerHTML =
-                `<tr><td colspan="5" class="text-center text-gray-500 dark:text-gray-400 px-4 py-2">No users selected</td></tr>`;
+                `<tr   tabindex="0"><td colspan="5" class="text-center text-gray-500 dark:text-gray-400 px-4 py-2">No users selected</td></tr>`;
             updateBreadcrumb([]);
             element.classList.remove('active');
             return;
@@ -496,7 +496,7 @@
         if (Array.isArray(users) && users.length) {
             users.forEach((u, idx) => {
                 html += `
-            <tr draggable="true" data-user-id="${u.id}" class="hover:bg-gray-50 dark:hover:bg-gray-700 text-sm">
+            <tr   tabindex="0" draggable="true" data-user-id="${u.id}" class="hover:bg-gray-50 dark:hover:bg-gray-700 text-sm">
                 <td class="px-1 py-0">${idx + 1}</td>
                 <td class="px-1 py-0 text-gray-900 dark:text-white">${escapeHtml(u.name)}</td>
                 <td class="px-1 py-0 text-gray-900 dark:text-white">${escapeHtml(u.email || '-')}</td>
@@ -516,7 +516,7 @@
             });
         } else {
             html =
-                `<tr><td colspan="5" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-center">No users found</td></tr>`;
+                `<tr   tabindex="0"><td colspan="5" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-center">No users found</td></tr>`;
         }
 
         usersTbody.innerHTML = html;
@@ -575,7 +575,7 @@
                     const hasUsers = usersTbody.querySelector('tr');
                     if (!hasUsers) {
                         usersTbody.innerHTML = `
-                        <tr>
+                        <tr   tabindex="0">
                             <td colspan="5" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-center">
                                 No users found
                             </td>
@@ -638,7 +638,7 @@
 
     function resetHierarchy() {
         document.getElementById('users').innerHTML =
-            `<tr><td colspan="5" class="px-1 py-1 text-gray-500 dark:text-gray-400 text-center">No users selected</td></tr>`;
+            `<tr   tabindex="0"><td colspan="5" class="px-1 py-1 text-gray-500 dark:text-gray-400 text-center">No users selected</td></tr>`;
         document.querySelectorAll('.children-container').forEach(cc => {
             cc.classList.add('hidden');
             cc.innerHTML = '';
@@ -968,7 +968,7 @@
         const usersTbody = document.getElementById('searchUsersBody');
         if (!query) {
             usersTbody.innerHTML =
-                `<tr><td colspan="5" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-center">No users found</td></tr>`;
+                `<tr   tabindex="0"><td colspan="5" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-center">No users found</td></tr>`;
             return;
         }
 
@@ -1018,12 +1018,12 @@
                 });
             } else {
                 usersTbody.innerHTML =
-                    `<tr><td colspan="5" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-center">No users found</td></tr>`;
+                    `<tr   tabindex="0"><td colspan="5" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-center">No users found</td></tr>`;
             }
         } catch (err) {
             console.error('Search failed:', err);
             usersTbody.innerHTML =
-                `<tr><td colspan="5" class="px-4 py-2 text-red-500 text-center">Search failed</td></tr>`;
+                `<tr   tabindex="0"><td colspan="5" class="px-4 py-2 text-red-500 text-center">Search failed</td></tr>`;
         }
     }
 

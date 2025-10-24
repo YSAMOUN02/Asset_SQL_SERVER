@@ -667,7 +667,7 @@ main{
 
 
 
-#sidebar {
+.SideBar {
 
     transition: width 0.5s ease, padding 0.3s ease;
 
@@ -676,15 +676,15 @@ main{
 }
 
 /* collapsed sidebar */
-#sidebar.collapsed {
+.SideBar.collapsed {
     width: 70px; /* only icons */
 }
 
-#sidebar.collapsed span {
+.SideBar.collapsed span {
     display: none; /* hide text labels */
 }
 
-#sidebar.collapsed button i.fa-angles-left {
+.SideBar .collapsed button i.fa-angles-left {
     transform: rotate(180deg); /* flip toggle arrow */
 }
 /* Default sidebar open */
@@ -694,11 +694,15 @@ main{
 }
 
 /* When sidebar collapsed */
-#sidebar.collapsed ~ #mainContent {
-    margin-left: 70px;
+.SideBar .collapsed ~ #mainContent {
+    margin-left: 70px !important;
 }
-
-
+#sidebarToggle i {
+    transition: transform 0.5s ease-in-out;
+}
+#sidebarToggle.rotated i {
+    transform: rotate(360deg);
+}
 #table_user thead{
   position: sticky;
   top: 0px;
@@ -747,6 +751,19 @@ main{
 }
 .hide_destop{
     display: none;
+}
+tr {
+  transition: background-color 0.3s;
+}
+
+tr:hover {
+  background-color: #90b7ff !important;
+}
+
+tr:focus {
+  background-color: rgb(24, 131, 253) !important;
+  z-index: 9;
+  outline: none;
 }
 
     /* Faster spin */
@@ -935,7 +952,7 @@ main{
     justify-content: center;
   }
   #sidebarToggle{
-    display: none !important;
+    display: none;
   }
   aside{
     z-index: 99;
@@ -1082,7 +1099,5 @@ aside i{
 table td{
     padding: 2px 3px;
 }
-/* #mainContent{
-    margin-left: 12rem !important;
-} */
+
 }

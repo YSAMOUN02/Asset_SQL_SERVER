@@ -186,9 +186,16 @@
                                 <img src="/static_img/images.png" class="mr-3 h-8" alt="Flowbite Logo" />
                                 <span
                                     class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white text-blue-900">
-                                    Assets System</span> &ensp;&ensp; @yield('style')
-                            </a>
+                                    Assets System</span> &ensp;&ensp;
 
+
+
+                            </a>
+                            <button id="sidebarToggle" onclick="toggleFullScreen()"
+                                class="flex items-center justify-center w-10 h-10 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200">
+                                <i class="fa-solid fa-angles-left" style="color: #0041b3;"></i>
+                            </button>
+                            @yield('style')
                         </div>
                         <div class="flex items-center lg:order-2">
                             <button type="button" data-drawer-toggle="drawer-navigation"
@@ -209,7 +216,7 @@
 
             @if (!empty(Auth::user()))
                 <aside
-                    class="  fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+                    class="SideBar  fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
                     aria-label="Sidenav" id="drawer-navigation">
                     <div class="zindex99 overflow-y-auto   py-5 px-3 h-full bg-white dark:bg-gray-800">
                         <div
@@ -243,10 +250,7 @@
                                         <i class="fa-solid fa-chart-pie"></i>
                                         <span class="ml-3">Dashboard</span>
                                     </a>
-                                    <button id="sidebarToggle" onclick="toggleFullScreen()"
-                                        class="flex items-center justify-center w-10 h-10 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200">
-                                        <i class="fa-solid fa-angles-left" style="color: #0041b3;"></i>
-                                    </button>
+
 
                                 </li>
                             @endif
@@ -443,7 +447,7 @@
                                 </a>
 
                             </li>
-                            
+
                             <li>
                                 <a href="/admin/profile">
                                     <button type="button"
@@ -551,11 +555,19 @@
                 }
             });
 
+
+
+            let state_toggle = @json($shouldMinimize); // 1 = expanded, 0 = collapsed
+
+
+            let sidebar = document.querySelector(".SideBar");
+            let main = document.getElementById("mainContent");
+            let lis = document.querySelectorAll(".toggle_li");
+            let toggleBtn = document.getElementById("sidebarToggle"); // your button with icon
             document.addEventListener("DOMContentLoaded", async () => {
                 try {
-                    @if ($shouldMinimize)
-                        toggleFullScreen(); // Call your JS function automatically
-                    @endif
+
+
                     const data = await showLoader(async () => {
                         // simulate some initial async task
                         await new Promise(resolve => setTimeout(resolve, 10));
@@ -563,39 +575,56 @@
                             message: "Page ready"
                         };
                     });
-                    console.log(data);
+
+
+
+                    // Collapse sidebar visually
+                    sidebar.classList.toggle("collapsed", state_toggle == 0);
+                    sidebar.classList.toggle("collapsed", state_toggle == 0);
+                    // Update menu items
+                    lis.forEach(li => {
+                        const textSpan = li.querySelector(".li-text");
+                        if (textSpan) textSpan.style.display = state_toggle == 1 ? "inline" :"none" ;
+                        li.style.paddingLeft = state_toggle == 1 ? "44px" : "10px";
+
+                    });
+                    toggleBtn.style.transform = state_toggle === 0 ? "rotate(0deg)" : "rotate(180deg)";
+                    // Move main content according to sidebar width
+                    if (main) main.style.marginLeft = state_toggle == 1 ? "16rem" : "70px";
+
+
                 } catch (err) {
                     console.error(err);
                 }
             });
 
-            let state_toggle = 0;
+
 
 
             function toggleFullScreen() {
-                // Collapse sidebar
-                document.getElementById("drawer-navigation").classList.toggle("collapsed");
+                state_toggle = state_toggle == 0 ? 1 : 0;
 
-                // Select all <a> elements with class "toggle_li"
-                let lis = document.querySelectorAll(".toggle_li");
+                // Collapse sidebar visually
+                sidebar.classList.toggle("collapsed", state_toggle === 0);
 
+                // Update menu items
                 lis.forEach(li => {
-                    let textSpan = li.querySelector(".li-text");
-
-                    if (state_toggle === 0) {
-                        // Sidebar collapsed: hide text
-                        textSpan.style.display = "none";
-                        li.style.paddingLeft = "10px"; // adjust padding for icon only
-                    } else {
-                        // Sidebar expanded: show text
-                        textSpan.style.display = "inline";
-                        li.style.paddingLeft = "44px"; // original padding
-                    }
+                    const textSpan = li.querySelector(".li-text");
+                    if (textSpan) textSpan.style.display = state_toggle == 1 ? "inline" : "none";
+                    li.style.paddingLeft = state_toggle == 1 ? "44px" : "10px";
                 });
 
-                // Toggle the state
-                state_toggle = state_toggle === 0 ? 1 : 0;
+                // Rotate icon
+                if (toggleBtn) {
+                    toggleBtn.style.transition = "transform 0.5s ease-in-out";
+                    toggleBtn.style.transform = state_toggle === 0 ? "rotate(0deg)" : "rotate(180deg)";
+                }
+                // Move main content according to sidebar width
+                if (main) main.style.marginLeft = state_toggle == 1 ? "16rem" : "70px";
 
+                // Optional: save preference
+                console.log(state_toggle);
+                // Toggle the state first
 
                 change_toggle(state_toggle);
             }
@@ -608,8 +637,16 @@
 
 
 
+            const rows = document.querySelectorAll("#myTable tr");
 
-
+            rows.forEach(tr => {
+                tr.addEventListener("click", () => {
+                    // Remove "active" class from all rows
+                    rows.forEach(r => r.classList.remove("active"));
+                    // Add "active" class to clicked row
+                    tr.classList.add("active");
+                });
+            });
 
             let auth = @json(Auth::user());
 
