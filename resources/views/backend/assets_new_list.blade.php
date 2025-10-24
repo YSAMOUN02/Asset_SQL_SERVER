@@ -380,9 +380,7 @@
                          <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             Initial Condition&ensp;
                         </th>
-                        <th>
-                            status when recieved
-                        </th>
+
 
 
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
@@ -408,6 +406,9 @@
                         </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             Refference&ensp;
+                        </th>
+                               <th>
+                            status when recieved
                         </th>
 
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
@@ -480,9 +481,7 @@
                             <td>
                                 {{ $item->initial_condition }}
                             </td>
-                            <td>
-                                {{ $item->status_recieved }}
-                            </td>
+
                             <td>
                                 {{ $item->item }}
                             </td>
@@ -507,7 +506,9 @@
                             <td>
                                 {{ $item->reference ?? '' }}
                             </td>
-
+                             <td>
+                                {{ $item->status_recieved }}
+                            </td>
 
                             <td>
                                 {{ \Carbon\Carbon::parse($item->created_at)->format('d-M-Y') ?? '' }}

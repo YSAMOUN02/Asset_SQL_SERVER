@@ -371,10 +371,10 @@
 
                             Status &ensp;
                         </th>
-
-                        <th>
-                            status when recieved
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                            Initial Condition&ensp;
                         </th>
+
 
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             Item&ensp;
@@ -383,9 +383,7 @@
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             Specification&ensp;
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
-                            Initial Condition&ensp;
-                        </th>
+
 
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             Holder Name&ensp;
@@ -402,7 +400,12 @@
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             Refference&ensp;
                         </th>
-
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                            Purpose&ensp;
+                        </th>
+                        <th>
+                            status when recieved
+                        </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             Issue Date&ensp;
                         </th>
@@ -477,7 +480,7 @@
                                 @endif
                             </td>
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                {{ $item->status_recieved }}
+                                {{ $item->initial_condition }}
                             </td>
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                 {{ $item->item }}
@@ -486,9 +489,7 @@
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                 {{ $item->specification }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                {{ $item->initial_condition }}
-                            </td>
+
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                 {{ $item->holder_name ?? '' }}
                             </td>
@@ -504,6 +505,12 @@
                             </td>
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                 {{ $item->reference ?? '' }}
+                            </td>
+                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                {{ $item->purpose ?? '' }}
+                            </td>
+                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                {{ $item->status_recieved }}
                             </td>
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                 {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}

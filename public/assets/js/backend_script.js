@@ -1316,12 +1316,13 @@ async function search_asset(no) {
                                        }
                                                 </td>
 
-                                                        <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                        ${
-                                                            item.status_recieved ||
-                                                            ""
-                                                        }
-                                                        </td>
+                                                  <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                                  ${
+                                                      item.initial_condition ||
+                                                      ""
+                                                  }
+                                                </td>
+
 
 
                                                         <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
@@ -1333,12 +1334,7 @@ async function search_asset(no) {
 
 
 
-                                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                  ${
-                                                      item.initial_condition ||
-                                                      ""
-                                                  }
-                                                </td>
+
 
                                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                    ${item.holder_name || ""}
@@ -1357,6 +1353,12 @@ async function search_asset(no) {
                                                                   <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                       ${item.document || ""}
                                                 </td>
+                                                     <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                                        ${
+                                                            item.status_recieved ||
+                                                            ""
+                                                        }
+                                                        </td>
                                                      <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                ${
                                                    item.created_at
@@ -1837,12 +1839,11 @@ async function search_movement(no) {
                         </span>`
             }
         </td>
-  <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                                        ${
-                                                            item.status_recieved ||
-                                                            ""
-                                                        }
-                                                        </td>
+                <!-- Initial Condition -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.initial_condition || ""
+        }</td>
+
 
         <!-- Item -->
         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
@@ -1854,10 +1855,7 @@ async function search_movement(no) {
             item.specification || ""
         }</td>
 
-        <!-- Initial Condition -->
-        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
-            item.initial_condition || ""
-        }</td>
+
 
         <!-- Holder -->
         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
@@ -1883,7 +1881,15 @@ async function search_movement(no) {
         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
             item.reference || ""
         }</td>
-
+         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.purpose || ""
+        }</td>
+          <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                                        ${
+                                                            item.status_recieved ||
+                                                            ""
+                                                        }
+                                                        </td>
         <!-- Created Date -->
         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
             ${
@@ -3154,7 +3160,7 @@ async function search_asset_new(no) {
     let department = document.querySelector("#department");
     let user = document.querySelector("#user");
     let company = document.querySelector("#company");
-    
+
     const asset_input = document.querySelector("#assets");
     const description = document.querySelector("#description");
     const start = document.querySelector("#start_date");
@@ -3211,13 +3217,10 @@ async function search_asset_new(no) {
     } catch (error) {
         alert(error);
     }
- let pagination_search = document.querySelector(
-                ".pagination_by_search"
-            );
+    let pagination_search = document.querySelector(".pagination_by_search");
     let body_change = document.querySelector("#assets_body");
     if (data) {
         if (data.data && data.data.length > 0) {
-
             if (pagination_search) {
                 pagination_search.style.display = "block";
                 if (data.page != 0) {
@@ -3323,18 +3326,17 @@ async function search_asset_new(no) {
                                 ? `<span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"><span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>Active</span>`
                                 : `<span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300"><span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>Inactive</span>`
                         }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
-                            item.status_recieved || ""
-                        }</td>
+                              <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
+                                  item.initial_condition || ""
+                              }</td>
+
                         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
                             item.item || ""
                         }</td>
                         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
                             item.specification || ""
                         }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
-                            item.initial_condition || ""
-                        }</td>
+
                         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
                             item.holder_name || ""
                         }</td>
@@ -3350,6 +3352,9 @@ async function search_asset_new(no) {
                         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
                             item.document || ""
                         }</td>
+                            <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
+                                item.status_recieved || ""
+                            }</td>
                         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
                             item.created_at
                                 ? new Date(item.created_at).toLocaleDateString(

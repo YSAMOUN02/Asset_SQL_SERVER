@@ -4,7 +4,8 @@
     Last Active Assets Management
 @endsection
 @section('style')
-    <span class=" mobile_hide fade1 ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
+    <span
+        class=" mobile_hide fade1 ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
             class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">Last Active Assets
             Management</span>
     </span>
@@ -130,7 +131,7 @@
                 <div>
                     <label for="user" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Holder
                         Name
-                       </label>
+                    </label>
 
                     <input type="text" id="user" name="user" list="userList" autocomplete="off"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -382,10 +383,10 @@
 
                             Status &ensp;
                         </th>
-                        <th>
-                            status when recieved
-                        </th>
 
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                            Initial Condition&ensp;
+                        </th>
 
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             Item&ensp;
@@ -394,9 +395,7 @@
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             Specification&ensp;
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
-                            Initial Condition&ensp;
-                        </th>
+
 
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             Holder Name&ensp;
@@ -413,7 +412,9 @@
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             Refference&ensp;
                         </th>
-
+                        <th>
+                            status when recieved
+                        </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             Issue Date&ensp;
                         </th>
@@ -483,8 +484,9 @@
                                 @endif
                             </td>
                             <td>
-                                {{ $item->status_recieved }}
+                                {{ $item->initial_condition }}
                             </td>
+
                             <td>
                                 {{ $item->item }}
                             </td>
@@ -492,9 +494,7 @@
                             <td>
                                 {{ $item->specification }}
                             </td>
-                            <td>
-                                {{ $item->initial_condition }}
-                            </td>
+
                             <td>
                                 {{ $item->holder_name ?? '' }}
                             </td>
@@ -511,7 +511,9 @@
                             <td>
                                 {{ $item->reference ?? '' }}
                             </td>
-
+                            <td>
+                                {{ $item->status_recieved }}
+                            </td>
 
                             <td>
                                 {{ \Carbon\Carbon::parse($item->created_at)->format('d-M-Y') ?? '' }}

@@ -587,7 +587,7 @@
 
             function toggleFullScreen() {
                 // Collapse sidebar
-                document.getElementById("sidebar").classList.toggle("collapsed");
+                document.getElementById("drawer-navigation").classList.toggle("collapsed");
 
                 // Select all <a> elements with class "toggle_li"
                 let lis = document.querySelectorAll(".toggle_li");
