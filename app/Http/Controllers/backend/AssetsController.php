@@ -57,7 +57,7 @@ class AssetsController extends Controller
             ->first();
         $limit = $viewpoint->value ?? 50;
 
-        $count_post = movement::count();
+        $count_post = movement::where('deleted', 0)->count();
         $total_page = ceil($count_post / $limit);
         $offset = ($page != 0) ? ($page - 1) * $limit : 0;
 
@@ -82,7 +82,7 @@ class AssetsController extends Controller
         ])
             ->orderBy('assets_id', 'desc');
 
-        if (Auth::user()->role == 'admin') {
+        if (Auth::user()->role == 'admin' || Auth::user()->role == 'user' || Auth::user()->role == 'super_normal') {
             $sql->where('deleted', 0);
         }
 
@@ -112,14 +112,14 @@ class AssetsController extends Controller
             ->first();
         $limit = $viewpoint->value ?? 50;
 
-        $count_post = StoredAssets::count();
+        $count_post = StoredAssets::where('deleted', 0)->count();
         $total_page = ceil($count_post / $limit);
         $offset = 0;
         if ($page != 0) {
             $offset = ($page - 1) * $limit;
         }
 
-        $asset = StoredAssets::select([
+        $sql = StoredAssets::select([
             'assets_id',
             'reference',
             'assets1',
@@ -141,8 +141,13 @@ class AssetsController extends Controller
             ->where("status", 1)
             ->orderBy('assets_id', 'desc')
             ->limit($limit)
-            ->offset($offset)
-            ->get();
+            ->offset($offset);
+
+            if (Auth::user()->role == 'admin' || Auth::user()->role == 'user' || Auth::user()->role == 'super_normal') {
+            $sql->where('deleted', 0);
+        }
+
+        $asset = $sql->get();
 
 
         $departments = movement::pluck('department')->unique()->filter()->values();
@@ -205,14 +210,12 @@ class AssetsController extends Controller
                 'total_page' => $total_page,
                 'page' => $page,
                 'total_record' => $count_post,
-
-
             ]);
         } else {
             return redirect('/')->with('fail', 'You do not have permission Assets Write.');
         }
     }
-  // No Deleted Allow  and Only 1 Record of new Register
+    // No Deleted Allow  and Only 1 Record of new Register
     public function assets_new($page)
     {
         // Check permission
@@ -225,7 +228,7 @@ class AssetsController extends Controller
             ->first();
         $limit = $viewpoint->value ?? 50;
 
-        $count_post = New_assets::count();
+        $count_post = New_assets::where('deleted', 0)->count();
         $total_page = ceil($count_post / $limit);
         $offset = ($page != 0) ? ($page - 1) * $limit : 0;
 
@@ -254,7 +257,7 @@ class AssetsController extends Controller
             ->offset($offset);
 
         // Filter Deleted data if not super admin
-        if (Auth::user()->role == 'admin') {
+       if (Auth::user()->role == 'admin' || Auth::user()->role == 'user' || Auth::user()->role == 'super_normal') {
             $sql->where('deleted', 0);
         }
 
@@ -483,18 +486,20 @@ class AssetsController extends Controller
     public function update_and_view_asset($state, $id, $variant)
     {
 
-
-        $asset_main = movement::with([
+        $sql = movement::with([
             'images',
             'files',
             'assets_variant' => function ($query) {
-                $query->orderBy('variant', 'desc');
+                $query->where('deleted', 0) // exclude deleted variants
+                    ->orderBy('variant', 'desc');
             }
-        ])
-            ->where('assets_id', $id)
-            ->first();
+        ])->where('assets_id', $id);
 
-        // return $asset_main ;
+        if (Auth::user()->role == 'admin') {
+            $sql->where('deleted', 0);
+        }
+
+        $asset_main = $sql->first();
 
         if (!$asset_main) {
             return  redirect()->back()->with('error', 'Not Found!');
@@ -504,7 +509,7 @@ class AssetsController extends Controller
         $assets2 = Asset_code::all();
         $today = Carbon::today()->toDateString();
 
-        $references = \App\Models\Reference::where('type', 'Assets')
+        $references = Reference::where('type', 'Assets')
             ->whereDate('start', '<=', $today)
             ->whereDate('end', '>=', $today)
             ->select('code', 'no', 'name', 'id')
@@ -762,21 +767,6 @@ class AssetsController extends Controller
         }
         $count_array_qr = count($array_qr);
 
-
-        // if($count_array_qr != 0){
-        //     // return $array_qr;
-        //     return view('backend.print-qr', ['array_qr' => $array_qr]);
-        // }else{
-        //     if ($count > 0) {
-        //         foreach ($id as $item) {
-
-        //             $object = StoredAssets::where('id', $item)->where('last_varaint',1)->first();
-        //             if($object != null){
-        //                 array_push($array_qr, $object);
-        //             }
-
-        //         }
-        // }
         if ($count_array_qr != 0) {
 
             return view('backend.print-qr', ['array_qr' => $array_qr]);
@@ -1609,9 +1599,4 @@ class AssetsController extends Controller
             return back()->with('error', 'Import failed due to unexpected error: ' . $e->getMessage());
         }
     }
-
-
-
-
-
 }

@@ -4,7 +4,7 @@
     Assets History
 @endsection
 @section('style')
-    <span class="ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
+    <span class="mobile_hide ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
             class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">Assets History List</span>
     </span>
 @endsection
@@ -94,7 +94,7 @@
 
         <form action="/admin/assets/add/search" method="POST">
             @csrf
-            <div class="max-w-full min-h-full grid px-2 py-1 gap-1 lg:gap-2  grid-cols-3 lg:grid-cols-4 md:grid-cols-2">
+            <div class="max-w-full min-h-full grid px-2 py-1 gap-1 lg:gap-2  grid-cols-2 lg:grid-cols-4 md:grid-cols-2">
 
                 <div>
                     <label for="assets" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Assets
@@ -199,11 +199,8 @@
 
                             <!-- HOLDER INFO -->
                             <option value="asset_holder">Assets Holder ID</option>
-                            <option value="holder_name">Holder Name</option>
                             <option value="position">Position</option>
                             <option value="location">Location</option>
-                            <option value="department">Department</option>
-                            <option value="company">Company</option>
                             <option value="remark_holder">Remark Holder</option>
 
                             <!-- INTERNAL DOC INFO -->
@@ -216,9 +213,7 @@
 
                             <!-- ERP DATA -->
                             <option value="asset_code_account">Asset Code Account</option>
-
                             <option value="description">Description</option>
-
                             <option value="invoice_no">Invoice No</option>
                             <option value="fa">FA</option>
                             <option value="fa_class">Fix Asset Class</option>

@@ -21,7 +21,11 @@ class AdminController extends Controller
 
     public function dashboard_admin($report = null, $year = null, $month = null)
     {
+        if(Auth::user()->role == 'user' || Auth::user()->role == 'super_normal'){
 
+
+            return redirect('/admin/assets-ownership');
+        }
         $report = $report ?? 1; // default to report 1 if null
         $year = $year ?? now()->year;   // default to current year if null
         $month = $month ?? now()->month; // default to current month if null

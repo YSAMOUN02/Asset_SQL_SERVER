@@ -77,8 +77,10 @@ class User extends Authenticatable
     {
         return $this->hasOneThrough(Group::class, UserUnit::class, 'user_id', 'id', 'id', 'group_id');
     }
-     public function assets_history()
-    {
-        return $this->hasMany(movement::class, 'asset_holder', 'id_card');
-    }
+    //  public function assets_history()
+    // {
+    //     return $this->hasMany(movement::class, 'asset_holder', 'id_card');
+    // }
+
+
 }

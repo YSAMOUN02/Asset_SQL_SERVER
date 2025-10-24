@@ -14,6 +14,7 @@ use App\Models\Department;
 use App\Models\Division;
 use App\Models\Section;
 use App\Models\Group;
+use App\Models\StoredAssets;
 use App\Models\UserUnit;
 use Illuminate\Support\Facades\DB;
 
@@ -346,7 +347,7 @@ class UserController extends Controller
                 );
             }
         }
-        
+
         // 🔹 Log UserUnit Changes
         foreach ($oldUnitValues as $col => $old) {
             $new = $userUnit->$col;
@@ -663,5 +664,41 @@ class UserController extends Controller
         });
 
         return response()->json($users);
+    }
+
+
+    public function myProfile()
+    {
+        $user = User::with([
+            'Permission',
+            'Company',
+            'Department',
+            'Division',
+            'Section',
+            'Group'
+        ])
+            ->where('id', Auth::user()->id)
+            ->first();
+
+
+
+        return view('backend.profile', [
+            'user' => $user,
+
+        ]);
+    }
+    public function assets_ownership()
+    {
+
+        $assets = StoredAssets::where('asset_holder', Auth::user()->id_card)
+        ->with(['images'])
+        ->select('assets_id','assets1','assets2','item','item_description','transaction_date','initial_condition','variant')
+        ->where('deleted', 0)
+        ->get();
+
+        // return $assets
+        return view('backend.assets-ownership', [
+            'assets' => $assets,
+        ]);
     }
 }

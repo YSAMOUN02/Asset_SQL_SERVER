@@ -4,7 +4,7 @@
   Invoice List
 @endsection
 @section('style')
-   <span class="ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
+   <span class="mobile_hide ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
                  class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">Add Assets by Invoice ERP</span>
 </span>
 

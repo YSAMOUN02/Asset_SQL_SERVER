@@ -31,14 +31,14 @@ rang_size.addEventListener('input',(e)=>{
     if(document.querySelector("#size_change")){
         document.querySelector("#size_change").textContent = e.target.value+" px";
     }
-    
+
    if(boxs){
     boxs.forEach((box)=>{
         if(box){
             box.style.height = e.target.value+'px';
         }
 
-        
+
     })
    }
 })
@@ -47,8 +47,8 @@ rang_width.addEventListener('input',(e)=>{
     document.querySelector("#width_change").textContent = e.target.value+" px";
     boxs.forEach((box)=>{
         box.style.width= e.target.value+'px';
-      
-        
+
+
     })
 })
 
@@ -62,10 +62,10 @@ rang_weight.addEventListener('input',(e)=>{
                 if(box.querySelector('span')){
                     box.querySelector('span').style.fontWeight = e.target.value;
                 }
-             
+
             }
-        
-            
+
+
         })
     }
 })
@@ -73,7 +73,7 @@ rang_fsize.addEventListener('input',(e)=>{
     if(document.querySelector("#weight_change")){
         document.querySelector("#weight_change").textContent = e.target.value+" px";
     }
-   
+
     if(boxs){
         boxs.forEach((box)=>{
             // box.span.style.fontWeight = e.target.value+'px';
@@ -81,8 +81,8 @@ rang_fsize.addEventListener('input',(e)=>{
                 if(   box.querySelector('span')){
                     box.querySelector('span').style.fontSize = e.target.value+'px';
                 }
-                
-            
+
+
             }
         })
     }
@@ -96,9 +96,9 @@ color.addEventListener('input',(e)=>{
             if(box.querySelector("svg").querySelector('rect')){
                 box.querySelector("svg").querySelector('rect').style.fill =  e.target.value;
             }
-     
+
         }
-       
+
 
     })
 })
@@ -111,7 +111,7 @@ padding.addEventListener('input',(e)=>{
     boxs.forEach((box)=>{
         box.style.paddingLeft= e.target.value+'px';
         box.style.paddingRight= e.target.value+'px';
-        
+
     })
 })
 let paddingY = document.querySelector("#paddingY");
@@ -122,7 +122,7 @@ paddingY.addEventListener('input',(e)=>{
     boxs.forEach((box)=>{
         box.style.paddingTop= e.target.value+'px';
         box.style.paddingBottom= e.target.value+'px';
-        
+
     })
 })
 
@@ -139,12 +139,12 @@ content_color.addEventListener('input',(e)=>{
                 }
             }
 
-           
-    
-    
+
+
+
         })
     }
-  
+
 })
 
 let border = document.querySelector("#border");
@@ -159,7 +159,7 @@ border.addEventListener('input',(e)=>{
         else{
             box.style.border = e.target.value+'px solid';
         }
-        
+
     })
 })
 
@@ -170,19 +170,15 @@ border_color.addEventListener('input',(e)=>{
         boxs.forEach((box)=>{
 
             if(box){
-                box.style.borderColor = e.target.value; 
-                existing_b_color = e.target.value; 
+                box.style.borderColor = e.target.value;
+                existing_b_color = e.target.value;
             }
-       
+
         })
     }
-   
-})
-function show_list_asset_print(){
-    document.querySelector('#list').style.display="block";
 
-    
-}
+})
+
 function close_list_print(){
     document.querySelector('#list').style.display="none";
 }
@@ -194,38 +190,38 @@ let th_mom = document.querySelectorAll('#th');
 let state_hide = [1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 
 function remove_child_table(hide){
-   
 
-        
+
+
     if(state_hide[hide-1] == 1){
         let th = Array.from(th_mom);
 
         th.map((child)=>{
-           
+
             let target = child.querySelector('th:nth-child('+hide+')');
             target.style.display = 'none';
-            
+
         })
         let td = Array.from(td_mom);
         td.map((child)=>{
             let target = child.querySelector('td:nth-child('+hide+')')
             target.style.display = 'none';
-        })  
+        })
         state_hide[hide-1] = 0;
     }else{
         let th = Array.from(th_mom);
 
         th.map((child)=>{
-           
+
             let target = child.querySelector('th:nth-child('+hide+')');
             target.style.display = 'block';
-            
+
         })
         let td = Array.from(td_mom);
         td.map((child)=>{
             let target = child.querySelector('td:nth-child('+hide+')')
             target.style.display = 'block';
-        })  
+        })
         state_hide[hide-1] = 1;
     }
     console.log(state_hide);

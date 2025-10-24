@@ -4,7 +4,7 @@
     New Assets Management
 @endsection
 @section('style')
-    <span class="ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
+    <span class=" mobile_hide ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
             class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">New Assets Management</span>
     </span>
 @endsection
@@ -194,11 +194,8 @@
 
                             <!-- HOLDER INFO -->
                             <option value="asset_holder">Assets Holder ID</option>
-                            <option value="holder_name">Holder Name</option>
                             <option value="position">Position</option>
                             <option value="location">Location</option>
-                            <option value="department">Department</option>
-                            <option value="company">Company</option>
                             <option value="remark_holder">Remark Holder</option>
 
                             <!-- INTERNAL DOC INFO -->
@@ -211,7 +208,6 @@
 
                             <!-- ERP DATA -->
                             <option value="asset_code_account">Asset Code Account</option>
-                            <option value="invoice_date">Invoice Date</option>
                             <option value="invoice_no">Invoice No</option>
                             <option value="fa">FA</option>
                             <option value="fa_class">Fix Asset Class</option>
@@ -381,6 +377,9 @@
 
                             Status &ensp;
                         </th>
+                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                            Initial Condition&ensp;
+                        </th>
                         <th>
                             status when recieved
                         </th>
@@ -393,9 +392,7 @@
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             Specification&ensp;
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
-                            Initial Condition&ensp;
-                        </th>
+
 
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             Holder Name&ensp;
@@ -481,6 +478,9 @@
                                 @endif
                             </td>
                             <td>
+                                {{ $item->initial_condition }}
+                            </td>
+                            <td>
                                 {{ $item->status_recieved }}
                             </td>
                             <td>
@@ -490,9 +490,7 @@
                             <td>
                                 {{ $item->specification }}
                             </td>
-                            <td>
-                                {{ $item->initial_condition }}
-                            </td>
+
                             <td>
                                 {{ $item->holder_name ?? '' }}
                             </td>
@@ -542,17 +540,17 @@
                                             @if (Auth::user()->Permission->assets_read == 1)
                                                 <li>
                                                     <a href="/admin/assets/data/view/id={{ $item->assets_id }}/variant={{ $item->variant }}"
-                                                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">View</a>
+                                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">View</a>
                                                 </li>
                                             @endif
                                             @if (Auth::user()->Permission->assets_update == 1)
                                                 <li>
                                                     <a href="/admin/assets/data/update/id={{ $item->assets_id }}/variant={{ $item->variant }}"
-                                                        class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Update</a>
+                                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">Update</a>
                                                 </li>
                                             @endif
                                             @if (Auth::user()->Permission->assets_delete == 1 && $item->deleted == 0)
-                                                <li class="cursor block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white"
+                                                <li class="block px-4 py-2 hover:bg-gray-200  bg-white text-black"
                                                     data-id="{{ $item->assets_id }}"
                                                     id="btn_delete_asset{{ $item->assets_id }}"
                                                     onclick="delete_value('btn_delete_asset'+{{ $item->assets_id }},'delete_asset_admin','delete_value_asset')">

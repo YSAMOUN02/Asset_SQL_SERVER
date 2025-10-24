@@ -343,7 +343,7 @@
 
             <div>
                 <label for="holder_name">Name</label>
-                <input type="text" id="holder_name" name="holder_name" list="users_list" autocomplete="off" 
+                <input type="text" id="holder_name" name="holder_name" list="users_list" autocomplete="off"
                     value="{{ old('holder_name', $asset->holder_name ?? '') }}" oninput="validateInputField(this,80)"
                     class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
        focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600

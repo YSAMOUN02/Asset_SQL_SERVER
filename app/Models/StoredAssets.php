@@ -15,20 +15,19 @@ class StoredAssets extends Model
 
     public function images()
     {
-           return $this->hasMany(Image::class, 'asset_id', 'assets_id');
-
-
+        return $this->hasMany(Image::class, 'asset_id', 'assets_id');
+    }
+    public function image()
+    {
+        return $this->hasOne(Image::class, 'asset_id', 'id');
     }
     public function files()
     {
         return $this->hasMany(File::class, 'asset_id', 'assets_id');
-
     }
 
-    public function movements(){
-        return $this->hasMany(movement::class,'assets_id','assets_id');
-      }
-
-
-
+    public function movements()
+    {
+        return $this->hasMany(movement::class, 'assets_id', 'assets_id');
+    }
 }

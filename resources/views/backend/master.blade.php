@@ -208,10 +208,16 @@
             <!-- Sidebar -->
 
             @if (!empty(Auth::user()))
-                <aside id="sidebar"
+                <aside
                     class="  fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
                     aria-label="Sidenav" id="drawer-navigation">
                     <div class="zindex99 overflow-y-auto   py-5 px-3 h-full bg-white dark:bg-gray-800">
+                        <div class="hide_destop flex items-center pb-5 mb-5 border-b border-gray-200 dark:border-gray-700">
+
+                                <img  src="/static_img/images.png" class=" mr-3 h-8" alt="Flowbite Logo" />
+                                <span>Assets System</span>
+                        </div>
+
                         <form action="#" method="GET" class="md:hidden mb-2">
                             <label for="sidebar-search" class="sr-only">Search</label>
                             <div class="relative">
@@ -234,7 +240,7 @@
                                 <a href="/"
                                     class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                     <i class="fa-solid fa-chart-pie"></i>
-                                    <span class="ml-3">Overview</span>
+                                    <span class="ml-3">Dashboard</span>
                                 </a>
                                 <button id="sidebarToggle" onclick="toggleFullScreen()"
                                     class="flex items-center justify-center w-10 h-10 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200">
@@ -349,12 +355,14 @@
                                                         class="li-text">List Users</span></a>
                                             </li>
                                         @endif
-                                        @if (Auth::user()->Permission->user_update == 1 && Auth::user()->Permission->user_read == 1 && Auth::user()->Permission->user_write == 1)
+                                        @if (Auth::user()->Permission->user_update == 1 &&
+                                                Auth::user()->Permission->user_read == 1 &&
+                                                Auth::user()->Permission->user_write == 1)
                                             <li>
                                                 <a href="/hierarchical"
                                                     class="toggle_li flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                                                    <i class="fa-regular fa-building mx-2"></i>
-                                                    <span class="li-text text-sm">Organizational</span>
+                                                    <i class="fa-solid fa-building-user mx-2"></i>
+                                                    <span class="li-text text-sm">Company structure</span>
                                                 </a>
                                             </li>
                                         @endif
@@ -419,7 +427,30 @@
 
                                 </li>
                             @endif
+                            <li>
+                                <a href="/admin/assets-ownership">
+                                    <button type="button"
+                                        class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
 
+                                        <i class="fa-solid fa-boxes-stacked"></i>
+                                        <span class="flex-1 ml-3 text-left whitespace-nowrap">My Assets</span>
+
+                                    </button>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a href="/admin/profile">
+                                    <button type="button"
+                                        class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+
+                                        <i class="fa-solid fa-user-tie"></i>
+                                        <span class="flex-1 ml-3 text-left whitespace-nowrap">My Profile</span>
+
+                                    </button>
+                                </a>
+
+                            </li>
 
                             <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
                                 <li onclick="logout()"

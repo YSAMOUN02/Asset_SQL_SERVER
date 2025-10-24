@@ -3154,6 +3154,7 @@ async function search_asset_new(no) {
     let department = document.querySelector("#department");
     let user = document.querySelector("#user");
     let company = document.querySelector("#company");
+    
     const asset_input = document.querySelector("#assets");
     const description = document.querySelector("#description");
     const start = document.querySelector("#start_date");

@@ -96,6 +96,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/users/search', [UserController::class, 'search']);
     Route::get('/search-users', [UserController::class, 'searchUsers']);
+    Route::get('/admin/profile', [UserController::class, 'myProfile']);
+
+    Route::get('/admin/assets-ownership', [UserController::class, 'assets_ownership']);
+
 
     // Data Set up----------------------------------------------------------------------------------------------------
     Route::get('/hierarchical', [Data_setupController::class, 'hierarchical']);

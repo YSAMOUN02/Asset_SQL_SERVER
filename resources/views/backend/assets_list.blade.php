@@ -4,7 +4,7 @@
     Last Active Assets Management
 @endsection
 @section('style')
-    <span class="fade1 ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
+    <span class=" mobile_hide fade1 ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
             class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">Last Active Assets
             Management</span>
     </span>
@@ -211,7 +211,6 @@
 
                             <!-- ERP DATA -->
                             <option value="asset_code_account">Asset Code Account</option>
-                            <option value="invoice_date">Invoice Date</option>
                             <option value="invoice_no">Invoice No</option>
                             <option value="fa">FA</option>
                             <option value="fa_class">Fix Asset Class</option>
