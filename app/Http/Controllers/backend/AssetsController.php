@@ -252,7 +252,7 @@ class AssetsController extends Controller
             'variant'
         ])
             ->orderBy('assets1', 'desc')
-            ->where('deleted', '<>', 1)
+   
             ->limit($limit)
             ->offset($offset);
 

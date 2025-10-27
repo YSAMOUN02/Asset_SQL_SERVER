@@ -12,6 +12,8 @@
     </span>
 @endsection
 <link rel="stylesheet" href="{{ asset('assets/css/flatpickr.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/flatpickrdark.min.css') }}">
+
 <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
 
 <div class="bg-white p-4 rounded-lg shadow-md dark:bg-gray-800">
@@ -23,7 +25,7 @@
             <div>
                 <label for="code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Code</label>
                 <input type="text" oninput="validateInputField(this,20)" id="code" name="code"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required />
                 <button type="submit"
                     class="text-white mt-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
@@ -32,23 +34,20 @@
                 <label for="no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No</label>
                 <input type="number" id="no" name="no" min="1" max="10000" step="1"
                     oninput="validateInputFieldNum(this)"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-                  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-                  dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required />
             </div>
             <div>
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">For</label>
                 <input type="text" id="name" oninput="validateInputField(this,100)" name="name"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                 class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required />
 
             </div>
             <div>
                 <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
                 <select name="type" id="type" name="type"
-                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                   class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value="Assets">Assets</option>
                     <option value="Movement">Movement</option>
                 </select>
@@ -57,13 +56,13 @@
             <div>
                 <label for="start" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start</label>
                 <input type="text" id="start" name="start"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                   class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
 
             </div>
             <div>
                 <label for="end" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End</label>
                 <input type="text" id="end" name="end"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                   class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
             </div>
         </div>
@@ -77,28 +76,28 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr   tabindex="0">
 
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
                             ID &ensp;
                         </th>
 
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
                             Code
                         </th>
 
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
                             For
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
                             Type
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
                             Start Date
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
                             End Date
                         </th>
 
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
                             Action
                         </th>
                     </tr>
@@ -109,30 +108,30 @@
                         <tr   tabindex="0"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
                                 {{ $item->id }}
                             </td>
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
                                 {{ $item->code . str_pad($item->no, 5, '0', STR_PAD_LEFT) }}
                             </td>
 
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
                                 {{ $item->name }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
                                 {{ $item->type }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
 
                                 {{ \Carbon\Carbon::parse($item->start)->format('d-M-Y') ?? '' }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
 
                                 {{ \Carbon\Carbon::parse($item->end)->format('d-M-Y') ?? '' }}
                             </td>
-                            <td class="flex px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                            <td class="flex px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
                                 <!-- Modal toggle -->
                                 @if (Auth::user()->Permission->quick_update == 1)
                                 <button data-modal-target="static-modal{{ $item->id }}"

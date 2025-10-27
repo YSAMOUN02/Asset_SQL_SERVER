@@ -94,7 +94,7 @@ body{
   top: 0;
 }
 table td{
-    padding: 3px 7px;
+    padding: 2px;
 }
 td:first-child{
     padding-left: 20px;
@@ -440,7 +440,10 @@ z-index: 99;
     width: 100%;
     height: 100%;
     z-index: 0;
+
 }
+
+
 .zindex99{
     z-index: 99999 !important;
 }
@@ -756,14 +759,34 @@ tr {
   transition: background-color 0.3s;
 }
 
-tr:hover {
-  background-color: #90b7ff !important;
+tr:hover td {
+  background-color: #ffe283 !important;
+  color: rgb(0, 0, 0) !important;
+}
+tr:focus td {
+  background-color: rgb(122, 80, 0) !important;
+  z-index: 9;
+  color: white !important   ;
+  outline: none;
+}
+.deleted_record td{
+    background-color: rgb(145, 0, 0) !important;
+    color: rgb(255, 255, 255) !important;
+}
+/* Default (light mode) */
+.flatpickr-input[readonly] {
+    background-color: #f9fafb !important; /* light gray */
+    color: #111827 !important;            /* dark text */
+    border: 1px solid #d1d5db !important; /* light border */
 }
 
-tr:focus {
-  background-color: rgb(24, 131, 253) !important;
-  z-index: 9;
-  outline: none;
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    .flatpickr-input[readonly] {
+        background-color: #1f2937 !important;
+        color: #f3f4f6 !important;
+        border: 1px solid #374151 !important;
+    }
 }
 
     /* Faster spin */

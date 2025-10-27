@@ -3,7 +3,7 @@
     Movement Process
 @endsection
 @section('style')
-    <span  class="mobile_hide ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
+    <span class="mobile_hide ml-10 text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl"><span
             class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-700 to-cyan-400">Movement</span>
     </span>
 @endsection
@@ -22,7 +22,7 @@
 
                     <input type="text" list="references_list" id="ReferenceInput" onchange="setReferenceId(this)"
                         oninput="validateInputField(this,30)" onchange="setReferenceId(this)"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         name="reference" required autocomplete="off" value="{{ old('reference') }}" />
 
                     <input type="hidden" id="ReferenceId" name="reference_id" />
@@ -48,16 +48,16 @@
                     <div class="flex w-full">
                         @if (!empty($asset->assets1))
                             <input type="text" id="assets1" readonly
-                                class="p-2.5 percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                class="percent70 bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 value="{{ $asset->assets1 }}" />
                         @else
                             <input type="text" id="assets2" name="assets2"
-                                class="p-2.5 percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                class="percent70 bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                         @endif
 
 
                         <select name="assets2" required oninput="validateInputField(this,10)"
-                            class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            class="percent30 bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-e-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value=""></option>
                             @foreach ($assets2 as $asset2)
                                 @if (($asset->assets2 ?? '') == '-' . $asset2->code)
@@ -77,7 +77,7 @@
                     <label for="transaction_date"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Transaction Date</label>
                     <input type="text" id="transaction_date" name="transaction_date"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value="{{ \Carbon\Carbon::parse(now())->format('d-M-Y') }}" />
                 </div>
 
@@ -87,18 +87,14 @@
                                 class="fa-regular fa-trash-can"></i></button></label>
                     <input type="text" id="asset_holder" name="asset_holder" list="asset_list" placeholder="INV-90.."
                         autocomplete="off"
-                        class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
-       focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
-       dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <datalist id="asset_list"></datalist>
                 </div>
 
                 <div>
                     <label for="holder_name">Name</label>
                     <input type="text" id="holder_name" name="holder_name" list="users_list" autocomplete="off"
-                        class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
-       focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
-       dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Start typing name...">
                     <datalist id="users_list"></datalist>
                 </div>
@@ -107,24 +103,20 @@
                         Position/Title
                     </label>
                     <input type="text" id="position" name="position"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
-        focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
-        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </div>
                 <div>
                     <label for="Location"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
                     <input type="text" id="Location" autocomplete="off"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         name="location" />
                 </div>
 
                 <div>
                     <label for="department">Department <span class="text-rose-500">*</span></label>
                     <input list="departments_list" id="department" name="department" autocomplete="off" required
-                        class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
-            focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
-            dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Start typing department...">
 
                     <datalist id="departments_list">
@@ -138,9 +130,7 @@
                 <div>
                     <label for="company">Company <span class="text-rose-500">*</span></label>
                     <input list="company_list" id="company" name="company" autocomplete="off" required
-                        class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
-       focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
-       dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Start typing company...">
                     <datalist id="company_list">
                         <option value="" selected></option>
@@ -158,14 +148,14 @@
                     <label for="purpose"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Purpose</label>
                     <input type="text" id="purpose" name="purpose"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </div>
                 <div>
                     <label for="Initail" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current
                         Initail
                         Condition <span class="text-rose-500">*</span></label>
-                    <select name="" id="" required id="Initail" name="initial_condition" required
-                        class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select  id="" required id="Initail" name="initial_condition" required
+                         class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="" selected></option>
                         <option value="New">New</option>
                         <option value="Good">Good</option>
@@ -184,7 +174,7 @@
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status
                         Recieved</label>
                     <select id="status_recieved" name="status_recieved" required
-                        class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value=""></option>
                         <option value="Old">Old</option>
                         <option value="Good">Good</option>
@@ -212,10 +202,11 @@
 
         <div class="grid gap-1 lg:gap-6 mb-1 lg:mb-6 grid-cols-2 lg:grid-cols-2 md:grid-cols-2">
             <div class="w-full">
-                    <label for="ref" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference</label>
-                          <input type="text" id="ref" disabled
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value="{{ $asset->reference }}" />
+                <label for="ref"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reference</label>
+                <input type="text" id="ref" disabled
+                    class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    value="{{ $asset->reference }}" />
             </div>
 
             <div class="flex flex-col w-full">
@@ -225,15 +216,16 @@
                 <div class="flex w-full">
                     @if (!empty($asset->assets1))
                         <input type="text" id="assets1" disabled
-                            class="p-2.5 percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value="{{ $asset->assets1 }}" />
                     @else
                         <input type="text" id="assets2" disabled
-                            class="p-2.5 percent70 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 rounded-l-lg focus:border-blue-500 block   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                            class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     @endif
 
                     <select name="assets2" required oninput="validateInputField(this,10)" disabled
-                        class="percent30 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        class="bg-gray-100 percent30 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-e-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
                         <option value=""></option>
                         @foreach ($assets2 as $asset2)
                             @if (($asset->assets2 ?? '') == '-' . $asset2->code)
@@ -250,14 +242,14 @@
             <div>
                 <label for="item" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item</label>
                 <input type="text" id="item"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                     class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     value="{{ $asset->item }}" disabled />
             </div>
             <div>
                 <label for="Specification" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Specification</label>
                 <input type="text" id="Specification"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                     class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     disabled value="{{ $asset->specification }}" />
             </div>
             <div>
@@ -265,27 +257,27 @@
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last
                     Transaction Date</label>
                 <input type="text" id="transaction_date_from"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                     class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     disabled value="{{ \Carbon\Carbon::parse($asset->transaction_date)->format('d-M-Y') }}" />
             </div>
             <div>
                 <label for="holder_id_from"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Holder</label>
                 <input type="text" id="holder_id_from" disabled value="{{ $asset->asset_holder }}"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                     class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
             </div>
 
             <div>
                 <label for="holder_name_from" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Holder
                     Name</label>
                 <input type="text" id="holder_name_from" disabled value="{{ $asset->holder_name }}"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                     class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
             </div>
             <div>
                 <label for="Location_from"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
                 <input type="text" id="Location_from" disabled value="{{ $asset->location }}"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                     class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
             </div>
 
 
@@ -295,16 +287,14 @@
                 </label>
 
                 <input list="departments_list" id="department_from" required value="{{ $asset->department }}" disabled
-                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50
-                  focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
-                  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                     class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Start typing department...">
             </div>
             <div>
                 <label for="company_from" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company
                     <span class="text-rose-500">*</span></label>
                 <select id="company_from" disabled
-                    class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                     class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                     <option value="{{ $asset->company }}">{{ $asset->company }}</option>
 
@@ -315,7 +305,7 @@
                 <label for="Location_from" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Initail
                     Condition</label>
                 <input type="text" id="Location_from" disabled value="{{ $asset->initial_condition }}"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                     class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
             </div>
         </div>
     </div>

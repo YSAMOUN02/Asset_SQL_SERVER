@@ -13,7 +13,7 @@
 
 <link rel="stylesheet" href="{{ asset('assets/css/flatpickr.min.css') }}">
 <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
-<script src="{{ asset('assets/js/xlsx.full.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('assets/css/flatpickrdark.min.css') }}">
 
 <div id="delete_asset_admin"
     class="toast_delete w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400"
@@ -101,7 +101,7 @@
                         Code</label>
 
                     <input type="text" id="assets" name="assets"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                 </div>
 
@@ -111,7 +111,7 @@
                         Company
                     </label>
                     <input type="text" id="company" name="company" list="companyList" autocomplete="off"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     <datalist id="companyList">
                         @foreach ($companies as $company)
                             <option value="{{ $company }}">
@@ -123,7 +123,7 @@
                         Department
                     </label>
                     <input type="text" id="department" name="department" list="departmentList" autocomplete="off"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                       class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     <datalist id="departmentList">
                         @foreach ($departments as $department)
                             <option value="{{ $department }}">
@@ -136,7 +136,7 @@
                         Name</label>
 
                     <input type="text" id="user" name="user" list="userList" autocomplete="off"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                       class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     <datalist id="userList"></datalist>
                 </div>
                 <div>
@@ -144,7 +144,7 @@
                         class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Item</label>
 
                     <input type="text" id="description" name="description"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                      class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                 </div>
                 <div>
@@ -152,7 +152,7 @@
                         (Transaction Date)</label>
 
                     <input type="text" id="start_date" name="start_date"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                       class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
 
                 </div>
                 <div>
@@ -160,7 +160,7 @@
                         date (Transaction Date)</label>
 
                     <input type="text" id="end_date" name="end_date"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                 </div>
 
@@ -170,7 +170,7 @@
                     <label for="state"
                         class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">State</label>
                     <select id="state" name="state"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 lg:p-2.5 md:p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                       class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="All">All</option>
                         <option value="1">Active</option>
                         <option value="0">Inactive</option>
@@ -183,7 +183,7 @@
                 <div class="flex main_page justify-between items-center">
                     <div class="flex">
                         <select name="" onchange="otherSearch()" id="other_search"
-                            class= " w-36 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 lg:p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            class="w-36 bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
                             <option value="">Other Search</option>
                             <!-- ASSET INFO -->
                             <option value="reference">Refference</option>
@@ -244,7 +244,7 @@
 
                         </select>
                         <input type="text" id="other_value"
-                            class= " w-32  bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block mx-2 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                           class="w-32 bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
                     <div class="flex main_page items-center">
                         <div class="pagination_by_search defualt main_page items-center flex gap-2">
@@ -438,7 +438,7 @@
 
                                     </td>
                                 @else
-                                <tr   tabindex="0" class="bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
+                                <tr   tabindex="0" class="deleted_record bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
 
                                     <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                         <input onchange="printable()" data-id="{{ $item->assets_id }}"
@@ -455,13 +455,13 @@
                             </td>
 
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                {{ \Carbon\Carbon::parse($item->transaction_date)->format('M d Y') }}
+                                {{ \Carbon\Carbon::parse($item->transaction_date)->format('d-M-Y') }}
 
                             </td>
 
 
                             <td
-                                class="table_float_left_td  px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   bg-white dark:bg-gray-700 dark:border-gray-700">
+                                class="table_float_left_td  px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   bg-white dark:bg-gray-900 dark:border-gray-700">
                                 {{ $item->assets1 . $item->assets2 ?? '' }}
                             </td>
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
@@ -513,7 +513,7 @@
                                 {{ $item->status_recieved }}
                             </td>
                             <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
-                                {{ \Carbon\Carbon::parse($item->created_at)->format('M d Y') }}
+                                {{ \Carbon\Carbon::parse($item->created_at)->format('d-M-Y') }}
 
                             </td>
                             <td class=" bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
@@ -523,9 +523,9 @@
                                         href="/admin/assets/data/view/id={{ $item->assets_id }}/variant={{ $item->variant }}">
                                         <button data-popover-target="popover-default{{ $no }}"
                                             type="button"
-                                            class="text-white mx-2 bg-grey-100 hover:bg-grey-200 focus:ring-4 focus:outline-none focus:ring-blue-100 font-medium rounded-lg text-sm px-2.5 py-2 text-center dark:bg-blue-200 dark:hover:bg-blue-200 dark:focus:ring-blue-300">
+                                            class="text-black mx-2 bg-grey-100 hover:bg-grey-200 focus:ring-4 focus:outline-none focus:ring-blue-100 font-medium rounded-lg text-sm px-2.5 py-2 text-center dark:bg-gray-900 dark:hover:bg-gray-200 dark:focus:ring-gray-300 dark:text-white">
 
-                                            <i class="fa-solid fa-eye text-slate-900"></i>
+                                            <i class="fa-solid fa-eye"></i>
                                         </button>
                                     </a>
                                 @else
@@ -547,7 +547,7 @@
                                                 @if (Auth::user()->Permission->transfer_write == 1 && $item->deleted == 0)
                                                     <li>
                                                         <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
-                                                            class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">Movement</a>
+                                                            class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">Movement</a>
                                                     </li>
                                                 @endif
 
@@ -555,18 +555,18 @@
                                                 @if (Auth::user()->Permission->assets_read == 1)
                                                     <li>
                                                         <a href="/admin/assets/data/view/id={{ $item->assets_id }}/variant={{ $item->variant }}"
-                                                            class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">View</a>
+                                                            class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">View</a>
                                                     </li>
                                                 @endif
 
                                                 @if (Auth::user()->Permission->assets_update == 1 && $item->status == 1)
                                                     <li>
                                                         <a href="/admin/assets/data/update/id={{ $item->assets_id }}/variant={{ $item->variant }}"
-                                                            class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">Update</a>
+                                                            class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">Update</a>
                                                     </li>
                                                 @endif
                                                 @if (Auth::user()->Permission->assets_delete == 1 && $item->deleted == 0)
-                                                    <li class="cursor block px-4 py-2 hover:bg-gray-200  bg-white text-black"
+                                                    <li class="cursor block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black"
                                                         data-id="{{ $item->assets_id }}"
                                                         id="btn_delete_asset{{ $item->assets_id }}"
                                                         onclick="delete_value('btn_delete_asset'+{{ $item->assets_id }},'delete_asset_admin','delete_value_asset')">

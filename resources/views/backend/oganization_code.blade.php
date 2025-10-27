@@ -21,7 +21,8 @@
             <div>
                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Code</label>
                 <input type="text" oninput="validateInputField(this,5)" id="first_name" name="code"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+
                     required />
                 <button type="submit"
                     class="text-white mt-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
@@ -29,7 +30,7 @@
             <div>
                 <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                 <input type="text" id="last_name" oninput="validateInputField(this,50)" name="name"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required />
 
             </div>
@@ -44,17 +45,17 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr   tabindex="0">
 
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
                             ID &ensp;
                         </th>
 
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
                             Code
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
                             Name
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
                             Action
                         </th>
                     </tr>
@@ -65,17 +66,17 @@
                         <tr   tabindex="0"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
                                 {{ $code->id }}
                             </td>
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 text-black  dark:text-white ">
                                 {{ $code->code }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 text-black  dark:text-white ">
                                 {{ $code->name }}
                             </td>
-                            <td class="flex px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
+                            <td class="flex px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 text-black  dark:text-white ">
                                 <!-- Modal toggle -->
                                 @if (Auth::user()->Permission->quick_update == 1)
                                     <button data-modal-target="static-modal{{ $code->id }}"
@@ -135,7 +136,7 @@
                                                             <input type="text" oninput="validateInputField(this,5)"
                                                                 id="code{{ $code->id }}"
                                                                 value="{{ $code->code }}" name="code"
-                                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                                 class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                                 required />
 
                                                         </div>
@@ -144,7 +145,7 @@
                                                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                                                             <input type="text" id="name{{ $code->id }}"
                                                                 value="{{ $code->name }}" name="name"
-                                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                                class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                                 required oninput="validateInputField(this,50)" />
 
                                                         </div>

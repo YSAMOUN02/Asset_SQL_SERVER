@@ -4,19 +4,19 @@
     (Add User)
 @endsection
 <div class="border-b lg:mt-3 bg-white dark:bg-black shadow-black border-gray-200 dark:border-gray-700">
-    <ul class="user_tab flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
-        <li class="me-2  bg-white">
+    <ul class="user_tab bg-white dark:bg-gray-900 text-black dark:text-white flex flex-wrap -mb-px text-sm font-medium text-center ">
+        <li class="me-2  bg-white dark:bg-gray-900 ">
 
             <div
-                class=" inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                class="bg-white dark:bg-gray-900  inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-gray-300  dark:hover:bg-gray-700 dark:hover:text-gray-200 group">
                 <i class="fa-solid fa-user"></i> &ensp;Profile
             </div>
         </li>
 
-        <li class="bg-white  md:mx-9  lg:mx-36 normal_tab hover:cursor-pointer" onclick="change_permission()"
+        <li class="bg-white dark:bg-gray-900  md:mx-9  lg:mx-36 normal_tab hover:cursor-pointer" onclick="change_permission()"
             data-dropdown-toggle="dropdownSearch">
             <div
-                class="inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                class="inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 group">
                 <i class="fa-solid fa-list-check"></i> &ensp;Permission
             </div>
 
@@ -25,7 +25,7 @@
     </ul>
 </div>
 <form id="user_form" action="/admin/user/add/submit" method="POST"
-    class="bg-white text-black dark:bg-black dark:text-white p-2.5 rounded-sm">
+    class="bg-white text-black  dark:bg-gray-900  dark:text-white p-2.5 rounded-sm">
     @csrf
     <div class="h-max grid grid-cols-2 px-2 mt-5 gap-6 mb-6 md:grid-cols-2">
         <div>
@@ -39,14 +39,14 @@
             <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last
                 name</label>
             <input type="text" id="last_name" name="lname" oninput="validateInputField(this,50)"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required />
         </div>
         <div>
             <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User
                 Role</label>
             <select name="role"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="" id="">
                 <option value="super_admin">Super Admin</option>
                 <option value="admin">Admin</option>
@@ -58,28 +58,25 @@
             <label for="login" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User
                 Login</label>
             <input type="text" id="login" name="login_name" oninput="validateInputField(this,80)"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required />
         </div>
         <div>
             <label for="id_card" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Card</label>
             <input type="text" name="id_card" id="id_card" oninput="validateInputField(this,30)"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="INV0001" />
         </div>
         <div>
             <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position</label>
             <input type="text" name="position" id="position" oninput="validateInputField(this,225)"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+               class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
         </div>
         <div>
             <!-- Company -->
             <label>Company</label>
             <input list="companies_list" id="company" name="company_name" autocomplete="off"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <input type="hidden" id="company_id" name="company_id">
             <datalist id="companies_list">
                 @foreach ($companies as $company)
@@ -92,10 +89,7 @@
             <!-- Department -->
             <label>Department</label>
             <input list="departments_list" id="department" name="department_name" autocomplete="off"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <input type="hidden" id="department_id" name="department_id">
             <datalist id="departments_list"></datalist>
         </div>
@@ -104,10 +98,7 @@
             <!-- Division -->
             <label>Division</label>
             <input list="divisions_list" id="division" name="division_name" autocomplete="off"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <input type="hidden" id="division_id" name="division_id">
             <datalist id="divisions_list"></datalist>
         </div>
@@ -116,10 +107,7 @@
             <!-- Section -->
             <label>Section</label>
             <input list="sections_list" id="section" name="section_name" autocomplete="off"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+               class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <input type="hidden" id="section_id" name="section_id">
             <datalist id="sections_list"></datalist>
         </div>
@@ -128,10 +116,7 @@
             <!-- Group -->
             <label>Group</label>
             <input list="groups_list" id="group" name="group_name" autocomplete="off"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"">
             <input type="hidden" id="group_id" name="group_id">
             <datalist id="groups_list"></datalist>
         </div>
@@ -142,7 +127,7 @@
             <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone
                 number</label>
             <input type="tel" id="phone" name="phone" oninput="validateInputField(this,30)"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
         </div>
 
 
@@ -154,14 +139,14 @@
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email
                 address</label>
             <input type="email" name="email" id="email" oninput="validateInputField(this,50)"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="admin@ppmpharma.com" />
         </div>
         <div class="mb-6">
             <label for="password"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
             <input type="password" name="password" id="password"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required />
         </div>
         <div class="mb-6">

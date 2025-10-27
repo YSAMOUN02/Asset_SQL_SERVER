@@ -262,8 +262,9 @@ class ApiHandlerController extends Controller
         }
         $limit = $viewpoint->value ?? 50;
         $offset = ($page != 0) ? ($page - 1) * $limit : 0;
-        $count = $data->where('deleted', 0)->count();
 
+         $countQuery = clone $data;
+        $count = $countQuery->count();
         $asset_data = $data->limit($limit)
             ->offset($offset)
             ->get();
@@ -382,8 +383,9 @@ class ApiHandlerController extends Controller
         $limit = $viewpoint->value ?? 50;
         $offset = ($page != 0) ? ($page - 1) * $limit : 0;
 
-        $count = $data->where('deleted', 0)->count();
 
+        $countQuery = clone $data;
+        $count = $countQuery->count();
         // Filter deleted only for admin
         if (Auth::user()->role == 'admin' || Auth::user()->role == 'user' || Auth::user()->role == 'super_normal') {
             $data->where('deleted', 0);
@@ -634,8 +636,7 @@ class ApiHandlerController extends Controller
         // Build query
         $data = New_assets::select($selectFields)
             ->orderBy('transaction_date', 'desc')
-            ->orderBy('assets1', 'desc')
-            ->where('deleted', '<>', 1);
+            ->orderBy('assets1', 'desc');
 
         // Filters
         if ($user != "NA") {
@@ -687,9 +688,10 @@ class ApiHandlerController extends Controller
             ->first();
         $limit = $viewpoint->value ?? 50;
         $offset = ($page != 0) ? ($page - 1) * $limit : 0;
-        $count = $data->where('deleted', 0)->count();
+         $countQuery = clone $data;
+        $count = $countQuery->count();
 
-        // Filter deleted only for admin
+        // Filter deleted only for super admin
         if (Auth::user()->role == 'admin' || Auth::user()->role == 'user' || Auth::user()->role == 'super_normal') {
             $data->where('deleted', 0);
         }

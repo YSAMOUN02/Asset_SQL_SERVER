@@ -2,7 +2,7 @@
 @section('content')
     <section class="bg-white dark:bg-gray-900 px-1 py-1">
         <div id="profile" class="grid w-full grid-cols-1 md:grid-cols-2  border-2">
-            <div class="border-e  px-16 py-8 lg:py-16  ">
+            <div class="border-e text-black  dark:text-white  px-16 py-8 lg:py-16  ">
                 <div class="flex items-center  mb-8">
                     <div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
 
@@ -20,35 +20,35 @@
 
                 <div class="grid gap-4 mb-4   grid-cols-1    sm:gap-6 sm:mb-5 ">
 
-                    <div class="flex items-center ">
+                    <div class="flex items-center text-black  dark:text-white">
                         <i class="fa-solid fa-toolbox" style="font-size: 30px;"></i> &ensp; &ensp;
                         <span>Role : &ensp;&ensp;&ensp;{{ $user->role }}</span>
                     </div>
-                    <hr class="mb-5">
-                    <div class="flex items-center ">
+                    <hr class="mb-5 text-black  dark:text-white">
+                    <div class="flex items-center text-black  dark:text-white">
                         <i class="fa-solid fa-user" style="font-size: 30px;"></i> &ensp; &ensp;
                         <span>Login : &ensp;&ensp;&ensp;{{ $user->name }}</span>
                     </div>
 
-                    <hr class="mb-5">
-                    <div class="flex items-center ">
+                    <hr class="mb-5 text-black  dark:text-white">
+                    <div class="flex items-center text-black  dark:text-white">
                         <i class="fa-solid fa-id-card"style="font-size: 30px;"></i></i>&ensp; &ensp;
                         <span>ID :&ensp;&ensp;&ensp;&ensp;&ensp; {{ $user->id_card }}</span>
                     </div>
-                    <hr class="mb-5">
-                    <div class="flex items-center ">
+                    <hr class="mb-5 text-black  dark:text-white">
+                    <div class="flex items-center text-black  dark:text-white">
                         <i class="fa-solid fa-briefcase"style="font-size: 30px;"></i> &ensp; &ensp;
 
                         <span>Position : {{ $user->position }}</span>
                     </div>
-                    <hr class="mb-5">
-                    <div class="flex items-center ">
+                    <hr class="mb-5 text-black  dark:text-white">
+                    <div class="flex items-center text-black  dark:text-white">
                         <i class="fa-solid fa-envelope" style="font-size: 30px;"></i> &ensp; &ensp;
 
                         <span>Email : &ensp; &ensp; {{ $user->email }}</span>
                     </div>
-                    <hr class="mb-5">
-                    <div class="flex items-center ">
+                    <hr class="mb-5 text-black  dark:text-white">
+                    <div class="flex items-center text-black  dark:text-white">
                         <i class="fa-solid fa-building-user" style="font-size: 30px;"></i> &ensp; &ensp;
                         @php
                             $structure = collect([
@@ -69,7 +69,7 @@
                 </div>
 
             </div>
-            <div class="border-e  px-16 py-8 lg:py-16  ">
+            <div class="border-e  text-black  dark:text-white    px-16 py-8 lg:py-16  ">
                 <span class="text-xl  font-bold text-gray-900 dark:text-white"><i class="fa-solid fa-key"
                         style="font-size: 30px;"></i> &ensp;&ensp;Permission</span>
                 <div class="grid grid-cols-1 md:grid-cols-1 mt-5 gap-4">

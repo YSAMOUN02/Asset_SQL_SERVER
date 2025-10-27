@@ -69,7 +69,7 @@
 
     {{-- Users Table --}}
     <div>
-        <div class="overflow-auto mb-4  max-h-[35vh] min-h-[35vh]">
+        <div class="overflow-auto mb-4  max-h-[35vh] min-h-[35vh] ">
             <div class="flex justify-between items-center mb-2 ">
                 <span class="text-xl font-semibold text-gray-900 dark:text-white">Entire Directory</span>
                 <div class="flex space-x-2">
@@ -94,7 +94,7 @@
             </div>
 
             <table id="searchUsersTable" class="min-w-full border-collapse table-auto">
-                <thead class="bg-gray-200 dark:bg-gray-800">
+                <thead class="bg-whitedark:bg-gray-900 ">
                     <tr   tabindex="0">
                         <th class="px-4 py-2 text-left text-gray-900 dark:text-white">#</th>
                         <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Name</th>
@@ -142,7 +142,7 @@
                 <table id="table_user" class="min-w-full border-collapse table-auto">
                     <thead class="bg-gray-200 dark:bg-gray-800 sticky top-0">
                         <tr   tabindex="0">
-                            <th class="px-4 py-2 text-left text-gray-900 dark:text-white">#</th>
+                            <th class="px-4 py-2 text-left text-gray-900 dark:text-white  ">#</th>
                             <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Name</th>
                             <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Email</th>
                             <th class="px-4 py-2 text-left text-gray-900 dark:text-white">Current Location</th>

@@ -1242,8 +1242,8 @@ async function search_asset(no) {
                 data.data.map((item, index) => {
                     let custom = ``;
                     if (item.deleted == 1) {
-                        custom += `<tr   tabindex="0" class="bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
-                                     <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                        custom += `<tr   tabindex="0" class="deleted_record bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
+                                     <td class="print_val  px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
                                                 <input onchange="printable()" data-id="${
                                                     item.assets_id || ""
                                                 }" id="green-checkbox${item.id}"
@@ -1279,14 +1279,16 @@ async function search_asset(no) {
                                                    item.transaction_date
                                                        ? new Date(
                                                              item.transaction_date
-                                                         ).toLocaleDateString(
-                                                             "en-US",
-                                                             {
-                                                                 year: "numeric",
-                                                                 month: "short",
-                                                                 day: "numeric",
-                                                             }
                                                          )
+                                                             .toLocaleDateString(
+                                                                 "en-GB",
+                                                                 {
+                                                                     day: "2-digit",
+                                                                     month: "short",
+                                                                     year: "numeric",
+                                                                 }
+                                                             )
+                                                             .replace(/ /g, "-") // replace spaces with dashes
                                                        : ""
                                                }
 
@@ -1364,14 +1366,16 @@ async function search_asset(no) {
                                                    item.created_at
                                                        ? new Date(
                                                              item.created_at
-                                                         ).toLocaleDateString(
-                                                             "en-US",
-                                                             {
-                                                                 year: "numeric",
-                                                                 month: "short",
-                                                                 day: "numeric",
-                                                             }
                                                          )
+                                                             .toLocaleDateString(
+                                                                 "en-GB",
+                                                                 {
+                                                                     day: "2-digit",
+                                                                     month: "short",
+                                                                     year: "numeric",
+                                                                 }
+                                                             )
+                                                             .replace(/ /g, "-") // replace spaces with dashes
                                                        : ""
                                                }
 
@@ -1408,7 +1412,7 @@ async function search_asset(no) {
 
                                                                 <li>
                                                                     <a href="/admin/movement/add/detail/id=${item.assets_id}"
-                                                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">Movement</a>
+                                                                       class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">Movement</a>
                                                                 </li>
                                                         `;
                     }
@@ -1418,14 +1422,14 @@ async function search_asset(no) {
 
                                                             <li>
                                                                     <a href="/admin/assets/data/view/id=${item.assets_id}/variant=${item.variant}"
-                                                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">View</a>
+                                                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">View</a>
                                                                 </li>
 
 
 
                                                                 <li>
                                                                     <a href="/admin/assets/data/update/id=${item.assets_id}/variant=${item.variant}"
-                                                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black ">Update</a>
+                                                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">Update</a>
                                                                 </li>
 
 
@@ -1437,7 +1441,7 @@ async function search_asset(no) {
                     ) {
                         custom += `
 
-                                                    <li class="block px-4 py-2 hover:bg-gray-200  bg-white text-black"
+                                                    <li class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black"
                                                                     data-id="${item.assets_id}"
                                                                     id="btn_delete_asset${item.assets_id}"
                                                                     onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')">
@@ -1770,7 +1774,7 @@ async function search_movement(no) {
                     let custom = ``;
                     if (item.deleted == 1) {
                         custom += `
-                             <tr   tabindex="0" class=" bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
+                             <tr   tabindex="0" class=" deleted_record bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
                                 <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
                                     <input onchange="printable()" data-id="{{ $item->assets_id }}"
                                         id="green-checkbox{{ $item->id }}" type="checkbox" value=""
@@ -1806,14 +1810,13 @@ async function search_movement(no) {
         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
             ${
                 item.transaction_date
-                    ? new Date(item.transaction_date).toLocaleDateString(
-                          "en-US",
-                          {
-                              year: "numeric",
+                    ? new Date(item.transaction_date)
+                          .toLocaleDateString("en-GB", {
+                              day: "2-digit",
                               month: "short",
-                              day: "numeric",
-                          }
-                      )
+                              year: "numeric",
+                          })
+                          .replace(/ /g, "-") // replace spaces with dashes
                     : ""
             }
         </td>
@@ -1894,11 +1897,13 @@ async function search_movement(no) {
         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
             ${
                 item.created_at
-                    ? new Date(item.created_at).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                      })
+                    ? new Date(item.created_at)
+                          .toLocaleDateString("en-GB", {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                          })
+                          .replace(/ /g, "-") // replace spaces with dashes
                     : ""
             }
         </td>
@@ -1931,7 +1936,7 @@ async function search_movement(no) {
                             custom += `
                                                 <li>
                                                     <a href="/admin/movement/add/detail/id=${item.assets_id}"
-                                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">
+                                                       class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">
                                                         Movement
                                                     </a>
                                                 </li>`;
@@ -1942,7 +1947,7 @@ async function search_movement(no) {
                         custom += `
                                 <li>
                                     <a href="/admin/assets/data/view/id=${item.assets_id}/variant=${item.variant}"
-                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">
+                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">
                                         View
                                     </a>
                                 </li>
@@ -1952,7 +1957,7 @@ async function search_movement(no) {
                             custom += `
                             <li>
                                 <a href="/admin/assets/data/update/id=${item.assets_id}/variant=${item.variant}"
-                                    class="block px-4 py-2 hover:bg-gray-200  bg-white text-black">
+                                    class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">
                                     Update
                                 </a>
                             </li>
@@ -1965,7 +1970,7 @@ async function search_movement(no) {
                             item.deleted == 0
                         ) {
                             custom += `
-                                                <li class="block px-4 py-2 hover:bg-gray-200  bg-white text-black"
+                                                <li class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black"
                                                     data-id="${item.assets_id}"
                                                     id="btn_delete_asset${item.assets_id}"
                                                     onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')">
@@ -1983,9 +1988,9 @@ async function search_movement(no) {
                                             href="/admin/assets/data/view/id=${item.assets_id}/variant=${item.variant}">
                                             <button data-popover-target="popover-default{{ $no }}"
                                                 type="button"
-                                                class="text-white mx-2 bg-grey-100 hover:bg-grey-200 focus:ring-4 focus:outline-none focus:ring-blue-100 font-medium rounded-lg text-sm px-2.5 py-2 text-center dark:bg-blue-200 dark:hover:bg-blue-200 dark:focus:ring-blue-300">
+                                                class="text-black mx-2 bg-grey-100 hover:bg-grey-200 focus:ring-4 focus:outline-none focus:ring-blue-100 font-medium rounded-lg text-sm px-2.5 py-2 text-center dark:bg-gray-900 dark:hover:bg-gray-200 dark:focus:ring-gray-300 dark:text-white">
 
-                                                <i class="fa-solid fa-eye text-slate-900"></i>
+                                                <i class="fa-solid fa-eye "></i>
                                             </button>
                                         </a>
                         `;
@@ -2782,15 +2787,7 @@ function set_page_changeLog() {
         }
     }
 }
-function set_page_quick_data() {
-    let select_page = document.querySelector("#select_page");
 
-    if (select_page) {
-        if (select_page.value != "") {
-            window.location.href = `/quick/data/${select_page.value}`;
-        }
-    }
-}
 function set_page_raw() {
     let select_page = document.querySelector("#select_page");
 
@@ -2798,240 +2795,6 @@ function set_page_raw() {
         if (select_page.value != "") {
             window.location.href = `/admin/assets/add/${select_page.value}`;
         }
-    }
-}
-async function search_quick_data(no) {
-    let type = document.querySelector("#type_search");
-    let content = document.querySelector("#content_search");
-
-    let type_val = "NA";
-    let content_val = "NA";
-
-    if (type) {
-        if (type.value != "") {
-            type_val = type.value;
-        }
-    }
-    if (content) {
-        if (content.value != "") {
-            content_val = content.value;
-        }
-    }
-
-    let page = 1;
-    if (no != 0) {
-        page = no;
-    }
-
-    // Loading label
-    document.querySelector("#loading").style.display = "block";
-    let url = `/api/quick/data/search`;
-    let data = await fetch(url, {
-        method: "POST",
-        headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            type: type_val,
-            content: content_val,
-            page: page,
-        }),
-    })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json(); // Expecting JSON
-        })
-        .then((data) => {
-            return data; // Handle your data
-        })
-        .catch((error) => {
-            alert(error);
-        });
-
-    if (data) {
-        if (data.data) {
-            if (data.data.length > 0) {
-                let page = data.page;
-                let totalPage = data.total_page;
-                let totalRecord = data.total_record ?? 0;
-                let total_label = document.querySelector("#total_state");
-                if (totalRecord) {
-                    total_label.innerHTML = `
-                       <span class="font-bold flex justify-left items-center text-gray-900 dark:text-white">Found: ${totalPage} Pages
-                                    &ensp; ${totalRecord} Records</span>
-                 `;
-                }
-
-                let pagination_search = document.querySelector(
-                    ".pagination_by_search"
-                );
-
-                if (pagination_search) {
-                    if (totalRecord > 150) {
-                        pagination_search.style.display = "block";
-                        //   Start by building the entire HTML content in one go
-                        let paginationHtml = `
-                             <div class="flex">
-                                 <ul class="flex items-center -space-x-px h-8 text-sm">
-
-                                 `;
-
-                        //   Add the current page dynamically
-                        let left_val = page - 5;
-                        if (left_val < 1) {
-                            left_val = 1;
-                        }
-                        if (page != 1 && totalPage != 1) {
-                            paginationHtml += `
-                                     <li onclick="search_quick_data(${
-                                         page - 1
-                                     })"  class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-
-
-                                             <i class="fa-solid fa-angle-left"></i>
-
-                                     </li>
-                                  `;
-                        }
-                        let right_val = page + 5;
-                        if (right_val > totalPage) {
-                            right_val = totalPage;
-                        }
-                        let state_i = 0;
-                        for (let i = left_val; i <= right_val; i++) {
-                            if (i != page) {
-                                paginationHtml += `
-                                         <li onclick="search_quick_data(${i})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                         >
-
-                                                  ${i}
-
-
-                                          </li>
-                                      `;
-                                state_i = i;
-                            } else if (i == page) {
-                                paginationHtml += `
-                                           <li onclick="search_quick_data(${i})" class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
-                                           ${i}
-                                         </li>
-                                      `;
-                                state_i = i;
-                            }
-                        }
-
-                        if (state_i != totalPage) {
-                            paginationHtml += `
-                             <li onclick="search_quick_data(${totalPage})" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                        >
-
-                                ${totalPage}
-
-
-                     </li>`;
-                        }
-                        if (page != totalPage) {
-                            paginationHtml += `
-                                     <li onclick="search_quick_data(${
-                                         page + 1
-                                     })" class="flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                             <i class="fa-solid fa-chevron-right"></i>
-
-                                     </li>
-                                         `;
-                        }
-
-                        //   Add the remaining pagination buttons and close the list
-                        paginationHtml += `
-
-
-                                 <li class="mx-2" style="margin-left:10px;">
-                                     <a href="1" aria-current="page"
-                                         class="z-10 flex items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
-                                         <i class="fa-solid fa-filter-circle-xmark" style="color: #ff0000;"></i>
-                                     </a>
-                                 </li>
-                                 </ul>
-
-
-                                 `;
-
-                        paginationHtml += `
-                                 <select  onchange="set_page_dynamic_quick()" id="select_page_dynamic_quick"  class="flex mx-2 items-center justify-center px-1 h-4   lg:px-3 lg:h-8  md:px-1 md:h-4 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"  name="" id="">
-                                 <option value="${page}">${page}</option>
-                                 `;
-
-                        for (i = 1; i <= totalPage; i++) {
-                            paginationHtml += `<option value="${i}">${i}</option>`;
-                        }
-
-                        paginationHtml += `
-                                 </select>
-                            </div>
-                              `;
-
-                        //   Finally, assign the full HTML to the element
-                        pagination_search.innerHTML = paginationHtml;
-                    } else {
-                        pagination_search.innerHTML = ``;
-                        pagination_search.style.display = "block";
-                    }
-                }
-
-                let body_change = document.querySelector("#body_quick_data");
-                body_change.innerHTML = ``;
-
-                data.data.map((item, index) => {
-                    body_change.innerHTML += `
-
-                    <tr   tabindex="0" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                               <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                    ${item.id}
-                               </td>
-                               <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                    ${item.content}
-                               </td>
-                                 <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                    ${item.type}
-                               </td>
-                                      <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                    ${item.reference ?? ""}
-                               </td>
-                                <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
-                                     <button type="button" data-modal-target="small-modal"
-                                            data-modal-toggle="small-modal"
-                                            onclick="update_quick_data(${index})"
-                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><i
-                                                class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
-                                        </button>
-                                        <!-- Modal toggle -->
-
-
-                                        <button type="button" data-id="{{ $item->id }}"
-                                            id="btn_delete{{ $item->id }}"
-                                            onclick="delete_value('btn_delete'+${
-                                                item.id
-                                            },'delete_data','delete_data_value')"
-                                            class="scale-50 lg:scale-100 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                            <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
-                               </td>
-                           </tr>
-          `;
-                });
-                array = data.data;
-            } else {
-                alert("Data not found");
-            }
-        } else {
-            alert("Data not found");
-        }
-        document.querySelector("#loading").style.display = "none";
-    } else {
-        alert("Error Fetch not responce");
-        document.querySelector("#loading").style.display = "none";
     }
 }
 
@@ -3279,7 +3042,7 @@ async function search_asset_new(no) {
                 let custom = ``;
                 if (item.deleted == 1) {
                     custom += `
-                       <tr   tabindex="0" class="bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
+                       <tr   tabindex="0" class="deleted_record bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
                         <td class="print_val px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">
                             <input onchange="printable()" data-id="${
                                 item.assets_id || ""
@@ -3309,13 +3072,13 @@ async function search_asset_new(no) {
                         }</td>
                         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
                             item.transaction_date
-                                ? new Date(
-                                      item.transaction_date
-                                  ).toLocaleDateString("en-US", {
-                                      year: "numeric",
-                                      month: "short",
-                                      day: "numeric",
-                                  })
+                                ? new Date(item.transaction_date)
+                                      .toLocaleDateString("en-GB", {
+                                          day: "2-digit",
+                                          month: "short",
+                                          year: "numeric",
+                                      })
+                                      .replace(/ /g, "-") // replace spaces with dashes
                                 : ""
                         }</td>
                         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
@@ -3357,14 +3120,13 @@ async function search_asset_new(no) {
                             }</td>
                         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
                             item.created_at
-                                ? new Date(item.created_at).toLocaleDateString(
-                                      "en-US",
-                                      {
-                                          year: "numeric",
+                                ? new Date(item.created_at)
+                                      .toLocaleDateString("en-GB", {
+                                          day: "2-digit",
                                           month: "short",
-                                          day: "numeric",
-                                      }
-                                  )
+                                          year: "numeric",
+                                      })
+                                      .replace(/ /g, "-") // replace spaces with dashes
                                 : ""
                         }</td>
                         <td class="bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
@@ -3385,8 +3147,8 @@ async function search_asset_new(no) {
                                         ${
                                             auth?.permission?.transfer_write ==
                                             1
-                                                ? `<li><a href="/admin/movement/add/detail/id=${item.assets_id}" class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Movement</a></li>
-                                                        <li><a href="/admin/assets/data/view/id=${item.assets_id}/variant=${item.variant}" class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">View</a></li>
+                                                ? `<li><a href="/admin/movement/add/detail/id=${item.assets_id}" class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">Movement</a></li>
+                                                        <li><a href="/admin/assets/data/view/id=${item.assets_id}/variant=${item.variant}" class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">View</a></li>
                         `
                                                 : ""
                                         }
@@ -3394,14 +3156,14 @@ async function search_asset_new(no) {
                                         ${
                                             auth?.permission?.assets_read == 1
                                                 ? `
-                                             <li><a href="/admin/assets/data/update/id=${item.assets_id}/variant=${item.variant}" class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white">Update</a></li>
+                                             <li><a href="/admin/assets/data/update/id=${item.assets_id}/variant=${item.variant}" class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">Update</a></li>
 
                                                 `
                                                 : ""
                                         }
                                         ${
                                             auth?.permission?.assets_delete == 1
-                                                ? `<li class="block px-4 py-2 hover:bg-gray-900 dark:hover:bg-gray-100 dark:hover:text-white" data-id="${item.assets_id}" id="btn_delete_asset${item.assets_id}" onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')">Delete</li>`
+                                                ? `<li class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black" data-id="${item.assets_id}" id="btn_delete_asset${item.assets_id}" onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')">Delete</li>`
                                                 : ""
                                         }
                                     </ul>

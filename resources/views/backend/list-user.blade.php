@@ -371,30 +371,30 @@
                                         class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->fname . ' ' . $item->lname }}
                                     </td>
-                                    <td>
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->company->name ?? '' }}
                                     </td>
-                                    <td>
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->department->name ?? '' }}
                                     </td>
-                                    <td>
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->division->name ?? '' }}
                                     </td>
-                                    <td>
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->section->name ?? '' }}
                                     </td>
-                                    <td>
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->group->name ?? '' }}
                                     </td>
 
-                                    <td>
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->email }}
                                     </td>
 
-                                    <td>
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->role }}
                                     </td>
-                                    <td>
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         @if ($item->status == 0)
                                             <span
                                                 class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -455,28 +455,28 @@
                                         class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->fname . ' ' . $item->lname }}
                                     </td>
-                                    <td>
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->company->name ?? '' }}
                                     </td>
-                                    <td>
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->department->name ?? '' }}
                                     </td>
-                                    <td>
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->division->name ?? '' }}
                                     </td>
-                                    <td>
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->section->name ?? '' }}
                                     </td>
-                                    <td>
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->group->name ?? '' }}
                                     </td>
-                                    <td>
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->email }}
                                     </td>
-                                    <td>
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->role }}
                                     </td>
-                                    <td>
+                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         @if ($item->status == 0)
                                             <span
                                                 class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
