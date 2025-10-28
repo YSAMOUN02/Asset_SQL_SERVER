@@ -94,7 +94,7 @@ body{
   top: 0;
 }
 table td{
-    padding: 2px;
+    padding: 2px 5px;
 }
 td:first-child{
     padding-left: 20px;

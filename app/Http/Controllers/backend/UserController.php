@@ -35,7 +35,7 @@ class UserController extends Controller
         }
 
 
-        $user = User::with(['Company', 'Department', 'Division', 'Section', 'Group'])
+        $user = User::with(['notification','Company', 'Department', 'Division', 'Section', 'Group'])
             ->limit($limit)
             ->offset($offset)
             ->orderBy('id', 'desc')
@@ -363,7 +363,7 @@ class UserController extends Controller
                 );
             }
         }
-   
+
         return redirect('/admin/user/list/1')->with('success', 'User updated successfully with full logging.');
     }
 
@@ -444,7 +444,7 @@ class UserController extends Controller
     {
 
         // Start with base User query and eager load user_unit relation
-        $query = User::with('unit');
+        $query = User::with('unit','notification');
 
         // Filter by user table fields
         if ($request->filled('id')) {
@@ -502,7 +502,7 @@ class UserController extends Controller
         $users = $query->orderBy('id', 'desc')->get();
 
         $companies = Company::all();
-
+        // return $users;
         return view('backend.list-user', [
             'user' => $users,
             'total_record' => $count_post,

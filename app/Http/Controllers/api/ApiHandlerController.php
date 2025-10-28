@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Mail_data;
 use App\Mail\NotifyUserPasswordMail;
+use App\Models\Noftify;
 use Illuminate\Support\Str;
 use Exception;
 
@@ -580,15 +581,17 @@ class ApiHandlerController extends Controller
 
             $mailData = [
                 'fullName' => $fullname,
-                'company' => $user->company->name??'NA',
-                'department' => $user->department->name??'NA',
+                'company' => $user->company->name ?? 'NA',
+                'department' => $user->department->name ?? 'NA',
                 'email' => $user->email,
                 'temp_password' => $code,
                 'phone' => $user->phone,
 
             ];
-            // return response()->json(, 200);
+
+
             Mail::to($user->email)->send(new Mail_data($mailData));
+
             return response()->json("Code has sent to email:  " . $user->email . '  Check your Inbox to recieve Code.', 200);
         }
     }
@@ -830,7 +833,11 @@ class ApiHandlerController extends Controller
         try {
             // ✅ Send email
             Mail::to($user->email)->send(new NotifyUserPasswordMail($mailData));
-
+             // In your controller
+            $new_update_notify = Noftify::firstOrNew(['user_id' => $user->id]);
+            $new_update_notify->status = 1;
+            $new_update_notify->touch(); // updates updated_at
+            $new_update_notify->save();
             return response()->json([
                 'status' => true,
                 'message' => 'Password has been reset and sent to: ' . $user->email,

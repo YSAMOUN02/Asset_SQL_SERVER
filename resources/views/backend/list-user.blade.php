@@ -347,6 +347,14 @@
                         </th>
                         <th scope="col"
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            Nofiy
+                        </th>
+                        <th scope="col"
+                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            Last Notify Date
+                        </th>
+                        <th scope="col"
+                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             Status
                         </th>
 
@@ -401,6 +409,30 @@
                                     <td
                                         class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->role }}
+                                    </td>
+                                       <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        @if (!empty($item->notification) && $item->notification->status == 1)
+                                            <span
+                                                class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                                <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                                Yes
+                                            </span>
+                                        @else
+                                            <span
+                                                class="inline-flex items-center bg-red-100 text-amber-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-amber-900 dark:text-amber-300">
+                                                <span class="w-2 h-2 me-1 bg-amber-500 rounded-full"></span>
+                                                Not Yet
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                      @if (!empty($item->notification->updated_at))
+                                            {{ \Carbon\Carbon::parse($item->notification->updated_at)->format('d-M-Y') }}
+                                        @else
+
+                                        @endif
                                     </td>
                                     <td
                                         class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -491,6 +523,31 @@
                                     <td
                                         class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->role }}
+                                    </td>
+                                      <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        @if (!empty($item->notification) && $item->notification->status == 1)
+                                            <span
+                                                class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                                <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                                Yes
+                                            </span>
+                                        @else
+                                            <span
+                                                class="inline-flex items-center bg-red-100 text-amber-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-amber-900 dark:text-amber-300">
+                                                <span class="w-2 h-2 me-1 bg-amber-500 rounded-full"></span>
+                                                Not Yet
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        @if (!empty($item->notification->updated_at))
+                                            {{ \Carbon\Carbon::parse($item->notification->updated_at)->format('d-M-Y') }}
+                                        @else
+
+                                        @endif
+
                                     </td>
                                     <td
                                         class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
