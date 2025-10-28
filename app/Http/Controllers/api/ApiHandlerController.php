@@ -22,7 +22,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Mail_data;
-
+use App\Mail\NotifyUserPasswordMail;
+use Illuminate\Support\Str;
 use Exception;
 
 class ApiHandlerController extends Controller
@@ -263,7 +264,7 @@ class ApiHandlerController extends Controller
         $limit = $viewpoint->value ?? 50;
         $offset = ($page != 0) ? ($page - 1) * $limit : 0;
 
-         $countQuery = clone $data;
+        $countQuery = clone $data;
         $count = $countQuery->count();
         $asset_data = $data->limit($limit)
             ->offset($offset)
@@ -579,8 +580,8 @@ class ApiHandlerController extends Controller
 
             $mailData = [
                 'fullName' => $fullname,
-                'company' => $user->company,
-                'department' => $user->department,
+                'company' => $user->company->name??'NA',
+                'department' => $user->department->name??'NA',
                 'email' => $user->email,
                 'temp_password' => $code,
                 'phone' => $user->phone,
@@ -688,7 +689,7 @@ class ApiHandlerController extends Controller
             ->first();
         $limit = $viewpoint->value ?? 50;
         $offset = ($page != 0) ? ($page - 1) * $limit : 0;
-         $countQuery = clone $data;
+        $countQuery = clone $data;
         $count = $countQuery->count();
 
         // Filter deleted only for super admin
@@ -767,6 +768,80 @@ class ApiHandlerController extends Controller
             });
 
         return response()->json($users);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    public function notifyUserAndResetPassword(Request $request)
+    {
+        // ✅ Validate input
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $email = $request->input('email');
+
+        // ✅ Check if user exists by email
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No user found with this email address.',
+            ], 404);
+        }
+
+        // ✅ Generate a random 6-character password
+        $plainPassword = Str::upper(Str::random(6));
+
+        // ✅ Encrypt password before saving
+        $hashedPassword = Hash::make($plainPassword);
+
+        // ✅ Update user's password
+        $user->password = $hashedPassword;
+        $user->save();
+
+        // ✅ Prepare system access link
+        $systemLink = url('/login'); // change if your login route differs
+
+        // ✅ Prepare email data
+        $mailData = [
+            'fullName' => trim(($user->fname ?? '') . ' ' . ($user->lname ?? '')) ?: $user->name,
+            'user_login' => $user->name,
+            'email' => $user->email,
+            'password' => $plainPassword,
+            'login_link' => $systemLink,
+            'id_card' => $user->id_card ?? 'N/A',
+            'position' => $user->position ?? 'N/A',
+            'role' => $user->role ?? 'N/A',
+            'company' => $user->company?->name ?? 'N/A',
+            'department' => $user->department?->name ?? 'N/A',
+        ];
+
+        try {
+            // ✅ Send email
+            Mail::to($user->email)->send(new NotifyUserPasswordMail($mailData));
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Password has been reset and sent to: ' . $user->email,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => '❌ Failed to send email. Please check mail configuration.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
 

@@ -252,7 +252,7 @@ class AssetsController extends Controller
             'variant'
         ])
             ->orderBy('assets1', 'desc')
-   
+
             ->limit($limit)
             ->offset($offset);
 
@@ -485,6 +485,7 @@ class AssetsController extends Controller
 
     public function update_and_view_asset($state, $id, $variant)
     {
+      
 
         $sql = movement::with([
             'images',
@@ -527,6 +528,11 @@ class AssetsController extends Controller
     }
     public function update_submit(Request $request)
     {
+                 // Check permission
+        if ( Auth::user()->permission->assets_update != 1) {
+            return redirect()->back()->with('error', 'You do not has permission');
+        }
+
         DB::beginTransaction();
         try {
             // 1. Find the asset

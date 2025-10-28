@@ -308,7 +308,7 @@
         <div class="scroll-container">
             <table id="table_user" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr   tabindex="0" id="user_th">
+                    <tr tabindex="0" id="user_th">
                         <th scope="col"
                             class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             ID
@@ -362,7 +362,8 @@
                     @if (!empty($user))
                         @foreach ($user as $item)
                             @if (Auth::user()->id == $item->id)
-                                <tr   tabindex="0" class="bg-green-300 border-b dark:bg-gray-800 dark:border-gray-700">
+                                <tr tabindex="0"
+                                    class="bg-green-300 border-b dark:bg-gray-800 dark:border-gray-700">
                                     <td scope="row"
                                         class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->id }}
@@ -371,30 +372,38 @@
                                         class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->fname . ' ' . $item->lname }}
                                     </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->company->name ?? '' }}
                                     </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->department->name ?? '' }}
                                     </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->division->name ?? '' }}
                                     </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->section->name ?? '' }}
                                     </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->group->name ?? '' }}
                                     </td>
 
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->email }}
                                     </td>
 
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->role }}
                                     </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         @if ($item->status == 0)
                                             <span
                                                 class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -446,7 +455,7 @@
 
                                 </tr>
                             @else
-                                <tr   tabindex="0" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <tr tabindex="0" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <td scope="row"
                                         class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->id }}
@@ -455,28 +464,36 @@
                                         class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->fname . ' ' . $item->lname }}
                                     </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->company->name ?? '' }}
                                     </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->department->name ?? '' }}
                                     </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->division->name ?? '' }}
                                     </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->section->name ?? '' }}
                                     </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->group->name ?? '' }}
                                     </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->email }}
                                     </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->role }}
                                     </td>
-                                    <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td
+                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         @if ($item->status == 0)
                                             <span
                                                 class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -534,6 +551,17 @@
                                                             </div>
                                                         </li>
                                                     @endif
+                                                    @if (!empty($item->email))
+                                                        <li>
+                                                            <button type="button" data-email="{{ $item->email }}"
+                                                                data-name="{{ $item->name }}"
+                                                                class="notify-btn w-full text-left block px-4 py-2 bg-white text-black hover:bg-gray-200">
+                                                                Notify
+                                                            </button>
+                                                        </li>
+                                                    @endif
+
+
                                                 </ul>
                                             </div>
 
@@ -546,11 +574,103 @@
 
                 </tbody>
             </table>
+            <!-- Confirm Modal -->
+            <div id="notifyModal"
+                class="hidden modal_z_hight_index    fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+                <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Send Notification</h2>
+                    <p class="text-gray-600 mb-6">
+                        Are you sure you want to Reset Password <br> Random & notify
+                        <span id="notifyUserName" class="font-bold text-gray-900"></span>?
+                    </p>
+                    <div class="flex justify-end space-x-3">
+                        <button id="cancelNotify"
+                            class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg text-gray-800">
+                            Cancel
+                        </button>
+                        <button id="confirmNotify"
+                            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white">
+                            Confirm
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let selectedEmail = null;
+            let selectedName = null;
+
+            const modal = document.getElementById("notifyModal");
+            const confirmBtn = document.getElementById("confirmNotify");
+            const cancelBtn = document.getElementById("cancelNotify");
+            const nameLabel = document.getElementById("notifyUserName");
+
+            // Show modal when "Notify" is clicked
+            document.querySelectorAll(".notify-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    selectedEmail = btn.getAttribute("data-email");
+                    selectedName = btn.getAttribute("data-name");
+                    nameLabel.textContent = selectedName || selectedEmail;
+                    modal.classList.remove("hidden");
+                });
+            });
+
+            // Hide modal when cancel clicked
+            cancelBtn.addEventListener("click", () => {
+                modal.classList.add("hidden");
+                selectedEmail = null;
+            });
+
+            // Confirm notification
+            confirmBtn.addEventListener("click", async () => {
+                if (!selectedEmail) return;
+
+                confirmBtn.disabled = true;
+                confirmBtn.textContent = "Sending...";
+
+                try {
+                    const response = await fetch("/api/notify-user", {
+                        method: "POST",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                            "Cache-Control": "no-cache",
+                            Pragma: "no-cache",
+                        },
+                        body: JSON.stringify({
+                            email: selectedEmail
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.status) {
+                        showSuccessToast(result.message || "Notification sent successfully");
+                    } else {
+                        showErrorToast(result.message || "Failed to notify user");
+                    }
+                } catch (error) {
+                    console.error(error);
+                    showErrorToast("Something went wrong while sending notification");
+                } finally {
+                    confirmBtn.disabled = false;
+                    confirmBtn.textContent = "Confirm";
+                    modal.classList.add("hidden");
+                }
+            });
+
+            // Close modal when clicking outside box
+            modal.addEventListener("click", e => {
+                if (e.target === modal) {
+                    modal.classList.add("hidden");
+                }
+            });
+        });
+
         // Update datalist dynamically
         function updateDatalist(type, parentId, datalistId, inputId, hiddenId, label) {
             if (!parentId) {

@@ -9,10 +9,9 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class Mail_data extends Mailable
+class NotifyUserPasswordMail extends Mailable
 {
     use Queueable, SerializesModels;
-
     public $mailData;
 
     /**
@@ -23,32 +22,35 @@ class Mail_data extends Mailable
         $this->mailData = $mailData;
     }
 
+
     /**
      * Get the message envelope.
      */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Temporary Code Reset Password', // Customize the subject as needed
+            subject: 'Notify User Password Mail',
         );
     }
 
     /**
      * Get the message content definition.
      */
-    public function content(): Content
+      public function content(): Content
     {
         return new Content(
-            view: 'mail.mail_send', // Correct path without `.blade.php`
+            view: 'mail.mail_send_nofiy_user', // Correct path without `.blade.php`
             with: ['mailData' => $this->mailData], // Pass data to the view
         );
     }
-
     /**
      * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
     public function attachments(): array
     {
         return [];
     }
+
 }

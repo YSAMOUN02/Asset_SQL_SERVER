@@ -45,6 +45,8 @@ Route::middleware('auth:api')->group(function () {
 
      Route::get('/fetch-users', [ApiHandlerController::class, 'fetchUsers']);
 
+    Route::post('/notify-user', [ApiHandlerController::class, 'notifyUserAndResetPassword']);
+
 
 });
 // route to fetch immediate children of a unit

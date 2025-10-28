@@ -3372,7 +3372,7 @@ function showSuccessToast(message = "Success") {
     toast.style.visibility = "visible";
     toast.style.animation = "none";
     void toast.offsetWidth; // trigger reflow
-    toast.style.animation = "fadeOut2 4s forwards";
+    toast.style.animation = "fadeOut2 7s forwards";
 
     setTimeout(() => (toast.style.display = "none"), 4000);
 }

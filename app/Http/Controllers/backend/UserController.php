@@ -363,7 +363,7 @@ class UserController extends Controller
                 );
             }
         }
-
+   
         return redirect('/admin/user/list/1')->with('success', 'User updated successfully with full logging.');
     }
 
