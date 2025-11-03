@@ -35,7 +35,7 @@
                     <input type="number" id="no" name="no" min="1" max="10000" step="1"
                         oninput="validateInputFieldNum(this)"
                         class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    
+
 
                         required />
                 </div>
@@ -72,19 +72,19 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr   tabindex="0">
 
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
+                        <th scope="col" class="text-black  dark:text-white ">
                             ID &ensp;
                         </th>
 
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
+                        <th scope="col" class="text-black  dark:text-white ">
                             Code
                         </th>
 
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
+                        <th scope="col" class="text-black  dark:text-white ">
                             For
                         </th>
 
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
+                        <th scope="col" class="text-black  dark:text-white ">
                             Start Date
                         </th>
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 text-black  dark:text-white ">
@@ -102,28 +102,28 @@
                         <tr   tabindex="0"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
+                            <td class="text-black  dark:text-white ">
                                 {{ $item->id }}
                             </td>
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
+                            <td class="text-black  dark:text-white ">
                                 {{ $item->code . str_pad($item->no, 3, '0', STR_PAD_LEFT) }}
                             </td>
 
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
+                            <td class="text-black  dark:text-white ">
                                 {{ $item->name }}
                             </td>
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
+                            <td class="text-black  dark:text-white ">
 
                                 {{ \Carbon\Carbon::parse($item->start)->format('d-M-Y') ?? '' }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
+                            <td class="text-black  dark:text-white ">
 
                                 {{ \Carbon\Carbon::parse($item->end)->format('d-M-Y') ?? '' }}
                             </td>
-                            <td class="flex px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
+                            <td class="flex text-black  dark:text-white ">
                                 @if (Auth::user()->Permission->quick_update == 1)
                                     <!-- Modal toggle -->
                                     <button data-modal-target="static-modal{{ $item->id }}"

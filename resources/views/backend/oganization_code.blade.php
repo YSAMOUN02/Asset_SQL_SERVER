@@ -45,17 +45,17 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr   tabindex="0">
 
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
+                        <th scope="col" class="text-black  dark:text-white ">
                             ID &ensp;
                         </th>
 
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
+                        <th scope="col" class="text-black  dark:text-white ">
                             Code
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
+                        <th scope="col" class="text-black  dark:text-white ">
                             Name
                         </th>
-                        <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
+                        <th scope="col" class="text-black  dark:text-white ">
                             Action
                         </th>
                     </tr>
@@ -66,7 +66,7 @@
                         <tr   tabindex="0"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  text-black  dark:text-white ">
+                            <td class="text-black  dark:text-white ">
                                 {{ $code->id }}
                             </td>
 

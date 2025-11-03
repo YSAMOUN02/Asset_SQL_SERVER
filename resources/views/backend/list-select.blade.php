@@ -245,29 +245,29 @@
                         <tr   tabindex="0" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 
                             <td scope="row"
-                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $no }}
                             </td>
                             <td scope="row"
-                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ \Carbon\Carbon::parse($item->assets_date)->format('d-M-Y') }}
 
                             </td>
                             <td scope="row"
-                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $item->assets }}
                             </td>
                             <td scope="row"
-                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $item->fa }}
                             </td>
 
                             <td scope="row"
-                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $item->invoice_no }}
                             </td>
                             <td scope="row"
-                                class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $item->description }}
                             </td>
 

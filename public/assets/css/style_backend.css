@@ -465,7 +465,8 @@ z-index: 99;
 .option{
     width: 100%;
     height: 100%;
-    padding: 10px;
+    padding: 0px;
+    margin: 0px 8px;
     position: relative;
 }
 
@@ -480,40 +481,21 @@ z-index: 99;
     position: absolute;
     bottom: 0%;
     left: -10%;
-    z-index: 9999999999 !important;
+    z-index: 999999 !important;
 }
-#assets_body tr:first-child  ul ,#assets_body tr:nth-child(2)  ul {
+#assets_body tr:first-child  ul ,#assets_body tr:nth-child(2)  ul, #assets_body tr:nth-child(3)  ul  , #assets_body tr:nth-child(4)  ul,  #assets_body tr:nth-child(5)  ul{
     height: fit-content;
     position: absolute;
     color: white!important;
     top: 100%;
     left: -10%;
-    z-index: 9999999999 !important;
+    z-index: 999999 !important;
     background-color: rgb(121, 121, 121);
     border: 1px solid rgba(0, 0, 0, 0.187) !important;
     color: rgb(0, 0, 0);
 }
 
-#movement_body td:last-child  ul {
-    background-color: rgb(121, 121, 121);
-    border: 1px solid rgba(0, 0, 0, 0.187) !important;
-    color: white;
-    position: absolute;
-    bottom: 0%;
-    left: -10%;
-    z-index: 9999999999 !important;
-}
-#movement_body tr:first-child  ul ,#assets_body tr:nth-child(2)  ul {
-    height: fit-content;
-    position: absolute;
-    color: white!important;
-    top: 100%;
-    left: -10%;
-    z-index: 9999999999 !important;
-    background-color: rgb(121, 121, 121);
-    border: 1px solid rgba(0, 0, 0, 0.187) !important;
-    color: rgb(0, 0, 0);
-}
+
 
 #user_tb td:last-child  ul {
     background-color: rgb(121, 121, 121);
@@ -760,18 +742,20 @@ tr {
 }
 
 tr:hover td {
-  background-color: #ffe283 !important;
+  background-color: #ebfaff !important;
   color: rgb(0, 0, 0) !important;
 }
 tr:focus td {
-  background-color: rgb(122, 80, 0) !important;
+  background-color: rgb(181, 240, 255) !important;
   z-index: 9;
-  color: white !important   ;
+  color: rgb(0, 105, 190) !important   ;
   outline: none;
 }
 .deleted_record td{
-    background-color: rgb(145, 0, 0) !important;
-    color: rgb(255, 255, 255) !important;
+    background-color: rgb(255, 246, 246) !important;
+    color: rgb(255, 0, 0) !important;
+     transition: all 0.3s ease;
+     text-decoration: line-through;
 }
 /* Default (light mode) */
 .flatpickr-input[readonly] {
@@ -787,6 +771,21 @@ tr:focus td {
         color: #f3f4f6 !important;
         border: 1px solid #374151 !important;
     }
+    .deleted_record td{
+    background-color: #202a3a !important;
+    color: rgb(255, 161, 161) !important;
+}
+
+tr:hover td {
+  background-color: #202a3a  !important;
+  color: rgb(87, 193, 255) !important;
+}
+tr:focus td {
+  background-color: #1d2d47  !important;
+  z-index: 9;
+   color: rgb(87, 193, 255) !important;
+  outline: none;
+}
 }
 
     /* Faster spin */
@@ -1010,33 +1009,28 @@ aside i{
     font-size: 20px !important;
      z-index: 999999 !important;
 }
-#assets_body tr:nth-child(2)  ul{
+#assets_body tr:nth-child(2)  ul,#assets_body tr:nth-child(3)  ul,#assets_body tr:nth-child(4)  ul,#assets_body tr:nth-child(5)  ul{
     bottom: 0%;
     /* left: 50%; */
     right: 15%;
     z-index: 999999 !important;
     font-size:20px !important;
 }
-#assets_body tr:first-child ul a, #assets_body td:last-child ul a, #assets_body tr:nth-child(2) ul a {
+#assets_body tr  ul{
+    bottom: 0%;
+    /* left: 50%; */
+    right: 15%;
+    z-index: 999999 !important;
+    font-size:20px !important;
+}
+#assets_body tr:first-child ul a, #assets_body td:last-child ul a, #assets_body tr:nth-child(2) ul a ,#assets_body tr:nth-child(3) ul a ,#assets_body tr:nth-child(4) ul a ,#assets_body tr:nth-child(5) ul a {
     font-size: 12px !important;
     padding: 5px !important;
 }
-#assets_body tr:first-child ul li, #assets_body td:last-child ul li, #assets_body tr:nth-child(2) ul li {
+#assets_body tr:first-child ul li, #assets_body td:last-child ul li, #assets_body tr:nth-child(2) ul li,#assets_body tr:nth-child(3) ul li,#assets_body tr:nth-child(4) ul li ,#assets_body tr:nth-child(5) ul li{
     font-size: 12px !important;
     padding: 5px !important;
     color: red;
-}
-
-
-
-
-#movement_body td:last-child  ul {
-    bottom: 0%;
-    left: -10%;
-}
-#movement_body tr:first-child  ul ,#assets_body tr:nth-child(2)  ul {
-    top: 100%;
-    left: -10%;
 }
 
 #user_tb td:last-child  ul {

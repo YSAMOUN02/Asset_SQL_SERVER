@@ -34,36 +34,6 @@ function form_submit() {
     }
 }
 
-// if (localStorage.getItem("theme") === "dark") {
-//     document.documentElement.classList.add("dark");
-// }
-
-// const toggleDarkMode = () => {
-//     const htmlElement = document.documentElement;
-//     htmlElement.classList.toggle("dark");
-
-//     if (htmlElement.classList.contains("dark")) {
-//         localStorage.setItem("theme", "dark");
-//     } else {
-//         localStorage.setItem("theme", "light");
-//     }
-// };
-
-// document
-//     .getElementById("dark-mode-toggle")
-//     .addEventListener("click", toggleDarkMode);
-
-function delete_value(btn_delete, toast, toast_input) {
-    let id = document.querySelector("#" + btn_delete).getAttribute("data-id");
-    console.log(id);
-    //  Toast Show
-
-    document.querySelector("#" + toast).style.display = "block";
-
-    // assign value to input
-    document.querySelector("#" + toast_input).value = id;
-}
-
 function cancel_toast(toast) {
     document.querySelector("#" + toast).style.display = "none";
 }
@@ -1410,7 +1380,7 @@ async function search_asset(no) {
                     ) {
                         custom += `
 
-                                                                <li>
+                                                                <li class="movement">
                                                                     <a href="/admin/movement/add/detail/id=${item.assets_id}"
                                                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">Movement</a>
                                                                 </li>
@@ -1441,13 +1411,12 @@ async function search_asset(no) {
                     ) {
                         custom += `
 
-                                                    <li class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black"
-                                                                    data-id="${item.assets_id}"
-                                                                    id="btn_delete_asset${item.assets_id}"
-                                                                    onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')">
 
-                                                                    Delete
-
+                                                       <li class="cursor block px-4 py-2 hover:bg-gray-200 bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black"
+                                                        data-id="${item.assets_id}"
+                                                        id="btn_delete_asset${item.assets_id}"
+                                                        onclick="openDeleteModal('btn_delete_asset${item.assets_id}')">
+                                                        Delete
                                                     </li>
                                                 `;
                     }
@@ -1534,13 +1503,13 @@ async function search_movement(no) {
     let state = document.querySelector("#state");
     let other = document.querySelector("#other_search");
     let value = document.querySelector("#other_value");
-    let department = document.querySelector("#department");
     let user = document.querySelector("#user");
     let company = document.querySelector("#company");
+    let deleted = document.querySelector("#deleted");
 
     let user_val = "NA";
     let company_val = "NA";
-    let department_val = "NA";
+    let department_val = selected_dep ?? "NA";
     let asset_val = "NA";
     let description_val = "NA";
     let start_val = "NA";
@@ -1548,10 +1517,15 @@ async function search_movement(no) {
     let state_val = "NA";
     let type_val = "NA";
     let value_val = "NA";
+    let initial_condition = selected ?? "NA";
+    let delete_val = "All";
 
     let page = 1;
     if (no) {
         page = no;
+    }
+    if (deleted) {
+        delete_val = deleted.value;
     }
     if (user) {
         if (user.value != "") {
@@ -1566,11 +1540,6 @@ async function search_movement(no) {
     if (asset_input) {
         if (asset_input.value != "") {
             asset_val = asset_input.value;
-        }
-    }
-    if (department) {
-        if (department.value != "") {
-            department_val = department.value;
         }
     }
     if (description) {
@@ -1637,6 +1606,8 @@ async function search_movement(no) {
                     end: end_val,
                     start: start_val,
                     description: description_val,
+                    initial_condition: initial_condition,
+                    deleted: delete_val,
                     page: page,
                     _t: Date.now(),
                 }),
@@ -1775,7 +1746,7 @@ async function search_movement(no) {
                     if (item.deleted == 1) {
                         custom += `
                              <tr   tabindex="0" class=" deleted_record bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
-                                <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                <td class="print_val ">
                                     <input onchange="printable()" data-id="{{ $item->assets_id }}"
                                         id="green-checkbox{{ $item->id }}" type="checkbox" value=""
                                         class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -1934,7 +1905,7 @@ async function search_movement(no) {
                             item.deleted == 0
                         ) {
                             custom += `
-                                                <li>
+                                                <li class="movement">
                                                     <a href="/admin/movement/add/detail/id=${item.assets_id}"
                                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">
                                                         Movement
@@ -1970,12 +1941,15 @@ async function search_movement(no) {
                             item.deleted == 0
                         ) {
                             custom += `
-                                                <li class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black"
-                                                    data-id="${item.assets_id}"
-                                                    id="btn_delete_asset${item.assets_id}"
-                                                    onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')">
-                                                    Delete
-                                                </li>`;
+
+                                                     <li class="cursor block px-4 py-2 hover:bg-gray-200 bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black"
+                                                        data-id="${item.assets_id}"
+                                                        id="btn_delete_asset${item.assets_id}"
+                                                        onclick="openDeleteModal('btn_delete_asset${item.assets_id}')">
+                                                        Delete
+                                                    </li>
+
+                                                `;
                         }
 
                         custom += `
@@ -1986,7 +1960,7 @@ async function search_movement(no) {
                         custom += `
                          <a
                                             href="/admin/assets/data/view/id=${item.assets_id}/variant=${item.variant}">
-                                            <button data-popover-target="popover-default{{ $no }}"
+                                            <button data-popover-target="popover-default${index}"
                                                 type="button"
                                                 class="text-black mx-2 bg-grey-100 hover:bg-grey-200 focus:ring-4 focus:outline-none focus:ring-blue-100 font-medium rounded-lg text-sm px-2.5 py-2 text-center dark:bg-gray-900 dark:hover:bg-gray-200 dark:focus:ring-gray-300 dark:text-white">
 
@@ -2055,7 +2029,6 @@ async function search_movement(no) {
         toast_red.offsetHeight; // trigger reflow to restart animation
         toast_red.style.animation = "fadeOut2 4s forwards"; // start animation
     }
-    finishLoaderInstantly();
 }
 
 function set_page_dynamic() {
@@ -2134,12 +2107,7 @@ function set_page_dynamic_admin_movement() {
         }
     }
 }
-function set_page_dynamic_asset_new() {
-    let select = document.querySelector("#set_page_dynamic_asset_new");
-    if (select && select.value !== "") {
-        search_asset_new(parseInt(select.value));
-    }
-}
+
 function check_date() {
     // initailize
     let start_input = "NA";
@@ -2258,16 +2226,13 @@ async function raw_assets(no) {
 
             return await response.json(); // return the fetched data
         });
-
-        console.log(data); // JSON response is now available
     } catch (error) {
         alert(error);
     }
 
     let body_table = document.querySelector("#table_raw_body");
-
+    console.log(data);
     if (data) {
-        console.log(data);
         if (data.data) {
             if (data.data.length > 0) {
                 let defualt = document.querySelector(".defualt");
@@ -2404,8 +2369,8 @@ async function raw_assets(no) {
             ${data.data
                 .map((item, index) => {
                     return `
-        <tr   tabindex="0" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"">
-            <td scope="row"
+            <tr   tabindex="0" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"">
+                <td scope="row"
                 class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 ${index + 1}
             </td>
@@ -2426,23 +2391,23 @@ async function raw_assets(no) {
             </td>
             <td scope="row"
                 class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                ${item.assets}
+                ${item.assets??''}
             </td>
             <td scope="row"
                 class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                ${item.fa}
+                ${item.fa??''}
             </td>
             <td scope="row"
                 class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                ${item.invoice_no}
+                ${item.invoice_no??''}
             </td>
             <td scope="row"
                 class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                ${item.description}
+                ${item.description??''}
             </td>
             <td>
                 ${
-                    item.is_registered
+                    item.is_registered == 1
                         ? `
                           <span
                                         class="inline-flex items-center  text-green-800 text-xs font-medium px-2.5 py-2 rounded-full dark:bg-green-900 dark:text-green-300">
@@ -2992,6 +2957,7 @@ async function search_asset_new(no) {
                     const totalRecord = data.total_record;
                     let paginationHtml = `<ul class="flex items-center -space-x-px h-8 text-sm">`;
                     let left_val = page - 5;
+                    let page_view = page;
                     if (left_val < 1) left_val = 1;
                     if (page != 1 && totalPage != 1) {
                         paginationHtml += `
@@ -3036,142 +3002,239 @@ async function search_asset_new(no) {
                     pagination_search.innerHTML = paginationHtml;
                 }
             }
+            body_change.innerHTML = ``;
 
-            body_change.innerHTML = "";
-            data.data.forEach((item) => {
+            data.data.map((item, index) => {
                 let custom = ``;
                 if (item.deleted == 1) {
                     custom += `
-                       <tr   tabindex="0" class="deleted_record bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
-                        <td class="print_val px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">
-                            <input onchange="printable()" data-id="${
-                                item.assets_id || ""
-                            }" id="green-checkbox${
-                        item.id
-                    }" type="checkbox" class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    `;
+                             <tr   tabindex="0" class=" deleted_record bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
+                                <td class="print_val ">
+                                    <input onchange="printable()" data-id="{{ $item->assets_id }}"
+                                        id="green-checkbox{{ $item->id }}" type="checkbox" value=""
+                                        class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                        <span class="px-2 ">Deleted</span>
+                                              </td>
+                        `;
                 } else {
                     custom += `
-                       <tr   tabindex="0" class="bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
-
-                        <td class="print_val px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">
-                            <input onchange="printable()" data-id="${
-                                item.assets_id || ""
-                            }" id="green-checkbox${
-                        item.id
-                    }" type="checkbox" class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-
-
-                    `;
+                           <tr   tabindex="0" class="bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
+                            <!-- Checkbox -->
+                            <td class="print_val px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+                                <input onchange="printable()" data-id="${
+                                    item.assets_id || ""
+                                }"
+                                    id="green-checkbox${
+                                        item.id
+                                    }" type="checkbox" value=""
+                                    class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded
+                                    focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800
+                                    focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                          </td>
+                        `;
                 }
                 custom += `
 
-                        </td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
-                            item.assets_id || ""
-                        }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
-                            item.transaction_date
-                                ? new Date(item.transaction_date)
-                                      .toLocaleDateString("en-GB", {
-                                          day: "2-digit",
-                                          month: "short",
-                                          year: "numeric",
-                                      })
-                                      .replace(/ /g, "-") // replace spaces with dashes
-                                : ""
-                        }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
-                            item.assets1 || ""
-                        }${item.assets2 || ""}</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
-                            item.status == 1
-                                ? `<span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"><span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>Active</span>`
-                                : `<span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300"><span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>Inactive</span>`
-                        }</td>
-                              <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
-                                  item.initial_condition || ""
-                              }</td>
+        <!-- Asset ID -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+            ${item.assets_id || ""}
+        </td>
 
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
-                            item.item || ""
-                        }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
-                            item.specification || ""
-                        }</td>
+        <!-- Transaction Date -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+            ${
+                item.transaction_date
+                    ? new Date(item.transaction_date)
+                          .toLocaleDateString("en-GB", {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                          })
+                          .replace(/ /g, "-") // replace spaces with dashes
+                    : ""
+            }
+        </td>
 
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
-                            item.holder_name || ""
-                        }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
-                            item.department || ""
-                        }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
-                            item.company || ""
-                        }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
-                            item.old_code || ""
-                        }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
-                            item.document || ""
-                        }</td>
-                            <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
-                                item.status_recieved || ""
-                            }</td>
-                        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 ">${
-                            item.created_at
-                                ? new Date(item.created_at)
-                                      .toLocaleDateString("en-GB", {
-                                          day: "2-digit",
-                                          month: "short",
-                                          year: "numeric",
-                                      })
-                                      .replace(/ /g, "-") // replace spaces with dashes
-                                : ""
-                        }</td>
-                        <td class="bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">
-                            <div class="option">
-                                <button id="dropdownMenuIconHorizontalButton${
-                                    item.assets_id
-                                }" data-dropdown-toggle="dropdownDotsHorizontal${
-                    item.assets_id
-                }" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
-                                    <i class="fa-solid fa-gear"></i>
-                                </button>
-                                <div id="dropdownDotsHorizontal${
-                                    item.assets_id
-                                }" class="hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton${
-                                        item.assets_id
-                                    }">
-                                        ${
-                                            auth?.permission?.transfer_write ==
-                                            1
-                                                ? `<li><a href="/admin/movement/add/detail/id=${item.assets_id}" class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">Movement</a></li>
-                                                        <li><a href="/admin/assets/data/view/id=${item.assets_id}/variant=${item.variant}" class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">View</a></li>
-                        `
-                                                : ""
-                                        }
+        <!-- Assets Code -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+            ${(item.assets1 || "") + (item.assets2 || "")}
+        </td>
 
-                                        ${
-                                            auth?.permission?.assets_read == 1
-                                                ? `
-                                             <li><a href="/admin/assets/data/update/id=${item.assets_id}/variant=${item.variant}" class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">Update</a></li>
+        <!-- Status -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+            ${
+                item.status == 0
+                    ? `
+                        <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium
+                        px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                            <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>Inactive
+                        </span>`
+                    : `
+                        <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium
+                        px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                            <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>Active
+                        </span>`
+            }
+        </td>
+                <!-- Initial Condition -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.initial_condition || ""
+        }</td>
 
-                                                `
-                                                : ""
-                                        }
-                                        ${
-                                            auth?.permission?.assets_delete == 1
-                                                ? `<li class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black" data-id="${item.assets_id}" id="btn_delete_asset${item.assets_id}" onclick="delete_value('btn_delete_asset'+${item.assets_id},'delete_asset_admin','delete_value_asset')">Delete</li>`
-                                                : ""
-                                        }
-                                    </ul>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                `;
+
+        <!-- Item -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.item || ""
+        }</td>
+
+        <!-- Specification -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.specification || ""
+        }</td>
+
+
+
+        <!-- Holder -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.holder_name || ""
+        }</td>
+
+        <!-- Department -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.department || ""
+        }</td>
+
+        <!-- Company -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.company || ""
+        }</td>
+
+        <!-- Old Code -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.old_code || ""
+        }</td>
+
+        <!-- Reference -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+            item.reference || ""
+        }</td>
+         <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">${
+             item.purpose || ""
+         }</td>
+          <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2 ">
+                                                        ${
+                                                            item.status_recieved ||
+                                                            ""
+                                                        }
+                                                        </td>
+        <!-- Created Date -->
+        <td class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2">
+            ${
+                item.created_at
+                    ? new Date(item.created_at)
+                          .toLocaleDateString("en-GB", {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                          })
+                          .replace(/ /g, "-") // replace spaces with dashes
+                    : ""
+            }
+        </td>
+        <!-- Actions -->
+        <td class="bg-gray-100 dark:bg-black text-gray-900 whitespace-nowrap dark:text-white">`;
+                if (item.status == 1) {
+                    custom += `
+                                    <div class="option">
+                                        <button id="dropdownMenuIconHorizontalButton${item.assets_id}"
+                                            data-dropdown-toggle="dropdownDotsHorizontal${item.assets_id}"
+                                            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900
+                                            bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none
+                                            dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700
+                                            dark:focus:ring-gray-600"
+                                            type="button">
+                                               <i class="fa-solid fa-gear"></i>
+                                        </button>
+
+                                        <div id="dropdownDotsHorizontal${item.assets_id}"
+                                            class="hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44
+                                            dark:bg-gray-700 dark:divide-gray-600">
+                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                aria-labelledby="dropdownMenuIconHorizontalButton${item.assets_id}">`;
+
+                    // Movement
+                    if (
+                        auth?.permission?.transfer_write == 1 &&
+                        item.deleted == 0
+                    ) {
+                        custom += `
+                                                <li class="movement">
+                                                    <a href="/admin/movement/add/detail/id=${item.assets_id}"
+                                                       class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">
+                                                        Movement
+                                                    </a>
+                                                </li>`;
+                    }
+
+                    // View / Update
+
+                    custom += `
+                                <li>
+                                    <a href="/admin/assets/data/view/id=${item.assets_id}/variant=${item.variant}"
+                                        class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">
+                                        View
+                                    </a>
+                                </li>
+                            `;
+
+                    if (auth?.permission?.assets_update == 1) {
+                        custom += `
+                            <li>
+                                <a href="/admin/assets/data/update/id=${item.assets_id}/variant=${item.variant}"
+                                    class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">
+                                    Update
+                                </a>
+                            </li>
+                            `;
+                    }
+
+                    // Delete
+                    if (
+                        auth?.permission?.assets_delete == 1 &&
+                        item.deleted == 0
+                    ) {
+                        custom += `
+
+                                                     <li class="cursor block px-4 py-2 hover:bg-gray-200 bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black"
+                                                        data-id="${item.assets_id}"
+                                                        id="btn_delete_asset${item.assets_id}"
+                                                        onclick="openDeleteModal('btn_delete_asset${item.assets_id}')">
+                                                        Delete
+                                                    </li>
+
+                                                `;
+                    }
+
+                    custom += `
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>`;
+                } else {
+                    custom += `
+                         <a
+                                            href="/admin/assets/data/view/id=${item.assets_id}/variant=${item.variant}">
+                                            <button data-popover-target="popover-default${index}"
+                                                type="button"
+                                                class="text-black mx-2 bg-grey-100 hover:bg-grey-200 focus:ring-4 focus:outline-none focus:ring-blue-100 font-medium rounded-lg text-sm px-2.5 py-2 text-center dark:bg-gray-900 dark:hover:bg-gray-200 dark:focus:ring-gray-300 dark:text-white">
+
+                                                <i class="fa-solid fa-eye "></i>
+                                            </button>
+                                        </a>
+                        `;
+                }
+
+                custom += `</td>
+                            </tr>`;
                 body_change.innerHTML += custom;
             });
             initFlowbite();

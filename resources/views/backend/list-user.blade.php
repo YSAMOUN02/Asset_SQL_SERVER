@@ -310,56 +310,56 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr tabindex="0" id="user_th">
                         <th scope="col"
-                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             ID
                         </th>
                         <th scope="col"
-                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             User Name
                         </th>
                         <th scope="col"
-                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             Company
                         </th>
                         <th scope="col"
-                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             Department
                         </th>
                         <th scope="col"
-                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             Division
                         </th>
                         <th scope="col"
-                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             Section
                         </th>
                         <th scope="col"
-                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             Group
                         </th>
                         <th scope="col"
-                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             Email
                         </th>
                         <th scope="col"
-                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             Role
                         </th>
                         <th scope="col"
-                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             Nofiy
                         </th>
                         <th scope="col"
-                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             Last Notify Date
                         </th>
                         <th scope="col"
-                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             Status
                         </th>
 
                         <th scope="col"
-                            class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             Action
                         </th>
 
@@ -373,45 +373,45 @@
                                 <tr tabindex="0"
                                     class="bg-green-300 border-b dark:bg-gray-800 dark:border-gray-700">
                                     <td scope="row"
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->id }}
                                     </td>
                                     <td scope="row"
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->fname . ' ' . $item->lname }}
                                     </td>
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->company->name ?? '' }}
                                     </td>
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->department->name ?? '' }}
                                     </td>
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->division->name ?? '' }}
                                     </td>
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->section->name ?? '' }}
                                     </td>
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->group->name ?? '' }}
                                     </td>
 
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->email }}
                                     </td>
 
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->role }}
                                     </td>
                                        <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         @if (!empty($item->notification) && $item->notification->status == 1)
                                             <span
                                                 class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
@@ -427,7 +427,7 @@
                                         @endif
                                     </td>
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                       @if (!empty($item->notification->updated_at))
                                             {{ \Carbon\Carbon::parse($item->notification->updated_at)->format('d-M-Y') }}
                                         @else
@@ -435,7 +435,7 @@
                                         @endif
                                     </td>
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         @if ($item->status == 0)
                                             <span
                                                 class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -489,43 +489,43 @@
                             @else
                                 <tr tabindex="0" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <td scope="row"
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->id }}
                                     </td>
                                     <td scope="row"
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->fname . ' ' . $item->lname }}
                                     </td>
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->company->name ?? '' }}
                                     </td>
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->department->name ?? '' }}
                                     </td>
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->division->name ?? '' }}
                                     </td>
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->section->name ?? '' }}
                                     </td>
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->group->name ?? '' }}
                                     </td>
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->email }}
                                     </td>
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $item->role }}
                                     </td>
                                       <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         @if (!empty($item->notification) && $item->notification->status == 1)
                                             <span
                                                 class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
@@ -541,7 +541,7 @@
                                         @endif
                                     </td>
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         @if (!empty($item->notification->updated_at))
                                             {{ \Carbon\Carbon::parse($item->notification->updated_at)->format('d-M-Y') }}
                                         @else
@@ -550,7 +550,7 @@
 
                                     </td>
                                     <td
-                                        class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         @if ($item->status == 0)
                                             <span
                                                 class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">

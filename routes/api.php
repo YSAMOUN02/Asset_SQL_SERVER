@@ -47,7 +47,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/notify-user', [ApiHandlerController::class, 'notifyUserAndResetPassword']);
 
-
+    Route::post('/delete_admin_asset', [ApiHandlerController::class, 'delete_admin_asset']);
 });
 // route to fetch immediate children of a unit
 

@@ -249,7 +249,7 @@
                                     </a>
                                         <button id="sidebarToggle" onclick="toggleFullScreen()"
                                 class="flex  items-center justify-center w-10 h-10 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200">
-                                <i class="fa-solid fa-angles-left" ></i>
+                                <i class="fa-solid fa-angles-right" ></i>
                             </button>
 
                                 </li>

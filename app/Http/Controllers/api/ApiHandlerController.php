@@ -303,6 +303,10 @@ class ApiHandlerController extends Controller
         $value = $request->value ?? "NA";
         $user = $request->user ?? "NA";
         $page = $request->page ?? 1;
+        $initial_condition = $request->initial_condition ?? "NA";
+        $deleted = $request->deleted ?? "All";
+
+
 
         // Base fields to always return
         $selectFields = [
@@ -325,6 +329,8 @@ class ApiHandlerController extends Controller
             'variant'
         ];
 
+
+
         // Add dynamic $type field if needed
         if ($type != "NA" && !in_array($type, $selectFields)) {
             $selectFields[] = $type;
@@ -335,6 +341,18 @@ class ApiHandlerController extends Controller
             ->orderBy('transaction_date', 'desc');
 
         // Filters
+
+        if ($initial_condition && !in_array("NA", $initial_condition)) {
+            $data->where(function ($query) use ($initial_condition) {
+                foreach ($initial_condition as $condition) {
+                    $query->orWhere("initial_condition", 'LIKE', "%" . $condition . "%");
+                }
+            });
+        }
+        if ($deleted != "All") {
+            $data->where("deleted", $deleted);
+        }
+
         if ($user != "NA") {
             $data->where("holder_name", 'LIKE', "%" . $user . "%");
         }
@@ -344,8 +362,18 @@ class ApiHandlerController extends Controller
         if ($company != "NA") {
             $data->where("company", 'LIKE', "%" . $company . "%");
         }
-        if ($department != "NA") {
-            $data->where("department", 'LIKE', "%" . $department . "%");
+        if (!empty($department) && $department != "NA") {
+            // If multiple departments are sent as an array
+            if (is_array($department)) {
+                $data->where(function ($query) use ($department) {
+                    foreach ($department as $dep) {
+                        $query->orWhere('department', 'LIKE', '%' . $dep . '%');
+                    }
+                });
+            } else {
+                // Single value fallback
+                $data->where('department', 'LIKE', '%' . $department . '%');
+            }
         }
         if ($item != "NA") {
             $data->where("item", 'LIKE', "%" . $item . "%");
@@ -833,7 +861,7 @@ class ApiHandlerController extends Controller
         try {
             // ✅ Send email
             Mail::to($user->email)->send(new NotifyUserPasswordMail($mailData));
-             // In your controller
+            // In your controller
             $new_update_notify = Noftify::firstOrNew(['user_id' => $user->id]);
             $new_update_notify->status = 1;
             $new_update_notify->touch(); // updates updated_at
@@ -848,6 +876,40 @@ class ApiHandlerController extends Controller
                 'message' => '❌ Failed to send email. Please check mail configuration.',
                 'error' => $e->getMessage(),
             ], 500);
+        }
+    }
+
+    public function delete_admin_asset(Request $request)
+    {
+        $asset_delete = movement::where('assets_id', $request->id)->first();
+
+        if (!$asset_delete) {
+            return response()->json(['success' => false, 'message' => 'Asset not found.']);
+        }
+
+        $oldValues = 'deleted = ' . $asset_delete->deleted . ', status = ' . $asset_delete->status . ', deleted_at = ' . $asset_delete->deleted_at;
+
+        // Soft delete
+        $asset_delete->deleted = 1;
+        $asset_delete->deleted_at = now();
+
+        $deleted = $asset_delete->save();
+        $newValues = 'deleted = ' . $asset_delete->deleted . ', status = ' . $asset_delete->status . ', deleted_at = ' . $asset_delete->deleted_at;
+
+        if ($deleted) {
+            $this->storeChangeLog(
+                $asset_delete->assets_id,
+                $asset_delete->assets1 . $asset_delete->assets2,
+                $oldValues,
+                $newValues,
+                'Delete',
+                'Assets',
+                $request->reason ?? 'No reason provided'
+            );
+
+            return response()->json(['success' => true, 'message' => 'Delete successful.']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Failed to delete record.']);
         }
     }
 }

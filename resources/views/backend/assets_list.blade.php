@@ -99,7 +99,7 @@
                         Code</label>
 
                     <input type="text" id="assets" name="assets"
-                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                 </div>
 
@@ -108,7 +108,7 @@
                         Company
                     </label>
                     <input type="text" id="company" name="company" list="companyList" autocomplete="off"
-                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     <datalist id="companyList">
                         @foreach ($companies as $company)
                             <option value="{{ $company }}">
@@ -120,7 +120,7 @@
                         Department
                     </label>
                     <input type="text" id="department" name="department" list="departmentList" autocomplete="off"
-                       class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     <datalist id="departmentList">
                         @foreach ($departments as $department)
                             <option value="{{ $department }}">
@@ -134,7 +134,7 @@
                     </label>
 
                     <input type="text" id="user" name="user" list="userList" autocomplete="off"
-                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     <datalist id="userList"></datalist>
                 </div>
                 <div>
@@ -169,7 +169,7 @@
                     <label for="state"
                         class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">State</label>
                     <select id="state" name="state"
-                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="All">All</option>
                         <option value="1">Active</option>
                         <option value="0">Inactive</option>
@@ -182,7 +182,7 @@
                 <div class="flex main_page justify-between items-center">
                     <div class="flex">
                         <select name="" onchange="otherSearch()" id="other_search"
-                           class="w-36 bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                            class="w-36 bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="">Other Search</option>
                             <!-- ASSET INFO -->
                             <option value="reference">Refference</option>
@@ -249,7 +249,7 @@
 
                         </select>
                         <input type="text" id="other_value"
-                            class="w-32 bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                            class="w-32 bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
                     <div class="flex main_page items-center">
                         <div class="pagination_by_search defualt main_page items-center flex gap-2">
@@ -359,7 +359,7 @@
             <table id="list_assets"
                 class="table_respond max-w-full  mt-5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr   tabindex="0">
+                    <tr tabindex="0">
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             <input onchange="select_all()" type="checkbox" id="select_all"
                                 class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -433,9 +433,9 @@
                     @if (!empty($asset))
                         @foreach ($asset as $item)
                             @if ($item->deleted == 0)
-                                <tr   tabindex="0"
+                                <tr tabindex="0"
                                     class="bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
-                                    <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    <td class="print_val ">
 
                                         <input onchange="printable()" data-id="{{ $item->assets_id }}"
                                             id="green-checkbox{{ $item->id }}" type="checkbox" value=""
@@ -443,9 +443,10 @@
 
                                     </td>
                                 @else
-                                <tr   tabindex="0" class="deleted_record bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
+                                <tr tabindex="0"
+                                    class="deleted_record bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
 
-                                    <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    <td class="print_val ">
                                         <input onchange="printable()" data-id="{{ $item->assets_id }}"
                                             id="green-checkbox{{ $item->id }}" type="checkbox" value=""
                                             class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -464,8 +465,7 @@
                             </td>
 
 
-                            <td
-                                class="table_float_left_td  px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   bg-white dark:bg-gray-700 dark:border-gray-700">
+                            <td class="table_float_left_td   bg-white dark:bg-gray-700 dark:border-gray-700">
                                 {{ $item->assets1 . $item->assets2 ?? '' }}
                             </td>
                             <td>
@@ -536,7 +536,7 @@
                                             aria-labelledby="dropdownMenuIconHorizontalButton_view2_{{ $item->assets_id }}">
                                             @if (Auth::user()->Permission->transfer_write == 1)
                                                 @if ($item->deleted == 0)
-                                                    <li>
+                                                    <li class="movement">
                                                         <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
                                                             class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">Movement</a>
                                                     </li>
@@ -556,12 +556,12 @@
                                                 </li>
                                             @endif
                                             @if (Auth::user()->Permission->assets_delete == 1 && $item->deleted == 0)
-                                                <li class="cursor block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black"
-                                                    data-id="{{ $item->assets_id }}"
-                                                    id="btn_delete_asset{{ $item->assets_id }}"
-                                                    onclick="delete_value('btn_delete_asset'+{{ $item->assets_id }},'delete_asset_admin','delete_value_asset')">
-                                                    Delete
-                                                </li>
+                                               <li class="cursor block px-4 py-2 hover:bg-gray-200 bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black"
+                                                        data-id="{{ $item->assets_id }}"
+                                                        id="btn_delete_asset{{ $item->assets_id }}"
+                                                        onclick="openDeleteModal('btn_delete_asset{{ $item->assets_id }}')">
+                                                        Delete
+                                                    </li>
                                             @endif
                                         </ul>
                                     </div>
@@ -591,8 +591,109 @@
         <button type="submit">submit</button>
     </form>
 </div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" style="background-color: #3a3a3aab;" class="fixed inset-0  bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 w-96">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Confirm Deletion</h3>
+        <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">Please provide a reason for deletion:</p>
+        <input type="text" id="deleteReason" placeholder="Reason..."
+            class="w-full p-2 border border-gray-300 rounded-lg mb-4 dark:bg-gray-700 dark:text-white dark:border-gray-600">
+        <div class="flex justify-end gap-2">
+            <button id="cancelDelete"
+                class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">Cancel</button>
+            <button id="confirmDelete"
+                class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Delete</button>
+        </div>
+    </div>
+</div>
 <script>
-    // let array = @json($asset);
+    let authRole = @json(Auth::user()->role);
+    let currentBtn = null; // store the button clicked
+    let currentAssetId = null;
+
+    function openDeleteModal(btnId) {
+        currentBtn = document.getElementById(btnId);
+        currentAssetId = currentBtn.dataset.id;
+        document.getElementById('deleteReason').value = '';
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+    // Close modal
+    document.getElementById('cancelDelete').addEventListener('click', () => {
+        document.getElementById('deleteModal').classList.add('hidden');
+    });
+    document.getElementById('confirmDelete').addEventListener('click', async () => {
+        const reason = document.getElementById('deleteReason').value.trim();
+        if (!reason) {
+            showErrorToast('Please provide a reason.');
+            return;
+        }
+        document.getElementById('deleteModal').classList.add('hidden');
+
+        try {
+            const response = await fetch(`/api/delete_admin_asset`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                    "Cache-Control": "no-cache",
+                    Pragma: "no-cache",
+                },
+                body: JSON.stringify({
+                    id: currentAssetId,
+                    reason: reason
+                }),
+            });
+
+            const result = await response.json();
+            const row = currentBtn.closest("tr");
+
+            if (result.success) {
+                // remove delete button
+                currentBtn.remove();
+
+                // ✅ Remove .movement class immediately
+                if (row) {
+                    // remove .movement class element inside the row
+                    const movementEl = row.querySelector('.movement');
+                    if (movementEl) movementEl.remove();
+                }
+
+                if (authRole === "admin") {
+                    // Admin → remove row with fade
+                    if (row) {
+                        row.style.transition = "opacity 0.5s ease";
+                        row.style.opacity = "0";
+                        setTimeout(() => row.remove(), 500);
+                    }
+                } else if (authRole === "super_admin") {
+                    // Super admin → mark row as deleted
+                    if (row) {
+                        row.classList.add("deleted_record");
+                        row.style.opacity = "0.5";
+                        row.style.textDecoration = "line-through";
+
+                        // Optional: add Deleted badge
+                        const badge = document.createElement("span");
+                        badge.textContent = "Deleted";
+                        badge.className = "ml-2 px-2 py-0.5 text-xs bg-red-200 text-red-800 rounded";
+                        row.querySelector("td").appendChild(badge);
+                    }
+                }
+
+                showSuccessToast(result.message || 'Deleted successfully');
+            } else {
+                showErrorToast(result.message || 'Failed to delete');
+            }
+
+        } catch (error) {
+            console.error("Delete error:", error);
+            showErrorToast('Something went wrong while deleting.');
+        }
+    });
+
+
+
 
     let page_view = @json($page);
     let sort_state = 0;

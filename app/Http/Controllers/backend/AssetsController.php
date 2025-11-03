@@ -143,7 +143,7 @@ class AssetsController extends Controller
             ->limit($limit)
             ->offset($offset);
 
-            if (Auth::user()->role == 'admin' || Auth::user()->role == 'user' || Auth::user()->role == 'super_normal') {
+        if (Auth::user()->role == 'admin' || Auth::user()->role == 'user' || Auth::user()->role == 'super_normal') {
             $sql->where('deleted', 0);
         }
 
@@ -257,7 +257,7 @@ class AssetsController extends Controller
             ->offset($offset);
 
         // Filter Deleted data if not super admin
-       if (Auth::user()->role == 'admin' || Auth::user()->role == 'user' || Auth::user()->role == 'super_normal') {
+        if (Auth::user()->role == 'admin' || Auth::user()->role == 'user' || Auth::user()->role == 'super_normal') {
             $sql->where('deleted', 0);
         }
 
@@ -485,7 +485,7 @@ class AssetsController extends Controller
 
     public function update_and_view_asset($state, $id, $variant)
     {
-      
+
 
         $sql = movement::with([
             'images',
@@ -528,8 +528,8 @@ class AssetsController extends Controller
     }
     public function update_submit(Request $request)
     {
-                 // Check permission
-        if ( Auth::user()->permission->assets_update != 1) {
+        // Check permission
+        if (Auth::user()->permission->assets_update != 1) {
             return redirect()->back()->with('error', 'You do not has permission');
         }
 
@@ -713,29 +713,35 @@ class AssetsController extends Controller
 
     public function delete_admin_asset(Request $request)
     {
-
         $asset_delete = movement::where('assets_id', $request->id)->first();
 
         if (!$asset_delete) {
-            return redirect()->back()->with('fail', "Opps. Something went wrong.");
+            return response()->json(['success' => false, 'message' => 'Asset not found.']);
         }
 
-        // Capture old values before change
         $oldValues = 'deleted = ' . $asset_delete->deleted . ', status = ' . $asset_delete->status . ', deleted_at = ' . $asset_delete->deleted_at;
-        // return $request->reason;
+
         // Soft delete
         $asset_delete->deleted = 1;
         $asset_delete->deleted_at = now();
+
         $deleted = $asset_delete->save();
         $newValues = 'deleted = ' . $asset_delete->deleted . ', status = ' . $asset_delete->status . ', deleted_at = ' . $asset_delete->deleted_at;
-        if ($deleted) {
 
-            // storeChangeLog($record_id,$record_no, $oldValues, $newValues, $action, $table, $reason)
-            $this->storeChangeLog($asset_delete->assets_id, $asset_delete->assets1 . $asset_delete->assets2, $oldValues, $newValues, 'Delete', 'Assets', $request->reason ?? 'No reason provided');
-            // $this->initailize_record($request->id);
-            return redirect()->back()->with('success', "Delete Record Success.");
+        if ($deleted) {
+            $this->storeChangeLog(
+                $asset_delete->assets_id,
+                $asset_delete->assets1 . $asset_delete->assets2,
+                $oldValues,
+                $newValues,
+                'Delete',
+                'Assets',
+                $request->reason ?? 'No reason provided'
+            );
+
+            return response()->json(['success' => true, 'message' => 'Delete successful.']);
         } else {
-            return redirect()->back()->with('fail', "Opps. Something went wrong.");
+            return response()->json(['success' => false, 'message' => 'Failed to delete record.']);
         }
     }
     public function print_qr($assets)

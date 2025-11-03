@@ -94,7 +94,7 @@
 
         <form action="/admin/assets/add/search" method="POST">
             @csrf
-            <div class="max-w-full min-h-full grid px-2 py-1 gap-1 lg:gap-2  grid-cols-2 lg:grid-cols-4 md:grid-cols-2">
+            <div class="max-w-full min-h-full grid px-2 py-1 gap-1 lg:gap-2  grid-cols-2 lg:grid-cols-5 md:grid-cols-2">
 
                 <div>
                     <label for="assets" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Assets
@@ -118,17 +118,38 @@
                         @endforeach
                     </datalist>
                 </div>
-                <div>
-                    <label for="department" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">
-                        Department
-                    </label>
-                    <input type="text" id="department" name="department" list="departmentList" autocomplete="off"
-                       class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    <datalist id="departmentList">
-                        @foreach ($departments as $department)
-                            <option value="{{ $department }}">
-                        @endforeach
-                    </datalist>
+                <div class="relative " id="departmentDropdown">
+                    <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Department</label>
+
+                    <!-- Dropdown toggle -->
+                    <div id="dropdownToggleDept"
+                        class="border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 p-2 cursor-pointer max-h-10 overflow-hidden select-none text-black dark:text-white">
+                        Departments
+                    </div>
+
+                    <!-- Dropdown menu -->
+                    <div id="dropdownMenuDept"
+                        class="absolute mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg hidden z-50">
+                        <!-- Search box -->
+                        <div class="p-2 border-b border-gray-200 dark:border-gray-600">
+                            <input type="text" id="searchDept" placeholder="Search department..."
+                                class="w-full p-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring  focus:ring-blue-300 dark:bg-gray-800 dark:text-white">
+                        </div>
+
+                        <!-- Options list -->
+                        <div id="optionsDept" class="max-h-96 overflow-auto p-1">
+                            @foreach ($departments as $department)
+                                <label
+                                    class="flex items-center px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-600 rounded text-black dark:text-white">
+                                    <input type="checkbox" value="{{ $department }}" class="mr-2">
+                                    <span>{{ $department }}</span>
+                                </label>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Hidden input to store selected values -->
+                    <input type="hidden" name="department" id="selectedDepartments">
                 </div>
                 <div>
                     <label for="user" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Holder
@@ -136,7 +157,7 @@
                         Name</label>
 
                     <input type="text" id="user" name="user" list="userList" autocomplete="off"
-                       class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     <datalist id="userList"></datalist>
                 </div>
                 <div>
@@ -144,7 +165,7 @@
                         class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Item</label>
 
                     <input type="text" id="description" name="description"
-                      class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                 </div>
                 <div>
@@ -152,7 +173,7 @@
                         (Transaction Date)</label>
 
                     <input type="text" id="start_date" name="start_date"
-                       class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
                 </div>
                 <div>
@@ -166,24 +187,100 @@
 
 
 
+                <div class="relative ">
+                    <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Initial
+                        Condition</label>
+                    <div class="border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 p-2 cursor-pointer max-h-10 overflow-hidden   text-black dark:text-white"
+                        id="dropdownToggle">
+                        Select conditions...
+                    </div>
+                    <div class="absolute  mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600  rounded-lg shadow-lg hidden max-h-96 overflow-auto z-10"
+                        id="dropdownMenu">
+                        <label
+                            class="flex items-center px-2 py-1 hover:bg-gray-200 dark:hover:bg-gray-600 text-black dark:text-white">
+                            <input type="checkbox" value="New" class="mr-2"> New
+                        </label>
+                        <label
+                            class="flex items-center px-2 py-1 hover:bg-gray-200 dark:hover:bg-gray-600 text-black dark:text-white">
+                            <input type="checkbox" value="Good" class="mr-2"> Good
+                        </label>
+                        <label
+                            class="flex items-center px-2 py-1 hover:bg-gray-200 dark:hover:bg-gray-600 text-black dark:text-white">
+                            <input type="checkbox" value="Very good" class="mr-2"> Very good
+                        </label>
+                        <label
+                            class="flex items-center px-2 py-1 hover:bg-gray-200 dark:hover:bg-gray-600 text-black dark:text-white">
+                            <input type="checkbox" value="Low" class="mr-2"> Low
+                        </label>
+                        <label
+                            class="flex items-center px-2 py-1 hover:bg-gray-200 dark:hover:bg-gray-600 text-black dark:text-white">
+                            <input type="checkbox" value="Second hand" class="mr-2"> Second hand
+                        </label>
+                        <label
+                            class="flex items-center px-2 py-1 hover:bg-gray-200 dark:hover:bg-gray-600 text-black dark:text-white">
+                            <input type="checkbox" value="Medium" class="mr-2"> Medium
+                        </label>
+                        <label
+                            class="flex items-center px-2 py-1 hover:bg-gray-200 dark:hover:bg-gray-600 text-black dark:text-white">
+                            <input type="checkbox" value="Old" class="mr-2"> Old
+                        </label>
+                        <label
+                            class="flex items-center px-2 py-1 hover:bg-gray-200 dark:hover:bg-gray-600 text-black dark:text-white">
+                            <input type="checkbox" value="Very old" class="mr-2"> Very old
+                        </label>
+                        <label
+                            class="flex items-center px-2 py-1 hover:bg-gray-200 dark:hover:bg-gray-600 text-black dark:text-white">
+                            <input type="checkbox" value="Broken" class="mr-2"> Broken
+                        </label>
+                        <label
+                            class="flex items-center px-2 py-1 hover:bg-gray-200 dark:hover:bg-gray-600 text-black dark:text-white">
+                            <input type="checkbox" value="Donation" class="mr-2"> Donation
+                        </label>
+                        <label
+                            class="flex items-center px-2 py-1 hover:bg-gray-200 dark:hover:bg-gray-600 text-black dark:text-white">
+                            <input type="checkbox" value="Disposal" class="mr-2"> Disposal
+                        </label>
+                        <label
+                            class="flex items-center px-2 py-1 hover:bg-gray-200 dark:hover:bg-gray-600 text-black dark:text-white">
+                            <input type="checkbox" value="Sold Out" class="mr-2"> Sold Out
+                        </label>
+                    </div>
+                </div>
+
                 <div>
                     <label for="state"
-                        class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">State</label>
+                        class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Status</label>
                     <select id="state" name="state"
-                       class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option value="All">All</option>
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="All">Show All</option>
                         <option value="1">Active</option>
                         <option value="0">Inactive</option>
 
                     </select>
                 </div>
+                @if (Auth::user()->role == 'super_admin')
+                    <div>
+                        <label for="deleted" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">
+                            Delete Status
+                        </label>
+                        <select id="deleted" name="deleted"
+                            class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="All">Show All</option>
+                            <option value="1">Deleted</option>
+                            <option value="0">Active</option>
+                        </select>
+
+                    </div>
+                @else
+                    <input type="text" name="deleted" value="All" class="hidden">
+                @endif
             </div>
             <div
                 class="max-w-full items-center flex  justify-between px-2 mt-1 lg:mt-2 py-1 lg:py-2 sm:grid sm:grid-cols-1">
                 <div class="flex main_page justify-between items-center">
                     <div class="flex">
                         <select name="" onchange="otherSearch()" id="other_search"
-                            class="w-36 bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                            class="w-36 bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="">Other Search</option>
                             <!-- ASSET INFO -->
                             <option value="reference">Refference</option>
@@ -191,12 +288,10 @@
                             <option value="assets2">Asset Code 2</option>
                             <option value="fa_no">Fix Asset No</option>
                             <option value="item">Item</option>
-                            <option value="initial_condition">Initial Condition</option>
                             <option value="specification">Specification</option>
                             <option value="item_description">Item Description</option>
                             <option value="asset_group">Asset Group</option>
                             <option value="remark_assets">Remark Assets</option>
-
                             <!-- HOLDER INFO -->
                             <option value="asset_holder">Assets Holder ID</option>
                             <option value="position">Position</option>
@@ -244,7 +339,7 @@
 
                         </select>
                         <input type="text" id="other_value"
-                           class="w-32 bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            class="w-32 bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
                     <div class="flex main_page items-center">
                         <div class="pagination_by_search defualt main_page items-center flex gap-2">
@@ -347,7 +442,7 @@
             <table id="list_assets"
                 class="table_respond max-w-full  mt-5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr   tabindex="0">
+                    <tr tabindex="0">
                         <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                             <input onchange="select_all()" type="checkbox" id="select_all"
                                 class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -427,9 +522,9 @@
                         @endphp
                         @foreach ($asset as $item)
                             @if ($item->deleted == 0)
-                                <tr   tabindex="0"
+                                <tr tabindex="0"
                                     class="  bg-white text-black  border-b dark:bg-gray-800 dark:text-white dark:border-gray-700">
-                                    <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    <td class="print_val ">
                                         <input onchange="printable()" data-id="{{ $item->assets_id }}"
                                             id="green-checkbox{{ $item->id }}" type="checkbox" value=""
                                             class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -438,33 +533,33 @@
 
                                     </td>
                                 @else
-                                <tr   tabindex="0" class="deleted_record bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
+                                <tr tabindex="0"
+                                    class="deleted_record bg-rose-100 border-b dark:bg-rose-800 dark:border-gray-700">
 
-                                    <td class="print_val px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                                    <td class="print_val ">
                                         <input onchange="printable()" data-id="{{ $item->assets_id }}"
                                             id="green-checkbox{{ $item->id }}" type="checkbox" value=""
                                             class="select_box w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                         Deleted
                                     </td>
                             @endif
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td>
 
                                 {{ $item->assets_id }}
 
 
                             </td>
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td>
                                 {{ \Carbon\Carbon::parse($item->transaction_date)->format('d-M-Y') }}
 
                             </td>
 
 
-                            <td
-                                class="table_float_left_td  px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2   bg-white dark:bg-gray-900 dark:border-gray-700">
+                            <td class="table_float_left_td   bg-white dark:bg-gray-900 dark:border-gray-700">
                                 {{ $item->assets1 . $item->assets2 ?? '' }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td>
                                 @if ($item->status == 0)
                                     <span
                                         class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -479,40 +574,40 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td>
                                 {{ $item->initial_condition }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td>
                                 {{ $item->item }}
                             </td>
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td>
                                 {{ $item->specification }}
                             </td>
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td>
                                 {{ $item->holder_name ?? '' }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td>
                                 {{ $item->department ?? '' }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td>
                                 {{ $item->company ?? '' }}
                             </td>
 
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td>
                                 {{ $item->old_code ?? '' }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td>
                                 {{ $item->reference ?? '' }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td>
                                 {{ $item->purpose ?? '' }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td>
                                 {{ $item->status_recieved }}
                             </td>
-                            <td class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2  ">
+                            <td>
                                 {{ \Carbon\Carbon::parse($item->created_at)->format('d-M-Y') }}
 
                             </td>
@@ -545,7 +640,7 @@
                                                 aria-labelledby="dropdownMenuIconHorizontalButton{{ $item->assets_id }}">
 
                                                 @if (Auth::user()->Permission->transfer_write == 1 && $item->deleted == 0)
-                                                    <li>
+                                                    <li class="movement">
                                                         <a href="/admin/movement/add/detail/id={{ $item->assets_id }}"
                                                             class="block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black">Movement</a>
                                                     </li>
@@ -566,10 +661,10 @@
                                                     </li>
                                                 @endif
                                                 @if (Auth::user()->Permission->assets_delete == 1 && $item->deleted == 0)
-                                                    <li class="cursor block px-4 py-2 hover:bg-gray-200  bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black"
+                                                    <li class="cursor block px-4 py-2 hover:bg-gray-200 bg-white text-black dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black"
                                                         data-id="{{ $item->assets_id }}"
                                                         id="btn_delete_asset{{ $item->assets_id }}"
-                                                        onclick="delete_value('btn_delete_asset'+{{ $item->assets_id }},'delete_asset_admin','delete_value_asset')">
+                                                        onclick="openDeleteModal('btn_delete_asset{{ $item->assets_id }}')">
                                                         Delete
                                                     </li>
                                                 @endif
@@ -603,39 +698,125 @@
     </form>
 </div>
 
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" style="background-color: #3a3a3aab;" class="fixed inset-0  bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 w-96">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Confirm Deletion</h3>
+        <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">Please provide a reason for deletion:</p>
+        <input type="text" id="deleteReason" placeholder="Reason..."
+            class="w-full p-2 border border-gray-300 rounded-lg mb-4 dark:bg-gray-700 dark:text-white dark:border-gray-600">
+        <div class="flex justify-end gap-2">
+            <button id="cancelDelete"
+                class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">Cancel</button>
+            <button id="confirmDelete"
+                class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Delete</button>
+        </div>
+    </div>
+</div>
+
+
+
 <script>
-    let array = @json($asset);
 
-    function exportToExcel() {
-        // Convert JSON to worksheet
-        let worksheet = XLSX.utils.json_to_sheet(array);
 
-        // Create a new workbook and append worksheet
-        let workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Assets");
-
-        // Export as Excel file
-        XLSX.writeFile(workbook, "assets.xlsx");
+    let authRole = @json(Auth::user()->role);
+    let currentBtn = null; // store the button clicked
+    let currentAssetId = null;
+    function openDeleteModal(btnId) {
+        currentBtn = document.getElementById(btnId);
+        currentAssetId = currentBtn.dataset.id;
+        document.getElementById('deleteReason').value = '';
+        document.getElementById('deleteModal').classList.remove('hidden');
     }
+    // Close modal
+    document.getElementById('cancelDelete').addEventListener('click', () => {
+        document.getElementById('deleteModal').classList.add('hidden');
+    });
+    document.getElementById('confirmDelete').addEventListener('click', async () => {
+        const reason = document.getElementById('deleteReason').value.trim();
+        if (!reason) {
+            showErrorToast('Please provide a reason.');
+            return;
+        }
+        document.getElementById('deleteModal').classList.add('hidden');
+
+        try {
+            const response = await fetch(`/api/delete_admin_asset`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                    "Cache-Control": "no-cache",
+                    Pragma: "no-cache",
+                },
+                body: JSON.stringify({
+                    id: currentAssetId,
+                    reason: reason
+                }),
+            });
+
+            const result = await response.json();
+            const row = currentBtn.closest("tr");
+
+            if (result.success) {
+                // remove delete button
+                currentBtn.remove();
+
+                // ✅ Remove .movement class immediately
+                if (row) {
+                    // remove .movement class element inside the row
+                    const movementEl = row.querySelector('.movement');
+                    if (movementEl) movementEl.remove();
+                }
+
+                if (authRole === "admin") {
+                    // Admin → remove row with fade
+                    if (row) {
+                        row.style.transition = "opacity 0.5s ease";
+                        row.style.opacity = "0";
+                        setTimeout(() => row.remove(), 500);
+                    }
+                } else if (authRole === "super_admin") {
+                    // Super admin → mark row as deleted
+                    if (row) {
+                        row.classList.add("deleted_record");
+                        row.style.opacity = "0.5";
+                        row.style.textDecoration = "line-through";
+
+                        // Optional: add Deleted badge
+                        const badge = document.createElement("span");
+                        badge.textContent = "Deleted";
+                        badge.className = "ml-2 px-2 py-0.5 text-xs bg-red-200 text-red-800 rounded";
+                        row.querySelector("td").appendChild(badge);
+                    }
+                }
+
+                showSuccessToast(result.message || 'Deleted successfully');
+            } else {
+                showErrorToast(result.message || 'Failed to delete');
+            }
+
+        } catch (error) {
+            console.error("Delete error:", error);
+            showErrorToast('Something went wrong while deleting.');
+        }
+    });
+
+
+
+
+
+
+
+
+
+
 
 
 
     let page_view = @json($page);
-
-    let sort_state = 0;
-
-
-
-
-
-
-
-
-
-
-
     const button = document.querySelector('#search_item');
-
     // id="search_button"
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
@@ -655,7 +836,7 @@
 
 
     // ✅ Get valid lists from backend (passed as JSON)
-    const validDepartments = @json($departments);
+
     const validCompanies = @json($companies);
 
     // ✅ Helper to validate input
@@ -692,7 +873,7 @@
     }
 
     // ✅ Apply validation to both fields
-    validateInputList("department", validDepartments, "Department");
+
     validateInputList("company", validCompanies, "Company");
 
 
@@ -773,6 +954,116 @@
 
         // fetch initial list on focus
         userInput.addEventListener("focus", () => fetchUsers());
+
+
+
+    });
+
+
+
+
+    const toggle = document.getElementById('dropdownToggle');
+    const menu = document.getElementById('dropdownMenu');
+    let isOpen = false;
+
+    toggle.addEventListener('click', () => {
+        if (!isOpen) {
+            // Move dropdown to body
+            document.body.appendChild(menu);
+
+            // Position it right below the toggle
+            const rect = toggle.getBoundingClientRect();
+            menu.style.position = 'absolute';
+            menu.style.top = `${rect.bottom + window.scrollY}px`;
+            menu.style.left = `${rect.left + window.scrollX}px`;
+            menu.style.width = `${rect.width}px`;
+            menu.style.zIndex = 9999;
+            menu.classList.remove('hidden');
+            isOpen = true;
+        } else {
+            menu.classList.add('hidden');
+            isOpen = false;
+        }
+    });
+
+    // Close dropdown if clicked outside
+    document.addEventListener('click', (e) => {
+        if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.add('hidden');
+            isOpen = false;
+        }
+    });
+    let selected = [];
+    // Update the label to show selected items
+    const checkboxes = menu.querySelectorAll('input[type="checkbox"]');
+    toggle.textContent = "Select conditions...";
+    checkboxes.forEach(box => {
+        box.addEventListener('change', () => {
+            selected = Array.from(checkboxes)
+                .filter(i => i.checked)
+                .map(i => i.value);
+            toggle.textContent = selected.length ? selected.join(', ') : "Select conditions...";
+
+        });
+    });
+
+    let selected_dep = [];
+    document.addEventListener("DOMContentLoaded", () => {
+        const toggle = document.getElementById("dropdownToggleDept");
+        const menu = document.getElementById("dropdownMenuDept");
+        const checkboxes = menu.querySelectorAll("input[type='checkbox']");
+        const hiddenInput = document.getElementById("selectedDepartments");
+        const searchInput = document.getElementById("searchDept");
+        const optionsContainer = document.getElementById("optionsDept");
+        let isOpen = false;
+
+        // Toggle dropdown
+        toggle.addEventListener("click", () => {
+            menu.classList.toggle("hidden");
+            isOpen = !isOpen;
+            if (isOpen) {
+                // Move dropdown to body to fix z-index issues
+                document.body.appendChild(menu);
+                const rect = toggle.getBoundingClientRect();
+                menu.style.position = "absolute";
+                menu.style.top = `${rect.bottom + window.scrollY}px`;
+                menu.style.left = `${rect.left + window.scrollX}px`;
+                menu.style.width = `${rect.width}px`;
+                menu.style.zIndex = 9999;
+            }
+        });
+
+        // Click outside closes menu
+        document.addEventListener("click", (e) => {
+            if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+                menu.classList.add("hidden");
+                isOpen = false;
+            }
+        });
+        // Array for department
+
+        // Update label and hidden input
+        checkboxes.forEach(box => {
+            box.addEventListener("change", () => {
+                selected_dep = Array.from(checkboxes)
+                    .filter(i => i.checked)
+                    .map(i => i.value);
+
+                toggle.textContent = selected_dep.length ? selected_dep.join(", ") :
+                    "Select departments...";
+                hiddenInput.value = selected_dep.join(",");
+
+            });
+        });
+
+        // Search filter
+        searchInput.addEventListener("input", () => {
+            const term = searchInput.value.toLowerCase();
+            Array.from(optionsContainer.querySelectorAll("label")).forEach(label => {
+                const text = label.textContent.toLowerCase();
+                label.style.display = text.includes(term) ? "" : "none";
+            });
+        });
     });
 </script>
 @endsection
