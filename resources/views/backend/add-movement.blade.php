@@ -166,6 +166,9 @@
                         <option value="Old">Old</option>
                         <option value="Very old">Very old</option>
                         <option value="Broken">Broken</option>
+                        <option value="Donation">Donation</option>
+                        <option value="Disposal">Disposal</option>
+                        <option value="Sold Out">Sold Out</option>
                     </select>
 
                 </div>

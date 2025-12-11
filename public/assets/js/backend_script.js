@@ -2403,7 +2403,7 @@ async function raw_assets(no) {
             </td>
             <td scope="row"
                 class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                ${item.description??''}
+                ${item.Description??''}
             </td>
             <td>
                 ${
