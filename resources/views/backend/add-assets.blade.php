@@ -356,13 +356,10 @@
                     <label for="invoice_posting_date"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Invoice Posting Date</label>
-                    @if (!empty($asset->paid_date))
+
                         <input type="text" id="invoice_posting_date" name="invoice_date" readonly
                             class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    @else
-                        <input type="text" id="invoice_posting_date" name="invoice_date" readonly
-                            class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                    @endif
+
 
                 </div>
             </div>
@@ -697,25 +694,16 @@
             class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
             <i class="fa-solid fa-image" style="color: #ffffff;"></i>
         </button>
-        {{-- <button type="button" onclick="append_file()"
-            class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-            <i class="fa-solid fa-file"></i>
-        </button> --}}
+    
         <button type="submit"
             class="text-white mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             Submit
         </button>
     </div>
 </form>
-@php
-    $defaultDate =
-        !empty($asset->paid_date) && $asset->paid_date != '1900-01-01'
-            ? \Carbon\Carbon::parse($asset->paid_date)->format('Y-m-d') // Use Y-m-d
-            : null;
-@endphp
-
 
 <script>
+  let date_invoice = new Date(@json($asset->posting_date ?? '1900-01-01'));
     flatpickr("#transaction_date", {
         dateFormat: "d-M-Y",
         defaultDate: "today"
@@ -725,11 +713,11 @@
         defaultDate: "today"
     });
 
-    flatpickr("#invoice_posting_date", {
-        dateFormat: "d-M-Y",
-        defaultDate: "{{ $defaultDate }}",
-        clickOpens: false
-    });
+ flatpickr("#invoice_posting_date", {
+    dateFormat: "d-M-Y",
+    defaultDate: date_invoice,
+    clickOpens: false
+});
 
     function setReferenceId(input) {
         const value = input.value;
