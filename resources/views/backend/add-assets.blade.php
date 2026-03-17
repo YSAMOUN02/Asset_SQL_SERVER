@@ -87,7 +87,7 @@
                 @else
                     <input type="text" list="assets1_list" id="ReferenceInput" name="assets1"
                         onchange="setAsset1_Id(this)" oninput="validateInputField_assets(this,30)"
-                         class="p-2.5 percent70 bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="p-2.5 percent70 bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required autocomplete="off" />
                     <input type="hidden" id="assets1_id" name="assets1_id" />
 
@@ -231,8 +231,7 @@
                 class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
         </div>
         <div>
-            <label for="Location"
-                class="text-black dark:text-white">Location</label>
+            <label for="Location" class="text-black dark:text-white">Location</label>
             <input type="text" id="Location" oninput="validateInputField(this,100)" autocomplete="off"
                 oninput="validateInputField(this,100)"
                 class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -240,7 +239,8 @@
         </div>
 
         <div>
-            <label class="text-black dark:text-white" for="department">Department <span class="text-rose-500">*</span></label>
+            <label class="text-black dark:text-white" for="department">Department <span
+                    class="text-rose-500">*</span></label>
             <input list="departments_list" id="department" name="department" autocomplete="off" required
                 class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Start typing department...">
@@ -252,7 +252,8 @@
         </div>
 
         <div>
-            <label class="text-black dark:text-white" for="company">Company <span class="text-rose-500">*</span></label>
+            <label class="text-black dark:text-white" for="company">Company <span
+                    class="text-rose-500">*</span></label>
             <input list="company_list" id="company" name="company" autocomplete="off" required
                 class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Start typing company...">
@@ -264,8 +265,7 @@
         </div>
 
         <div>
-            <label for="remark_holder"
-                class="text-black dark:text-white">Remark</label>
+            <label for="remark_holder" class="text-black dark:text-white">Remark</label>
             <input type="text" id="remark_holder" oninput="validateInputField(this,255)"
                 class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="remark_holder" />
@@ -357,8 +357,8 @@
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Invoice Posting Date</label>
 
-                        <input type="text" id="invoice_posting_date" name="invoice_date" readonly
-                            class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    <input type="text" id="invoice_posting_date" name="invoice_date" readonly
+                        class="bg-gray-100 dark:bg-gray-800 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
 
 
                 </div>
@@ -694,7 +694,10 @@
             class="text-white update_btn focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
             <i class="fa-solid fa-image" style="color: #ffffff;"></i>
         </button>
-    
+        <button type="button" onclick="append_file()"
+            class="text-white update_btn font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+            <i class="fa-solid fa-file"></i>
+        </button>
         <button type="submit"
             class="text-white mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             Submit
@@ -703,7 +706,7 @@
 </form>
 
 <script>
-  let date_invoice = new Date(@json($asset->posting_date ?? '1900-01-01'));
+    let date_invoice = new Date(@json($asset->posting_date ?? '1900-01-01'));
     flatpickr("#transaction_date", {
         dateFormat: "d-M-Y",
         defaultDate: "today"
@@ -713,11 +716,11 @@
         defaultDate: "today"
     });
 
- flatpickr("#invoice_posting_date", {
-    dateFormat: "d-M-Y",
-    defaultDate: date_invoice,
-    clickOpens: false
-});
+    flatpickr("#invoice_posting_date", {
+        dateFormat: "d-M-Y",
+        defaultDate: date_invoice,
+        clickOpens: false
+    });
 
     function setReferenceId(input) {
         const value = input.value;

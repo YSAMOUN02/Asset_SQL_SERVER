@@ -204,7 +204,7 @@
     <div class="table-data  max-w-full mt-2">
         <table id="resultList" class="table_respond text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr   tabindex="0">
+                <tr  class="text-nowrap"  tabindex="0">
 
                     <th scope="col" class="px-2 py-1  lg:px-6 lg:py-4  md:px-4  md:py-2">
                         No
@@ -229,7 +229,22 @@
                         onclick="dynamic_sort('description','string','raw_assets')">
                         Description&ensp;
                     </th>
-
+                       <th scope="col"
+                        onclick="dynamic_sort('description','string','raw_assets')">
+                       Department Code&ensp;
+                    </th>
+                     <th scope="col"
+                        onclick="dynamic_sort('description','string','raw_assets')">
+                       Department Name&ensp;
+                    </th>
+                      <th scope="col"
+                        onclick="dynamic_sort('description','string','raw_assets')">
+                       Assets Holder&ensp;
+                    </th>
+                      <th scope="col"
+                        onclick="dynamic_sort('description','string','raw_assets')">
+                       Assets Holder Name&ensp;
+                    </th>
                     <th scope="col" >
                         Action
                     </th>
@@ -270,9 +285,22 @@
                                 class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $item->description }}
                             </td>
-
-
-
+                                 <td scope="row"
+                                class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ $item->department_code }}
+                            </td>
+                             <td scope="row"
+                                class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ $item->department_name}}
+                            </td>
+                               <td scope="row"
+                                class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ $item->asset_holder}}
+                            </td>
+                                 <td scope="row"
+                                class=" font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ $item->holder_name}}
+                            </td>
                             <td >
                                 {{-- /admin/assets/add/assets=P-F-AMM-0577/invoice_no=FAF24/0103 --}}
 

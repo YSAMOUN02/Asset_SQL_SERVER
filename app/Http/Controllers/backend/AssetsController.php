@@ -178,7 +178,12 @@ class AssetsController extends Controller
                 'fa_subclass',
                 'fa_class_code',
                 'fa',
+                    'department_code',
+                      'department_name',
+                'asset_holder',
+                   'holder_name',
                 'state',
+
                 DB::raw("FORMAT(posting_date, 'yyyy-MM-dd') as assets_date")
 
             );
@@ -515,6 +520,8 @@ class AssetsController extends Controller
             ->whereDate('end', '>=', $today)
             ->select('code', 'no', 'name', 'id')
             ->get();
+
+        // return $asset_main;
 
         return view('backend.update-assets-by-variant', [
             'asset_main' => $asset_main,

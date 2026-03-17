@@ -758,7 +758,7 @@
                         $extension = $pathInfo['extension']; // txt
                         $filename = $item->file; // example
                     @endphp
-                    @if ($item->variant == $current_variant)
+                    @if ($item->variant == $variant)
                         @if ($extension == 'xlsx')
                             <div class="flex box_file" id="file_container{{ $file_no }}">
                                 <a target="_blank" href="/uploads/files/{{ $filename }}">
