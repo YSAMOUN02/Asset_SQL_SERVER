@@ -2148,6 +2148,8 @@ async function raw_assets(no) {
     let StartDate = document.querySelector("#start_date");
     let EndDate = document.querySelector("#end_date");
     let State = document.querySelector("#state");
+    let employee_name = document.querySelector("#employee_name");
+    let department_name = document.querySelector("#department_name");
 
     let fa_value = "NA";
     let invoice_value = "NA";
@@ -2157,6 +2159,8 @@ async function raw_assets(no) {
     let assets_value = "NA";
     let state_value = "NA";
     let page = 1;
+    let employee_name_value = "NA";
+    let department_name_value = "NA";
     if (no) {
         page = no;
     }
@@ -2199,6 +2203,17 @@ async function raw_assets(no) {
             state_value = State.value;
         }
     }
+    if(employee_name){
+        if(employee_name.value != ""){
+            employee_name_value = employee_name.value;
+        }
+    }
+    if(department_name){
+        if(department_name.value != ""){
+            department_name_value = department_name.value;
+        }
+    }
+
     // Loading label
     let url = `/api/raw/assets`;
     let data;
@@ -2220,6 +2235,8 @@ async function raw_assets(no) {
                     start_val: startDateValue,
                     end_val: endDateValue,
                     state_val: state_value,
+                    employee_name: employee_name_value,
+                    department_name: department_name_value,
                     page: page,
                 }),
             });
@@ -2405,6 +2422,26 @@ async function raw_assets(no) {
                 class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 ${item.Description??''}
             </td>
+
+
+                        <td scope="row"
+                class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                ${item.department_code??''}
+            </td>
+                        <td scope="row"
+                class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                ${item.department_name??''}
+            </td>
+                        <td scope="row"
+                class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                ${item.asset_holder??''}
+            </td>
+                        <td scope="row"
+                class="px-2 py-1 lg:px-6 lg:py-4 md:px-4 md:py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                ${item.holder_name??''}
+            </td>
+
+
             <td>
                 ${
                     item.is_registered == 1

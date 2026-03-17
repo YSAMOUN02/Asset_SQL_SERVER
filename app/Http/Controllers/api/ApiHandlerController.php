@@ -102,6 +102,9 @@ class ApiHandlerController extends Controller
         $state = $request->state_val ?? 'NA';
         $page = $request->page ?? 0;
         $is_registered = $request->is_registered ?? 'NA';
+        $employee_name = $request->employee_name ?? 'NA';
+        $department_name = $request->department_name ?? 'NA';
+
 
         $viewpoint = User_property::where('user_id', Auth::user()->id)
             ->where('type', 'viewpoint')->first();
@@ -115,6 +118,10 @@ class ApiHandlerController extends Controller
             })
             ->select(
                 'r.*',
+                'r.department_code',
+                'r.department_name',
+                'r.asset_holder',
+                'r.holder_name',
                 DB::raw('CASE WHEN m.assets1 IS NULL THEN 0 ELSE 1 END as is_registered'),
                 DB::raw("FORMAT(r.posting_date, 'yyyy-MM-dd') as assets_date")
             );
@@ -124,7 +131,13 @@ class ApiHandlerController extends Controller
         if (strtolower($fa) !== 'na') $sql->whereRaw('LOWER(r.fa) LIKE ?', ['%' . strtolower($fa) . '%']);
         if (strtolower($invoice) !== 'na') $sql->whereRaw('LOWER(r.invoice_no) LIKE ?', ['%' . strtolower($invoice) . '%']);
         if (strtolower($description) !== 'na') $sql->whereRaw('LOWER(r.description) LIKE ?', ['%' . strtolower($description) . '%']);
+        if (strtolower($employee_name) !== 'na') {
+            $sql->whereRaw('LOWER(r.holder_name) LIKE ?', ['%' . strtolower($employee_name) . '%']);
+        }
 
+        if (strtolower($department_name) !== 'na') {
+            $sql->whereRaw('LOWER(r.department_name) LIKE ?', ['%' . strtolower($department_name) . '%']);
+        }
         if ($state != 'NA') {
             if ($state == 'All') {
                 if ($start != 'NA' && $end != 'NA') $sql->whereBetween('r.posting_date', [$start, $end]);
